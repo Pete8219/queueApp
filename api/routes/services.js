@@ -6,7 +6,7 @@ const mongoose = require("mongoose")
 const Service = require("../models/services")
 
 router.get("/", (req, res, next) => {
-  let services = Service.find({})
+  let services = Service.find({}).populate('user')
     .exec()
     .then((data) => {
       res.status(200).json({

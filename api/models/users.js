@@ -18,7 +18,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ['superAdmin', 'admin', 'user'],
         default: 'user'
-    }
+    },
+    service: [
+        { type: mongoose.Schema.Types.ObjectId, ref: 'Service'}
+    ]
 
 })
 
