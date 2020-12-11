@@ -18,16 +18,36 @@ router.get("/", (req, res, next) => {
 })
 
 router.post("/", (req, res, next) => {
-  res.status(200).json({
-    message: "Handling POST request to /services",
+  const service = new Service({
+    _id: new mongoose.Types.ObjectId(),
+    title: req.body.title,
+    employee: new mongoose.Types.ObjectId(),
+    time: req.body.time,
   })
+  service
+    .save()
+    .then((data) => {
+      res.status(201).json({
+        result: data,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 router.get("/:serviceId", (req, res, next) => {
   const id = req.params.serviceId
-  res.status(200).json({
-    message: `now you see serviceId:${id}`,
-  })
+  const service = Service.findOne({ _id: id })
+    .exec()
+    .then((data) => {
+      res.status(200).json({
+        service: data,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 router.post("/:serviceId", (req, res, next) => {
