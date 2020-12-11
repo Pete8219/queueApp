@@ -14,7 +14,12 @@ router.get("/", (req, res, next) => {
         services: data,
       })
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      res.status(500).json({
+        error: err
+      })
+    })
 })
 
 router.post("/", (req, res, next) => {
@@ -33,6 +38,9 @@ router.post("/", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err)
+      res.status(500).json({
+        error: err
+      })
     })
 })
 
@@ -47,6 +55,9 @@ router.get("/:serviceId", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err)
+      res.status(500).json({
+        error: err
+      })
     })
 })
 
