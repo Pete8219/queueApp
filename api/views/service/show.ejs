@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<head>
+  <title></title>
+</head>
+<h1>Hello</h1>
+<%console.log(users)%>
+
+<select name="service" id="service">
+  <% let array = users.map( item => { %>
+  <option value="<%=item._id%>"><%=item.name%></option>
+  <%})%>
+</select>

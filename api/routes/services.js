@@ -2,22 +2,24 @@ const { json } = require("body-parser")
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+const { path } = require("../../app")
 
 const Service = require("../models/services")
+const User = require("../models/users")
 
 router.get("/", (req, res, next) => {
-  let services = Service.find({}).populate('user')
+  Service.find({})
     .exec()
     .then((data) => {
       res.status(200).json({
         message: "Handling GET request to /services",
-        services: data,
+        data,
       })
     })
     .catch((err) => {
       console.log(err)
       res.status(500).json({
-        error: err
+        error: err,
       })
     })
 })
@@ -26,7 +28,7 @@ router.post("/", (req, res, next) => {
   const service = new Service({
     _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
-    employee: new mongoose.Types.ObjectId(),
+    user: new mongoose.Types.ObjectId(),
     time: req.body.time,
   })
   service
@@ -39,33 +41,23 @@ router.post("/", (req, res, next) => {
     .catch((err) => {
       console.log(err)
       res.status(500).json({
-        error: err
+        error: err,
       })
     })
 })
 
 router.get("/:serviceId", (req, res, next) => {
   const id = req.params.serviceId
-  const service = Service.findOne({ _id: id })
-    .exec()
-    .then((data) => {
-      res.status(200).json({
-        service: data,
+  Service.findOne({ _id: id })
+    .populate("user")
+    .exec(function (err, service) {
+      User.find({ _id: { $nin: service.user } }, { password: 0, login: 0 }, function (err, users) {
+        res.status(200).json({
+          service: service,
+          users: users,
+        })
       })
     })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err
-      })
-    })
-})
-
-router.post("/:serviceId", (req, res, next) => {
-  const id = req.params.serviceId
-  res.status(200).json({
-    message: `now you see POST request serviceId:${id}`,
-  })
 })
 
 router.patch("/:serviceId", (req, res, next) => {
