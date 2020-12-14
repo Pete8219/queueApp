@@ -4,6 +4,7 @@ const app = express()
 const morgan = require("morgan")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose")
+const path = require('path')
 
 const dotenv = require("dotenv")
 dotenv.config()
@@ -30,7 +31,9 @@ app.use("/services", require("./api/routes/services"))
 app.use("/users", require("./api/routes/users"))
 app.use("/tickets", require("./api/routes/tickets"))
 
-app.set("views", "./api/views/")
+app.use(express.static(path.join(__dirname, "client")))
+
+app.set("views", "./client/views/")
 app.set("view engine", "ejs")
 
 app.use((req, res, next) => {
