@@ -1,10 +1,11 @@
 const express = require("express")
-const app = require("../../app")
 const router = express.Router()
 const mongoose = require("mongoose")
 
 const User = require("../models/users")
 
+
+//Получение списка всех пользователей
 router.get("/", (req, res, next) => {
   User.find({})
     .exec()
@@ -25,6 +26,39 @@ router.get("/", (req, res, next) => {
     })
 })
 
+//Создание пользователя
+
+router.get('/new', (req, res, next) => {
+    res.status(200).json({
+        message: 'Здесь будет загружать форма добавления нового пользователя'
+    })
+})
+
+//Загрузка формы редактирования выбранного пользователя
+
+router.post('/:userId/edit', (req, res, next) => {
+    const id = req.params.userId
+    User.find({ _id: id})
+    .exec()
+    .then(user => {
+        if (!user) {
+            res.status(404).json({
+                message: 'User not found'
+            })
+        }
+            
+        res.status(200).json({
+                message: `Редактируем пользователя с id: ${id}`,
+                user
+        })
+      
+    })
+    .catch(err => {
+        console.log(err)
+    })
+})
+
+//Сохранения нового пользователя в базе
 router.post("/", (req, res, next) => {
   const user = new User({
     _id: new mongoose.Types.ObjectId(),
@@ -53,6 +87,8 @@ router.post("/", (req, res, next) => {
     })
 })
 
+
+//Получения одного пользователя по userId
 router.get("/:userId", (req, res, next) => {
   const id = req.params.userId
 
@@ -72,6 +108,7 @@ router.get("/:userId", (req, res, next) => {
     })
 })
 
+//Обновление пользовательских полей
 router.patch("/:userId", (req, res, next) => {
   const id = req.params.userId
 
@@ -94,6 +131,7 @@ router.patch("/:userId", (req, res, next) => {
     })
 })
 
+//Удаление выбранного пользователя
 router.delete("/:userId", (req, res, next) => {
   const id = req.params.userId
   User.remove({ _id: id })
