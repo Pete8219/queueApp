@@ -10,9 +10,11 @@ dotenv.config()
 
 const Router = express.Router()
 
-const serviceRoutes = require("./api/routes/services")
+app.use("/auth", require("./api/routes/auth"))
+
+/* const serviceRoutes = require("./api/routes/services")
 const usersRoutes = require("./api/routes/users")
-const ticketsRoutes = require("./api/routes/tickets")
+const ticketsRoutes = require("./api/routes/tickets") */
 
 mongoose.connect(process.env.CONNECTIONSTRING, {
   useNewUrlParser: true,
@@ -24,9 +26,9 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(cors())
 
-app.use("/services", serviceRoutes)
-app.use("/users", usersRoutes)
-app.use("/tickets", ticketsRoutes)
+app.use("/services", require("./api/routes/services"))
+app.use("/users", require("./api/routes/users"))
+app.use("/tickets", require("./api/routes/tickets"))
 
 app.set("views", "./api/views/")
 app.set("view engine", "ejs")
