@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcryptjs")
 const { check, validationResult } = require("express-validator")
 
-router.get("/register", [check("login", "Некорректный Логин").isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
+router.post("/register", [check("login", "Некорректный Логин").isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
   try {
     const errors = validationResult(req)
 
@@ -42,11 +42,11 @@ router.get("/register", [check("login", "Некорректный Логин").i
 router.post("/login", [check("login", "Введите корретный логин").trim().isLength({ min: 3 }), check("password", "Введите пароль").exists()], async (req, res) => {
   try {
     const errors = validationResult(req)
-
+    console.log(req.body)
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array,
-        message: "Некорректные данные при регистрации",
+        message: "Некорректные данные при входе",
       })
     }
 
@@ -70,7 +70,7 @@ router.post("/login", [check("login", "Введите корретный лог�
     res.json({ token, userId: user.id })
   } catch (e) {
     res.status(500).json({
-      message: "Что то ошло не так. Попробуйте снова",
+      message: "Что то пошло не так. Попробуйте снова",
     })
   }
 })

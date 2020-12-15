@@ -2,10 +2,6 @@ const { json } = require("body-parser")
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
-<<<<<<< HEAD
-=======
-
->>>>>>> 2a1bcb2a5402822ce6588dd8596efdf91dd56499
 
 const Service = require("../models/services")
 const User = require("../models/users")
@@ -17,12 +13,12 @@ router.get("/", (req, res, next) => {
   Service.find({})
     .exec()
     .then((data) => {
-      res.render("show", {data})
       
-      /* res.status(200).json({
+      
+      res.status(200).json({
         message: "Handling GET request to /services",
         data,
-      }) */
+      }) 
     })
     .catch((err) => {
       console.log(err)
@@ -110,7 +106,6 @@ router.get("/:serviceId", (req, res, next) => {
     })
 })
 
-<<<<<<< HEAD
 //Send POST request to render tickets page
 
 router.post("/:serviceId", (req, res, next) => {
@@ -120,9 +115,6 @@ router.post("/:serviceId", (req, res, next) => {
   })
 })
 
-=======
-//Update выбранной услуги
->>>>>>> 2a1bcb2a5402822ce6588dd8596efdf91dd56499
 router.patch("/:serviceId", (req, res, next) => {
   const id = req.params.serviceId
   const updateOps = {}

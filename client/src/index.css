@@ -1,1 +1,14 @@
 @import "~materialize-css/dist/css/materialize.min.css";
+
+ input{
+    color:white;
+} 
+
+.card-title {
+    color: #fff;
+    text-align: center;
+}
+
+button.login {
+    margin-right: 2rem;
+}
