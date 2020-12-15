@@ -9,10 +9,8 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 dotenv.config()
 
-app.use(express.json({extended: true}))
+app.use(express.json({ extended: true }))
 const Router = express.Router()
-
-app.use("/auth", require("./api/routes/auth"))
 
 /* const serviceRoutes = require("./api/routes/services")
 const usersRoutes = require("./api/routes/users")
@@ -28,7 +26,7 @@ app.use(morgan("dev"))
 app.use(bodyParser.json()) */
 app.use(cors())
 
-
+app.use("/auth", require("./api/routes/auth"))
 app.use("/services", require("./api/routes/services"))
 app.use("/users", require("./api/routes/users"))
 app.use("/tickets", require("./api/routes/tickets"))

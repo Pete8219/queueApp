@@ -3,7 +3,6 @@ const Service = require("./services")
 const User = require("./users")
 
 const ticketSchema = mongoose.Schema({
-  _id: mongoose.Schema.Types.ObjectId,
   date: {
     type: Date,
     default: new Date(),
