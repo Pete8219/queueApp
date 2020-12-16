@@ -9,6 +9,8 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 dotenv.config()
 
+const PORT = process.env.PORT || 4000
+
 app.use(express.json({ extended: true }))
 const Router = express.Router()
 
@@ -16,10 +18,22 @@ const Router = express.Router()
 const usersRoutes = require("./api/routes/users")
 const ticketsRoutes = require("./api/routes/tickets") */
 
-mongoose.connect(process.env.CONNECTIONSTRING, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+async function start() {
+  try {
+    await mongoose.connect(process.env.CONNECTIONSTRING, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          useCreateIndex: true
+    })
+  } catch (e) {
+    console.log('Server Error', e.message)
+    process.exit(1)
+
+  }
+}
+
+start ()
+
 
 app.use(morgan("dev"))
 /* app.use(bodyParser.urlencoded({ extended: true }))
@@ -36,7 +50,7 @@ app.use("/tickets", require("./api/routes/tickets"))
 /* app.set("views", "./client/views/")
 app.set("view engine", "ejs") */
 
-/* app.use((req, res, next) => {
+ app.use((req, res, next) => {
   const error = new Error("Not found")
   error.status = 404
   next(error)
@@ -50,5 +64,10 @@ app.use((error, req, res, next) => {
     },
   })
 })
- */
+ 
+
+app.listen(PORT, () => {
+  console.log(`Server started on port: ${PORT}`)
+})
+
 module.exports = app

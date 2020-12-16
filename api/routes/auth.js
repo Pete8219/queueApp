@@ -11,7 +11,7 @@ const User = require("../models/users")
 router.post("/register", [check("login", "Некорректный Логин").trim().isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
   try {
     const errors = validationResult(req)
-    console.log(req.body)
+    
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -69,8 +69,8 @@ router.post("/login", [check("login", "Введите корретный лог�
       })
     }
 
-    /* const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" }) */
-    res.json({ message: "Вы вошли в систему" } /* , token, userId: user.id } */)
+    const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" })
+    res.json( {token, userId: user.id })
   } catch (e) {
     res.status(500).json({
       message: "Что то пошло не так. Попробуйте снова????",

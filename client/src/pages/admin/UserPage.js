@@ -3,7 +3,7 @@ import React from "react";
 export const UserPage = () => {
     return (
         <div>
-            <h1>User Page</h1>
+            <h1>Пользователи</h1>
         </div>
     )
 
