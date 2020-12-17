@@ -16,3 +16,8 @@ button.login {
 .nav-wrapper {
     padding: 0 2rem;
 }
+
+.card{
+    margin-top:6rem;
+    padding:1rem 2rem 1rem 2rem;
+}

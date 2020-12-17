@@ -6,6 +6,7 @@ import {AdminPage} from './pages/admin/AdminPage'
 import {ServicePage} from './pages/admin/ServicePage'
 import {UserPage} from './pages/admin/UserPage'
 import {TicketsPage} from './pages/admin/TicketsPage'
+import {ServiceDetailPage} from './pages/admin/ServiceDetailPage'
 
 
 export const useRoutes = isAuthenticated => {
@@ -17,6 +18,9 @@ export const useRoutes = isAuthenticated => {
                 </Route>
                 <Route path="/services" exact>
                     <ServicePage />
+                </Route>
+                <Route path="/service/detail/:id" exact>
+                    <ServiceDetailPage />
                 </Route>
                 <Route path="/users" exact>
                     <UserPage />

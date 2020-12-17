@@ -6,24 +6,27 @@ const User = require("../models/users")
 
 
 //Получение списка всех пользователей
-router.get("/", (req, res, next) => {
-  User.find({})
-    .exec()
-    .then((users) => {
-      if (users.length > 0) {
-        res.status(200).json({
-          message: "Fetched all users from collection users",
-          users,
-        })
-      } else {
-        res.status(404).json({
-          message: "No entries found",
-        })
-      }
+router.get("/", async (req, res) => {
+
+  try {
+    const users = await User.find( {} )
+  if (!users.length) {
+      res.status(404).json( {
+        message: `Пока нет ни одного пользователя`
+      })
+    } 
+    
+    
+
+    res.status(200).json(users)
+
+
+    } catch(e) {
+    res.status(500).json({
+      message: 'Что то пошло не так как надо'
     })
-    .catch((err) => {
-      console.log(err)
-    })
+  }
+
 })
 
 //Создание пользователя

@@ -1,4 +1,4 @@
-const { json } = require("body-parser")
+/* const { json } = require("body-parser") */
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
@@ -9,24 +9,28 @@ const User = require("../models/users")
 
 
 //Получение списка услуг
-router.get("/", (req, res, next) => {
-  Service.find({})
+router.get("/", async (req, res) => {
+  try{
+    const services = await Service.find({  })
+    res.status(200).json(services)
+
+  }
+
+  
+/*   Service.find({})
     .exec()
     .then((data) => {
       
       
-      res.status(200).json({
-        message: "Handling GET request to /services",
-        data,
-      }) 
-    })
-    .catch((err) => {
+      res.status(200).json({ data})  */
+    
+    catch (e) {
       console.log(err)
       res.status(500).json({
         error: err,
       })
-    })
-})
+    }
+  })
 
 
 

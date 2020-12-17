@@ -1,9 +1,34 @@
-import React from 'react'
+import React, { useCallback, useContext, useEffect } from 'react'
+import {useState} from 'react'
+import {useHttp} from '../../hooks/http.hook'
+import {AuthContext} from '../../context/AuthContext'
+import {ServicesList} from '../../components/Services'
+
 
 export const ServicePage = () => {
+    const [services, setServices] = useState([])
+    const {loading, request} = useHttp()
+    const {token} = useContext(AuthContext)
+
+    const fetchServices = useCallback( async ()=> {
+        try{
+            
+            const fetched = await request('/services', 'GET', null, {})
+            setServices(fetched)
+
+        } catch (e) {}
+    }, [request])
+
+    useEffect( () => {
+        fetchServices()
+    }, [fetchServices])
+
+    
+
     return (
-        <div>
-            <h1>Список всех услуг</h1>
-        </div>
+       <>
+            {!loading && <ServicesList services={services} />}
+
+       </>
     )
 }
