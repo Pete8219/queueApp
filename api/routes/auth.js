@@ -11,7 +11,6 @@ const User = require("../models/users")
 router.post("/register", [check("login", "Некорректный Логин").trim().isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
   try {
     const errors = validationResult(req)
-    
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -55,6 +54,8 @@ router.post("/login", [check("login", "Введите корретный лог�
 
     const { login, password } = req.body
     const user = await User.findOne({ login })
+    console.log(user)
+
     if (!user) {
       return res.status(400).json({
         message: "пользователь не найден",
@@ -70,10 +71,10 @@ router.post("/login", [check("login", "Введите корретный лог�
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" })
-    res.json( {token, userId: user.id })
+    res.json({ token, userId: user.id })
   } catch (e) {
     res.status(500).json({
-      message: "Что то пошло не так. Попробуйте снова????",
+      message: "Что то пошло не так!!!",
     })
   }
 })
