@@ -10,7 +10,7 @@ export const UserPage = () => {
 
     const [users, setUsers] = useState([])
     const {loading, request} = useHttp()
-    const {token} = useContext(AuthContext)
+   /*  const {token} = useContext(AuthContext) */
 
 
 

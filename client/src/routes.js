@@ -3,10 +3,10 @@ import {Switch, Route, Redirect} from 'react-router-dom'
 import {AuthPage} from './pages/admin/AuthPage'
 import {HomePage} from './pages/visitors/HomePage'
 import {AdminPage} from './pages/admin/AdminPage'
-import {ServicePage} from './pages/admin/ServicePage'
+import {ServicePage} from './pages/admin/Services/ServicePage'
 import {UserPage} from './pages/admin/UserPage'
 import {TicketsPage} from './pages/admin/TicketsPage'
-import {ServiceDetailPage} from './pages/admin/ServiceDetailPage'
+import {ServiceDetailPage} from './pages/admin/Services/ServiceDetailPage'
 
 
 export const useRoutes = isAuthenticated => {
@@ -19,7 +19,7 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/services" exact>
                     <ServicePage />
                 </Route>
-                <Route path="/service/detail/:id" exact>
+                <Route path="/services/detail/:id" exact>
                     <ServiceDetailPage />
                 </Route>
                 <Route path="/users" exact>

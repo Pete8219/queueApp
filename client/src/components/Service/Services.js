@@ -2,13 +2,13 @@ import React from 'react'
 import {useHistory} from 'react-router-dom'
 
 export const ServicesList = ({ services })=> {
-    console.log(services)
-    const history = useHistory()
-    const editHandler = async event => {
-       
-       history.push(`/service/detail/:id`)
 
-    }
+    console.log(services)
+    
+    const history = useHistory()
+     const editHandler =  (data) => {
+       history.push(`/services/detail/${data}`)
+    } 
 
     return (
         <div className="row col-s12">
@@ -33,7 +33,7 @@ export const ServicesList = ({ services })=> {
                             <tr key={item._id}>
                             <td>{index + 1}</td>
                             <td>{item.title}</td>
-                            <td> <a class="btn-floating btn-small waves-effect light-blue lighten-1" onClick={editHandler}><i class="material-icons">create</i></a></td>
+                            <td> <a  className="btn-floating btn-small waves-effect light-blue lighten-1"  onClick={()=> editHandler(item._id)} ><i className="material-icons">create</i></a></td>
                             
                         </tr>
                         )}

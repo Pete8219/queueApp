@@ -52,9 +52,25 @@ router.get('/new', (req, res, next) => {
 
 //Редактирование выбранной услуги
 
-router.post('/:serviceId/edit', (req, res, next) => {
+/* router.post('/detail/:id', async (req, res) => {
   const id = req.params.serviceId
-  Service.findOne({ _id: id})
+  console.log(id)
+
+  try {
+    const service = await Service.findById( {id} )
+    res.status(200).json(service)
+
+
+  } catch (e){
+    res.status(500).json({
+      message: 'Somthing wrong'
+    })
+  }
+ */
+
+  
+  
+  /* Service.findOne({ _id: id})
   .exec()
   .then(service => {
     res.status(201).json({
@@ -66,8 +82,8 @@ router.post('/:serviceId/edit', (req, res, next) => {
     res.status(500).json({
       error: err
     })
-  })
-})
+  }) */
+/*})*/
 
 
 
@@ -96,18 +112,22 @@ router.post("/", (req, res, next) => {
 
 
 //Получение выбранной по ID услуги
-router.get("/:serviceId", (req, res, next) => {
-  const id = req.params.serviceId
-  Service.findOne({ _id: id })
+router.get("/:id", async (req, res) => {
+  console.log(req.params.id)
+
+  const id = req.params.id
+  const data = await Service.findOne({ _id: id })
     .populate("user")
     .exec(function (err, service) {
       User.find({ _id: { $nin: service } }, { password: 0, login: 0 }, function (err, users) {
-        res.status(200).json({
+         res.status(200).json({
           service: service,
           users: users,
-        })
+        }) 
       })
-    })
+    }) 
+    
+   
 })
 
 //Send POST request to render tickets page
