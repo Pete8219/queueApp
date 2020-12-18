@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import M from "materialize-css/dist/js/materialize.min.js"
 /* import { Modal, Button, select } from "react-materialize" */
 
 export const Detail = ({ detail }) => {
@@ -10,6 +11,10 @@ export const Detail = ({ detail }) => {
 
   useEffect(() => {
     setUsers(data)
+  }, [])
+
+  useEffect(() => {
+    M.AutoInit()
   }, [])
 
   const userList = users.map((item, i) => {
@@ -40,6 +45,15 @@ export const Detail = ({ detail }) => {
             </div>
           </div>
           <select className="browser-default col st-6">{userList}</select>
+          <div className="input-field col s12">
+            <select>
+              {/*               <option value="" disabled selected>
+                Choose your option
+              </option> */}
+              {userList}
+            </select>
+            <label> Materialize Select</label>
+          </div>
         </div>
       </form>
     </div>
