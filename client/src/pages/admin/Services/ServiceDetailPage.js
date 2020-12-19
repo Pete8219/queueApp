@@ -1,6 +1,6 @@
-import React, {useState, useContext, useEffect, useCallback} from 'react'
+import React, {useState,useEffect, useCallback} from 'react'
 import {useHttp} from '../../../hooks/http.hook'
-import {AuthContext} from '../../../context/AuthContext'
+/* import {AuthContext} from '../../../context/AuthContext' */
 import {Detail} from '../../../components/Service/Detail'
 import {useParams} from 'react-router-dom'
 

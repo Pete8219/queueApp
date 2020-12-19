@@ -1,6 +1,6 @@
 import React from "react";
-import {useState, useEffect, useCallback,  useContext} from 'react'
-import {AuthContext} from '../../context/AuthContext'
+import {useState, useEffect, useCallback} from 'react'
+/* import {AuthContext} from '../../context/AuthContext' */
 import {useHttp} from '../../hooks/http.hook'
 import {UsersList} from '../../components/Users'
 

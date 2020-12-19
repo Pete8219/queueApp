@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react'
 
 export const UsersList = ({ users })=> {
@@ -7,7 +8,7 @@ export const UsersList = ({ users })=> {
     return (
         <div className="row col-s12">
             <h3> Список сотрудников</h3>
-            <a class="waves-effect waves-light btn" style={{float: "right"}}>Добавить</a>
+            <a className="waves-effect waves-light btn" style={{float: "right"}}>Добавить</a>
             <div className="card table-service">
                 <table className="striped">
                 <thead>

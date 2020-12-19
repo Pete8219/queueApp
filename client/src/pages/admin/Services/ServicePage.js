@@ -1,7 +1,7 @@
-import React, { useCallback, useContext, useEffect } from 'react'
+import React, { useCallback,  useEffect } from 'react'
 import {useState} from 'react'
 import {useHttp} from '../../../hooks/http.hook'
-import {AuthContext} from '../../../context/AuthContext'
+/* import {AuthContext} from '../../../context/AuthContext' */
 import {ServicesList} from '../../../components/Service/Services'
 
 
