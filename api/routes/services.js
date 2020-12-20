@@ -6,48 +6,32 @@ const mongoose = require("mongoose")
 const Service = require("../models/services")
 const User = require("../models/users")
 
-
-
 //Получение списка услуг
 router.get("/", async (req, res) => {
-  try{
-    const services = await Service.find({  })
+  try {
+    const services = await Service.find({})
     res.status(200).json(services)
-
-  }
-
-  
-/*   Service.find({})
-    .exec()
-    .then((data) => {
-      
-      
-      res.status(200).json({ data})  */
-    
-    catch (e) {
-      console.log(err)
-      res.status(500).json({
-        error: err,
-      })
-    }
-  })
-
-
-
-router.get('/new', (req, res, next) => {
-  //Нам нужно получить список users, чтобы отобразить на форме добавления список select со значениями из коллекции users
-  User.find({}, {password: 0, userType: 0, login: 0, start: 0, end: 0, cabinet: 0})
-  .exec()
-  .then(users => {
-    res.status(200).json({
-      message: 'Здесь будет форма добавления новой услуги',
-      users
-    })
-  })
-  .catch(err => {
+  } catch (e) {
     console.log(err)
+    res.status(500).json({
+      error: err,
     })
+  }
+})
 
+router.get("/new", (req, res, next) => {
+  //Нам нужно получить список users, чтобы отобразить на форме добавления список select со значениями из коллекции users
+  User.find({}, { password: 0, userType: 0, login: 0, start: 0, end: 0, cabinet: 0 })
+    .exec()
+    .then((users) => {
+      res.status(200).json({
+        message: "Здесь будет форма добавления новой услуги",
+        users,
+      })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 })
 
 //Редактирование выбранной услуги
@@ -68,9 +52,7 @@ router.get('/new', (req, res, next) => {
   }
  */
 
-  
-  
-  /* Service.findOne({ _id: id})
+/* Service.findOne({ _id: id})
   .exec()
   .then(service => {
     res.status(201).json({
@@ -85,12 +67,9 @@ router.get('/new', (req, res, next) => {
   }) */
 /*})*/
 
-
-
 //Запись услуги в базу данных
-router.post("/", (req, res, next) => {
+router.post("/", (req, res) => {
   const service = new Service({
-    _id: new mongoose.Types.ObjectId(),
     title: req.body.title,
     user: mongoose.Types.ObjectId,
     time: req.body.time,
@@ -110,7 +89,6 @@ router.post("/", (req, res, next) => {
     })
 })
 
-
 //Получение выбранной по ID услуги
 router.get("/:id", async (req, res) => {
   console.log(req.params.id)
@@ -120,14 +98,12 @@ router.get("/:id", async (req, res) => {
     .populate("user")
     .exec(function (err, service) {
       User.find({ _id: { $nin: service } }, { password: 0, login: 0 }, function (err, users) {
-         res.status(200).json({
+        res.status(200).json({
           service: service,
           users: users,
-        }) 
+        })
       })
-    }) 
-    
-   
+    })
 })
 
 //Send POST request to render tickets page

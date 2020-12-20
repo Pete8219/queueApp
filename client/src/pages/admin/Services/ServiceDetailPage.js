@@ -1,42 +1,26 @@
-import React, {useState,useEffect, useCallback} from 'react'
-import {useHttp} from '../../../hooks/http.hook'
+import React, { useState, useEffect, useCallback } from "react"
+import { useHttp } from "../../../hooks/http.hook"
 /* import {AuthContext} from '../../../context/AuthContext' */
-import {Detail} from '../../../components/Service/Detail'
-import {useParams} from 'react-router-dom'
+import { Detail } from "../../../components/Service/Detail"
+import { useParams } from "react-router-dom"
 
+export const ServiceDetailPage = () => {
+  const [service, setService] = useState("")
+  /* const {token} = useContext(AuthContext) */
+  const { loading, request } = useHttp()
+  const serviceId = useParams().id
 
-export const ServiceDetailPage = ()=> {
+  const fetchService = useCallback(async () => {
+    try {
+      const fetched = await request(`/services/${serviceId}`, "GET", null, {})
 
-    const [service, setService] = useState('')
-    /* const {token} = useContext(AuthContext) */
-    const {loading, request} = useHttp()
-    const serviceId = useParams().id
+      setService(fetched)
+    } catch (e) {}
+  }, [serviceId, request])
 
-    /* console.log(serviceId) */
+  useEffect(() => {
+    fetchService()
+  }, [fetchService])
 
-
-
-    
-
-    const fetchService = useCallback( async ()=> {
-        try{
-            const fetched = await request(`/services/${serviceId}`, 'GET', null, {})
-            
-            setService(fetched)
-
-        } catch(e) {}
-   
-    }, [serviceId, request])
-
-
-    useEffect( ()=> {
-        fetchService()
-    }, [fetchService])
-
-    return (
-        <>
-            { !loading  && service && <Detail detail={service}  />}
-
-        </>
-    )
+  return <>{!loading && service && <Detail detail={service} />}</>
 }

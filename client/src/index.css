@@ -1,23 +1,27 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 
- input{
-    color:white;
-} 
+input {
+  color: white;
+}
 
 .card-title {
-    color: #fff;
-    text-align: center;
+  color: #fff;
+  text-align: center;
 }
 
 button.login {
-    margin-right: 2rem;
+  margin-right: 2rem;
 }
 
 .nav-wrapper {
-    padding: 0 2rem;
+  padding: 0 2rem;
 }
 
-.card{
-    margin-top:6rem;
-    padding:1rem 2rem 1rem 2rem;
+.card {
+  margin-top: 6rem;
+  padding: 1rem 2rem 1rem 2rem;
+}
+
+input {
+  color: #000 !important;
 }

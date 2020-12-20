@@ -4,60 +4,52 @@ const mongoose = require("mongoose")
 
 const User = require("../models/users")
 
-
 //Получение списка всех пользователей
 router.get("/", async (req, res) => {
-
   try {
-    const users = await User.find( {} )
-  if (!users.length) {
-      res.status(404).json( {
-        message: `Пока нет ни одного пользователя`
+    const users = await User.find({})
+    /*     if (!users.length) {
+      res.status(404).json({
+        message: `Пока нет ни одного пользователя`,
       })
-    } 
-    
-    
-
+    }
+ */
     res.status(200).json(users)
-
-
-    } catch(e) {
+  } catch (e) {
     res.status(500).json({
-      message: 'Что то пошло не так как надо'
+      message: "Что то пошло не так как надо",
     })
   }
-
 })
 
 //Создание пользователя
 
-router.get('/new', (req, res, next) => {
-    res.status(200).json({
-        message: 'Здесь будет загружать форма добавления нового пользователя'
-    })
+router.get("/new", (req, res, next) => {
+  res.status(200).json({
+    message: "Здесь будет загружать форма добавления нового пользователя",
+  })
 })
 
 //Загрузка формы редактирования выбранного пользователя
 
-router.post('/:userId/edit', (req, res, next) => {
-    const id = req.params.userId
-    User.find({ _id: id})
+router.post("/:userId/edit", (req, res, next) => {
+  const id = req.params.userId
+  User.find({ _id: id })
     .exec()
-    .then(user => {
-        if (!user) {
-            res.status(404).json({
-                message: 'User not found'
-            })
-        }
-            
-        res.status(200).json({
-                message: `Редактируем пользователя с id: ${id}`,
-                user
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({
+          message: "User not found",
         })
-      
+      }
+
+      res.status(200).json({
+        message: `Редактируем пользователя с id: ${id}`,
+        user,
+      })
     })
-    .catch(err => {
-        console.log(err)
+    .catch((err) => {
+      console.log(err)
     })
 })
 
@@ -89,7 +81,6 @@ router.post("/", (req, res, next) => {
       })
     })
 })
-
 
 //Получения одного пользователя по userId
 router.get("/:userId", (req, res, next) => {
