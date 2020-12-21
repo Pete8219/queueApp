@@ -2,9 +2,9 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
-
 const Service = require("../models/services")
 const User = require("../models/users")
+const {check, validationResult} = require("express-validator") 
 
 //Получение списка услуг
 router.get("/", async (req, res) => {
@@ -68,25 +68,40 @@ router.get("/new", (req, res, next) => {
 /*})*/
 
 //Запись услуги в базу данных
-router.post("/", (req, res) => {
-  const service = new Service({
-    title: req.body.title,
-    user: mongoose.Types.ObjectId,
-    time: req.body.time,
-  })
-  service
-    .save()
-    .then((data) => {
-      res.status(201).json({
-        result: data,
+router.post("/", [check('title', 'Поле не должно быть пустым').not().isEmpty().trim().escape()], async (req, res) => {
+  try {
+    const errors = validationResult(req)
+
+    if(!errors.isEmpty) {
+      res.status(400).json({
+        errors: errors.array(),
+        message: 'Проверьте введенные данные'
       })
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
+    }
+
+    const {title} = req.body
+      
+    const isExist = await Service.findOne( {title})
+    if(isExist) {
+      return res.status(400).json({
+        message: 'Такая услуга уже есть в базе'
       })
+    } 
+
+    const service = await new Service( {title: req.body.title, time: req.body.time, user: req.body.user})
+
+    await service.save()
+
+    res.status(201).json({
+      message: 'Услуга создана'
     })
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Нередвиденная ошибка, попробуйте еще раз'
+    })
+  }
+
 })
 
 //Получение выбранной по ID услуги
@@ -137,10 +152,19 @@ router.patch("/:serviceId", (req, res, next) => {
 })
 
 //Удаление выбранной услуги
-router.delete("/:serviceId", (req, res, next) => {
-  res.status(200).json({
-    message: "Service deleted",
-  })
+router.delete("/:id", async (req, res) => {
+  try {
+    await Service.deleteOne({ _id: req.params.id})
+      res.status(200).json({
+      message: "Услуга удалена",
+    })
+
+  } catch (e) {
+    res.status(400).json({
+      message: 'Что то пошло не так'
+    })
+  }
+ 
 })
 
 module.exports = router

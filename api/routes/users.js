@@ -126,19 +126,21 @@ router.patch("/:userId", (req, res, next) => {
 })
 
 //Удаление выбранного пользователя
-router.delete("/:userId", (req, res, next) => {
-  const id = req.params.userId
-  User.remove({ _id: id })
-    .exec()
-    .then((result) => {
-      res.status(200).json(result)
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
+router.delete("/:id", async (req, res) => {
+
+    try {
+      await User.deleteOne({_id : req.params.id})
+      res.status(200).json({
+        message: 'Пользователь успешно удален'
+      }) 
+
+    } catch (e) {
+      res.status(400).json({
+        message: 'Что то пошло не так. Попробуйте еще раз'
       })
-    })
+
+    }
+
 })
 
 module.exports = router

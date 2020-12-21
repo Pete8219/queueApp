@@ -1,5 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
+import {useHistory} from 'react-router-dom'
+import { useHttp } from '../../hooks/http.hook'
+import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
+
 
 export const CreateService = (data) => {
   /* const [users, setUsers] = useState("") */
@@ -9,13 +14,14 @@ export const CreateService = (data) => {
     user: "Выберите сотрудника",
   })
 
+  const history = useHistory()
+  const {request, error, clearError} = useHttp()
+  const message = useMessage()
+
   const usersArray = data.data.map((item) => {
     return item
   })
 
-  /*   useEffect(() => {
-    setUsers(users)
-  }, []) */
 
   useEffect(() => {
     M.AutoInit()
@@ -25,10 +31,26 @@ export const CreateService = (data) => {
     window.M.updateTextFields()
   }, [])
 
-  console.log(usersArray)
+  useEffect( ()=> {
+    message(error)
+    clearError()
+  }, [message, error, clearError])
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
+  }
+
+  const cancelHandler = () => {
+    history.push("/services")
+  }
+
+  const createHandler = async () => {
+    try {
+        const data = await request('/services', "POST", {...form})
+        message(data.message) 
+        history.push("/services")
+    } catch (e) {}
+
   }
 
   const userList = usersArray.map((user) => {
@@ -38,6 +60,8 @@ export const CreateService = (data) => {
       </option>
     )
   })
+
+  console.log(form.user)
 
   return (
     <div className="row">
@@ -53,11 +77,15 @@ export const CreateService = (data) => {
             <label htmlFor="time">Время оказания</label>
           </div>
           <div className="input-field col s8">
-            <select name="user" defaultValue={form.user} onChange={changeHandler}>
+            <select name="user" value={form.user} onChange={changeHandler}>
+              <option selected value="Выберите сотрудника из списка">выберите сотрудника из списка</option>
               {userList}
             </select>
             <label>Сотрудник</label>
           </div>
+        </div>
+        <div className="row">
+        <a className="waves-effect waves-light btn" style={{margin:"2rem"}} onClick={createHandler}>Сохранить</a><a className="waves-effect waves-light btn" onClick={cancelHandler}>Отмена</a>
         </div>
       </form>
     </div>

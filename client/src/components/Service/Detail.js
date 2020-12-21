@@ -1,17 +1,17 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
+import {useHistory} from 'react-router-dom'
 import M from "materialize-css/dist/js/materialize.min.js"
-/* import { UserList } from "../../components/UserList" */
+
 
 export const Detail = ({ detail }) => {
   console.log(detail)
 
+  const history = useHistory()
+
   const data = detail.users.map((item) => {
     return item
   })
-
-  /*   const userName = detail.users.filter((item) => {
-    return item._id === detail.service.user
-  }) */
 
   const userName = !detail.service.user.name ? "Choose user" : detail.service.user.name
   console.log(userName)
@@ -20,11 +20,15 @@ export const Detail = ({ detail }) => {
     userId: detail.service.employee,
     title: detail.service.title,
     time: detail.service.time,
-    select: detail.service.user.name,
+    select: detail.service.user._id,
   })
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
+  }
+
+  const cancelHandler = () => {
+      history.push('/services')
   }
 
   const listItem = data.map((user, i) => {
@@ -59,13 +63,14 @@ export const Detail = ({ detail }) => {
           </div>
           <div className="input-field col s8">
             <select name="select" defaultValue={form.select} onChange={changeHandler}>
-              {/* <option selected={form.select}>{form.select}</option> */}
-              {listItem}
+                {listItem}
             </select>
             <label>Сотрудник</label>
           </div>
 
-          {/* <UserList users={data}/> */}
+        </div>
+        <div className="row">
+        <a className="waves-effect waves-light btn" style={{margin:"2rem"}}>Сохранить</a><a className="waves-effect waves-light btn" onClick={cancelHandler}>Отмена</a>
         </div>
       </form>
     </div>

@@ -44,7 +44,7 @@ router.post("/register", [check("login", "Некорректный Логин").
 router.post("/login", [check("login", "Введите корретный логин").trim().isLength({ min: 3 }), check("password", "Введите пароль").exists()], async (req, res) => {
   try {
     const errors = validationResult(req)
-    console.log(req.body)
+    
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
@@ -54,7 +54,7 @@ router.post("/login", [check("login", "Введите корретный лог�
 
     const { login, password } = req.body
     const user = await User.findOne({ login })
-    console.log(user)
+   
 
     if (!user) {
       return res.status(400).json({

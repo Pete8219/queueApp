@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 
-export const UsersList = ({ users }) => {
+export const UsersList = ({ users, onDelete }) => {
   const createHandler = () => {}
 
   return (
@@ -18,6 +18,7 @@ export const UsersList = ({ users }) => {
               <th>Сотрудник</th>
               <th>Логин</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -29,9 +30,16 @@ export const UsersList = ({ users }) => {
                   <td>{item.name}</td>
                   <td>{item.login}</td>
                   <td>
-                    <i className="material-icons" style={{ float: "right" }}>
-                      create
-                    </i>
+                    {" "}
+                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" style={{float:"right"}} /* onClick={() => editHandler(item._id)} */>
+                      <i className="material-icons">create</i>
+                    </a>
+                  </td>
+                  <td>
+                    {" "}
+                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Удалить" target="_blank" style={{float:"right"}}  onClick={() => onDelete(item._id)} >
+                      <i className="material-icons">delete_forever</i>
+                    </a>
                   </td>
                 </tr>
               )

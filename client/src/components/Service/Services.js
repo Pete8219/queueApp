@@ -1,17 +1,31 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React from "react"
+import React, { useEffect } from "react"
 import { useHistory } from "react-router-dom"
+import { useHttp } from '../../hooks/http.hook'
+import {useMessage} from '../../hooks/message.hook'
 
-export const ServicesList = ({ services }) => {
+export const ServicesList = ({ services, onDelete }) => {
   const history = useHistory()
+  const message = useMessage()
+  const {request, error, clearError} = useHttp()
+   
+  const createHandler = () => {
+    history.push("/services/create")
+  }
+  
   const editHandler = (data) => {
     history.push(`/services/detail/${data}`)
   }
 
-  const createHandler = () => {
-    history.push("/services/create")
-  }
+
+
+  useEffect(()=> {
+    message(error)
+    clearError()
+  }, [message, error, clearError, request])
+
+
 
   return (
     <div className="row col-s12">
@@ -26,6 +40,7 @@ export const ServicesList = ({ services }) => {
               <th>№</th>
               <th>Наименование услуги</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
 
@@ -37,8 +52,14 @@ export const ServicesList = ({ services }) => {
                   <td>{item.title}</td>
                   <td>
                     {" "}
-                    <a className="btn-floating btn-small waves-effect light-blue lighten-1" title="Редактировать" target="_blank" onClick={() => editHandler(item._id)}>
+                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" onClick={() => editHandler(item._id)}>
                       <i className="material-icons">create</i>
+                    </a>
+                  </td>
+                  <td>
+                    {" "}
+                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Удалить" target="_blank" onClick={() => onDelete(item._id)}>
+                      <i className="material-icons">delete_forever</i>
                     </a>
                   </td>
                 </tr>
