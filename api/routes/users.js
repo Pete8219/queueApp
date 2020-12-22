@@ -84,22 +84,19 @@ router.post("/", (req, res, next) => {
 
 //Получения одного пользователя по userId
 router.get("/:id", async (req, res) => {
-
   try {
-
-    const data = await User.findOne({_id: req.params.id})
+    const data = await User.findOne({ _id: req.params.id })
     res.status(200).json({
       data,
-      roles: data.getRoles}
-      )
-  } catch(e) {
-    res.status(400).json({
-      message: 'Пользователь не найден'
+      roles: data.getRoles,
     })
-
+  } catch (e) {
+    res.status(400).json({
+      message: "Пользователь не найден",
+    })
   }
 
-/*   const id = req.params.userId
+  /*   const id = req.params.userId
 
   User.find({ _id: id })
     .exec()
@@ -119,67 +116,40 @@ router.get("/:id", async (req, res) => {
 
 //Обновление пользовательских полей
 router.patch("/:id", async (req, res) => {
-  console.log(req.body)
+  const id = req.params.id
+  console.log(id)
   const updateOps = {}
 
- /*  for (ops of req.body) {
-    updateOps[ops.propName] = ops.value
+  for (let key in req.body) {
+    updateOps[key] = req.body[key]
   }
 
- 
+  console.log(updateOps)
+
   try {
-    await User.update({ _id: req.params.id }, { $set: updateOps })
+    await User.updateOne({ _id: req.params.id }, { $set: updateOps })
     res.status(200).json({
-      message: 'Данные пользователя обновлены'
+      message: "Данные пользователя обновлены",
     })
-  } catch(e) {
+  } catch (e) {
     res.status(400).json({
-      message: 'Что то не так'
+      message: "something wrong",
     })
-  } */
-
-  /* try {
-
-
-  } catch (e) {}
-
-  const id = req.params.userId
-
-  const updateOps = {}
-
-  for (ops of req.body) {
-    updateOps[ops.propName] = ops.value
   }
-
-  User.update({ _id: id }, { $set: updateOps })
-    .exec()
-    .then((result) => {
-      res.status(200).json(result)
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
-      })
-    }) */
 })
 
 //Удаление выбранного пользователя
 router.delete("/:id", async (req, res) => {
-
-    try {
-      await User.deleteOne({_id : req.params.id})
-      res.status(200).json({
-        message: 'Пользователь успешно удален'
-      }) 
-
-    } catch (e) {
-      res.status(400).json({
-        message: 'Что то пошло не так. Попробуйте еще раз'
-      })
-
-    }
-
+  try {
+    await User.deleteOne({ _id: req.params.id })
+    res.status(200).json({
+      message: "Пользователь успешно удален",
+    })
+  } catch (e) {
+    res.status(400).json({
+      message: "Что то пошло не так. Попробуйте еще раз",
+    })
+  }
 })
 
 module.exports = router
