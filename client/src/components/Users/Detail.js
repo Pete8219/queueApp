@@ -20,10 +20,8 @@ export const Detail = ({ detail, cancelHandler }) => {
     cabinet: userData.cabinet,
     userType: userData.userType,
     login: userData.login,
-    password: userData.password,
+    password: "",
   })
-
-  const password = userData.password
 
   const rolesList = roles.map((item, i) => {
     return (

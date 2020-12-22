@@ -117,17 +117,27 @@ router.get("/:id", async (req, res) => {
 
 //Обновление пользовательских полей
 router.patch("/:id", async (req, res) => {
-  const id = req.params.id
-  console.log(id)
-  const updateOps = {}
-
-  for (let key in req.body) {
-    updateOps[key] = req.body[key]
-  }
-
-  console.log(updateOps)
-
   try {
+    const data = await User.findById({ _id: req.params.id })
+    const userPassword = data.password
+
+    if (req.body.password == "" || req.body.password === undefined) {
+      //Если пароль не меняли записываем пароль из базы
+      req.body.password = userPassword
+    } else {
+      // Иначе хэшируем новый пароль и записываем его в тело запроса
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 12)
+      req.body.password = hashedPassword
+    }
+
+    const updateOps = {}
+
+    for (let key in req.body) {
+      //пробегаемся по всем значениям объекта и формируем новый объект
+      updateOps[key] = req.body[key]
+    }
+
     await User.updateOne({ _id: req.params.id }, { $set: updateOps })
     res.status(200).json({
       message: "Данные пользователя обновлены",
