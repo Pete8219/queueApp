@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
+
 import M from "materialize-css/dist/js/materialize.min.js"
 
 export const Detail = ({ detail, cancelHandler }) => {
@@ -21,6 +22,8 @@ export const Detail = ({ detail, cancelHandler }) => {
     login: userData.login,
     password: userData.password,
   })
+
+  const password = userData.password
 
   const rolesList = roles.map((item, i) => {
     return (
