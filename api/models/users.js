@@ -20,4 +20,8 @@ const userSchema = new mongoose.Schema({
   },
 })
 
+userSchema.virtual("getRoles").get(function () {
+  return userSchema.path("userType").options.enum
+})
+
 module.exports = mongoose.model("User", userSchema)

@@ -8,6 +8,8 @@ import { UserPage } from "./pages/admin/UserPage"
 import { TicketsPage } from "./pages/admin/TicketsPage"
 import { ServiceDetailPage } from "./pages/admin/Services/ServiceDetailPage"
 import { ServiceCreatePage } from "./pages/admin/Services/ServiceCreatePage"
+import { UserDetailPage } from './pages/admin/Users/UserDetailPage'
+import { UserCreatePage} from './pages/admin/Users/UserCreatePage'
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -28,6 +30,14 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/users" exact>
           <UserPage />
         </Route>
+        <Route path="/users/detail/:id" exact>
+          <UserDetailPage />
+        </Route>
+        <Route path="/users/create" exact>
+          <UserCreatePage />
+        </Route>
+      
+       
         <Route path="/tickets" exact>
           <TicketsPage />
         </Route>

@@ -61,7 +61,7 @@ export const CreateService = (data) => {
     )
   })
 
-  console.log(form.user)
+  
 
   return (
     <div className="row">

@@ -25,6 +25,7 @@ const ticketSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  
 })
 
 ticketSchema.virtual("getStatus").get(function () {

@@ -1,13 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 
-export const UsersList = ({ users, onDelete }) => {
-  const createHandler = () => {}
+
+export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
+
 
   return (
     <div className="row col-s12">
       <h3> Список сотрудников</h3>
-      <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={createHandler}>
+      <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={onCreate}>
         <i className="material-icons">add</i>
       </a>
       <div className="card table-service">
@@ -31,7 +32,7 @@ export const UsersList = ({ users, onDelete }) => {
                   <td>{item.login}</td>
                   <td>
                     {" "}
-                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" style={{float:"right"}} /* onClick={() => editHandler(item._id)} */>
+                    <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" style={{float:"right"}} onClick={() => onEdit(item._id)}> 
                       <i className="material-icons">create</i>
                     </a>
                   </td>

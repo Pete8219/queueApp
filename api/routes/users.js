@@ -83,8 +83,23 @@ router.post("/", (req, res, next) => {
 })
 
 //Получения одного пользователя по userId
-router.get("/:userId", (req, res, next) => {
-  const id = req.params.userId
+router.get("/:id", async (req, res) => {
+
+  try {
+
+    const data = await User.findOne({_id: req.params.id})
+    res.status(200).json({
+      data,
+      roles: data.getRoles}
+      )
+  } catch(e) {
+    res.status(400).json({
+      message: 'Пользователь не найден'
+    })
+
+  }
+
+/*   const id = req.params.userId
 
   User.find({ _id: id })
     .exec()
@@ -99,11 +114,35 @@ router.get("/:userId", (req, res, next) => {
       res.status(500).json({
         error: err,
       })
-    })
+    }) */
 })
 
 //Обновление пользовательских полей
-router.patch("/:userId", (req, res, next) => {
+router.patch("/:id", async (req, res) => {
+  console.log(req.body)
+  const updateOps = {}
+
+ /*  for (ops of req.body) {
+    updateOps[ops.propName] = ops.value
+  }
+
+ 
+  try {
+    await User.update({ _id: req.params.id }, { $set: updateOps })
+    res.status(200).json({
+      message: 'Данные пользователя обновлены'
+    })
+  } catch(e) {
+    res.status(400).json({
+      message: 'Что то не так'
+    })
+  } */
+
+  /* try {
+
+
+  } catch (e) {}
+
   const id = req.params.userId
 
   const updateOps = {}
@@ -122,7 +161,7 @@ router.patch("/:userId", (req, res, next) => {
       res.status(500).json({
         error: err,
       })
-    })
+    }) */
 })
 
 //Удаление выбранного пользователя
