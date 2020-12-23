@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs")
 
 const User = require("../models/users")
 
+
 //Получение списка всех пользователей
 router.get("/", async (req, res) => {
   try {
@@ -25,15 +26,15 @@ router.get("/", async (req, res) => {
 
 //Создание пользователя
 
-router.get("/new", (req, res, next) => {
+/* router.get("/new", (req, res, next) => {
   res.status(200).json({
     message: "Здесь будет загружать форма добавления нового пользователя",
   })
-})
+}) */
 
 //Загрузка формы редактирования выбранного пользователя
 
-router.post("/:userId/edit", (req, res, next) => {
+/* router.post("/:userId/edit", (req, res, next) => {
   const id = req.params.userId
   User.find({ _id: id })
     .exec()
@@ -52,35 +53,32 @@ router.post("/:userId/edit", (req, res, next) => {
     .catch((err) => {
       console.log(err)
     })
-})
+}) */
 
 //Сохранения нового пользователя в базе
-router.post("/", (req, res, next) => {
-  const user = new User({
-    _id: new mongoose.Types.ObjectId(),
-    login: req.body.login,
-    password: req.body.password,
-    name: req.body.name,
-    cabinet: req.body.cabinet,
-    start: req.body.start,
-    end: req.body.end,
-    userType: req.body.userType,
-  })
+router.post("/create", async (req, res) => {
+  console.log(req.body)
+ 
+  try{
+    const hashedPassword = await bcrypt.hash(req.body.password, 12)
+    req.body.password = hashedPassword
+    const createOps = {}
+  
+    for (let key in req.body) {
+      //пробегаемся по всем значениям объекта и формируем новый объект
+      createOps[key] = req.body[key]
+    }
+    const user = await new User({ ...createOps})
+    await user.save()
 
-  user
-    .save()
-    .then((data) => {
-      res.status(201).json({
-        message: "User was created",
-        result: data,
-      })
+    res.status(201).json({
+      message: 'Пользователь успешно создан'
     })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
-      })
+  } catch (e) {
+    res.status(500).json({
+      message: 'операция не выполнена, попробуйте еще раз'
     })
+  }
 })
 
 //Получения одного пользователя по userId
@@ -97,22 +95,6 @@ router.get("/:id", async (req, res) => {
     })
   }
 
-  /*   const id = req.params.userId
-
-  User.find({ _id: id })
-    .exec()
-    .then((user) => {
-      res.status(200).json({
-        message: `Handling GET request to fetch userID: ${id}`,
-        user,
-      })
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
-      })
-    }) */
 })
 
 //Обновление пользовательских полей
@@ -134,7 +116,7 @@ router.patch("/:id", async (req, res) => {
     const updateOps = {}
 
     for (let key in req.body) {
-      //пробегаемся по всем значениям объекта и формируем новый объект
+      //пробегаемся по всем значениям объекта запроса и формируем новый объект
       updateOps[key] = req.body[key]
     }
 
