@@ -8,8 +8,9 @@ import { UserPage } from "./pages/admin/UserPage"
 import { TicketsPage } from "./pages/admin/TicketsPage"
 import { ServiceDetailPage } from "./pages/admin/Services/ServiceDetailPage"
 import { ServiceCreatePage } from "./pages/admin/Services/ServiceCreatePage"
-import { UserDetailPage } from './pages/admin/Users/UserDetailPage'
-import { UserCreatePage} from './pages/admin/Users/UserCreatePage'
+import { UserDetailPage } from "./pages/admin/Users/UserDetailPage"
+import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
+import { CalendarPage } from "./pages/visitors/CalendarPage"
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -36,8 +37,7 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/users/create" exact>
           <UserCreatePage />
         </Route>
-      
-       
+
         <Route path="/tickets" exact>
           <TicketsPage />
         </Route>
@@ -50,6 +50,9 @@ export const useRoutes = (isAuthenticated) => {
     <Switch>
       <Route path="/" exact>
         <HomePage />
+      </Route>
+      <Route path="/calendar/:id" exact>
+        <CalendarPage />
       </Route>
       <Route path="/auth/zhilye" exact>
         <AuthPage />
