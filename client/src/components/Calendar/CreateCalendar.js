@@ -12,16 +12,15 @@ export const CreateCalendar = (params) => {
     for (let i = 0; i < 30; i++) {
         const date = new Date()
         date.setDate(date.getDate() + i)
-        console.log(date)
-
-        return (
-            <>
+        const days = []
+        days.push((<li>
             <CalendarDay key={i}
             countTickets={countAllTicket}
             date={date.toLocaleDateString()}
-            service={service}/>
-            </>
-        )
+            service={service}/></li>))
+        
+        console.log(date)
+)
     }
 
 
