@@ -25,3 +25,15 @@ input {
 .card .service {
   background: #777777;
 }
+
+.service-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 2rem;
+  color: #fff;
+}
+.service-list li{
+  text-align: center;
+
+}
+
