@@ -1,13 +1,18 @@
 import React from "react"
 
-export const CalendarDay = ({ days }) => {
-  console.log(typeof days)
+export const CalendarDay = ({ day, countAllTicket, dayOfWeek }) => {
 
-  Object.keys(days).map((itemKey) => {
-    return (
-      <div>
-        <p>{days[itemKey]}</p>
-      </div>
-    )
-  })
+                return (
+                    <div className="row">
+                    <div className="card blue darken-1">
+                        <p>{day}</p>
+                    {/* <span>{dayOfWeek}</span> */}
+                    
+                    <p>Талонов осталось: {countAllTicket}</p>  
+                    </div>
+                </div>
+                )
+
+   
+
 }
