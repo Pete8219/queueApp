@@ -5,17 +5,17 @@ const User = require("./users")
 const ticketSchema = mongoose.Schema({
   date: {
     type: Date,
-    default: new Date(),
   },
+  time: String,
   visitor: {
     type: String,
     required: true,
   },
-  isBusy: { type: Boolean, default: true },
+  isBusy: { type: Boolean, default: false },
   status: {
     type: String,
-    enum: ["work", "worked", "tel_consult", "not_enough_docs"],
-    default: "work",
+    enum: ["В работе", "Отработан", "Отказ", "Уточнение сведений"],
+    default: "В работе",
   },
   service: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +25,6 @@ const ticketSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  
 })
 
 ticketSchema.virtual("getStatus").get(function () {

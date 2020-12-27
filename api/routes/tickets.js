@@ -41,7 +41,7 @@ router.post("/", (req, res, next) => {
     })
 })
 
-router.get("/:ticketId", (req, res, next) => {
+/* router.get("/:ticketId", (req, res, next) => {
   const id = req.params.ticketId
   Ticket.find({ _id: id })
     .exec()
@@ -55,6 +55,26 @@ router.get("/:ticketId", (req, res, next) => {
     .catch((err) => {
       console.log(err)
     })
+}) */
+
+router.get("/:serviceId/:TicketDate", async (req, res) => {
+  const dateParam = req.params.TicketDate
+  const start = new Date().toISOString()
+  const end = new Date()
+  end.setDate(end.getDate() + 30)
+  end.toISOString()
+  /* console.log(start, end) */
+
+  try {
+    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: dateParam }] })
+    res.status(200).json(data)
+    console.log(data)
+  } catch (e) {
+    console.log(e)
+    res.status(404).json({
+      message: "Ничего не найдено",
+    })
+  }
 })
 
 router.patch("/:ticketId", (req, res, next) => {
