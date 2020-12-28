@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 
 export const TicketBalance = ({ balance, countAllTicket }) => {
   const count = countAllTicket - balance
