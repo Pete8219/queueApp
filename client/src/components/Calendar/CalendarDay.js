@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { TicketBalance } from "../Tickets/TicketBalance"
 import { useHttp } from "../../hooks/http.hook"
 import { useHistory } from 'react-router-dom'
@@ -29,12 +29,15 @@ export const CalendarDay = ({ day, service }) => {
     fetchTickets()
   }, [request, id])
 
-  const clickHandler = (date, id) => {
-      history.push(`/calendar/${id}/${date.toLocaleDateString()}`)
+  const clickHandler = useCallback((date, id) => {
+          history.push(`/calendar/${id}/${date.toLocaleDateString()}`)
+
+
       
-      console.log(date.toLocaleDateString(), id)
       
-  }
+      
+      
+  },[])
 
 
 
@@ -44,7 +47,7 @@ export const CalendarDay = ({ day, service }) => {
             <div className="card blue darken-1">
                 
                 <p>{TicketDate.toLocaleDateString()}</p>
-                {/* <span>{dayOfWeek}</span> */}
+                
 
                 {!loading  && <TicketBalance balance={balance} countAllTicket={countAllTicket} />}
                 

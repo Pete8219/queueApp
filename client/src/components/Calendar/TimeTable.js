@@ -1,7 +1,7 @@
 import React from "react"
 
-export const TimeTable = ({service, tickets, date}) => {
-console.log(tickets)
+export const TimeTable = ({service, tickets, date, changeComponentHandler}) => {
+/* console.log(tickets[0]) */
  
   //вытаскиваем из входящих параметров нужные нам данные для построение времени приема 
   const time = service.service.time
@@ -21,28 +21,51 @@ console.log(tickets)
     ticketDate.setHours(ticketDate.getHours() + 5)
   /*   let min = ticketDate.getMinutes().toString()
     min = min < 10 ? "0" + min : min */
-    timeArray.push(ticketDate)
+    timeArray.push(ticketDate.toISOString())
     /* timeArray.push({ hours: ticketDate.getHours().toString(), minutes: min }) */
   } 
 
-  console.log(timeArray)
+  
 
-  const timeList = timeArray.map(item => {
-    return(
-      item.toISOString().slice(11, 16)
-    )
+  const busyTime = tickets.map(ticket => {
+    return (ticket.date.toString())
   })
 
- 
 
-  return (
-  
-      <div className="row">
-        <div className="card" style={{display:"grid", gridTemplateColumns:"1fr 1fr 1fr"}}>
-          <p >{timeList}</p>
+    const timer = []
+
+      for (let i= 0; i < timeArray.length; i++ ) {
+        if (!busyTime.includes(timeArray[i])) {
           
-        </div>
-      </div>
+          timer.push(timeArray[i].slice(11,16))
+        }
+      }
 
-  )
+    
+
+      const timeList = timer.map(item => {
+        
+        return  (
+          <li key={item} value={item} onClick={()=>changeComponentHandler({item})}>
+            <div className="card blue darken-1">
+            {item}
+            </div>
+          </li>
+        )
+      }) 
+
+        return (
+        
+            <div className="row">
+              <h4>Выберите свободное время приема </h4>
+              <ul style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gridGap: "1rem", textAlign: "center", color: "#fff", gridTemplateRows: "180px", gridAutoRows: "180px" }}>
+              
+              {  timeList }
+                
+                
+              
+              </ul>
+            </div>
+
+        )
 }

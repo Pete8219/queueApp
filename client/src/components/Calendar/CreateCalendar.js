@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { CalendarDay } from "./CalendarDay"
+const storageName = 'TicketTime'
 
 
 export const CreateCalendar = (params) => {
   const service = params.params.service
-
+  useEffect(() => {
+    localStorage.removeItem(storageName)
+  },[])
 
 
   const dateCal = []
@@ -36,14 +39,7 @@ export const CreateCalendar = (params) => {
           <CalendarDay
             service={service}
             day={item.date}
-            /*dayNumber={item.dayNumber}
-             dayOfWeek={item.dayOfWeekName}
-             time={time}
-             countAllTicket={countAllTicket}
-             serviceId={service._id}
-             userId={service.user._id}
-             cabinet={service.user.cabinet}
-             userName={service.user.name} */
+
           />
         }
       </li>

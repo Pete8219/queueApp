@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { CreateCalendar } from "../../components/Calendar/CreateCalendar"
+const storageName = 'TimeData'
 
 
 
@@ -23,6 +24,9 @@ export const CalendarPage = () => {
     fetchService()
   }, [request, id])
 
+  useEffect(()=> {
+    localStorage.removeItem(storageName)
+  },[])
 
 
   return <>{!loading && serviceData && <CreateCalendar params={serviceData} />}</>
