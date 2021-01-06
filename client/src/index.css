@@ -32,8 +32,32 @@ input {
   grid-gap: 2rem;
   color: #fff;
 }
-.service-list li{
+.service-list li {
   text-align: center;
-
 }
 
+.timeTable {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+}
+
+.timeTable ul {
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-auto-rows: 50px;
+  grid-gap: 1rem;
+  align-items: flex-end;
+  text-align: center;
+  color: #fff;
+  margin-top: 4rem;
+}
+
+/* Contact Form styles */
+
+.contactForm {
+  display: grid;
+  text-align: center;
+  justify-content: center;
+}

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { CreateCalendar } from "../../components/Calendar/CreateCalendar"
-const storageName = 'TimeData'
-
-
+const storageName = "TimeData"
 
 export const CalendarPage = () => {
   const id = useParams().id
+  const history = useHistory()
   const [serviceData, setServiceData] = useState("")
 
   const { loading, request } = useHttp()
-  
 
   useEffect(() => {
     const fetchService = async () => {
@@ -24,10 +22,17 @@ export const CalendarPage = () => {
     fetchService()
   }, [request, id])
 
-  useEffect(()=> {
+  useEffect(() => {
     localStorage.removeItem(storageName)
-  },[])
+  }, [])
 
+  useEffect(() => {
+    return () => {
+      if (history.action === "POP") {
+        history.push("")
+      }
+    }
+  })
 
   return <>{!loading && serviceData && <CreateCalendar params={serviceData} />}</>
 }

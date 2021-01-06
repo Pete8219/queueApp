@@ -58,22 +58,18 @@ router.post("/", (req, res, next) => {
 }) */
 
 router.get("/:serviceId/:TicketDate", async (req, res) => {
-  
   dateParam = req.params.TicketDate
   const start = new Date(req.params.TicketDate)
   start.setHours(start.getHours() + 5)
   start.toISOString()
   const end = new Date(dateParam)
-  end.setHours(23,59,59,0) 
+  end.setHours(23, 59, 59, 0)
   end.setHours(end.getHours() + 5)
-  
-  
-   end.toISOString()
-  console.log(start, end)
-  /* console.log(start, end) */
+
+  end.toISOString()
 
   try {
-    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: {$gte :start, $lte: end }}] })
+    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] })
     res.status(200).json(data)
     console.log(data)
   } catch (e) {

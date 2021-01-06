@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { TicketBalance } from "../Tickets/TicketBalance"
 import { useHttp } from "../../hooks/http.hook"
-import { useHistory } from 'react-router-dom'
-
+import { useHistory } from "react-router-dom"
 
 export const CalendarDay = ({ day, service }) => {
-   
-
   const TicketDate = new Date(day)
   TicketDate.setHours(0, 0, 0, 0)
 
@@ -30,28 +27,16 @@ export const CalendarDay = ({ day, service }) => {
   }, [request, id])
 
   const clickHandler = useCallback((date, id) => {
-          history.push(`/calendar/${id}/${date.toLocaleDateString()}`)
-
-
-      
-      
-      
-      
-  },[])
-
-
+    history.push(`/calendar/${id}/${date.toLocaleDateString()}`)
+  }, [])
 
   return (
     <div className="row">
-        <a style={{color:"#fff"}} key={TicketDate.toISOString()}  value={TicketDate.toISOString()} onClick={()=>clickHandler(TicketDate, id)}>
-            <div className="card blue darken-1">
-                
-                <p>{TicketDate.toLocaleDateString()}</p>
-                
-
-                {!loading  && <TicketBalance balance={balance} countAllTicket={countAllTicket} />}
-                
-            </div>
+      <a style={{ color: "#fff" }} key={TicketDate.toISOString()} value={TicketDate.toISOString()} onClick={() => clickHandler(TicketDate, id)}>
+        <div className="card blue darken-1">
+          <p>{TicketDate.toLocaleDateString()}</p>
+          {!loading && <TicketBalance balance={balance} countAllTicket={countAllTicket} />}
+        </div>
       </a>
     </div>
   )
