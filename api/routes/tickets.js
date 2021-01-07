@@ -5,6 +5,8 @@ const mongoose = require("mongoose")
 const Ticket = require("../models/tickets")
 const Service = require("../models/services")
 
+const { check, validationResult } = require("express-validator")
+
 router.get("/", (req, res, next) => {
   Ticket.find({})
     .exec()
@@ -18,8 +20,43 @@ router.get("/", (req, res, next) => {
     })
 })
 
-router.post("/", (req, res, next) => {
-  const ticket = new Ticket({
+// Сохранение пользователя в базе. Проводятся проверки на запонение полей формы
+router.post("/", [check("firstname", "Введите Ваше Имя").trim().isLength({ min: 3 }), check("lastname", "Введите Вашу Фамилию").trim().isLength({ min: 2 }), check("phone", "Введите номер телефона").trim().isLength({ min: 5 })], async (req, res) => {
+  const { date } = req.body
+
+  console.log(date)
+
+  try {
+    const errorFormatter = ({ location, msg, param, value }) => {
+      return `${msg}`
+    }
+    const errors = validationResult(req).formatWith(errorFormatter)
+
+    if (!errors.isEmpty()) {
+      return res.json({
+        errors: errors.array(),
+      })
+    }
+
+    const isExist = await Ticket.findOne({ date })
+
+    if (isExist) {
+      return res.status(400).json({
+        message: "К сожалению, на данное время кто то только что записался",
+      })
+    }
+
+    const ticket = new Ticket({ ...req.body })
+    await ticket.save()
+    res.status(201).json({
+      message: "Ваша заявка принята",
+    })
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
+    })
+  }
+  /*   const ticket = new Ticket({
     _id: new mongoose.Types.ObjectId(),
     date: req.body.date,
     visitor: req.body.visitor,
@@ -38,7 +75,7 @@ router.post("/", (req, res, next) => {
     })
     .catch((err) => {
       console.log(err)
-    })
+    }) */
 })
 
 /* router.get("/:ticketId", (req, res, next) => {

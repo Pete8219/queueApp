@@ -7,16 +7,16 @@ const ticketSchema = mongoose.Schema({
     type: Date,
   },
   time: String,
-  visitor: {
-    type: String,
-    required: true,
-  },
-  isBusy: { type: Boolean, default: false },
+  firstname: String,
+  lastName: String,
+  surname: String,
+  isBusy: { type: Boolean, default: true },
   status: {
     type: String,
     enum: ["В работе", "Отработан", "Отказ", "Уточнение сведений"],
     default: "В работе",
   },
+  phone: String,
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",

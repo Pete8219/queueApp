@@ -11,7 +11,8 @@ import { ServiceCreatePage } from "./pages/admin/Services/ServiceCreatePage"
 import { UserDetailPage } from "./pages/admin/Users/UserDetailPage"
 import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
 import { CalendarPage } from "./pages/visitors/CalendarPage"
-import { TimePage } from './pages/visitors/TimePage'
+import { TimePage } from "./pages/visitors/TimePage"
+import { TicketPage } from "./pages/visitors/TicketPage"
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -57,6 +58,9 @@ export const useRoutes = (isAuthenticated) => {
       </Route>
       <Route path="/calendar/:id/:date" exact>
         <TimePage />
+      </Route>
+      <Route path="/ticketpage" exact>
+        <TicketPage />
       </Route>
       <Route path="/auth/zhilye" exact>
         <AuthPage />

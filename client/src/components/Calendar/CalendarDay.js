@@ -1,11 +1,15 @@
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useMemo } from "react"
 import { TicketBalance } from "../Tickets/TicketBalance"
 import { useHttp } from "../../hooks/http.hook"
 import { useHistory } from "react-router-dom"
 
 export const CalendarDay = ({ day, service }) => {
-  const TicketDate = new Date(day)
-  TicketDate.setHours(0, 0, 0, 0)
+  const TicketDate = useMemo(() => {
+    //обернули ве в хук UseMemo и добавили в список зависимостей параметр day
+    const ticketDate = new Date(day)
+    ticketDate.setHours(0, 0, 0, 0)
+    return ticketDate
+  }, [day])
 
   const id = service._id
   const user = service.user
@@ -24,7 +28,7 @@ export const CalendarDay = ({ day, service }) => {
     }
 
     fetchTickets()
-  }, [request, id])
+  }, [request, id, TicketDate]) //добавили зависимость TicketDate. Посмотрим как будет себя вести
 
   const clickHandler = useCallback((date, id) => {
     history.push(`/calendar/${id}/${date.toLocaleDateString()}`)

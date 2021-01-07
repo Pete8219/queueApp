@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useParams, useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
+import { useMessage } from "../../hooks/message.hook"
+
 import { TimeTable } from "../../components/Calendar/TimeTable"
 import { ContactForm } from "../../components/Calendar/ContactForm"
+
 const storageName = "TimeData"
 
 export const TimePage = () => {
   const params = useParams()
   const history = useHistory()
-  const { loading, request } = useHttp()
+  const { loading, request, error, clearError } = useHttp()
   const [service, setService] = useState("")
   const [form, setForm] = useState({
     lastname: "",
@@ -17,9 +20,10 @@ export const TimePage = () => {
     phone: "",
   })
 
+  const message = useMessage()
+
   const [tickets, setTickets] = useState("")
   const [active, setActive] = useState("TimeTable")
-  /* const [ready, setReady] = useState("false") */
 
   const id = useParams().id
   const date = params.date.split(".").reverse().join("-")
@@ -50,10 +54,8 @@ export const TimePage = () => {
     const data = JSON.parse(localStorage.getItem(storageName))
     if (data) {
       setActive("ContactForm")
-    } else {
-      setActive("TimeTable")
     }
-  })
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -62,6 +64,11 @@ export const TimePage = () => {
       }
     }
   })
+
+  useEffect(() => {
+    message(error)
+    clearError()
+  }, [message, error, clearError])
 
   const changeComponentHandler = useCallback((data) => {
     localStorage.setItem(
@@ -88,8 +95,7 @@ export const TimePage = () => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
-  const submitFormHandler = () => {
-    const recordDate = new Date(date)
+  const submitFormHandler = async () => {
     const Time = JSON.parse(localStorage.getItem("TimeData"))
     const hours = Time.TicketTime.slice(0, 2)
     const minutes = Time.TicketTime.slice(3, 5)
@@ -97,9 +103,35 @@ export const TimePage = () => {
     form.service = id
     form.date = new Date(date)
     form.date.setHours(hours, minutes, 0, 0)
-    /*  form.date.setHours(form.date.getHours() + 5) */
+    form.date.setHours(form.date.getHours() + 5)
+    form.date.toISOString()
     form.user = service.service.user._id
-    console.log(form)
+
+    try {
+      const data = await request("/tickets", "POST", { ...form })
+      if (data.errors) {
+        return data.errors.map((error) => {
+          return message(error)
+        })
+      }
+
+      message(data.message)
+
+      form.cabinet = service.service.user.cabinet
+      form.userName = service.service.user.name
+      form.title = service.service.title
+
+      localStorage.removeItem(storageName)
+      localStorage.setItem(
+        "Ticket",
+        JSON.stringify({
+          ...form,
+        })
+      )
+
+      setForm("")
+      history.push("/ticketpage")
+    } catch (e) {}
   }
 
   return (
@@ -107,7 +139,7 @@ export const TimePage = () => {
       <div>
         {!loading && service && active === "TimeTable" && <TimeTable service={service} tickets={tickets} date={date} changeComponentHandler={changeComponentHandler} backToCalendar={backToCalendar} />}
 
-        {!loading && service && active === "ContactForm" && <ContactForm changeTimeTableHandler={changeTimeTableHandler} changeFormHandler={changeFormHandler} submitFormHandler={submitFormHandler} />}
+        {!loading && service && active === "ContactForm" && <ContactForm form={form} changeTimeTableHandler={changeTimeTableHandler} changeFormHandler={changeFormHandler} submitFormHandler={submitFormHandler} />}
       </div>
     </div>
   )

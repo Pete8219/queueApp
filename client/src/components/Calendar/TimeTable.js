@@ -16,10 +16,7 @@ export const TimeTable = ({ service, tickets, date, changeComponentHandler, back
     ticketDate.setHours(start, 0, 0)
     ticketDate.setMinutes(time * k)
     ticketDate.setHours(ticketDate.getHours() + 5)
-    /*   let min = ticketDate.getMinutes().toString()
-    min = min < 10 ? "0" + min : min */
     timeArray.push(ticketDate.toISOString())
-    /* timeArray.push({ hours: ticketDate.getHours().toString(), minutes: min }) */
   }
 
   const busyTime = tickets.map((ticket) => {
