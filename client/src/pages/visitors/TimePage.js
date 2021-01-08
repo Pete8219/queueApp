@@ -120,6 +120,7 @@ export const TimePage = () => {
       form.cabinet = service.service.user.cabinet
       form.userName = service.service.user.name
       form.title = service.service.title
+      form.ticketCreateDate = new Date()
 
       localStorage.removeItem(storageName)
       localStorage.setItem(

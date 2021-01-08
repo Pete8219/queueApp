@@ -35,8 +35,8 @@ export const ContactForm = ({ form, changeTimeTableHandler, changeFormHandler, s
                   <label htmlFor="surname">Отчество (при наличии)</label>
                 </div>
                 <div className="input-field col s12">
-                  <input placeholder="+79хх-ххх-хххх" id="phone" name="phone" type="text" class="validate" value={form.phone} onChange={changeFormHandler} />
-                  <label htmlFor="phone">Номер телефона для связи</label>
+                  <input placeholder="89xxxxxxxxx" id="phone" name="phone" type="text" class="validate" value={form.phone} onChange={changeFormHandler} />
+                  <label htmlFor="phone">Номер телефона для связи (например: 890281ХХХХХ)</label>
                 </div>
               </div>
               <a className="waves-effect waves-light btn" onClick={submitFormHandler}>

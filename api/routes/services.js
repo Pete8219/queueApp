@@ -4,7 +4,7 @@ const router = express.Router()
 const mongoose = require("mongoose")
 const Service = require("../models/services")
 const User = require("../models/users")
-const {check, validationResult} = require("express-validator") 
+const { check, validationResult } = require("express-validator")
 
 //Получение списка услуг
 router.get("/", async (req, res) => {
@@ -19,53 +19,45 @@ router.get("/", async (req, res) => {
   }
 })
 
-
-
-
-
 //Запись услуги в базу данных
-router.post("/", [check('title', 'Поле не должно быть пустым').not().isEmpty().trim().escape()], async (req, res) => {
+router.post("/", [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape()], async (req, res) => {
   try {
     const errors = validationResult(req)
 
-    if(!errors.isEmpty) {
+    if (!errors.isEmpty) {
       res.status(400).json({
         errors: errors.array(),
-        message: 'Проверьте введенные данные'
+        message: "Проверьте введенные данные",
       })
     }
 
-    const {title} = req.body
-      
-    const isExist = await Service.findOne( {title})
-    if(isExist) {
-      return res.status(400).json({
-        message: 'Такая услуга уже есть в базе'
-      })
-    } 
+    const { title } = req.body
 
-    const service = await new Service( {title: req.body.title, time: req.body.time, user: req.body.user})
+    const isExist = await Service.findOne({ title })
+    if (isExist) {
+      return res.status(400).json({
+        message: "Такая услуга уже есть в базе",
+      })
+    }
+
+    const service = await new Service({ title: req.body.title, time: req.body.time, user: req.body.user })
 
     await service.save()
 
     res.status(201).json({
-      message: 'Услуга создана'
+      message: "Услуга создана",
     })
-
   } catch (e) {
     res.status(500).json({
-      message: 'Нередвиденная ошибка, попробуйте еще раз'
+      message: "Нередвиденная ошибка, попробуйте еще раз",
     })
   }
-
 })
 
 //Получение выбранной по ID услуги
 router.get("/:id", async (req, res) => {
-  console.log(req.params.id)
-
   const id = req.params.id
-  const data = await Service.findOne({ _id: id }, )
+  const data = await Service.findOne({ _id: id })
     .populate("user")
     .exec(function (err, service) {
       User.find({ _id: { $nin: service } }, { password: 0, login: 0 }, function (err, users) {
@@ -86,41 +78,39 @@ router.post("/:serviceId", (req, res, next) => {
   })
 })
 
-router.patch("/:serviceId", (req, res, next) => {
-  const id = req.params.serviceId
-  const updateOps = {}
+router.patch("/:id", async (req, res) => {
+  try {
+    /*  const data = await Service.findById({_id: req.params.id }) */
 
-  for (ops of req.body) {
-    updateOps[ops.propName] = ops.value
+    const updateOps = {}
+
+    for (key in req.body) {
+      updateOps[key] = req.body[key]
+    }
+
+    await Service.updateOne({ _id: req.params.id }, { $set: updateOps })
+    res.status(200).json({
+      message: "Данные успешно обновлены",
+    })
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то пошло не так",
+    })
   }
-
-  Service.updateOne({ _id: id }, { $set: updateOps })
-    .exec()
-    .then((result) => {
-      res.status(200).json(result)
-    })
-    .catch((err) => {
-      console.log(err)
-      res.status(500).json({
-        error: err,
-      })
-    })
 })
 
 //Удаление выбранной услуги
 router.delete("/:id", async (req, res) => {
   try {
-    await Service.deleteOne({ _id: req.params.id})
-      res.status(200).json({
+    await Service.deleteOne({ _id: req.params.id })
+    res.status(200).json({
       message: "Услуга удалена",
     })
-
   } catch (e) {
     res.status(400).json({
-      message: 'Что то пошло не так'
+      message: "Что то пошло не так",
     })
   }
- 
 })
 
 module.exports = router

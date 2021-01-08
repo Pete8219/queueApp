@@ -21,13 +21,17 @@ router.get("/", (req, res, next) => {
 })
 
 // Сохранение пользователя в базе. Проводятся проверки на запонение полей формы
-router.post("/", [check("firstname", "Введите Ваше Имя").trim().isLength({ min: 3 }), check("lastname", "Введите Вашу Фамилию").trim().isLength({ min: 2 }), check("phone", "Введите номер телефона").trim().isLength({ min: 5 })], async (req, res) => {
+router.post("/", [check("firstname", "Введите Ваше Имя").trim().toUpperCase().isLength({ min: 3 }), check("lastname", "Введите Вашу Фамилию").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 }), check("phone", "Номер телефона должен содержать только цифры").isNumeric()], async (req, res) => {
   const { date } = req.body
+  const { surname } = req.body
+  if (surname) {
+    req.body.surname = surname.toUpperCase()
+  }
 
   console.log(date)
 
   try {
-    const errorFormatter = ({ location, msg, param, value }) => {
+    const errorFormatter = ({ msg }) => {
       return `${msg}`
     }
     const errors = validationResult(req).formatWith(errorFormatter)
@@ -56,43 +60,29 @@ router.post("/", [check("firstname", "Введите Ваше Имя").trim().is
       message: "Что то не так",
     })
   }
-  /*   const ticket = new Ticket({
-    _id: new mongoose.Types.ObjectId(),
-    date: req.body.date,
-    visitor: req.body.visitor,
-    service: new mongoose.Types.ObjectId(),
-    user: new mongoose.Types.ObjectId(),
-    status: req.body.status,
-  })
-
-  ticket
-    .save()
-    .then((ticket) => {
-      res.status(200).json({
-        message: "POST request to /tickets",
-        ticket: ticket,
-      })
-    })
-    .catch((err) => {
-      console.log(err)
-    }) */
 })
 
-/* router.get("/:ticketId", (req, res, next) => {
-  const id = req.params.ticketId
-  Ticket.find({ _id: id })
-    .exec()
-    .then((ticket) => {
-      res.status(200).json({
-        message: `Handling ID from request ticketId: ${id}`,
-        ticket: ticket,
-        status: ticket[0].getStatus,
+// Достаем все талоны адресованные сотруднику
+
+router.get("/lists/:userId", async (req, res) => {
+  const id = req.params.userId
+  console.log(id)
+  try {
+    const data = await Ticket.find({ user: req.params.userId })
+    console.log(data)
+    if (!data) {
+      return res.status(404).json({
+        message: "Ничего не найдено",
       })
+    }
+
+    res.status(200).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: "Ошибка, попробуйте еще раз",
     })
-    .catch((err) => {
-      console.log(err)
-    })
-}) */
+  }
+})
 
 router.get("/:serviceId/:TicketDate", async (req, res) => {
   dateParam = req.params.TicketDate

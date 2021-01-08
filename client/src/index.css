@@ -1,5 +1,15 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 
+@media print {
+  .ticketCheck {
+    width: 50%;
+    display: grid;
+    align-self: center;
+    grid-template-columns: 0.5fr;
+    padding: 15px;
+  }
+}
+
 .card-title {
   color: #fff;
   text-align: center;
@@ -22,18 +32,28 @@ input {
   color: #000 !important;
 }
 
+input.login,
+input.password {
+  color: #fff !important;
+}
+
 .card .service {
   background: #777777;
 }
 
 .service-list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   grid-gap: 2rem;
   color: #fff;
 }
 .service-list li {
-  text-align: center;
+  text-align: left;
+  font-size: 0.9em;
+}
+.service-list > div.card {
+  margin-top: 1rem !important;
+  padding: 10%;
 }
 
 .timeTable {

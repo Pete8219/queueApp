@@ -8,7 +8,7 @@ const ticketSchema = mongoose.Schema({
   },
   time: String,
   firstname: String,
-  lastName: String,
+  lastname: String,
   surname: String,
   isBusy: { type: Boolean, default: true },
   status: {

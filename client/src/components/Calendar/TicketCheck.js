@@ -1,41 +1,35 @@
 import React, { useEffect } from "react"
-import { useHistory } from "react-router-dom"
 
 import M from "materialize-css/dist/js/materialize.min.js"
 
-export const TicketCheck = ({ data }) => {
+export const TicketCheck = ({ data, printHandler }) => {
   useEffect(() => {
     M.AutoInit()
   }, [])
 
-  /*   const history = useHistory()
-
-  useEffect(() => {
-    return () => {
-      if (history.action === "POP") {
-        history.replace(location)
-      }
-    }
-  }) */
   const ticketDate = data.date.slice(0, 10)
   const ticketTime = data.date.slice(11, 16)
   const fullName = `${data.lastname} ${data.firstname} ${data.surname}`
   const ticketData = {
     ticketDate: ticketDate.split("-").reverse().join("-"),
     ticketTime,
-    fullName,
+    fullName: fullName.toUpperCase(),
     cabinet: data.cabinet,
-    userName: data.userName,
+    userName: data.userName.toUpperCase(),
     title: data.title,
+    ticketCreateDate: data.ticketCreateDate.slice(0, 10).split("-").reverse().join("-"),
   }
-
-  console.log(ticketData)
 
   return (
     <div>
+      <button class="btn-small col s4 waves-effect waves-light" type="submit" name="action" onClick={printHandler} style={{ margin: "0 auto", marginTop: "2rem" }}>
+        Печать талона
+        <i class="material-icons right">local_printshop</i>
+      </button>
+      <blockquote>Распечатайте Ваш талон нажав на кнопку "Печать талона" или сфотографируйте талон на свой мобильный телефон</blockquote>
       <div className="row ticketCheck" style={{ display: "grid" }}>
-        <div className="col s12 m6" style={{ display: "grid", margin: "0 auto", marginTop: "2rem" }}>
-          <div className="card white">
+        <div className="col s12 m6" style={{ display: "grid", margin: "0 auto" }}>
+          <div className="card white" style={{ marginTop: "2rem" }}>
             <div className="card-content">
               <span className="black-text card-title ">Талон записи на прием</span>
               <p>
@@ -46,6 +40,7 @@ export const TicketCheck = ({ data }) => {
               <p>Кабинет: {ticketData.cabinet}</p>
               <p>Посетитель: {ticketData.fullName}</p>
               <p>Прием ведет: {ticketData.userName}</p>
+              <p>Дата формирования талона: {ticketData.ticketCreateDate}</p>
             </div>
           </div>
         </div>

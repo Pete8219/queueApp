@@ -5,7 +5,6 @@ const bcrypt = require("bcryptjs")
 
 const User = require("../models/users")
 
-
 //Получение списка всех пользователей
 router.get("/", async (req, res) => {
   try {
@@ -58,25 +57,25 @@ router.get("/", async (req, res) => {
 //Сохранения нового пользователя в базе
 router.post("/create", async (req, res) => {
   console.log(req.body)
- 
-  try{
+
+  try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12)
     req.body.password = hashedPassword
     const createOps = {}
-  
+
     for (let key in req.body) {
       //пробегаемся по всем значениям объекта и формируем новый объект
       createOps[key] = req.body[key]
     }
-    const user = await new User({ ...createOps})
+    const user = await new User({ ...createOps })
     await user.save()
 
     res.status(201).json({
-      message: 'Пользователь успешно создан'
+      message: "Пользователь успешно создан",
     })
   } catch (e) {
     res.status(500).json({
-      message: 'операция не выполнена, попробуйте еще раз'
+      message: "операция не выполнена, попробуйте еще раз",
     })
   }
 })
@@ -94,7 +93,19 @@ router.get("/:id", async (req, res) => {
       message: "Пользователь не найден",
     })
   }
+})
 
+//Получение имени пользователя для отображения на странице приветствия
+
+router.get("/welcome/:id", async (req, res) => {
+  try {
+    const username = await User.findOne({ _id: req.params.id }).select("name")
+    res.status(201).json(username)
+  } catch (e) {
+    res.status(500).json({
+      message: "Ошибка запроса, попробуйте позже",
+    })
+  }
 })
 
 //Обновление пользовательских полей

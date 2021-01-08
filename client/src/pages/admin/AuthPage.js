@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
-import {AuthContext} from "../../context/AuthContext"
+import { AuthContext } from "../../context/AuthContext"
 
 export const AuthPage = () => {
   const auth = useContext(AuthContext)
@@ -13,17 +13,14 @@ export const AuthPage = () => {
     password: "",
   })
 
-  useEffect( () => {
-    
+  useEffect(() => {
     message(error)
     clearError()
-
   }, [error, message, clearError])
 
-  useEffect( () =>{
+  useEffect(() => {
     window.M.updateTextFields()
   }, [])
- 
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -54,14 +51,14 @@ export const AuthPage = () => {
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">account_circle</i>
-                  <input placeholder="Введите имя пользователя" id="login" name="login" type="text" className="validate" onChange={changeHandler} />
+                  <input placeholder="Введите имя пользователя" id="login" name="login" type="text" className="validate login" onChange={changeHandler} style={{ color: "#fff !important" }} />
                   <label htmlFor="login">Логин </label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">https</i>
-                  <input placeholder="Введите пароль" id="password" type="password" name="password" className="validate" onChange={changeHandler} />
+                  <input placeholder="Введите пароль" id="password" type="password" name="password" className="validate password" onChange={changeHandler} style={{ color: "#fff !important" }} />
                   <label htmlFor="password">Пароль</label>
                 </div>
               </div>

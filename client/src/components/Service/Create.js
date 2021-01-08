@@ -1,13 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
-import {useHistory} from 'react-router-dom'
-import { useHttp } from '../../hooks/http.hook'
+import { useHistory } from "react-router-dom"
+import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
 
-
 export const CreateService = (data) => {
- 
   const [form, setForm] = useState({
     title: "",
     time: "",
@@ -15,13 +13,12 @@ export const CreateService = (data) => {
   })
 
   const history = useHistory()
-  const {request, error, clearError} = useHttp()
+  const { request, error, clearError } = useHttp()
   const message = useMessage()
 
   const usersArray = data.data.map((item) => {
     return item
   })
-
 
   useEffect(() => {
     M.AutoInit()
@@ -31,7 +28,7 @@ export const CreateService = (data) => {
     window.M.updateTextFields()
   }, [])
 
-  useEffect( ()=> {
+  useEffect(() => {
     message(error)
     clearError()
   }, [message, error, clearError])
@@ -46,22 +43,19 @@ export const CreateService = (data) => {
 
   const createHandler = async () => {
     try {
-        const data = await request('/services', "POST", {...form})
-        message(data.message) 
-        history.push("/services")
+      const data = await request("/services", "POST", { ...form })
+      message(data.message)
+      history.push("/services")
     } catch (e) {}
-
   }
 
   const userList = usersArray.map((user) => {
     return (
       <option key={user._id} value={user._id}>
-        {user.login}
+        {user.name}
       </option>
     )
   })
-
-  
 
   return (
     <div className="row">
@@ -69,7 +63,7 @@ export const CreateService = (data) => {
       <form className="col s12">
         <div className="row">
           <div className="input-field col s12">
-            <input placeholder="Введите название услуги" id="title" name="title" type="text" className="validate" onChange={changeHandler} />
+            <textarea id="title" name="title" type="text" className="materialize-textarea" onChange={changeHandler} />
             <label htmlFor="title">Название</label>
           </div>
           <div className="input-field col s4">
@@ -78,14 +72,21 @@ export const CreateService = (data) => {
           </div>
           <div className="input-field col s8">
             <select name="user" value={form.user} onChange={changeHandler}>
-              <option selected value="Выберите сотрудника из списка">выберите сотрудника из списка</option>
+              <option selected value="Выберите сотрудника из списка">
+                выберите сотрудника из списка
+              </option>
               {userList}
             </select>
             <label>Сотрудник</label>
           </div>
         </div>
         <div className="row">
-        <a className="waves-effect waves-light btn" style={{margin:"2rem"}} onClick={createHandler}>Сохранить</a><a className="waves-effect waves-light btn" onClick={cancelHandler}>Отмена</a>
+          <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={createHandler}>
+            Сохранить
+          </a>
+          <a className="waves-effect waves-light btn" onClick={cancelHandler}>
+            Отмена
+          </a>
         </div>
       </form>
     </div>

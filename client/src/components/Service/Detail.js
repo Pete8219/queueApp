@@ -1,12 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
-import {useHistory} from 'react-router-dom'
+import { useHistory } from "react-router-dom"
+import { useHttp } from "../../hooks/http.hook"
+import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
-
 
 export const Detail = ({ detail }) => {
   console.log(detail)
 
+  const message = useMessage()
+  const { request } = useHttp()
   const history = useHistory()
 
   const data = detail.users.map((item) => {
@@ -27,8 +30,16 @@ export const Detail = ({ detail }) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
+  const updateHandler = async () => {
+    try {
+      const data = await request(`/services/${detail.service._id}`, "PATCH", { ...form })
+      message(data.message)
+      history.push("/services")
+    } catch (e) {}
+  }
+
   const cancelHandler = () => {
-      history.push('/services')
+    history.push("/services")
   }
 
   const listItem = data.map((user, i) => {
@@ -54,8 +65,8 @@ export const Detail = ({ detail }) => {
       <form className="col s12">
         <div className="row">
           <div className="input-field col s12">
-            <input id="title" name="title" type="text" value={form.title} style={{ color: "#000" }} onChange={changeHandler} />
-            <label htmlFor="title">Название услуги</label>
+            <textarea id="title" name="title" type="text" className="materialize-textarea" onChange={changeHandler} />
+            <label htmlFor="title">Название</label>
           </div>
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />
@@ -63,14 +74,18 @@ export const Detail = ({ detail }) => {
           </div>
           <div className="input-field col s8">
             <select name="select" defaultValue={form.select} onChange={changeHandler}>
-                {listItem}
+              {listItem}
             </select>
             <label>Сотрудник</label>
           </div>
-
         </div>
         <div className="row">
-        <a className="waves-effect waves-light btn" style={{margin:"2rem"}}>Сохранить</a><a className="waves-effect waves-light btn" onClick={cancelHandler}>Отмена</a>
+          <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={updateHandler}>
+            Сохранить
+          </a>
+          <a className="waves-effect waves-light btn" onClick={cancelHandler}>
+            Отмена
+          </a>
         </div>
       </form>
     </div>
