@@ -1,14 +1,21 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { CalendarDay } from "./CalendarDay"
-const storageName = 'TicketTime'
-
+import { YearCalendar } from "./YearCalendar"
+const storageName = "TicketTime"
 
 export const CreateCalendar = (params) => {
   const service = params.params.service
+
+  const { weekendAndHolidays, preHoliday } = YearCalendar()
+
+  const month = new Date()
+  const currentMonth = month.getMonth()
+
+  let shortDay = 0
+
   useEffect(() => {
     localStorage.removeItem(storageName)
-  },[])
-
+  }, [])
 
   const dateCal = []
   /* const time = [] */
@@ -20,28 +27,30 @@ export const CreateCalendar = (params) => {
     date.setDate(date.getDate() + i)
     const dayOfWeekName = dayOfWeek[date.getDay().toString()]
     const dayNumber = date.getDay()
+    const dayOfMonth = date.getDate()
 
-    dateCal.push({ date: date.toISOString(), dayOfWeekName: dayOfWeekName.toString(), dayNumber: dayNumber })
+    dateCal.push({ date: date.toISOString(), dayOfWeekName: dayOfWeekName.toString(), dayNumber, dayOfMonth })
   }
 
-    const lists = dateCal.map((item, index) => {
+  const lists = dateCal.map((item, index) => {
     let vision = "block"
 
-    if (item.dayNumber === 0 || item.dayNumber === 1 || item.dayNumber === 6) {
+    if ([0, 1, 6].includes(item.dayNumber)) {
       vision = "none"
     }
 
+    if (weekendAndHolidays[currentMonth].includes(item.dayOfMonth)) {
+      vision = "none"
+    }
 
+    //Если день предпраздничный, то заносим в переменную значение 1. Это значение равно 1 часу, для расчета времени приема
+    if (preHoliday[currentMonth].includes(item.dayOfMonth)) {
+      shortDay++
+    }
 
     return (
       <li key={index} style={{ display: `${vision}` }}>
-        {
-          <CalendarDay
-            service={service}
-            day={item.date}
-
-          />
-        }
+        {<CalendarDay service={service} day={item.date} shortDay={shortDay} />}
       </li>
     )
   })

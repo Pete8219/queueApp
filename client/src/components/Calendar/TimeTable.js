@@ -1,11 +1,12 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 
-export const TimeTable = ({ service, tickets, date, changeComponentHandler, backToCalendar }) => {
+export const TimeTable = ({ service, tickets, date, shortDay, changeComponentHandler, backToCalendar }) => {
   //вытаскиваем из входящих параметров нужные нам данные для построение времени приема
   const time = service.service.time
   const start = service.service.user.start
   const end = service.service.user.end
-  const count = ((end - start) * 60) / time
+  const count = ((end - start - shortDay) * 60) / time
 
   //Формируем дату в нормальном формате используя входящий параметр date
 
@@ -42,8 +43,8 @@ export const TimeTable = ({ service, tickets, date, changeComponentHandler, back
   return (
     <div className="row timeTable ">
       <h4>Выберите свободное время приема </h4>
-      <a class="waves-effect waves-light btn" onClick={backToCalendar}>
-        <i class="material-icons left">arrow_back</i>Вернуться к выбору дня
+      <a className="waves-effect waves-light btn" onClick={backToCalendar}>
+        <i className="material-icons left">arrow_back</i>Вернуться к выбору дня
       </a>
       <ul className="timeList">{timeList}</ul>
     </div>

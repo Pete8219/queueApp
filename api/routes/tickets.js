@@ -65,14 +65,22 @@ router.post("/", [check("firstname", "Введите Ваше Имя").trim().to
 // Достаем все талоны адресованные сотруднику
 
 router.get("/lists/:userId", async (req, res) => {
-  const id = req.params.userId
-  console.log(id)
+  const start = new Date()
+  start.setHours(0, 0, 0, 0)
+  start.setHours(start.getHours() + 5)
+  start.toISOString()
+  const end = new Date()
+  end.setHours(23, 59, 59, 0)
+  end.setHours(end.getHours() + 5)
+  end.toISOString()
+
   try {
-    const data = await Ticket.find({ user: req.params.userId })
-    console.log(data)
+    const data = await Ticket.find({ $and: [{ user: req.params.userId }, { date: { $gte: start, $lte: end } }] })
+
     if (!data) {
+      console.log(data)
       return res.status(404).json({
-        message: "Ничего не найдено",
+        message: "На сегодня записей нет",
       })
     }
 
@@ -80,6 +88,18 @@ router.get("/lists/:userId", async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: "Ошибка, попробуйте еще раз",
+    })
+  }
+})
+
+router.get("/status", async (req, res) => {
+  try {
+    const statusData = await Ticket.find({})
+    res.status(201).json(statusData.getStatus)
+    console.log(statusData)
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
     })
   }
 })

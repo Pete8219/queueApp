@@ -8,7 +8,7 @@ import { Loader } from "../src/components/Loader"
 import "materialize-css"
 
 function App() {
-  const { login, logout, token, userId, ready } = useAuth()
+  const { login, logout, token, userId, userType, ready } = useAuth()
   const isAuthenticated = !!token
   const routes = useRoutes(isAuthenticated)
 
@@ -21,6 +21,7 @@ function App() {
       value={{
         token,
         userId,
+        userType,
         login,
         logout,
         isAuthenticated,

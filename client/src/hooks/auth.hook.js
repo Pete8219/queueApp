@@ -1,41 +1,43 @@
-import {useState, useCallback, useEffect} from 'react'
-const storageName = 'userData'
-
+import { useState, useCallback, useEffect } from "react"
+const storageName = "userData"
 
 export const useAuth = () => {
-  
+  const [token, setToken] = useState(null)
+  const [userId, setUserId] = useState(null)
+  const [userType, setUserType] = useState(null)
+  const [ready, setReady] = useState(false)
 
-    const [token, setToken] = useState(null)
-    const [userId, setUserId] = useState(null)
-    const [ready, setReady] = useState(false)
+  const login = useCallback((jwtToken, id, type) => {
+    setToken(jwtToken)
+    setUserId(id)
+    setUserType(type)
 
-    const login = useCallback( (jwtToken, id) => {
-        setToken(jwtToken)
-        setUserId(id)
+    localStorage.setItem(
+      storageName,
+      JSON.stringify({
+        userId: id,
+        userType: type,
+        token: jwtToken,
+      })
+    )
+  }, [])
 
-        localStorage.setItem(storageName, JSON.stringify( {
-            userId: id, token: jwtToken
-        }))
+  const logout = useCallback(() => {
+    setToken(null)
+    setUserId(null)
+    setUserType(null)
+    localStorage.removeItem(storageName)
+  }, [])
 
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem(storageName))
 
-    } , [])
+    if (data && data.token) {
+      login(data.token, data.userId, data.userType)
+    }
 
-    const logout = useCallback( () => {
-        setToken(null)
-        setUserId(null)
-        localStorage.removeItem(storageName)
-    }, [])
+    setReady(true)
+  }, [login])
 
-    useEffect( () => {
-        const data = JSON.parse(localStorage.getItem(storageName))
- 
-        if(data && data.token) {
-            login(data.token, data.userId)
-        }
-
-        setReady(true)
-    }, [login])
-
-    return { login, logout, token, userId, ready }
-
+  return { login, logout, token, userId, userType, ready }
 }

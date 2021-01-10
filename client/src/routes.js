@@ -56,7 +56,7 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/calendar/:id" exact>
         <CalendarPage />
       </Route>
-      <Route path="/calendar/:id/:date" exact>
+      <Route path="/calendar/:id/:date/:shortDay" exact>
         <TimePage />
       </Route>
       <Route path="/ticketpage" exact>

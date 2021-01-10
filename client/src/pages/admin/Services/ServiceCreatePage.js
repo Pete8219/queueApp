@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useCallback, useEffect } from "react"
 import { useHttp } from "../../../hooks/http.hook"
-/* import { useMessage } from "../../../hooks/message.hook" */
-import { CreateService } from "../../../components/Service/Create"
 
-/* import axios from "axios" */
+import { CreateService } from "../../../components/Service/Create"
 
 export const ServiceCreatePage = () => {
   const [users, setUsers] = useState("")

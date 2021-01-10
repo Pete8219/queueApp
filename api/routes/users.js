@@ -23,37 +23,6 @@ router.get("/", async (req, res) => {
   }
 })
 
-//Создание пользователя
-
-/* router.get("/new", (req, res, next) => {
-  res.status(200).json({
-    message: "Здесь будет загружать форма добавления нового пользователя",
-  })
-}) */
-
-//Загрузка формы редактирования выбранного пользователя
-
-/* router.post("/:userId/edit", (req, res, next) => {
-  const id = req.params.userId
-  User.find({ _id: id })
-    .exec()
-    .then((user) => {
-      if (!user) {
-        res.status(404).json({
-          message: "User not found",
-        })
-      }
-
-      res.status(200).json({
-        message: `Редактируем пользователя с id: ${id}`,
-        user,
-      })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-}) */
-
 //Сохранения нового пользователя в базе
 router.post("/create", async (req, res) => {
   console.log(req.body)

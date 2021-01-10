@@ -26,6 +26,7 @@ export const TimePage = () => {
   const [active, setActive] = useState("TimeTable")
 
   const id = useParams().id
+  const shortDay = useParams().shortDay
   const date = params.date.split(".").reverse().join("-")
   const ticketDate = new Date(date).toISOString()
 
@@ -138,7 +139,7 @@ export const TimePage = () => {
   return (
     <div className="TimePage">
       <div>
-        {!loading && service && active === "TimeTable" && <TimeTable service={service} tickets={tickets} date={date} changeComponentHandler={changeComponentHandler} backToCalendar={backToCalendar} />}
+        {!loading && service && active === "TimeTable" && <TimeTable service={service} tickets={tickets} date={date} shortDay={shortDay} changeComponentHandler={changeComponentHandler} backToCalendar={backToCalendar} />}
 
         {!loading && service && active === "ContactForm" && <ContactForm form={form} changeTimeTableHandler={changeTimeTableHandler} changeFormHandler={changeFormHandler} submitFormHandler={submitFormHandler} />}
       </div>

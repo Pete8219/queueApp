@@ -44,7 +44,7 @@ router.post("/register", [check("login", "Некорректный Логин").
 router.post("/login", [check("login", "Введите корретный логин").trim().isLength({ min: 3 }), check("password", "Введите пароль").exists()], async (req, res) => {
   try {
     const errors = validationResult(req)
-    
+
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
@@ -54,7 +54,6 @@ router.post("/login", [check("login", "Введите корретный лог�
 
     const { login, password } = req.body
     const user = await User.findOne({ login })
-   
 
     if (!user) {
       return res.status(400).json({
@@ -71,7 +70,7 @@ router.post("/login", [check("login", "Введите корретный лог�
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" })
-    res.json({ token, userId: user.id })
+    res.json({ token, userId: user.id, userType: user.userType })
   } catch (e) {
     res.status(500).json({
       message: "Что то пошло не так!!!",
