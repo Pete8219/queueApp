@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { CalendarDay } from "./CalendarDay"
 import { YearCalendar } from "./YearCalendar"
 const storageName = "TicketTime"
@@ -11,7 +11,6 @@ export const CreateCalendar = (params) => {
   const month = new Date()
   const currentMonth = month.getMonth()
 
-  
   useEffect(() => {
     localStorage.removeItem(storageName)
   }, [])
@@ -33,11 +32,8 @@ export const CreateCalendar = (params) => {
       isPreHoliday = !isPreHoliday
     }
 
-
     dateCal.push({ date: date.toISOString(), dayOfWeekName: dayOfWeekName.toString(), dayNumber, dayOfMonth, isPreHoliday })
   }
-
-  
 
   const lists = dateCal.map((item, index) => {
     let vision = "block"
@@ -48,7 +44,6 @@ export const CreateCalendar = (params) => {
     if (weekendAndHolidays[currentMonth].includes(item.dayOfMonth)) {
       vision = "none"
     }
-
 
     return (
       <li key={index} style={{ display: `${vision}` }}>

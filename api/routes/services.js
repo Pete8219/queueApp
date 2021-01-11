@@ -54,11 +54,24 @@ router.post("/", [check("title", "Поле не должно быть пусты
   }
 })
 
+router.get("/info/:id", async (req, res) => {
+  const id = req.params.id
+  try {
+    const data = await Service.findOne({ _id: id }).populate("user", ["name", "cabinet", "start", "end"])
+
+    res.status(201).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
+    })
+  }
+})
+
 //Получение выбранной по ID услуги
 router.get("/:id", async (req, res) => {
   const id = req.params.id
   const data = await Service.findOne({ _id: id })
-    .populate("user")
+    .populate("user", ["-password", "-login"])
     .exec(function (err, service) {
       User.find({ _id: { $nin: service } }, { password: 0, login: 0 }, function (err, users) {
         res.status(200).json({
