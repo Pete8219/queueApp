@@ -4,6 +4,8 @@ import { Home } from "../../components/Home"
 import { useHistory } from "react-router-dom"
 
 export const HomePage = () => {
+  localStorage.removeItem('ServiceData')
+
   const [service, setService] = useState("")
   const { loading, request } = useHttp()
 

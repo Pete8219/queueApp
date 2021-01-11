@@ -22,9 +22,13 @@ export const Navbar = () => {
             <span className="brand-logo">Электронная очередь</span>
           </a>
           <ul id="nav-mobile" className="right hide-on-med-and-down">
+          <li>
+              <NavLink to="/reception">Создать запись</NavLink>
+            </li>
             <li>
               <NavLink to="/users">Пользователи</NavLink>
             </li>
+            
             <li>
               <NavLink to="/services">Услуги</NavLink>
             </li>
@@ -47,6 +51,9 @@ export const Navbar = () => {
           <span className="brand-logo">Электронная очередь</span>
         </a>
         <ul id="nav-mobile" className="right hide-on-med-and-down">
+        <li>
+              <NavLink to="/reception">Создать запись</NavLink>
+            </li>
           <li>
             <NavLink to="/tickets">Тикеты</NavLink>
           </li>

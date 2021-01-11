@@ -1,11 +1,23 @@
-import React, { useState, useEffect } from "react"
-import { useParams, useHistory } from "react-router-dom"
+import React, { useState, useEffect, useMemo } from "react"
+import {  useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { CreateCalendar } from "../../components/Calendar/CreateCalendar"
 const storageName = "TimeData"
 
+const getId = () => {
+  return(
+      JSON.parse(localStorage.getItem('ServiceData')) 
+  )
+}
+
 export const CalendarPage = () => {
-  const id = useParams().id
+  const {id} = useMemo(() => getId(), [])
+
+  /* const {id} = JSON.parse(localStorage.getItem('ServiceData')) */
+  
+
+  console.log(id)
+ 
   const history = useHistory()
   const [serviceData, setServiceData] = useState("")
 

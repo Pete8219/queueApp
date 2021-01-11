@@ -1,6 +1,8 @@
 import React from "react"
 
 export const TicketBalance = ({ balance, countAllTicket }) => {
+
+ 
   const count = countAllTicket - balance
 
   return (

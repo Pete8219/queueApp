@@ -13,6 +13,7 @@ import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
 import { CalendarPage } from "./pages/visitors/CalendarPage"
 import { TimePage } from "./pages/visitors/TimePage"
 import { TicketPage } from "./pages/visitors/TicketPage"
+import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -39,6 +40,9 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/users/create" exact>
           <UserCreatePage />
         </Route>
+        <Route path="/reception" exact>
+          <ReceptionPage />
+        </Route>
 
         <Route path="/tickets" exact>
           <TicketsPage />
@@ -53,7 +57,7 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/" exact>
         <HomePage />
       </Route>
-      <Route path="/calendar/:id" exact>
+      <Route path="/calendar" exact>
         <CalendarPage />
       </Route>
       <Route path="/calendar/:id/:date/:shortDay" exact>

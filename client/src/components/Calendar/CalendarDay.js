@@ -4,7 +4,7 @@ import { TicketBalance } from "../Tickets/TicketBalance"
 import { useHttp } from "../../hooks/http.hook"
 import { useHistory } from "react-router-dom"
 
-export const CalendarDay = ({ day, service, shortDay }) => {
+export const CalendarDay = ({ day, service, isPreHoliday }) => {
   const TicketDate = useMemo(() => {
     //обернули вcе в хук UseMemo и добавили в список зависимостей параметр day
     const ticketDate = new Date(day)
@@ -14,7 +14,10 @@ export const CalendarDay = ({ day, service, shortDay }) => {
 
   const id = service._id
   const user = service.user
+  const shortDay = +isPreHoliday
+  // Считаем округленное значение общего доступного количества талонов
   const countAllTicket = Math.floor(((user.end - user.start - shortDay) * 60) / service.time)
+ 
 
   const { loading, request } = useHttp()
   const [balance, setBalance] = useState("")

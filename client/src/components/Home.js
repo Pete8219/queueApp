@@ -6,13 +6,15 @@ export const Home = ({ service }) => {
   const history = useHistory()
 
   const calendarHandler = (id) => {
-    history.push(`/calendar/${id}`)
+    localStorage.setItem('ServiceData',JSON.stringify({id}) )
+
+    history.push('/calendar')
   }
 
-  const serviceList = service.map((item) => {
+  const serviceList = service.map((item, index) => {
     return (
       <div className="card blue darken-2" style={{ boxShadow: "10px 10px 36px -5px rgba(110,105,105,0.75)", display: "grid", justifyItems: "center", alignItems: "center" }}>
-        <li key={item._id} id={item._id} onClick={() => calendarHandler(item._id)}>
+        <li key={index}  onClick={() => calendarHandler(item._id)}>
           {item.title}
         </li>
       </div>

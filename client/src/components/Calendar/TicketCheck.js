@@ -22,7 +22,7 @@ export const TicketCheck = ({ data, printHandler }) => {
 
   return (
     <div>
-      <button class="btn-small col s4 waves-effect waves-light" type="submit" name="action" onClick={printHandler} style={{ margin: "0 auto", marginTop: "2rem" }}>
+      <button className="btn-small col s4 waves-effect waves-light" type="submit" name="action" onClick={printHandler} style={{ margin: "0 auto", marginTop: "2rem" }}>
         Печать талона
         <i class="material-icons right">local_printshop</i>
       </button>

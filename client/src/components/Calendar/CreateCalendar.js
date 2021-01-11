@@ -11,26 +11,33 @@ export const CreateCalendar = (params) => {
   const month = new Date()
   const currentMonth = month.getMonth()
 
-  let shortDay = 0
-
+  
   useEffect(() => {
     localStorage.removeItem(storageName)
   }, [])
 
   const dateCal = []
-  /* const time = [] */
   const dayOfWeek = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
 
   for (let i = 0; i < 30; i++) {
     const date = new Date()
 
+    let isPreHoliday = false
+
     date.setDate(date.getDate() + i)
     const dayOfWeekName = dayOfWeek[date.getDay().toString()]
     const dayNumber = date.getDay()
     const dayOfMonth = date.getDate()
+    //Если день предпраздничный, то заносим в isPreHoliday значение true. Это значение  для расчета времени приема в предпраздничный день
+    if (preHoliday[currentMonth].includes(dayOfMonth)) {
+      isPreHoliday = !isPreHoliday
+    }
 
-    dateCal.push({ date: date.toISOString(), dayOfWeekName: dayOfWeekName.toString(), dayNumber, dayOfMonth })
+
+    dateCal.push({ date: date.toISOString(), dayOfWeekName: dayOfWeekName.toString(), dayNumber, dayOfMonth, isPreHoliday })
   }
+
+  
 
   const lists = dateCal.map((item, index) => {
     let vision = "block"
@@ -38,19 +45,14 @@ export const CreateCalendar = (params) => {
     if ([0, 1, 6].includes(item.dayNumber)) {
       vision = "none"
     }
-
     if (weekendAndHolidays[currentMonth].includes(item.dayOfMonth)) {
       vision = "none"
     }
 
-    //Если день предпраздничный, то заносим в переменную значение 1. Это значение равно 1 часу, для расчета времени приема
-    if (preHoliday[currentMonth].includes(item.dayOfMonth)) {
-      shortDay++
-    }
 
     return (
       <li key={index} style={{ display: `${vision}` }}>
-        {<CalendarDay service={service} day={item.date} shortDay={shortDay} />}
+        {<CalendarDay service={service} day={item.date} isPreHoliday={item.isPreHoliday} />}
       </li>
     )
   })

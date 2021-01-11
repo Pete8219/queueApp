@@ -89,7 +89,7 @@ export const TimePage = () => {
   }, [])
 
   const backToCalendar = () => {
-    history.push(`/calendar/${id}`)
+    history.push(`/calendar/`)
   }
 
   const changeFormHandler = (event) => {
