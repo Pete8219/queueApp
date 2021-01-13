@@ -43,12 +43,13 @@ export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData 
   })
 
   return (
-    <div>
-      <p>таблица времени приема на {date}</p>
+    <div className = "row timeTable">
+   {/*    <p>таблица времени приема на {date}</p>
       <p>короткий день? {shortDay === "true" ? "Да" : "Нет"}</p>
       <p>талонов занято {countTickets}</p>
-      <p>талонов свободно {allTickets - countTickets}</p>
-      <ul style={{ display: "grid", margin: "0 auto", gridTemplateColumns: "repeat(autofill, minmax(600px, 1fr))", justifyContent: "center", gridColumnGap: "2rem", color: "#fff" }}>{timeList}</ul>
+      <p>талонов свободно {allTickets - countTickets}</p> */}
+      
+      <ul className="timeList" >{timeList}</ul>
     </div>
   )
 }
