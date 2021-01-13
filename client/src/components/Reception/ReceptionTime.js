@@ -1,6 +1,6 @@
 import React from "react"
 
-export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData }) => {
+export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData, clicked, clickHandler }) => {
   console.log(tickets)
   const start = userData.user.start
   const end = userData.user.end
@@ -36,14 +36,14 @@ export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData 
 
   const timeList = timer.map((item) => {
     return (
-      <li key={item} value={item}>
-        <div className="card blue darken-1">{item}</div>
+      <li key={item} value={item} className= {clicked === false ? "card blue darken-1 " : "card blue darken-3"} onClick={clickHandler}>
+        <div >{item}</div>
       </li>
     )
   })
 
   return (
-    <div className = "row timeTable">
+    <div className = "row timeTable receptionTime">
    {/*    <p>таблица времени приема на {date}</p>
       <p>короткий день? {shortDay === "true" ? "Да" : "Нет"}</p>
       <p>талонов занято {countTickets}</p>
