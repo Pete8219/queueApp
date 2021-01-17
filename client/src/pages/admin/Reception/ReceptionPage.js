@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useHistory } from 'react-router-dom'
+import { useHistory } from "react-router-dom"
 import { useHttp } from ".././../../hooks/http.hook"
 import { ReceptionDate } from "../../../components/Reception/ReceptionDate"
 import { ReceptionTime } from "../../../components/Reception/ReceptionTime"
@@ -7,7 +7,7 @@ import { ReceptionService } from "../../../components/Reception/ReceptionService
 import { ReceptionForm } from "../../../components/Reception/ReceptionForm"
 
 export const ReceptionPage = () => {
-  const history = useHistory()  
+  const history = useHistory()
   const { loading, request } = useHttp()
   const [service, setService] = useState("")
   const [selectedService, setSelectedService] = useState("")
@@ -17,7 +17,7 @@ export const ReceptionPage = () => {
   const [countTickets, setCountTickets] = useState(null)
   const [tickets, setTickets] = useState("")
   const [formReady, setFormReady] = useState(false)
-  const [clicked, setClicked] = useState(false)
+  const [clickedId, setClickedId] = useState('')
 
   const createDateHandler = (event) => {
     setDate(event.target.value)
@@ -30,20 +30,17 @@ export const ReceptionPage = () => {
     const id = event.target.options[event.target.selectedIndex].dataset.id
     const value = event.target.value
     if (id === undefined) {
-        setFormReady(false)
-        history.go('0')
-
+      setFormReady(false)
+      history.go("0")
     }
     setSelectedService({ value, id })
     setFormReady(false)
   }
 
-  const clickHandler = (event) => {
-        console.log(event.target)
-        setFormReady(true)
-        setClicked(true)
-
-    
+  const clickHandler = (id) => {
+    console.log(id)
+    setFormReady(true)
+    setClickedId(id)
   }
 
   useEffect(() => {
@@ -59,8 +56,8 @@ export const ReceptionPage = () => {
   useEffect(() => {
     const serviceId = selectedService.id
     const selectedDate = date.split(".").reverse().join("-")
-    if(serviceId === undefined) {
-        return
+    if (serviceId === undefined) {
+      return
     }
     const fetchTickets = async () => {
       try {
@@ -74,12 +71,11 @@ export const ReceptionPage = () => {
 
   useEffect(() => {
     const serviceId = selectedService.id
-    if(serviceId === undefined) {
-        return
+    if (serviceId === undefined) {
+      return
     }
 
     const fetchUserInfo = async () => {
-      
       try {
         const userInfo = await request(`/services/info/${serviceId}`, "GET", null, {})
         setUserData(userInfo)
@@ -91,9 +87,9 @@ export const ReceptionPage = () => {
   return (
     <>
       <h4>Создание новой записи на прием</h4>
-      {!loading && service  && <ReceptionService service={service} selectedService={selectedService} changeService={changeService} />}
-      {!loading && selectedService  && <ReceptionDate date={date} shortDay={shortDay} createDateHandler={createDateHandler} />}
-      {!loading && date && tickets && countTickets && userData  && <ReceptionTime date={date} shortDay={shortDay} tickets={tickets} countTickets={countTickets} userData={userData} clicked={clicked} clickHandler={clickHandler} />}
+      {!loading && service && <ReceptionService service={service} selectedService={selectedService} changeService={changeService} />}
+      {!loading && selectedService && <ReceptionDate date={date} shortDay={shortDay} createDateHandler={createDateHandler} />}
+      {!loading && date && tickets && countTickets && userData && <ReceptionTime date={date} shortDay={shortDay} tickets={tickets} countTickets={countTickets} userData={userData} clickedId={clickedId} clickHandler={clickHandler} />}
       {!loading && formReady === true && <ReceptionForm />}
     </>
   )

@@ -1,6 +1,6 @@
 import React from "react"
 
-export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData, clicked, clickHandler }) => {
+export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData, clickedId, clickHandler }) => {
   console.log(tickets)
   const start = userData.user.start
   const end = userData.user.end
@@ -26,30 +26,34 @@ export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData,
     return ticket.date.toString()
   })
 
-  const timer = []
+  //Старый код по отсеиванию совпадений в массивах
+  /*  const timer = []
 
   for (let i = 0; i < timeArray.length; i++) {
     if (!busyTime.includes(timeArray[i])) {
       timer.push(timeArray[i].slice(11, 16))
     }
   }
+ */
 
-  const timeList = timer.map((item) => {
+  const differenceArray = (array1, array2) => {
+    const set = new Set(array2)
+    return array1.filter((x) => !set.has(x))
+  }
+
+  differenceArray(timeArray, busyTime)
+
+  const timeList = timeArray.map((item, i) => {
     return (
-      <li key={item} value={item} className= {clicked === false ? "card blue darken-1 " : "card blue darken-3"} onClick={clickHandler}>
-        <div >{item}</div>
+      <li key={i} id = {i} value={item.slice(11, 16)} className={clickedId === i ? "card blue darken-3 " : "card blue darken-1"} onClick={() => clickHandler(i)}>
+        {item.slice(11, 16)}
       </li>
     )
   })
 
   return (
-    <div className = "row timeTable receptionTime">
-   {/*    <p>таблица времени приема на {date}</p>
-      <p>короткий день? {shortDay === "true" ? "Да" : "Нет"}</p>
-      <p>талонов занято {countTickets}</p>
-      <p>талонов свободно {allTickets - countTickets}</p> */}
-      
-      <ul className="timeList" >{timeList}</ul>
+    <div className="row timeTable receptionTime">
+         <ul className="timeList">{timeList}</ul>
     </div>
   )
 }

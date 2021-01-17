@@ -65,7 +65,7 @@ export const Detail = ({ detail }) => {
       <form className="col s12">
         <div className="row">
           <div className="input-field col s12">
-            <textarea id="title" name="title" type="text" className="materialize-textarea" onChange={changeHandler} />
+            <input type="text" id="title" name="title" value={form.title} className="materialize-textarea" onChange={changeHandler} />
             <label htmlFor="title">Название</label>
           </div>
           <div className="input-field col s4">
