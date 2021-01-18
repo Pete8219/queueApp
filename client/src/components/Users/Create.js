@@ -4,14 +4,18 @@ import M from "materialize-css/dist/js/materialize.min.js"
 
 
 export const Create = ({formData, createHandler, changeHandler, cancelHandler}) => {
-    
-    useEffect(() => {
-        M.AutoInit()
-      }, [])
-    
-      useEffect(() => {
-        window.M.updateTextFields()
-      }, [])
+
+  
+
+  useEffect(() => {
+    M.AutoInit()
+  }, [])
+
+  useEffect(() => {
+    window.M.updateTextFields()
+  }, [])
+
+
 
 
     return (
@@ -59,7 +63,8 @@ export const Create = ({formData, createHandler, changeHandler, cancelHandler}) 
             <label>Права сотрудника</label>
           </div>
         </div>
-        <div className="row">
+
+        <div className="row" style={{float:"right"}}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={createHandler}>
             Сохранить
           </a>

@@ -3,15 +3,29 @@ import React, { useState, useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
-
 import M from "materialize-css/dist/js/materialize.min.js"
+import  DatePicker  from 'react-datepicker'
+import { registerLocale, setDefaultLocale } from 'react-datepicker'
+import ru from 'date-fns/locale/ru'
+registerLocale('ru', ru) 
+
+
+
 
 export const Detail = ({ detail, cancelHandler }) => {
+  setDefaultLocale('ru')
+
   const userData = detail.data
   const roles = detail.roles
+  const vacationFrom = new Date(userData.vacationFrom.slice(0,10))
+  const vacationTo = new Date(userData.vacationTo.slice(0,10))
+
   const history = useHistory()
   const message = useMessage()
   const { request, error, clearError } = useHttp()
+
+  
+  
 
   const [form, setForm] = useState({
     name: userData.name,
@@ -21,7 +35,11 @@ export const Detail = ({ detail, cancelHandler }) => {
     userType: userData.userType,
     login: userData.login,
     password: "",
+    vacationFrom: vacationFrom,
+    vacationTo: vacationTo
   })
+
+ 
 
   const rolesList = roles.map((item, i) => {
     return (
@@ -43,6 +61,20 @@ export const Detail = ({ detail, cancelHandler }) => {
     } catch (e) {}
   }
 
+  const dateFromHandler =  (date) => {
+    date.setHours(date.getHours() + 5)
+    
+    setForm({...form, vacationFrom: date})
+    
+  }
+
+  const dateToHandler =  (date) => {
+    date.setHours(23,59,0,0)
+     
+    setForm({...form, vacationTo: date})
+    
+  }
+
   useEffect(() => {
     M.AutoInit()
   }, [])
@@ -50,6 +82,7 @@ export const Detail = ({ detail, cancelHandler }) => {
   useEffect(() => {
     window.M.updateTextFields()
   }, [])
+
 
   useEffect(() => {
     message(error)
@@ -100,6 +133,32 @@ export const Detail = ({ detail, cancelHandler }) => {
           </div>
         </div>
         <div className="row">
+
+            <div className="input-field col s2" style={{zIndex:"100"}}>  
+              <p>Начало отпуска</p>        
+                  <DatePicker
+                  selected={form.vacationFrom} 
+                  onChange={(date)=> dateFromHandler(date)} 
+                  dateFormat='dd/MM/yyyy' 
+                  />
+            </div> 
+
+            <div className="input-field col s2" style={{zIndex:"100"}}>
+                <p>Конец отпуска</p>
+                  <DatePicker 
+                    selected={form.vacationTo} 
+                    onChange={(date)=> dateToHandler(date)}
+                    dateFormat='dd/MM/yyyy'
+                    
+                    />
+            </div> 
+
+        </div>
+
+        
+        
+
+        <div className="row"  style={{float:"right"}} >
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>
             Сохранить
           </a>

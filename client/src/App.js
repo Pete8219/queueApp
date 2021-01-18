@@ -6,6 +6,7 @@ import { AuthContext } from "./context/AuthContext"
 import { Navbar } from "../src/components/navbar"
 import { Loader } from "../src/components/Loader"
 import "materialize-css"
+import "react-datepicker/dist/react-datepicker.css"
 
 function App() {
   const { login, logout, token, userId, userType, ready } = useAuth()

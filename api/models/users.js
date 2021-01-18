@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema({
     enum: ["superAdmin", "admin", "user"],
     default: "user",
   },
+  vacationFrom: Date,
+  vacationTo: Date,
 })
 
 userSchema.virtual("getRoles").get(function () {

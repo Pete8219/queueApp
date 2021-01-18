@@ -1,5 +1,6 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 
+
 @media print {
   .ticketCheck {
     width: 50%;
