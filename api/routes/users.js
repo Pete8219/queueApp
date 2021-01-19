@@ -8,13 +8,7 @@ const User = require("../models/users")
 //Получение списка всех пользователей
 router.get("/", async (req, res) => {
   try {
-    const users = await User.find({})
-    /*     if (!users.length) {
-      res.status(404).json({
-        message: `Пока нет ни одного пользователя`,
-      })
-    }
- */
+    const users = await User.find({}).select({login:0, password:0, userType:0})
     res.status(200).json(users)
   } catch (e) {
     res.status(500).json({
@@ -25,7 +19,7 @@ router.get("/", async (req, res) => {
 
 //Сохранения нового пользователя в базе
 router.post("/create", async (req, res) => {
-  console.log(req.body)
+  
 
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12)
@@ -52,7 +46,7 @@ router.post("/create", async (req, res) => {
 //Получения одного пользователя по userId
 router.get("/:id", async (req, res) => {
   try {
-    const data = await User.findOne({ _id: req.params.id })
+    const data = await (await User.findOne({ _id: req.params.id }))
     res.status(200).json({
       data,
       roles: data.getRoles,

@@ -6,6 +6,7 @@ import { useHistory } from "react-router-dom"
 
 export const UserDetailPage = () => {
   const [user, setUser] = useState("")
+  const [userList, setUserList] = useState("")
   const { loading, request } = useHttp()
   const history = useHistory()
   const userId = useParams().id
@@ -21,11 +22,22 @@ export const UserDetailPage = () => {
     fetchUsers()
   }, [fetchUsers])
 
+  useEffect(()=> {
+    const fetchUserList = async() => {
+      try {
+        const fetched = await request('/users', 'GET', null, {})
+        setUserList(fetched)
+
+      }catch(e) {}
+    }
+    fetchUserList()
+  },[request])
+
   // Handlers
 
   const cancelHandler = () => {
     history.push("/users")
   }
 
-  return <>{!loading && user && <Detail detail={user} cancelHandler={cancelHandler} />}</>
+  return <>{!loading && user && userList && <Detail detail={user} userList={userList} cancelHandler={cancelHandler} />}</>
 }

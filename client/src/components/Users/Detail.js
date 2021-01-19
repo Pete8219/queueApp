@@ -5,6 +5,7 @@ import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
 import  DatePicker  from 'react-datepicker'
+
 import { registerLocale, setDefaultLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 registerLocale('ru', ru) 
@@ -12,13 +13,16 @@ registerLocale('ru', ru)
 
 
 
-export const Detail = ({ detail, cancelHandler }) => {
+export const Detail = ({ detail, userList, cancelHandler }) => {
   setDefaultLocale('ru')
 
   const userData = detail.data
   const roles = detail.roles
-  const vacationFrom = new Date(userData.vacationFrom.slice(0,10))
-  const vacationTo = new Date(userData.vacationTo.slice(0,10))
+ 
+  const vacationFrom = userData.vacationFrom !== null ? new Date(userData.vacationFrom.slice(0,10)) : null
+  const vacationTo = userData.vacationTo !== null ? new Date(userData.vacationTo.slice(0,10)) : null
+  
+  const substitute = vacationFrom === null ? null : userData.substitute
 
   const history = useHistory()
   const message = useMessage()
@@ -36,8 +40,11 @@ export const Detail = ({ detail, cancelHandler }) => {
     login: userData.login,
     password: "",
     vacationFrom: vacationFrom,
-    vacationTo: vacationTo
+    vacationTo: vacationTo,
+    substitute: substitute
   })
+
+
 
  
 
@@ -48,6 +55,13 @@ export const Detail = ({ detail, cancelHandler }) => {
       </option>
     )
   })
+
+  const users = userList.map((user) => {
+    return (
+      <option key={user._id} value={user._id}>{user.name}</option>
+    )
+  })
+
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -62,16 +76,22 @@ export const Detail = ({ detail, cancelHandler }) => {
   }
 
   const dateFromHandler =  (date) => {
-    date.setHours(date.getHours() + 5)
-    
+    if(!date) {
+      date = null
+      
+    }
     setForm({...form, vacationFrom: date})
     
   }
 
   const dateToHandler =  (date) => {
-    date.setHours(23,59,0,0)
+    if(!date) {
+      date = null
+      
+    }
      
     setForm({...form, vacationTo: date})
+    
     
   }
 
@@ -146,26 +166,31 @@ export const Detail = ({ detail, cancelHandler }) => {
             <div className="input-field col s2" style={{zIndex:"100"}}>
                 <p>Конец отпуска</p>
                   <DatePicker 
-                    selected={form.vacationTo} 
+                    selected={form.vacationTo } 
                     onChange={(date)=> dateToHandler(date)}
                     dateFormat='dd/MM/yyyy'
                     
                     />
             </div> 
 
+            <div className="input-field col s4">
+              <p>Замещающий сотрудник</p>
+                <select defaultValue={form.substitute} name="substitute" onChange={changeHandler}>
+                  <option>Выберите сотудника</option>
+                  {users}
+                </select>
+                
+             </div>
         </div>
-
-        
-        
-
         <div className="row"  style={{float:"right"}} >
-          <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>
-            Сохранить
-          </a>
-          <a className="waves-effect waves-light btn" onClick={cancelHandler}>
-            Отмена
-          </a>
+              <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>
+                Сохранить
+              </a>
+              <a className="waves-effect waves-light btn" onClick={cancelHandler}>
+                Отмена
+              </a>
         </div>
+      
       </form>
     </div>
   )

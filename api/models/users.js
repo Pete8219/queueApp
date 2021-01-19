@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
   },
   vacationFrom: Date,
   vacationTo: Date,
+  substitute:{ 
+    type:mongoose.Schema.Types.ObjectId,
+    default: null
+  }
 })
 
 userSchema.virtual("getRoles").get(function () {
