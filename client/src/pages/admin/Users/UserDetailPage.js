@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom"
 export const UserDetailPage = () => {
   const [user, setUser] = useState("")
   const [userList, setUserList] = useState("")
-  const { loading, request } = useHttp()
+  const {loading, request} = useHttp()
   const history = useHistory()
   const userId = useParams().id
 

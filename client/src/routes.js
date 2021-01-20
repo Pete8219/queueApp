@@ -14,7 +14,7 @@ import { CalendarPage } from "./pages/visitors/CalendarPage"
 import { TimePage } from "./pages/visitors/TimePage"
 import { TicketPage } from "./pages/visitors/TicketPage"
 import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
-
+import { CategoryPage } from "./pages/admin/CategoryPage"
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
@@ -24,6 +24,9 @@ export const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/services" exact>
           <ServicePage />
+        </Route>
+        <Route path="/categories" exact>
+          <CategoryPage />
         </Route>
         <Route path="/services/detail/:id" exact>
           <ServiceDetailPage />

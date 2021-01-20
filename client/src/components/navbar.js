@@ -33,6 +33,9 @@ export const Navbar = () => {
               <NavLink to="/services">Услуги</NavLink>
             </li>
             <li>
+              <NavLink to="/categories">Категории услуг</NavLink>
+            </li>
+            <li>
               <NavLink to="/tickets">Тикеты</NavLink>
             </li>
             <li>
