@@ -1,7 +1,12 @@
 import React from 'react'
 
 export const CategoryDropdown = ({categories, category, handler}) => {
+   
     
+    const selected = category === undefined || category === '' ? <option defaultValue='Выберите категорию'>Выберите категорию</option> : null
+
+
+    console.log(selected)
 
     const list = categories.map(item => {
         return(
@@ -12,10 +17,8 @@ export const CategoryDropdown = ({categories, category, handler}) => {
         
         <div className="input-field col s12">
             <select name="category" value={category} onChange={handler}>
-              <option defaultValue="Выберите категорию">
-                выберите категорию
-              </option>
-              {list}
+                {selected}
+                {list}
             </select>
             <label>Категория услуг</label>
           </div>

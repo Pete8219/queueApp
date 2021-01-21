@@ -5,11 +5,10 @@ import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
 import { CategoryDropdown } from '../Category/CategoryDropdown'
+import { UsersDropdown } from "../Users/UsersDropdown"
 
-export const CreateService = (data) => {
-
-
-  const categories = data.categories
+export const CreateService = ({users, categories}) => {
+  console.log(categories)
     const [form, setForm] = useState({
     title: "",
     time: "",
@@ -21,9 +20,6 @@ export const CreateService = (data) => {
   const { request, error, clearError } = useHttp()
   const message = useMessage()
 
-  const usersArray = data.data.map((item) => {
-    return item
-  })
 
   useEffect(() => {
     M.AutoInit()
@@ -54,14 +50,6 @@ export const CreateService = (data) => {
     } catch (e) {}
   }
 
-  const userList = usersArray.map((user) => {
-    return (
-      <option key={user._id} value={user._id}>
-        {user.name}
-      </option>
-    )
-  })
-
   return (
     <div className="row">
       <h4>Создаем новую услугу</h4>
@@ -80,15 +68,11 @@ export const CreateService = (data) => {
             <input placeholder="Время,мин" id="time" type="text" name="time" className="validate" onChange={changeHandler} />
             <label htmlFor="time">Время оказания</label>
           </div>
-          <div className="input-field col s8">
-            <select name="user" value={form.user} onChange={changeHandler}>
-              <option defaultValue="Выберите сотрудника из списка">
-                выберите сотрудника из списка
-              </option>
-              {userList}
-            </select>
-            <label>Сотрудник</label>
-          </div>
+          <UsersDropdown
+            users={users}
+            user={form.user}
+            handler={changeHandler}
+          />
         </div>
                 <div className="row">
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={createHandler}>

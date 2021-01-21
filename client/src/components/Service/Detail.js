@@ -4,27 +4,32 @@ import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
+import { CategoryDropdown } from '../Category/CategoryDropdown'
+import { UsersDropdown } from "../Users/UsersDropdown"
 
-export const Detail = ({ detail }) => {
-  console.log(detail)
+export const Detail = ({ service, users, categories }) => {
+  console.log(service)
 
   const message = useMessage()
   const { request } = useHttp()
   const history = useHistory()
 
-  const data = detail.users.map((item) => {
-    return item
-  })
-
-  const userName = !detail.service.user.name ? "Choose user" : detail.service.user.name
-  console.log(userName)
-
   const [form, setForm] = useState({
-    userId: detail.service.employee,
-    title: detail.service.title,
-    time: detail.service.time,
-    select: detail.service.user._id,
+    title: service.title,
+    time: service.time,
+    user: service.user._id,
+    category: service.category._id
   })
+
+
+
+  useEffect(() => {
+    M.AutoInit()
+  }, [])
+
+  useEffect(() => {
+    window.M.updateTextFields()
+  }, [])
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -32,7 +37,7 @@ export const Detail = ({ detail }) => {
 
   const updateHandler = async () => {
     try {
-      const data = await request(`/services/${detail.service._id}`, "PATCH", { ...form })
+      const data = await request(`/services/${service._id}`, "PATCH", { ...form })
       message(data.message)
       history.push("/services")
     } catch (e) {}
@@ -42,21 +47,7 @@ export const Detail = ({ detail }) => {
     history.push("/services")
   }
 
-  const listItem = data.map((user, i) => {
-    return (
-      <option key={i} value={user._id}>
-        {user.name}
-      </option>
-    )
-  })
 
-  useEffect(() => {
-    M.AutoInit()
-  }, [])
-
-  useEffect(() => {
-    window.M.updateTextFields()
-  }, [])
 
   return (
     <div className="row">
@@ -68,17 +59,21 @@ export const Detail = ({ detail }) => {
             <input type="text" id="title" name="title" value={form.title} className="materialize-textarea" onChange={changeHandler} />
             <label htmlFor="title">Название</label>
           </div>
+          <CategoryDropdown
+            categories={categories}
+            category={form.category}
+            handler={changeHandler}
+          />
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />
             <label htmlFor="title">Время оказания</label>
           </div>
-          <div className="input-field col s8">
-            <select name="select" defaultValue={form.select} onChange={changeHandler}>
-              {listItem}
-            </select>
-            <label>Сотрудник</label>
-          </div>
-        </div>
+          <UsersDropdown 
+            users={users}
+            user={form.user}
+            handler={changeHandler}
+            />
+        </div> 
         <div className="row">
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={updateHandler}>
             Сохранить

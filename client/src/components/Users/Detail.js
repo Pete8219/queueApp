@@ -5,6 +5,7 @@ import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
 import  DatePicker  from 'react-datepicker'
+import { UsersDropdown } from '../../components/Users/UsersDropdown'
 
 import { registerLocale, setDefaultLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -13,17 +14,20 @@ registerLocale('ru', ru)
 
 
 
-export const Detail = ({ detail, userList, cancelHandler }) => {
+export const Detail = ({ users, user, cancelHandler }) => {
+
+
   setDefaultLocale('ru')
 
-  const userData = detail.data
-  const roles = detail.roles
+  const userData = user.data
+  const roles = user.roles
+
+
+  console.log(userData)
  
   const vacationFrom = userData.vacationFrom !== null ? new Date(userData.vacationFrom.slice(0,10)) : null
   const vacationTo = userData.vacationTo !== null ? new Date(userData.vacationTo.slice(0,10)) : null
   
-  const substitute = vacationFrom === null ? null : userData.substitute
-
   const history = useHistory()
   const message = useMessage()
   const { request, error, clearError } = useHttp()
@@ -32,6 +36,7 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
   
 
   const [form, setForm] = useState({
+    userId: userData._id,
     name: userData.name,
     start: userData.start,
     end: userData.end,
@@ -39,14 +44,10 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
     userType: userData.userType,
     login: userData.login,
     password: "",
-    vacationFrom: vacationFrom,
-    vacationTo: vacationTo,
-    substitute: substitute
+    vacationFrom: userData.vacationFrom,
+    vacationTo: userData.vacationTo,
+    substitute: userData.substitute
   })
-
-
-
- 
 
   const rolesList = roles.map((item, i) => {
     return (
@@ -56,12 +57,12 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
     )
   })
 
-  const users = userList.map((user) => {
+   const userList = users.map((item) => {
     return (
-      <option key={user._id} value={user._id}>{user.name}</option>
+      <option key={item._id} value={item._id}>{item.name}</option>
     )
   })
-
+ 
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -78,22 +79,22 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
   const dateFromHandler =  (date) => {
     if(!date) {
       date = null
-      
-    }
-    setForm({...form, vacationFrom: date})
-    
-  }
+      }
+       setForm({...form, vacationFrom: date})
+   }
 
   const dateToHandler =  (date) => {
     if(!date) {
       date = null
-      
-    }
-     
-    setForm({...form, vacationTo: date})
-    
-    
-  }
+     }
+        setForm({...form, vacationTo: date})
+   }
+
+   const deleteSubstitute = (event) => {
+     event.preventDefault()
+     userData.substitute = null
+     setForm({...form, substitute: userData.substitute}) 
+   }
 
   useEffect(() => {
     M.AutoInit()
@@ -146,7 +147,7 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
           </div>
 
           <div className="input-field col s4">
-            <select value={form.userType} name="userType" onChange={changeHandler}>
+            <select defaultValue={form.userType} name="userType" onChange={changeHandler}>
               {rolesList}
             </select>
             <label>Права сотрудника</label>
@@ -154,7 +155,7 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
         </div>
         <div className="row">
 
-            <div className="input-field col s2" style={{zIndex:"100"}}>  
+{/*             <div className="input-field col s2" style={{zIndex:"100"}}>  
               <p>Начало отпуска</p>        
                   <DatePicker
                   selected={form.vacationFrom} 
@@ -171,16 +172,24 @@ export const Detail = ({ detail, userList, cancelHandler }) => {
                     dateFormat='dd/MM/yyyy'
                     
                     />
-            </div> 
+            </div>  */}
+{/*             <p>Замещающий сотрудник</p>
+            <UsersDropdown
+              users={users}
+              user={form.substitute}
+              handler={changeHandler}
+
+            /> */}
 
             <div className="input-field col s4">
               <p>Замещающий сотрудник</p>
                 <select defaultValue={form.substitute} name="substitute" onChange={changeHandler}>
-                  <option>Выберите сотудника</option>
-                  {users}
+                  <option  value = '0'>Выберите сотрудника</option>
+                  {userList}
                 </select>
+                <button className="waves-effect waves-light btn" onClick={() => form.substitute=null}>Очистить данные</button>
                 
-             </div>
+             </div> 
         </div>
         <div className="row"  style={{float:"right"}} >
               <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>

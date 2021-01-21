@@ -67,12 +67,12 @@ router.get("/info/:id", async (req, res) => {
   }
 })
 
-//Тест нового api по получению выбранной услуги
+//Новый  api по получению выбранной услуги
 
-router.get('/populate/:id', async(req, res) => {
+router.get('/:id', async(req, res) => {
 try {
   const data = await Service.findOne({ _id: req.params.id})
-  .populate("user")
+  .populate("user",["-login", '-password', '-userType'])
   .populate("category")
   .exec()
 
@@ -86,10 +86,11 @@ try {
 })
 
 //Получение выбранной по ID услуги
-router.get("/:id", async (req, res) => {
+/* router.get("/:id", async (req, res) => {
   const id = req.params.id
   const data = await Service.findOne({ _id: id })
     .populate("user", ["-password", "-login"])
+    .populate("category")
     .exec(function (err, service) {
       User.find({ _id: { $nin: service } }, { password: 0, login: 0 }, function (err, users) {
         res.status(200).json({
@@ -98,23 +99,20 @@ router.get("/:id", async (req, res) => {
         })
       })
     })
-})
+}) */
 
 //Send POST request to render tickets page
-
+/* 
 router.post("/:serviceId", (req, res, next) => {
   const id = req.params.serviceId
   res.status(200).json({
     message: `Handle request param serviceId ${id}`,
   })
-})
+}) */
 
 router.patch("/:id", async (req, res) => {
   try {
-    /*  const data = await Service.findById({_id: req.params.id }) */
-
     const updateOps = {}
-
     for (key in req.body) {
       updateOps[key] = req.body[key]
     }

@@ -19,8 +19,14 @@ const userSchema = new mongoose.Schema({
     enum: ["superAdmin", "admin", "user"],
     default: "user",
   },
-  vacationFrom: Date,
-  vacationTo: Date,
+  vacationFrom: {
+    type: Date,
+    default: ''
+  },
+  vacationTo: {
+    type: Date,
+    default: ''
+  },
   substitute:{ 
     type:mongoose.Schema.Types.ObjectId,
     default: null

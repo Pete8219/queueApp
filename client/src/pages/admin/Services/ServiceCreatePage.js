@@ -33,5 +33,5 @@ export const ServiceCreatePage = () => {
 
   
 
-  return <>{!loading && users && categories && <CreateService data={users} categories={categories} />}</>
+  return <>{!loading && users && categories && <CreateService users={users} categories={categories} />}</>
 }
