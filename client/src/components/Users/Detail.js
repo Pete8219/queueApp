@@ -4,36 +4,23 @@ import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
-import  DatePicker  from 'react-datepicker'
-import { UsersDropdown } from '../../components/Users/UsersDropdown'
+import DatePicker from "react-datepicker"
+import { UsersDropdown } from "../../components/Users/UsersDropdown"
 
-import { registerLocale, setDefaultLocale } from 'react-datepicker'
-import ru from 'date-fns/locale/ru'
-registerLocale('ru', ru) 
-
-
-
+import { registerLocale, setDefaultLocale } from "react-datepicker"
+import ru from "date-fns/locale/ru"
+registerLocale("ru", ru)
 
 export const Detail = ({ users, user, cancelHandler }) => {
-
-
-  setDefaultLocale('ru')
-
+  setDefaultLocale("ru")
   const userData = user.data
   const roles = user.roles
+  const vacationFrom = userData.vacationFrom !== null ? new Date(userData.vacationFrom.slice(0, 10)) : null
+  const vacationTo = userData.vacationTo !== null ? new Date(userData.vacationTo.slice(0, 10)) : null
 
-
-  console.log(userData)
- 
-  const vacationFrom = userData.vacationFrom !== null ? new Date(userData.vacationFrom.slice(0,10)) : null
-  const vacationTo = userData.vacationTo !== null ? new Date(userData.vacationTo.slice(0,10)) : null
-  
   const history = useHistory()
   const message = useMessage()
   const { request, error, clearError } = useHttp()
-
-  
-  
 
   const [form, setForm] = useState({
     userId: userData._id,
@@ -44,9 +31,9 @@ export const Detail = ({ users, user, cancelHandler }) => {
     userType: userData.userType,
     login: userData.login,
     password: "",
-    vacationFrom: userData.vacationFrom,
-    vacationTo: userData.vacationTo,
-    substitute: userData.substitute
+    vacationFrom: vacationFrom,
+    vacationTo: vacationTo,
+    substitute: userData.substitute,
   })
 
   const rolesList = roles.map((item, i) => {
@@ -57,12 +44,13 @@ export const Detail = ({ users, user, cancelHandler }) => {
     )
   })
 
-   const userList = users.map((item) => {
+  const userList = users.map((item) => {
     return (
-      <option key={item._id} value={item._id}>{item.name}</option>
+      <option key={item._id} value={item._id}>
+        {item.name}
+      </option>
     )
   })
- 
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -76,25 +64,19 @@ export const Detail = ({ users, user, cancelHandler }) => {
     } catch (e) {}
   }
 
-  const dateFromHandler =  (date) => {
-    if(!date) {
+  const dateFromHandler = (date) => {
+    if (!date) {
       date = null
-      }
-       setForm({...form, vacationFrom: date})
-   }
+    }
+    setForm({ ...form, vacationFrom: date })
+  }
 
-  const dateToHandler =  (date) => {
-    if(!date) {
+  const dateToHandler = (date) => {
+    if (!date) {
       date = null
-     }
-        setForm({...form, vacationTo: date})
-   }
-
-   const deleteSubstitute = (event) => {
-     event.preventDefault()
-     userData.substitute = null
-     setForm({...form, substitute: userData.substitute}) 
-   }
+    }
+    setForm({ ...form, vacationTo: date })
+  }
 
   useEffect(() => {
     M.AutoInit()
@@ -103,7 +85,6 @@ export const Detail = ({ users, user, cancelHandler }) => {
   useEffect(() => {
     window.M.updateTextFields()
   }, [])
-
 
   useEffect(() => {
     message(error)
@@ -154,52 +135,32 @@ export const Detail = ({ users, user, cancelHandler }) => {
           </div>
         </div>
         <div className="row">
+          <div className="input-field col s3" style={{ zIndex: "100" }}>
+            <p>Начало отпуска</p>
+            <DatePicker selected={form.vacationFrom} onChange={(date) => dateFromHandler(date)} dateFormat="dd/MM/yyyy" />
+          </div>
 
-{/*             <div className="input-field col s2" style={{zIndex:"100"}}>  
-              <p>Начало отпуска</p>        
-                  <DatePicker
-                  selected={form.vacationFrom} 
-                  onChange={(date)=> dateFromHandler(date)} 
-                  dateFormat='dd/MM/yyyy' 
-                  />
-            </div> 
+          <div className="input-field col s3" style={{ zIndex: "100" }}>
+            <p>Конец отпуска</p>
+            <DatePicker selected={form.vacationTo} onChange={(date) => dateToHandler(date)} dateFormat="dd/MM/yyyy" />
+          </div>
 
-            <div className="input-field col s2" style={{zIndex:"100"}}>
-                <p>Конец отпуска</p>
-                  <DatePicker 
-                    selected={form.vacationTo } 
-                    onChange={(date)=> dateToHandler(date)}
-                    dateFormat='dd/MM/yyyy'
-                    
-                    />
-            </div>  */}
-{/*             <p>Замещающий сотрудник</p>
-            <UsersDropdown
-              users={users}
-              user={form.substitute}
-              handler={changeHandler}
-
-            /> */}
-
-            <div className="input-field col s4">
-              <p>Замещающий сотрудник</p>
-                <select defaultValue={form.substitute} name="substitute" onChange={changeHandler}>
-                  <option  value = '0'>Выберите сотрудника</option>
-                  {userList}
-                </select>
-                <button className="waves-effect waves-light btn" onClick={() => form.substitute=null}>Очистить данные</button>
-                
-             </div> 
+          <div className="input-field col s6">
+            <p>Замещающий сотрудник</p>
+            <select defaultValue={form.substitute} name="substitute" onChange={changeHandler}>
+              <option value=""></option>
+              {userList}
+            </select>
+          </div>
         </div>
-        <div className="row"  style={{float:"right"}} >
-              <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>
-                Сохранить
-              </a>
-              <a className="waves-effect waves-light btn" onClick={cancelHandler}>
-                Отмена
-              </a>
+        <div className="row" style={{ float: "right" }}>
+          <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>
+            Сохранить
+          </a>
+          <a className="waves-effect waves-light btn" onClick={cancelHandler}>
+            Отмена
+          </a>
         </div>
-      
       </form>
     </div>
   )
