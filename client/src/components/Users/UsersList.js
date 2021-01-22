@@ -7,7 +7,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
 
   return (
     <div className="row col-s12">
-      <h3> Список сотрудников</h3>
+      <h4> Список сотрудников</h4>
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={onCreate}>
         <i className="material-icons">add</i>
       </a>

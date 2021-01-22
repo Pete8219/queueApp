@@ -20,7 +20,7 @@ export const Create = ({formData, createHandler, changeHandler, cancelHandler}) 
 
     return (
         <div className="row">
-      <h3>Создание нового пользователя</h3>
+      <h4>Создание нового пользователя</h4>
       <form className="col s12">
         <div className="row">
           <div className="input-field col s12">

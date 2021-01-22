@@ -16,7 +16,7 @@ export const Detail = ({category, title, cancel, update, changeTitle}) => {
                         </div>
 
                     </div>
-                    <div className="row">
+                    <div className="row" style={{float:"right"}}>
                         <ButtonSave action={() => update(category._id)}/>
                         <ButtonCancel action={cancel}/>   
                     </div>

@@ -93,7 +93,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
 
   return (
     <div className="row">
-      <h3>Редактирование пользователя</h3>
+      <h4>Редактирование пользователя</h4>
       <form className="col s12">
         <div className="row">
           <div className="input-field col s12">
@@ -148,7 +148,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
           <div className="input-field col s6">
             <p>Замещающий сотрудник</p>
             <select defaultValue={form.substitute} name="substitute" onChange={changeHandler}>
-              <option value=""></option>
+              <option value="">Выберите сотрудника</option>
               {userList}
             </select>
           </div>

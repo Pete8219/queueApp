@@ -74,7 +74,7 @@ export const Detail = ({ service, users, categories }) => {
             handler={changeHandler}
             />
         </div> 
-        <div className="row">
+        <div className="row" style={{float:"right"}}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={updateHandler}>
             Сохранить
           </a>

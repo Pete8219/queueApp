@@ -3,8 +3,6 @@ import { YearCalendar } from '../Calendar/YearCalendar'
 
 export const ReceptionDate = ({date, shortDay, createDateHandler, changeShortDayStatus}) => {
 
-    console.log(date)
-
 const {weekendAndHolidays, preHoliday} = YearCalendar()  
 const days = []
 
@@ -22,8 +20,6 @@ if(!(weekendAndHolidays[month].includes( day.getDate() ))) {
 } 
 
 }
-
-
 const daysList = days.map((item, i) => {
     return (
         <option key={i} value={item.day.toLocaleDateString()} data-short = {item.isShort}>{item.day.toLocaleDateString()}</option>

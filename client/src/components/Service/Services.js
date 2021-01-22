@@ -29,7 +29,7 @@ export const ServicesList = ({ services, onDelete }) => {
 
   return (
     <div className="row col-s12">
-      <h3>Список услуг управления</h3>
+      <h4>Список услуг управления</h4>
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={createHandler}>
         <i className="material-icons">add</i>
       </a>
