@@ -117,10 +117,9 @@ router.get("/:serviceId/:TicketDate", async (req, res) => {
 
   try {
     const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select("date")
-    console.log(data)
+
     res.status(200).json(data)
   } catch (e) {
-    console.log(e)
     res.status(404).json({
       message: "Ничего не найдено",
     })

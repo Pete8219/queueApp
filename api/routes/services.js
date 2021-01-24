@@ -67,22 +67,32 @@ router.get("/info/:id", async (req, res) => {
   }
 })
 
+//Получение списка услуг принадлежащих сотруднику
+
+router.get("/byUser/:userId", async (req, res) => {
+  try {
+    const data = await Service.find({ user: req.params.userId })
+
+    res.status(200).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: "Ошибка запроса, попробуйте позже",
+    })
+  }
+})
+
 //Новый  api по получению выбранной услуги
 
-router.get('/:id', async(req, res) => {
-try {
-  const data = await Service.findOne({ _id: req.params.id})
-  .populate("user",["-login", '-password', '-userType'])
-  .populate("category")
-  .exec()
+router.get("/:id", async (req, res) => {
+  try {
+    const data = await Service.findOne({ _id: req.params.id }).populate("user", ["-login", "-password", "-userType"]).populate("category").exec()
 
-  res.status(200).json(data)
-} catch (e) {
-  res.status(500).json({
-    message: 'Что то не так'
-  })
-}
-
+    res.status(200).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
+    })
+  }
 })
 
 //Получение выбранной по ID услуги

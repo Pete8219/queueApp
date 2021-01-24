@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from ".././../../hooks/http.hook"
 import { ReceptionDate } from "../../../components/Reception/ReceptionDate"
@@ -17,7 +17,12 @@ export const ReceptionPage = () => {
   const [countTickets, setCountTickets] = useState(null)
   const [tickets, setTickets] = useState("")
   const [formReady, setFormReady] = useState(false)
-  const [clickedId, setClickedId] = useState('')
+  const [clickedId, setClickedId] = useState("")
+
+  const userInfo = useMemo(() => {
+    return JSON.parse(localStorage.getItem("userData"))
+  }, [])
+  const userId = userInfo.userId
 
   const createDateHandler = (event) => {
     setDate(event.target.value)
@@ -45,13 +50,14 @@ export const ReceptionPage = () => {
 
   useEffect(() => {
     const fetchService = async () => {
+      console.log(userId)
       try {
-        const fetched = await request("/services", "GET", null, {})
+        const fetched = await request(`/services/byUser/${userId}`, "GET", null, {})
         setService(fetched)
       } catch (e) {}
     }
     fetchService()
-  }, [request])
+  }, [request, userId])
 
   useEffect(() => {
     const serviceId = selectedService.id
