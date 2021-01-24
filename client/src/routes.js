@@ -15,6 +15,7 @@ import { TimePage } from "./pages/visitors/TimePage"
 import { TicketPage } from "./pages/visitors/TicketPage"
 import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
 import { CategoryPage } from "./pages/admin/CategoryPage"
+import { Categories } from "./pages/visitors/Categories"
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
@@ -58,7 +59,7 @@ export const useRoutes = (isAuthenticated) => {
   return (
     <Switch>
       <Route path="/" exact>
-        <HomePage />
+        <Categories />
       </Route>
       <Route path="/calendar" exact>
         <CalendarPage />

@@ -1,6 +1,5 @@
 @import "~materialize-css/dist/css/materialize.min.css";
 
-
 @media print {
   .ticketCheck {
     width: 50%;
@@ -11,80 +10,106 @@
   }
 }
 
-.card-title {
-  color: #fff;
-  text-align: center;
+@media screen and (max-width: 849px) {
+  .service-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 150px;
+    justify-content: center;
+  }
+
+  .service-list li {
+    padding: 10px;
+    padding-bottom: 10px;
+    color: #fff;
+    text-align: center;
+  }
+
+  .service-list .card {
+    padding-bottom: 15px !important;
+  }
 }
 
-button.login {
-  margin-right: 2rem;
-}
+@media screen and (min-width: 850px) {
+  .card-title {
+    color: #fff;
+    text-align: center;
+  }
 
-.nav-wrapper {
-  padding: 0 2rem;
-}
+  button.login {
+    margin-right: 2rem;
+  }
 
-.card {
-  margin-top: 6rem;
-  padding: 1rem 2rem 1rem 2rem;
-}
+  .nav-wrapper {
+    padding: 0 2rem;
+  }
 
-input {
-  color: #000 !important;
-}
+  .card {
+    margin-top: 6rem;
+    /* padding: 1rem 2rem 1rem 2rem; */
+  }
 
-input.login,
-input.password {
-  color: #fff !important;
-}
+  input {
+    color: #000 !important;
+  }
 
-.card .service {
-  background: #777777;
-}
+  input.login,
+  input.password {
+    color: #fff !important;
+  }
 
-.service-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-gap: 2rem;
-  color: #fff;
-}
-.service-list li {
-  text-align: left;
-  font-size: 0.9em;
-}
-.service-list > div.card {
-  margin-top: 1rem !important;
-  padding: 10%;
-}
+  .card .service {
+    background: #777777;
+  }
 
-.timeTable {
-  display: grid;
-  justify-content: center;
-  text-align: center;
-}
+  .service-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 200px;
+    grid-gap: 1rem;
+    color: #fff;
+  }
+  .service-list li {
+    text-align: center;
+    font-size: 0.9em;
+  }
+  .service-list > div.card {
+    margin-top: 1rem !important;
+    padding: 20px;
+  }
+  .service-list .card {
+    padding-bottom: 15px !important;
+  }
 
-.timeTable ul {
-  display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-auto-rows: 50px;
-  grid-gap: 1rem;
-  align-items: flex-end;
-  text-align: center;
-  color: #fff;
-  margin-top: 4rem;
-}
+  .timeTable {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+  }
 
-/* Contact Form styles */
+  .timeTable ul {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-auto-rows: 50px;
+    grid-gap: 1rem;
+    align-items: flex-end;
+    text-align: center;
+    color: #fff;
+    margin-top: 4rem;
+  }
 
-.contactForm {
-  display: grid;
-  text-align: center;
-  justify-content: center;
-}
+  /* Contact Form styles */
 
-.receptionTime {
-  justify-content: inherit;
-  width:80%;
-  margin: 0 auto;
+  .contactForm {
+    display: grid;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .receptionTime {
+    justify-content: inherit;
+    width: 80%;
+    margin: 0 auto;
+  }
 }

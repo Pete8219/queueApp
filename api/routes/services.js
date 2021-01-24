@@ -81,6 +81,18 @@ router.get("/byUser/:userId", async (req, res) => {
   }
 })
 
+//Получение услуг по выбранной категории
+router.get("/byCategory/:categoryId", async (req, res) => {
+  try {
+    const data = await Service.find({ category: req.params.categoryId })
+    res.status(200).json(data)
+  } catch (e) {
+    res.status(500).json({
+      message: "Ошибка запроса, попробуйте еще раз",
+    })
+  }
+})
+
 //Новый  api по получению выбранной услуги
 
 router.get("/:id", async (req, res) => {
