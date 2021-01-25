@@ -75,11 +75,14 @@
   }
   .service-list > div.card {
     margin-top: 1rem !important;
-    padding: 20px;
+    align-content: center !important;
+    padding:0 10px 25px 10px !important;
+    
   }
-  .service-list .card {
-    padding-bottom: 15px !important;
-  }
+ /*  .service-list .card {
+    align-content: center;
+    
+  } */
 
   .timeTable {
     display: grid;

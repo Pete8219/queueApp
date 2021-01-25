@@ -12,10 +12,6 @@ const getId = () => {
 
 export const CalendarPage = () => {
   const {id} = useMemo(() => getId(), [])
-
-  /* const {id} = JSON.parse(localStorage.getItem('ServiceData')) */
-  
-
   console.log(id)
  
   const history = useHistory()

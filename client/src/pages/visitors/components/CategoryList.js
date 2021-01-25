@@ -5,7 +5,7 @@ export const CategoryList = ({ categories, handler }) => {
 
   const list = categories.map((item, index) => {
     return (
-      <div key={item._id} className="card blue darken-2" onClick={() => handler(item._id)} style={{ borderRadius: "15px", boxShadow: "10px 10px 36px -5px rgba(110,105,105,0.75)", display: "grid", justifyItems: "center", alignItems: "center" }}>
+      <div key={item._id} className="card blue darken-2" onClick={() => handler(item._id)} style={{ borderRadius: "5px", /* boxShadow: "10px 10px 36px -5px rgba(110,105,105,0.75)", */ display: "grid", justifyItems: "center", alignItems: "center" }}>
         <li key={index}>{item.title}</li>
       </div>
     )

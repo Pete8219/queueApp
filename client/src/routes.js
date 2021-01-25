@@ -1,7 +1,7 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { AuthPage } from "./pages/admin/AuthPage"
-import { HomePage } from "./pages/visitors/HomePage"
+/* import { HomePage } from "./pages/visitors/HomePage" */
 import { AdminPage } from "./pages/admin/AdminPage"
 import { ServicePage } from "./pages/admin/Services/ServicePage"
 import { UserPage } from "./pages/admin/UserPage"
@@ -10,12 +10,13 @@ import { ServiceDetailPage } from "./pages/admin/Services/ServiceDetailPage"
 import { ServiceCreatePage } from "./pages/admin/Services/ServiceCreatePage"
 import { UserDetailPage } from "./pages/admin/Users/UserDetailPage"
 import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
-import { CalendarPage } from "./pages/visitors/CalendarPage"
-import { TimePage } from "./pages/visitors/TimePage"
+import { Calendar } from "./pages/visitors/Calendar"
+import { Time } from "./pages/visitors/Time"
 import { TicketPage } from "./pages/visitors/TicketPage"
 import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
 import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
+import { Services } from "./pages/visitors/Services"
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
@@ -61,11 +62,14 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/" exact>
         <Categories />
       </Route>
-      <Route path="/calendar" exact>
-        <CalendarPage />
+      <Route path="/services" exact>
+        <Services />
       </Route>
-      <Route path="/calendar/:id/:date/:shortDay" exact>
-        <TimePage />
+      <Route path="/calendar" exact>
+        <Calendar />
+      </Route>
+      <Route path="/time" exact>
+        <Time />
       </Route>
       <Route path="/ticketpage" exact>
         <TicketPage />

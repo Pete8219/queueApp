@@ -104,16 +104,18 @@ router.get("/status", async (req, res) => {
   }
 })
 
-router.get("/:serviceId/:TicketDate", async (req, res) => {
-  dateParam = req.params.TicketDate
-  const start = new Date(req.params.TicketDate)
+router.get("/:serviceId/:date", async (req, res) => {
+  currentDate = (req.params.date).split('.').reverse().join('-')
+  const start = new Date(currentDate)
   start.setHours(start.getHours() + 5)
   start.toISOString()
-  const end = new Date(dateParam)
+  const end = new Date(currentDate)
   end.setHours(23, 59, 59, 0)
   end.setHours(end.getHours() + 5)
 
   end.toISOString()
+
+  console.log(start, end)
 
   try {
     const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select("date")
