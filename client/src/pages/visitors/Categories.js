@@ -8,9 +8,6 @@ export const Categories = () => {
   const { loading, request } = useHttp()
 
   const [categories, setCategories] = useState([])
-/*   const [category, setCategory] = useState("")
-  const [services, setServices] = useState("") */
-
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -23,17 +20,9 @@ export const Categories = () => {
   }, [request])
 
   const selectedHandler = (id) => {
-    localStorage.setItem('Category', id)
-    history.push('/services')
-    
+    localStorage.setItem("Category", id)
+    history.push("/services")
   }
 
-
-
-  return (
-    <>
-      {!loading && categories  && <CategoryList categories={categories} handler={selectedHandler} />}
-     
-    </>
-  )
+  return <>{!loading && categories && <CategoryList categories={categories} handler={selectedHandler} />}</>
 }
