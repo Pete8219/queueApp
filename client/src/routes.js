@@ -12,7 +12,7 @@ import { UserDetailPage } from "./pages/admin/Users/UserDetailPage"
 import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
 import { Calendar } from "./pages/visitors/Calendar"
 import { Time } from "./pages/visitors/Time"
-import { TicketPage } from "./pages/visitors/TicketPage"
+import { Contact } from './pages/visitors/Contact'
 import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
 import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
@@ -71,8 +71,8 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/time" exact>
         <Time />
       </Route>
-      <Route path="/ticketpage" exact>
-        <TicketPage />
+      <Route path="/contact" exact>
+        <Contact />
       </Route>
       <Route path="/auth/zhilye" exact>
         <AuthPage />

@@ -4,12 +4,7 @@ import { YearCalendar } from '../../components/Calendar/YearCalendar'
 import { useHistory } from 'react-router-dom'
 import { useMessage } from '../../hooks/message.hook'
 import M from "materialize-css/dist/js/materialize.min.js"
-/* import DatePicker from "react-datepicker"
-import { registerLocale, setDefaultLocale } from "react-datepicker"
-import ru from "date-fns/locale/ru"
-import subDays from "date-fns/subDays"
-import addDays from "date-fns/addDays" */
-/* registerLocale("ru", ru) */
+
 
 export const Calendar = () => {
     const history = useHistory()
@@ -41,7 +36,7 @@ if(!(weekendAndHolidays[month].includes( day.getDate() ))) {
 }
 const daysList = days.map((item, i) => {
     return (
-        <option key={i} value={item.day.toLocaleDateString()} data-short = {item.isShort}>{daysWeek[item.dayOfWeek]} - {item.day.toLocaleDateString()}</option>
+        <option key={i} value={item.day.toLocaleDateString()} >{daysWeek[item.dayOfWeek]} - {item.day.toLocaleDateString()}</option>
     )
 })
 
@@ -75,8 +70,7 @@ useEffect(() => {
                     <i className="material-icons left">arrow_back</i>Вернуться к выбору услуги
                 </button>
             <div className="input field col s12" style={{display:"grid", margin:"0 auto",marginTop:"2rem", width:"100%"}}>
-                {/* <p>Выберите дату приема</p> */}
-                <select  defaultValue={date} onChange={dateHandler} style={{width:"100%"}}>
+                 <select  className="browser-default" defaultValue={date} onChange={dateHandler} style={{width:"100%"}}>
                     <option value="">Выберите дату</option>
                     {daysList}
                 </select>
@@ -84,41 +78,4 @@ useEffect(() => {
         </div>
     )
 
-
-
-
-
-
-    /* setDefaultLocale("ru")
-
-    const [date, setDate] = useState(null)
-    const [startDate, setStartDate] = useState(null)
-
-    const changeDate = (date) => {
-        setDate(date)
-    }
-
-    return (
-        
-
-        <div className="row timeTable" style={{display:"grid"}}>
-            <h4>Выберите дату  приема</h4>
-                 <a className="waves-effect waves-light btn">
-                    <i className="material-icons left">arrow_back</i>Вернуться к выбору услуги
-                </a>
-
-
-                <div className="input-field col s12" style={{ zIndex: "100" }}>
-                    <p>Выберите дату из календаря</p>
-                    <DatePicker
-                        selected = {startDate}  
-                        onChange = {(date) => setStartDate(date)}
-                        minDate = {subDays(new Date(), 0)}
-                        maxDate = {addDays(new Date(), 14)}
-                        dateFormat="dd/MM/yyyy" />
-                </div>
-
-
-        </div>
-    ) */
 }

@@ -11,6 +11,9 @@
 }
 
 @media screen and (max-width: 849px) {
+  .container h4 {
+    text-align: center;
+  }
   .service-list {
     display: grid;
     grid-template-columns: 1fr;
@@ -28,9 +31,22 @@
   .service-list .card {
     padding-bottom: 15px !important;
   }
+
+  .timeList {
+    display: grid;
+    text-align: center;
+    color: white;
+    grid-template-rows: 5rem;
+    align-items: center;
+    border-radius: 5px;
+  }
 }
 
 @media screen and (min-width: 850px) {
+
+  .container h4 {
+    text-align: center;
+  }
   .card-title {
     color: #fff;
     text-align: center;
@@ -115,4 +131,15 @@
     width: 80%;
     margin: 0 auto;
   }
+
+  .timeList {
+    display: grid;
+    text-align: center;
+    color: white;
+    grid-template-rows: 5rem;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+
 }

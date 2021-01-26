@@ -16,7 +16,7 @@ export const YearCalendar = () => {
     [4, 5, 11, 12, 18, 19, 25, 26, 31],
   ]
 
-  const preHoliday = [[12], [20], [], [30], [], [11], [], [], [], [], [3], []]
+  const preHoliday = [[28], [20], [], [30], [], [11], [], [], [], [], [3], []]
 
   return { weekendAndHolidays, preHoliday }
 }
