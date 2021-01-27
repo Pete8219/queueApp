@@ -141,5 +141,44 @@
     border-radius: 5px;
   }
 
+  /* Стили для 404 страницы */ 
+
+  .notFound {
+    height: 100vh;
+    display: grid;
+    grid-auto-rows: 1fr;
+    align-items: center;
+
+  }
+
+  .notFound>div {
+    display: grid;
+    justify-content: center;
+    grid-auto-rows: auto;
+
+  }
+
+  .notFoundText {
+    display: grid;
+    align-items: center;
+    font-size: 6rem;
+    font-weight: 800;
+    color: cornflowerblue;
+    text-align: center;
+
+  }
+
+  .homeLink {
+    text-align:center;
+    font-size: 1.5rem;
+  }
+
+  .homeBtn {
+    margin-top: 2rem;
+    border-radius: 15px;
+  }
+
+
+
 
 }

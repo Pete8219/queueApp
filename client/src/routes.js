@@ -17,6 +17,7 @@ import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
 import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
+import { Ticket } from "./pages/visitors/Ticket"
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
@@ -73,6 +74,9 @@ export const useRoutes = (isAuthenticated) => {
       </Route>
       <Route path="/contact" exact>
         <Contact />
+      </Route>
+      <Route path="/ticket" exact>
+        <Ticket />
       </Route>
       <Route path="/auth/zhilye" exact>
         <AuthPage />
