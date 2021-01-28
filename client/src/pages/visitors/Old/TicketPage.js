@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useHistory } from "react-router-dom"
-import { TicketCheck } from "../../components/Calendar/TicketCheck"
+import { TicketCheck } from "../../../components/Calendar/TicketCheck"
 
 export const TicketPage = () => {
   const data = JSON.parse(localStorage.getItem("Ticket"))

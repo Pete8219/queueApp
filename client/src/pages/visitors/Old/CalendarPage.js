@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react"
 import {  useHistory } from "react-router-dom"
-import { useHttp } from "../../hooks/http.hook"
-import { CreateCalendar } from "../../components/Calendar/CreateCalendar"
+import { useHttp } from "../../../hooks/http.hook"
+import { CreateCalendar } from "../../../components/Calendar/CreateCalendar"
 const storageName = "TimeData"
 
 const getId = () => {

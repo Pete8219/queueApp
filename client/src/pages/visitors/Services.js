@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { ServiceList } from "./components/ServiceList"
+import { Loader } from '../../components/Loader'
 import { useHistory } from "react-router-dom"
 
 export const Services = () => {
@@ -26,6 +27,10 @@ export const Services = () => {
     }
     fetchService()
   }, [request, category])
+
+  if(loading) {
+    return <Loader />
+  }
 
   const ClickHandler = (id) => {
     const items = {

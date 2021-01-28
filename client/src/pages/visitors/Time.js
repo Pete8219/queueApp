@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { TimeList } from "../visitors/components/TimeList"
+import { Loader } from '../../components/Loader'
 import { YearCalendar } from "../../components/Calendar/YearCalendar"
 
 export const Time = () => {
@@ -38,6 +39,7 @@ export const Time = () => {
     const fetchTickets = async () => {
       try {
         const fetched = await request(`/tickets/${serviceId}/${date}`, "GET", null, {})
+        console.log(fetched)
         setTickets(fetched)
       } catch (e) {}
     }
@@ -56,6 +58,12 @@ export const Time = () => {
     }
     fetchService()
   }, [request, serviceId])
+
+  if(loading) {
+    return <Loader />
+  }
+
+  console.log(tickets)
 
   return <>{!loading && service && <TimeList service={service} tickets={tickets} date={date} day={day} hour={hour} />}</>
 }

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useMessage } from '../../../hooks/message.hook'
+import { useHttp } from '../../../hooks/http.hook'
 import M from "materialize-css/dist/js/materialize.min.js"
 
 
 export const ContactForm = () => {
-   
+    const {request, error, clearError} = useHttp()
     const history = useHistory()
     const message = useMessage()
 
@@ -23,6 +24,11 @@ export const ContactForm = () => {
     })
     
     const errors = []
+
+    useEffect(() => {
+        message(error)
+        clearError()
+      }, [error, message, clearError])
 
     useEffect(() => {
         M.AutoInit()
@@ -47,7 +53,7 @@ export const ContactForm = () => {
 
       }
 
-      const submitHandler = (e) => {
+      const submitHandler = async (e) => {
         e.preventDefault()
 
         for (let key in form) {
@@ -63,8 +69,26 @@ export const ContactForm = () => {
        
         const ticketData = Object.assign(serviceData, form)
         localStorage.setItem('Items', JSON.stringify(ticketData))
-        
 
+
+        try {
+            const data = await request('/tickets', 'POST', {...ticketData})
+            if(data.errors) {
+
+                return data.errors.map((error) => {
+                    return message(error)
+                  })
+                }
+
+
+              
+               message(data.message)
+               history.push('/ticket')
+                
+   
+        } catch(e) {}
+
+        
 
       }
 

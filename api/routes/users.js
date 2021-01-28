@@ -60,7 +60,7 @@ router.get("/:id", async (req, res) => {
 
 router.get("/welcome/:id", async (req, res) => {
   try {
-    const username = await User.findOne({ _id: req.params.id }).select("name")
+    const username = await User.findOne({ _id: req.params.id }).select(['name', 'cabinet'])
     res.status(201).json(username)
   } catch (e) {
     res.status(500).json({

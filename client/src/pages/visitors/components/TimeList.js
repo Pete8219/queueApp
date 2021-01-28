@@ -12,7 +12,7 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
     const serviceData = {...service}
 
     const countTickets = (end - start - hour) * 60 / time
-    console.log(countTickets)
+    
     
     
     const startReceptionHour = day.setHours(start, 0, 0, 0)

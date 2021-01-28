@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { CategoryList } from "./components/CategoryList"
 import { useHistory } from "react-router-dom"
+import { Loader } from '../../components/Loader'
 
 export const Categories = () => {
+  localStorage.clear()
   const history = useHistory()
   const { loading, request } = useHttp()
 
   const [categories, setCategories] = useState([])
+
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -18,6 +22,10 @@ export const Categories = () => {
     }
     fetchCategories()
   }, [request])
+
+  if(loading) {
+    return <Loader />
+  }
 
   const selectedHandler = (id) => {
     localStorage.setItem("Category", id)

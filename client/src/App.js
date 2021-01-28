@@ -4,6 +4,7 @@ import { useRoutes } from "./routes"
 import { useAuth } from "./hooks/auth.hook"
 import { AuthContext } from "./context/AuthContext"
 import { Navbar } from "../src/components/navbar"
+
 import { Loader } from "../src/components/Loader"
 import "materialize-css"
 import "react-datepicker/dist/react-datepicker.css"
@@ -30,6 +31,7 @@ function App() {
     >
       <Router>
         {isAuthenticated && <Navbar />}
+        
         <div className="container">{routes}</div>
       </Router>
     </AuthContext.Provider>

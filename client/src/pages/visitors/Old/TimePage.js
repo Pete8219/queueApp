@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useParams, useHistory } from "react-router-dom"
-import { useHttp } from "../../hooks/http.hook"
-import { useMessage } from "../../hooks/message.hook"
+import { useHttp } from "../../../hooks/http.hook"
+import { useMessage } from "../../../hooks/message.hook"
 
-import { TimeTable } from "../../components/Calendar/TimeTable"
-import { ContactForm } from "../../components/Calendar/ContactForm"
+import { TimeTable } from "../../../components/Calendar/TimeTable"
+import { ContactForm } from "../../../components/Calendar/ContactForm"
 
 const storageName = "TimeData"
 

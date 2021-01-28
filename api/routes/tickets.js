@@ -21,14 +21,35 @@ router.get("/", (req, res, next) => {
 })
 
 // Сохранение пользователя в базе. Проводятся проверки на запонение полей формы
-router.post("/", [check("firstname", "Введите Ваше Имя").trim().toUpperCase().isLength({ min: 3 }), check("lastname", "Введите Вашу Фамилию").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 }), check("phone", "Номер телефона должен содержать только цифры").isNumeric()], async (req, res) => {
-  const { date } = req.body
+router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], async (req, res) => {
+
+  const { date, hours, minutes } = req.body
+  /* const req.body.date = new Date(date.split('.').reverse().join('-'))
+  const req.body.date.setHours(hours)
+  const re.body */
+  receptionDate = new Date(date.split('.').reverse().join('-'))
+  receptionDate.setHours(hours)
+  receptionDate.setHours(receptionDate.getHours() + 5)
+  receptionDate.setMinutes(minutes)
+
+  req.body.date = receptionDate
+
   const { surname } = req.body
   if (surname) {
     req.body.surname = surname.toUpperCase()
   }
 
-  console.log(date)
+
+  const query = {
+    time: req.body.time,
+    user: req.body.employee,
+    date: req.body.date,
+    firstname: req.body.firstname,
+    lastname: req.body.lastname,
+    surname: req.body.surname,
+    phone: req.body.phone,
+    service: req.body.serviceId
+  }
 
   try {
     const errorFormatter = ({ msg }) => {
@@ -42,15 +63,15 @@ router.post("/", [check("firstname", "Введите Ваше Имя").trim().to
       })
     }
 
-    const isExist = await Ticket.findOne({ date })
+    const isExist = await Ticket.findOne({ date: req.body.date })
 
     if (isExist) {
       return res.status(400).json({
-        message: "К сожалению, на данное время кто то только что записался",
+        message: "К сожалению, на данное время только что записались"
       })
     }
 
-    const ticket = new Ticket({ ...req.body })
+    const ticket = new Ticket({ ...query })
     await ticket.save()
     res.status(201).json({
       message: "Ваша заявка принята",
@@ -118,7 +139,8 @@ router.get("/:serviceId/:date", async (req, res) => {
   console.log(start, end)
 
   try {
-    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select("date")
+    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select('date')
+    console.log(data)
 
     res.status(200).json(data)
   } catch (e) {

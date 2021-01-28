@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { useHttp } from "../../hooks/http.hook"
-import { Home } from "../../components/Home"
+import { useHttp } from "../../../hooks/http.hook"
+import { Home } from "../../../components/Home"
 import { useHistory } from "react-router-dom"
 
 export const HomePage = () => {
