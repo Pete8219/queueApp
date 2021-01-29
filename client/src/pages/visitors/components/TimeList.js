@@ -3,22 +3,29 @@ import { useHistory } from 'react-router-dom'
 
 
 export const TimeList = ({day, date, service, tickets, hour}) => {
-    console.log(tickets)
+
+    const history = useHistory()
+
+    const ticketsList = []
+    if(tickets.length) {
+         tickets.map(ticket => {
+           return  ticketsList.push(ticket.date)
+        }) 
+    }
+ 
     const {time} = service
     const {start, end, vacationFrom,vacationTo, substitute, _id} = service.user
-    
-    const history = useHistory()
-  
+
     const serviceData = {...service}
 
-    const countTickets = (end - start - hour) * 60 / time
-    
-    
-    
+    const countTickets = Math.floor((end - start - hour) * 60 / time)
+  
     const startReceptionHour = day.setHours(start, 0, 0, 0)
     const startReception = new Date(startReceptionHour)
 
     const timeList = []
+    let lists = []
+    
 
     for (let i = 0; i < countTickets; i++) {
         const receptionTime = new Date(startReception)
@@ -27,12 +34,24 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
         receptionTime.setHours(receptionTime.getHours() + 5)
         timeList.push(receptionTime.toISOString())
     }
-
-
-
     
     
-     
+    if(!tickets.length) {
+        timeList.map(item => {
+            return (
+                lists.push(item)
+            )
+            
+        })
+    }
+
+    const times = (timeList, ticketsList) => {
+            const set =  new Set(ticketsList)
+            return timeList.filter(x => !set.has(x))
+        }
+
+    lists = times(timeList, ticketsList)    
+ 
     if( Date.parse(day) >= Date.parse(vacationFrom) && Date.parse(day) <= Date.parse(vacationTo)) {
         serviceData.employee = substitute
     } else {
@@ -47,7 +66,7 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
         const time = event.target.innerText
         const hours = time.slice(0,2)
         const minutes = time.slice(3,5)
-        console.log(hours,  minutes)
+        
         serviceData.hours = hours
         serviceData.minutes = minutes
         serviceData.date = date
@@ -68,11 +87,11 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
             <button className="waves-effect waves-light btn" onClick = {goBackHandler}>
                     <i className="material-icons left">arrow_back</i>Выбрать другую дату
                 </button>
-            <div className="row col s12" >
-            <ul className="row col s12" >
-             {timeList.map((item, index) => {
+            <div className="row col s12 time-container" >
+            <ul className="row col s12 " >
+             {lists.map((item, index) => {
                  return (
-                    <li className="row col s12 blue darken-1 timeList" key={index} onClick={clickHandler}>{item.slice(11,16)}</li>
+                    <li className="row col s12 blue darken-1 times" key={index} onClick={clickHandler}>{item.slice(11,16)}</li>
                  )
              })}
              </ul>   

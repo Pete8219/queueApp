@@ -31,6 +31,8 @@ export const Time = () => {
   const { loading, request } = useHttp()
   const [tickets, setTickets] = useState([])
   const [service, setService] = useState("")
+  
+
 
   useEffect(() => {
     if (!serviceId || !date) {
@@ -39,7 +41,7 @@ export const Time = () => {
     const fetchTickets = async () => {
       try {
         const fetched = await request(`/tickets/${serviceId}/${date}`, "GET", null, {})
-        console.log(fetched)
+        
         setTickets(fetched)
       } catch (e) {}
     }
@@ -59,11 +61,12 @@ export const Time = () => {
     fetchService()
   }, [request, serviceId])
 
+  
+
   if(loading) {
     return <Loader />
   }
 
-  console.log(tickets)
 
   return <>{!loading && service && <TimeList service={service} tickets={tickets} date={date} day={day} hour={hour} />}</>
 }

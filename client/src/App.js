@@ -4,7 +4,7 @@ import { useRoutes } from "./routes"
 import { useAuth } from "./hooks/auth.hook"
 import { AuthContext } from "./context/AuthContext"
 import { Navbar } from "../src/components/navbar"
-
+/* import { visitorNavbar } from './pages/visitors/components/visitorNavbar' */
 import { Loader } from "../src/components/Loader"
 import "materialize-css"
 import "react-datepicker/dist/react-datepicker.css"

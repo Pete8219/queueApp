@@ -42,7 +42,7 @@ export const ReceptionForm = () => {
                     </div>
                 </div>
                 <div className="row" style={{display:"grid"}}>
-                    <button class="waves-effect waves-light btn-small" style={{margin:"0 auto"}}>Записать</button>
+                    <button className="waves-effect waves-light btn-small" style={{margin:"0 auto"}}>Записать</button>
                 </div>
             </form>
       </div>

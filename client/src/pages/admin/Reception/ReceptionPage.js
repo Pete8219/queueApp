@@ -67,7 +67,7 @@ export const ReceptionPage = () => {
     }
     const fetchTickets = async () => {
       try {
-        const tickets = await request(`/tickets/${serviceId}/${selectedDate}`, "GET", null, {})
+        const tickets = await request(`/tickets/${serviceId}/${date}`, "GET", null, {})
         setCountTickets(tickets.length || "0")
         setTickets(tickets)
       } catch (e) {}

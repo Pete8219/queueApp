@@ -7,7 +7,7 @@ const {weekendAndHolidays, preHoliday} = YearCalendar()
 const days = []
 
 
-for (let i = 0 ; i < 30; i++) {
+for (let i = 0 ; i < 14; i++) {
 const day = new Date()
 day.setDate(day.getDate() + i)
 const month = day.getMonth()

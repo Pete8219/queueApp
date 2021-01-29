@@ -41,6 +41,22 @@
     border-radius: 5px;
   }
 
+ 
+  .time-container {
+    
+   
+    min-width: 100%;
+  }
+
+  .times {
+    display: grid;
+    text-align: center;
+    color: white;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem;
+    align-items: center;
+    border-radius: 5px; 
+  }
 
   .ticket {
     display: grid;
@@ -125,7 +141,7 @@
     text-align: center;
   }
 
-  .timeTable ul {
+   .timeTable ul {
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -135,7 +151,7 @@
     text-align: center;
     color: #fff;
     margin-top: 4rem;
-  }
+  } 
 
   /* Contact Form styles */
 
@@ -155,9 +171,26 @@
     display: grid;
     text-align: center;
     color: white;
+    grid-template-columns: 1fr ;
     grid-template-rows: 5rem;
     align-items: center;
     border-radius: 5px;
+  }
+
+  .time-container {
+    display:grid;
+    grid-template-columns:1fr;
+    min-width: 50%;
+  }
+
+  .times {
+    display: grid;
+    text-align: center;
+    color: white;
+    grid-template-columns: 1fr;
+    grid-template-rows: 5rem;
+    align-items: center;
+    border-radius: 5px; 
   }
 
   /* Стили для 404 страницы */ 

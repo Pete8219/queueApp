@@ -26,15 +26,6 @@ export const ReceptionTime = ({ date, shortDay, tickets, countTickets, userData,
     return ticket.date.toString()
   })
 
-  //Старый код по отсеиванию совпадений в массивах
-  /*  const timer = []
-
-  for (let i = 0; i < timeArray.length; i++) {
-    if (!busyTime.includes(timeArray[i])) {
-      timer.push(timeArray[i].slice(11, 16))
-    }
-  }
- */
 
   const differenceArray = (array1, array2) => {
     const set = new Set(array2)

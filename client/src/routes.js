@@ -13,7 +13,8 @@ import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
 import { Calendar } from "./pages/visitors/Calendar"
 import { Time } from "./pages/visitors/Time"
 import { Contact } from './pages/visitors/Contact'
-import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage"
+/* import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage" */
+import { Reception } from "./pages/admin/Reception/Reception"
 import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
@@ -47,7 +48,20 @@ export const useRoutes = (isAuthenticated) => {
           <UserCreatePage />
         </Route>
         <Route path="/reception" exact>
-          <ReceptionPage />
+          <Reception />
+        </Route>
+
+        <Route path="/calendar" exact>
+          <Calendar />
+        </Route>
+        <Route path="/time" exact>
+          <Time />
+        </Route>
+        <Route path="/contact" exact>
+          <Contact />
+        </Route>
+        <Route path="/ticket" exact>
+          <Ticket />
         </Route>
 
         <Route path="/tickets" exact>

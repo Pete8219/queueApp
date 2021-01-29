@@ -80,10 +80,17 @@ export const ContactForm = () => {
                   })
                 }
 
-
-              
                message(data.message)
-               history.push('/ticket')
+
+               const userData = JSON.parse(localStorage.getItem('userData'))
+
+               if(userData) {
+                   /* message('Посетитель зарегистрирован') */
+                   history.push('/')
+               } else {
+                   history.push('/ticket')
+               }
+               
                 
    
         } catch(e) {}

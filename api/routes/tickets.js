@@ -99,7 +99,7 @@ router.get("/lists/:userId", async (req, res) => {
     const data = await Ticket.find({ $and: [{ user: req.params.userId }, { date: { $gte: start, $lte: end } }] })
 
     if (!data) {
-      console.log(data)
+      
       return res.status(404).json({
         message: "На сегодня записей нет",
       })
@@ -136,11 +136,11 @@ router.get("/:serviceId/:date", async (req, res) => {
 
   end.toISOString()
 
-  console.log(start, end)
+  
 
   try {
     const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select('date')
-    console.log(data)
+    
 
     res.status(200).json(data)
   } catch (e) {
