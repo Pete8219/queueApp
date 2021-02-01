@@ -83,71 +83,58 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
   }
 })
 
-// Достаем все талоны адресованные сотруднику
+//Выбор тикетов для пользователя за определенную дату
 
-router.get("/lists/:userId", async (req, res) => {
-  const start = new Date()
-  start.setHours(0, 0, 0, 0)
-  start.setHours(start.getHours() + 5)
-  start.toISOString()
-  const end = new Date()
-  end.setHours(23, 59, 59, 0)
-  end.setHours(end.getHours() + 5)
-  end.toISOString()
-
-  try {
-    const data = await Ticket.find({ $and: [{ user: req.params.userId }, { date: { $gte: start, $lte: end } }] })
-
-    if (!data) {
-      
-      return res.status(404).json({
-        message: "На сегодня записей нет",
-      })
-    }
-
-    res.status(200).json(data)
-  } catch (e) {
-    res.status(500).json({
-      message: "Ошибка, попробуйте еще раз",
-    })
-  }
-})
-
-router.get("/status", async (req, res) => {
-  try {
-    const statusData = await Ticket.find({})
-    res.status(201).json(statusData.getStatus)
-    console.log(statusData)
-  } catch (e) {
-    res.status(500).json({
-      message: "Что то не так",
-    })
-  }
-})
-
-router.get("/:serviceId/:date", async (req, res) => {
-  currentDate = (req.params.date).split('.').reverse().join('-')
-  const start = new Date(currentDate)
-  start.setHours(start.getHours() + 5)
-  start.toISOString()
-  const end = new Date(currentDate)
-  end.setHours(23, 59, 59, 0)
-  end.setHours(end.getHours() + 5)
-
-  end.toISOString()
-
+router.get("/:userId/:date", async(req, res) => {
   
+  const startDate = new Date(req.params.date)
+  startDate.toISOString()
+
+  const endDate = new Date(req.params.date)
+
+  endDate.setHours(23,59,0,0)
+
 
   try {
-    const data = await Ticket.find({ $and: [{ service: req.params.serviceId }, { date: { $gte: start, $lte: end } }] }).select('date')
-    
-
-    res.status(200).json(data)
-  } catch (e) {
-    res.status(404).json({
-      message: "Ничего не найдено",
+    const tickets = await Ticket.find({ $and : [{user: req.params.userId}, { date: {$gte : startDate, $lte: endDate} }]})
+    res.status(200).json(tickets)
+    } catch(e) {
+    res.status(500).json({
+      message:'Что то пошло не так'
     })
   }
+
+})
+
+
+
+
+//Выбор тикетов по id-услуги, за заданный промежуток времени. Используется при формировании времени приема 
+router.get("/byService/:serviceId/:date", async(req, res) => {
+  const { serviceId, date} = req.params
+
+  console.log(serviceId, date)
+  
+  const startDate = new Date(req.params.date)
+  startDate.toISOString()
+
+  const endDate = new Date(req.params.date)
+
+  endDate.setHours(23,59,0,0)
+
+  console.log(startDate, endDate)
+
+
+  try {
+    const tickets = await Ticket.find({ $and : [{service: req.params.serviceId}, { date: {$gte : startDate, $lte: endDate} }]})
+    console.log(tickets)
+    res.status(200).json(tickets)
+    } catch(e) {
+    res.status(500).json({
+      message:'Что то пошло не так'
+    })
+  }
+
 })
 
 router.patch("/:ticketId", (req, res, next) => {
@@ -171,6 +158,23 @@ router.patch("/:ticketId", (req, res, next) => {
       console.log(err)
     })
 })
+
+
+// Выбор тикетов в зависимости от статуса
+
+router.get("/status", async (req, res) => {
+  try {
+    const statusData = await Ticket.find({})
+    res.status(201).json(statusData.getStatus)
+    console.log(statusData)
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
+    })
+  }
+})
+
+//Удаление выбранного талона
 
 router.delete("/:ticketId", (req, res, next) => {
   res.status(200).json({

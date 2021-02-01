@@ -1,19 +1,44 @@
 import React from "react"
+import { DateSelect } from '../Calendar/DateSelect'
 
-export const UserTickets = ({ tickets, status, handleChange }) => {
-  const date = new Date()
+export const UserTickets = ({ tickets, status, handleChange, date, dateHandler }) => {
+  /* console.log(tickets) */
 
   const statusList = ["В работе", "Отработан", "Отказ", "Уточнение сведений"]
 
-  return (
-    <div className="row col-s12">
-      <blockquote>Список посетителей на {date.toLocaleDateString()}</blockquote>
+  if(!tickets.length) {
+    return (
+      <div className="container" style={{width:"100%"}}>
+            <div className = "row col s12">
+              <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr qfr"}}>
+                 <DateSelect currentDate = {date} handler={dateHandler}/>
+              </div> 
+            </div>
+            <div className="row col s12">
+              <h4>На выбранную дату нет записей</h4>
+            </div>
+      </div>
+    )
+  }
+ 
+  
 
-      <table>
-        <thead>
+  return (
+      <div className="container" style={{width:"100%"}}>
+        <div className = "row col s12">
+          <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr qfr"}}>
+              <DateSelect currentDate = {date} handler={dateHandler}/>
+          </div> 
+
+
+    <div className="row col s12">
+      <div className="card" style={{padding:"20px"}}>
+      <table className="striped">
+        <thead style={{backgroundColor:"c2c2c2"}}>
           <tr>
             <th>#</th>
             <th>Посетитель</th>
+            <th>Телефон</th>
             <th>Время</th>
             <th>Статус</th>
           </tr>
@@ -26,6 +51,7 @@ export const UserTickets = ({ tickets, status, handleChange }) => {
               <tr key={ticket._id}>
                 <td>{index + 1}</td>
                 <td>{fullName}</td>
+                <td>{ticket.phone}</td>
                 <td>{ticket.date.slice(11, 16)}</td>
                 <td>
                   <select className="browser-default" value={status.value} onChange={handleChange}>
@@ -37,10 +63,6 @@ export const UserTickets = ({ tickets, status, handleChange }) => {
                       )
                     })}
 
-                    {/* <option value="В работе">В работе</option>
-                    <option value="Отработан">Отработан</option>
-                    <option value="Уточнение сведений">Уточнение сведений</option>
-                    <option value="Отказ">Отказ</option> */}
                   </select>
                 </td>
               </tr>
@@ -48,6 +70,9 @@ export const UserTickets = ({ tickets, status, handleChange }) => {
           })}
         </tbody>
       </table>
+      </div>
+    </div>
+    </div>
     </div>
   )
 }

@@ -35,12 +35,15 @@ export const Time = () => {
 
 
   useEffect(() => {
-    if (!serviceId || !date) {
+     if (!serviceId || !date) {
       return
     }
+    date = (localData.date).split('.').reverse().join('-')
+    
     const fetchTickets = async () => {
       try {
-        const fetched = await request(`/tickets/${serviceId}/${date}`, "GET", null, {})
+        const fetched = await request(`tickets/byService/${serviceId}/${date}`, "GET", null, {})
+        console.log(fetched)
         
         setTickets(fetched)
       } catch (e) {}
