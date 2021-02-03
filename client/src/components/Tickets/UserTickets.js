@@ -1,7 +1,8 @@
 import React from "react"
 import { DateSelect } from '../Calendar/DateSelect'
+import { FindUser } from '../Tickets/FindUser'
 
-export const UserTickets = ({ tickets, status, handleChange, date, dateHandler }) => {
+export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, visitor, findHandler }) => {
   /* console.log(tickets) */
 
   const statusList = ["В работе", "Отработан", "Отказ", "Уточнение сведений"]
@@ -10,8 +11,9 @@ export const UserTickets = ({ tickets, status, handleChange, date, dateHandler }
     return (
       <div className="container" style={{width:"100%"}}>
             <div className = "row col s12">
-              <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr qfr"}}>
-                 <DateSelect currentDate = {date} handler={dateHandler}/>
+              <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
+                  <FindUser visitor={visitor} handler={findHandler}/>
+                  <DateSelect currentDate = {date} handler={dateHandler}/>
               </div> 
             </div>
             <div className="row col s12">
@@ -26,7 +28,8 @@ export const UserTickets = ({ tickets, status, handleChange, date, dateHandler }
   return (
       <div className="container" style={{width:"100%"}}>
         <div className = "row col s12">
-          <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr qfr"}}>
+          <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
+            <FindUser visitor={visitor} handler={findHandler}/>
               <DateSelect currentDate = {date} handler={dateHandler}/>
           </div> 
 

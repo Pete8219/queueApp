@@ -24,8 +24,8 @@ export const DateSelect = ({currentDate, handler}) => {
     
 
     return (
-         <div className="input-field col s4">
-        <p>Список посетителей на:</p> 
+         <div className="input-field col s8">
+       {/*  <p>Список посетителей на:</p>  */}
         <select className="browser-default" defaultValue={currentDate} onChange={handler}>
             {dateArray.map((item,index) => {
                 return (

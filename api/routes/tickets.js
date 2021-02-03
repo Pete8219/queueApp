@@ -137,6 +137,23 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
 
 })
 
+//Поиск тикетов по фамилии посетителя
+
+
+
+router.get('/find/:visitor', async (req, res) => {
+  try {
+    const data = await Ticket.find({firstname : req.params.visitor})
+
+    res.status(200).json(data)
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Что то пошло не так'
+    })
+  }
+})
+
 router.patch("/:ticketId", (req, res, next) => {
   const id = req.params.ticketId
 
