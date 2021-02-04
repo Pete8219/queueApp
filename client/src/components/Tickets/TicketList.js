@@ -14,7 +14,7 @@ export const TicketList = () => {
   const [date, setDate] = useState(new Date().toISOString().slice(0,10).split('.').reverse().join('-'))
   const [visitor, setVisitor] = useState('')
 
-  const { loading, request, ready } = useHttp()
+  const { loading, request } = useHttp()
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -27,11 +27,14 @@ export const TicketList = () => {
   }, [request, userId])
 
   useEffect(() => {
+    if(!date) {
+      return
+    }
     const fetchTickets = async () => {
       console.log(date)
       try {
-        const data = await request(`/tickets/${userId}/${date}`, "GET", null, {})
-        console.log(data)
+        const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {})
+        
         setTickets(data)
       } catch (e) {}
     }
@@ -39,19 +42,6 @@ export const TicketList = () => {
   }, [request, userId, date])
 
 
-  useEffect(() => {
-    if(!visitor) {
-      return
-    }
-    const fetchTickets = async() => {
-      try {
-        const fetched = await request(`/tickets/find/:${visitor}`, 'GET', null, {})
-        console.log(fetched)
-
-      } catch(e) {}
-    }
-    fetchTickets()
-  }, [request, visitor])
 
   const handleChange = (event) => {
     setStatus(event.target.value)
@@ -61,11 +51,22 @@ export const TicketList = () => {
     setDate(event.target.value)
   }
 
-  const findHandler = (event) => {
-    event.preventDefault()
-      setVisitor((event.target.value).toUpperCase())
+  const findHandler = (data) => {
+    
+      setVisitor(data.toUpperCase())
+  }
+
+  const pressHandler = async(event) => {
+    if(event.key === 'Enter') {
+      setDate('')
 
 
+      try {
+        const data =  await request(`/tickets/find/${visitor}`, 'GET', null , {})
+        setTickets(data)
+
+      } catch(e) {}
+    }
   }
 
    if(loading) {
@@ -75,7 +76,7 @@ export const TicketList = () => {
   return (
     <>
       {!loading && userName  && <UserName name={userName} />}
-      {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} />}
+      {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} />}
     </>
   )
 }

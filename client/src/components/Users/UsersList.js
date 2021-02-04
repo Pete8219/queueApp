@@ -11,13 +11,13 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={onCreate}>
         <i className="material-icons">add</i>
       </a>
-      <div className="card table-service">
+      <div className="card table-service" style={{padding:"20px"}}>
         <table className="striped">
           <thead>
             <tr>
               <th>№</th>
               <th>Сотрудник</th>
-              <th>Логин</th>
+              
               <th></th>
               <th></th>
             </tr>
@@ -29,7 +29,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
                 <tr key={item._id}>
                   <td>{index + 1}</td>
                   <td>{item.name}</td>
-                  <td>{item.login}</td>
+                  
                   <td>
                     {" "}
                     <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" style={{float:"right"}} onClick={() => onEdit(item._id)}> 

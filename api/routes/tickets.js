@@ -85,7 +85,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
 
 //Выбор тикетов для пользователя за определенную дату
 
-router.get("/:userId/:date", async(req, res) => {
+router.get("/ticketlist/:userId/:date", async(req, res) => {
   
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -141,11 +141,13 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
 
 
 
-router.get('/find/:visitor', async (req, res) => {
+router.get("/find/:visitor", async (req, res) => {
+  console.log(req.params)
   try {
-    const data = await Ticket.find({firstname : req.params.visitor})
+     const data = await Ticket.find({firstname : req.params.visitor})
 
     res.status(200).json(data)
+    
 
   } catch (e) {
     res.status(500).json({

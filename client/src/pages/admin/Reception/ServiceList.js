@@ -1,8 +1,18 @@
 import React from 'react'
 
-export const ServiceList = ({services, handler}) => {
-
-    return (
+export const ServiceList = ({services, additionServices, handler}) => {
+    if(additionServices.length) {
+      services = services.concat(additionServices)
+    }
+    
+    if (!services.length) {
+      return (
+        <div className="container">
+          <h4>За Вами не закреплено ни одной услуги</h4>
+        </div>
+      )
+    } else {
+      return (
         <div className="container" style={{display:"grid"}}>
         <h4 style={{ textAlign: "center" }}>Выберите услугу</h4>
       
@@ -19,4 +29,9 @@ export const ServiceList = ({services, handler}) => {
         </div>
       </div>
     )
+
+    }
+  
+
+   
 }

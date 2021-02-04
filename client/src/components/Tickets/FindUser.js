@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import M from "materialize-css/dist/js/materialize.min.js"
 
-export const FindUser = ({visitor, handler}) => {
+export const FindUser = ({visitor, handler, pressHandler}) => {
 
 
     useEffect(() => {
@@ -15,11 +15,18 @@ export const FindUser = ({visitor, handler}) => {
 
     return (
         
-            <form class="col s12">
-                <div class="row">
+            <form className="col s12">
+                <div className="row">
                     {/* <p>Введите фамилию для поиска </p> */}
-                    <div class="input-field col s12">
-                        <input placeholder="Поиск посетителя по фамилии" id="filterUser" name ="filterUser" type="text" class="validate"  onChange={handler}/>
+                    <div className="input-field col s12">
+                        <input 
+                        placeholder="Поиск посетителя по фамилии" 
+                        id="filterUser" 
+                        name ="filterUser" 
+                        type="text" 
+                        onChange={e => handler(e.target.value)}
+                        onKeyPress={pressHandler}
+                        />
                         
                     </div>
                 </div>

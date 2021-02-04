@@ -26,12 +26,12 @@ export const AuthPage = () => {
     setForm({ ...form, [event.target.name]: event.target.value })
   }
 
-  const registerHandler = async () => {
+/*   const registerHandler = async () => {
     try {
       const data = await request("/auth/register", "POST", { ...form })
       message(data.message)
     } catch (e) {}
-  }
+  } */
 
   const loginHandler = async () => {
     try {
@@ -68,9 +68,9 @@ export const AuthPage = () => {
             <button className="btn-large waves-effect waves-light blue lighten-1 login" onClick={loginHandler} disabled={loading}>
               Войти
             </button>
-            <button className="btn-large waves-effect waves-light blue lighten-1 register" onClick={registerHandler} disabled={loading}>
+          {/*   <button className="btn-large waves-effect waves-light blue lighten-1 register" onClick={registerHandler} disabled={loading}>
               Регистрация
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

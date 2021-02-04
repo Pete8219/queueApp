@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { useHistory } from "react-router-dom"
-import { useHttp } from ".././../../hooks/http.hook"
+import { useHttp } from "../../../hooks/http.hook"
 import { ReceptionDate } from "../../../components/Reception/ReceptionDate"
 import { ReceptionTime } from "../../../components/Reception/ReceptionTime"
 import { ReceptionService } from "../../../components/Reception/ReceptionService"

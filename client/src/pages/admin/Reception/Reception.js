@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useHttp } from '../../../hooks/http.hook'
 import { useHistory } from 'react-router-dom'
 import { ServiceList } from './ServiceList'
@@ -12,7 +12,19 @@ export const Reception = () => {
     const {loading, request} = useHttp()
 
     const { userId } = userData
+    const [subUser, setSubUser] = useState('')
     const [services, setServices] = useState('')
+    const [additionServices, setAdditionServices] = useState('')
+    
+    
+
+    const currentDate = useMemo(() => {
+        return (new Date()).toISOString()
+    },[])
+        
+    
+
+    
 
     useEffect(() => {
         if(!userId) {
@@ -29,6 +41,39 @@ export const Reception = () => {
 
     }, [request, userId])
 
+    useEffect(() => {
+
+        //нужно найти записи пользователей, где сотрудник на текущую дату является замещающим
+
+        const fetchUsers = async() => {
+            try {
+                const user = await request(`/users/substitute/${userId}/${currentDate.slice(0,10)}`, 'GET', null, {})
+                setSubUser(user)
+
+            } catch(e) {}
+        }
+        fetchUsers()
+
+    },[request,userId, currentDate])
+
+    useEffect(() => {
+        //вытаскиваем все услуги того сотрудника, которого мы замещаем
+
+        if(!subUser) {
+            return
+        }
+
+        const fetchServices = async() => {
+            const data = await request(`/services/byUser/${subUser}`, 'GET', null, {})
+            setAdditionServices(data)
+
+        }
+        fetchServices()
+    },[request, subUser])
+
+    
+    
+
     const clickHandler = (id) => {
         const items = {
             
@@ -41,7 +86,7 @@ export const Reception = () => {
 
     return (
         <>
-            {!loading && services && <ServiceList services={services} handler={clickHandler}/>}
+            {!loading && services && <ServiceList services={services} additionServices = {additionServices} handler={clickHandler}/>}
         </>
     )
 }

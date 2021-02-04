@@ -32,13 +32,13 @@ export const Time = () => {
   const [tickets, setTickets] = useState([])
   const [service, setService] = useState("")
   
-
+  date = (localData.date).split('.').reverse().join('-')
 
   useEffect(() => {
      if (!serviceId || !date) {
       return
     }
-    date = (localData.date).split('.').reverse().join('-')
+    
     
     const fetchTickets = async () => {
       try {

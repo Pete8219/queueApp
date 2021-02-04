@@ -69,6 +69,41 @@ router.get("/welcome/:id", async (req, res) => {
   }
 })
 
+router.get("/substitute/:userId/:date", async(req, res) => {
+
+  currentDate = (new Date(req.params.date)).toISOString()
+  
+  try {
+    const data = await User.find({_id : req.params.userId})
+     if(!data.length) {
+      return res.status(404).json({
+        message:'Нет записей'
+      })
+    }
+ 
+    if(data[0].substitute === null) {
+      return res.status(404).json({
+        message: 'нет заменяющего сотрудника'
+      })
+    }
+
+    const start = Date.parse(data[0].vacationFrom)
+    const end = Date.parse(data[0].vacationTo)
+
+    if(Date.parse(currentDate) >= start && Date.parse(currentDate) <= end) {
+      const subUser = data[0].substitute 
+      res.status(200).json(subUser)
+    }
+
+    
+
+  } catch(e) {
+    res.status(500).json({
+      message:'Что то пошло не так'
+    })
+  }
+})
+
 //Обновление пользовательских полей
 router.patch("/:id", async (req, res) => {
   try {
