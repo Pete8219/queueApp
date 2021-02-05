@@ -5,6 +5,7 @@ import { ServiceList } from './ServiceList'
 
 
 export const Reception = () => {
+    localStorage.removeItem('TicketData')
 
     const history = useHistory()
     const userData = JSON.parse(localStorage.getItem('userData'))

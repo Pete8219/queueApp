@@ -22,6 +22,10 @@ export const ContactForm = () => {
         surname:'',
         phone: ''
     })
+
+    const dataFromAdmin = JSON.parse(localStorage.getItem('TicketData'))
+
+
     
     const errors = []
 
@@ -30,6 +34,22 @@ export const ContactForm = () => {
         clearError()
       }, [error, message, clearError])
 
+      useEffect(() => {
+        M.updateTextFields()
+        M.AutoInit()
+        if(dataFromAdmin) {
+            console.log(dataFromAdmin)
+            const { firstname, lastname, surname, phone, _id } = dataFromAdmin
+            setForm({
+                firstname,
+                lastname,
+                surname,
+                phone,
+                ticketId: _id
+            })
+        }
+      },[])
+
     useEffect(() => {
         M.AutoInit()
       }, [])
@@ -37,6 +57,8 @@ export const ContactForm = () => {
       useEffect(() => {
         window.M.updateTextFields()
       }, [])
+
+
 
       const changeHandler = (event) => {
           setForm({...form, [event.target.name]: event.target.value})
@@ -66,8 +88,9 @@ export const ContactForm = () => {
             message('Вы ввели не все данные')
             return
         }
-       
+        
         const ticketData = Object.assign(serviceData, form)
+        
         localStorage.setItem('Items', JSON.stringify(ticketData))
 
 
@@ -113,7 +136,7 @@ export const ContactForm = () => {
                         <div className="input-field col s12">
                             
                             <input type="text" id="firstname" name="firstname" data-name="Фамилия" value={form.firstname} required = {true} className="validate" onChange={changeHandler} onBlur={blurHandler} />
-                            <label htmlFor="firstname">Фамилия</label>
+                            <label htmlFor="firstname" className="active">Фамилия</label>
                         </div>
                     </div>
 
@@ -121,7 +144,7 @@ export const ContactForm = () => {
                         <div className="input-field col s12">
                             
                             <input type="text" id="lastname" name="lastname" data-name="Имя" value={form.lastname} required={true} className="validate" onChange={changeHandler} onBlur={blurHandler} />
-                            <label htmlFor="lastname">Имя</label>
+                            <label htmlFor="lastname" className="active">Имя</label>
                         </div>
                     </div>
 
@@ -129,14 +152,14 @@ export const ContactForm = () => {
                         <div className="input-field col s12">
                             
                             <input type="text" id="surname" name="surname" value={form.surname} className="validate" onChange={changeHandler}/>
-                            <label htmlFor="surname">Отчество (при наличии)</label>
+                            <label htmlFor="surname" className="active">Отчество (при наличии)</label>
                         </div>
                     </div>
 
                     <div className="row">
                         <div className="input-field col s12">
                         <input id="phone" type="text" name="phone" value={form.phone} required={true} data-name="Номер телефона" className="validate" onChange={changeHandler} onBlur={blurHandler}/>
-                        <label htmlFor="phone">Номер телефона</label>
+                        <label htmlFor="phone" className="active">Номер телефона</label>
                         
                         </div>
                     </div>

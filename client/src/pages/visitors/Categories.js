@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom"
 import { Loader } from '../../components/Loader'
 
 export const Categories = () => {
-  localStorage.clear()
+  localStorage.removeItem('Items')
+  localStorage.removeItem('Category')
   const history = useHistory()
   const { loading, request } = useHttp()
 
@@ -29,7 +30,7 @@ export const Categories = () => {
 
   const selectedHandler = (id) => {
     localStorage.setItem("Category", id)
-    history.push("/services")
+    history.push("/service")
   }
 
   return <>{!loading && categories && <CategoryList categories={categories} handler={selectedHandler} />}</>

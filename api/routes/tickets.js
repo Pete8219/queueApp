@@ -24,9 +24,6 @@ router.get("/", (req, res, next) => {
 router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], async (req, res) => {
 
   const { date, hours, minutes } = req.body
-  /* const req.body.date = new Date(date.split('.').reverse().join('-'))
-  const req.body.date.setHours(hours)
-  const re.body */
   receptionDate = new Date(date.split('.').reverse().join('-'))
   receptionDate.setHours(hours)
   receptionDate.setHours(receptionDate.getHours() + 5)
@@ -35,9 +32,13 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
   req.body.date = receptionDate
 
   const { surname } = req.body
+  const { ticketId } = req.body
   if (surname) {
     req.body.surname = surname.toUpperCase()
   }
+  
+
+  
 
 
   const query = {
@@ -64,6 +65,26 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
     }
 
     const isExist = await Ticket.findOne({ date: req.body.date })
+
+    if(ticketId){
+      
+      const isExistId = await Ticket.findOne({_id: ticketId })
+      if(isExistId) {
+        try {
+           const data = await Ticket.replaceOne({_id: ticketId}, {...query})
+            return res.status(200).json({
+              message: 'Запись измененена'
+        })
+        } catch(e) {
+          res.status(500).json({
+            message: 'Что то пошло не так'
+          })
+        }
+       
+      }
+
+    }
+    
 
     if (isExist) {
       return res.status(400).json({
@@ -112,9 +133,7 @@ router.get("/ticketlist/:userId/:date", async(req, res) => {
 //Выбор тикетов по id-услуги, за заданный промежуток времени. Используется при формировании времени приема 
 router.get("/byService/:serviceId/:date", async(req, res) => {
   const { serviceId, date} = req.params
-
-  console.log(serviceId, date)
-  
+ 
   const startDate = new Date(req.params.date)
   startDate.toISOString()
 
@@ -122,12 +141,9 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
 
   endDate.setHours(23,59,0,0)
 
-  console.log(startDate, endDate)
-
-
   try {
     const tickets = await Ticket.find({ $and : [{service: req.params.serviceId}, { date: {$gte : startDate, $lte: endDate} }]})
-    console.log(tickets)
+    
     res.status(200).json(tickets)
     } catch(e) {
     res.status(500).json({
@@ -142,7 +158,7 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
 
 
 router.get("/find/:visitor", async (req, res) => {
-  console.log(req.params)
+ 
   try {
      const data = await Ticket.find({firstname : req.params.visitor})
 
@@ -155,6 +171,22 @@ router.get("/find/:visitor", async (req, res) => {
     })
   }
 })
+
+// Выбор тикетов в зависимости от статуса
+
+router.get("/status", async (req, res) => {
+  try {
+    const statusData = await Ticket.find({})
+    res.status(201).json(statusData.getStatus)
+    
+  } catch (e) {
+    res.status(500).json({
+      message: "Что то не так",
+    })
+  }
+})
+
+//Обновление информации о записи
 
 router.patch("/:ticketId", (req, res, next) => {
   const id = req.params.ticketId
@@ -179,19 +211,7 @@ router.patch("/:ticketId", (req, res, next) => {
 })
 
 
-// Выбор тикетов в зависимости от статуса
 
-router.get("/status", async (req, res) => {
-  try {
-    const statusData = await Ticket.find({})
-    res.status(201).json(statusData.getStatus)
-    console.log(statusData)
-  } catch (e) {
-    res.status(500).json({
-      message: "Что то не так",
-    })
-  }
-})
 
 //Удаление выбранного талона
 

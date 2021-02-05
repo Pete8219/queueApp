@@ -19,6 +19,8 @@ import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
+import { TicketEditPage } from "./pages/admin/TicketEditPage"
+
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
@@ -63,10 +65,19 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/ticket" exact>
           <Ticket />
         </Route>
+        <Route path="/ticket/edit" exact>
+          <TicketEditPage />
+        </Route>
 
         <Route path="/tickets" exact>
           <TicketsPage />
         </Route>
+        <Route path="/category" exact>
+          <Categories />
+        </Route>
+        <Route path="/service" exact>
+        <Services />
+      </Route>
         <Redirect to="/" />
       </Switch>
     )
@@ -74,10 +85,10 @@ export const useRoutes = (isAuthenticated) => {
 
   return (
     <Switch>
-      <Route path="/" exact>
+      <Route path="/category" exact>
         <Categories />
       </Route>
-      <Route path="/services" exact>
+      <Route path="/service" exact>
         <Services />
       </Route>
       <Route path="/calendar" exact>
@@ -95,7 +106,7 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/auth/zhilye" exact>
         <AuthPage />
       </Route>
-      <Redirect to="/" />
+      <Redirect to="/category" />
     </Switch>
   )
 }

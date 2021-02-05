@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useHttp } from "../../hooks/http.hook"
+import { useHistory } from 'react-router-dom'
 import { AuthContext } from "../../context/AuthContext"
 import { Loader } from '../Loader'
 import { UserName } from "./UserName"
 import { UserTickets } from "./UserTickets.js"
 
 export const TicketList = () => {
+  localStorage.removeItem('TicketData')
   const { userId, userType} = useContext(AuthContext)
+  const history = useHistory()
 
   const [userName, setUserName] = useState("")
   const [tickets, setTickets] = useState([])
@@ -69,6 +72,14 @@ export const TicketList = () => {
     }
   }
 
+  const changeRecord = (id) => {
+    const ticketData = tickets.find(item => item._id === id)
+    localStorage.setItem('TicketData', JSON.stringify(ticketData))
+    history.push('/ticket/edit')
+
+    
+  }
+
    if(loading) {
     return <Loader />
   }  
@@ -76,7 +87,7 @@ export const TicketList = () => {
   return (
     <>
       {!loading && userName  && <UserName name={userName} />}
-      {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} />}
+      {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
     </>
   )
 }
