@@ -21,6 +21,8 @@ router.get("/", (req, res, next) => {
 })
 
 // Сохранение пользователя в базе. Проводятся проверки на запонение полей формы
+
+//Наверное нужно сделать проверку на наличие параметров в запросе : service, date, time, user
 router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], async (req, res) => {
 
   const { date, hours, minutes } = req.body
@@ -105,6 +107,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
 })
 
 //Выбор тикетов для пользователя за определенную дату
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/ticketlist/:userId/:date", async(req, res) => {
   
@@ -131,6 +134,8 @@ router.get("/ticketlist/:userId/:date", async(req, res) => {
 
 
 //Выбор тикетов по id-услуги, за заданный промежуток времени. Используется при формировании времени приема 
+
+//Здесь нужно сделать проверку авторизации!!!!
 router.get("/byService/:serviceId/:date", async(req, res) => {
   const { serviceId, date} = req.params
  
@@ -155,7 +160,7 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
 
 //Поиск тикетов по фамилии посетителя
 
-
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/find/:visitor", async (req, res) => {
  
@@ -174,6 +179,8 @@ router.get("/find/:visitor", async (req, res) => {
 
 // Выбор тикетов в зависимости от статуса
 
+//Здесь нужно сделать проверку авторизации!!!!
+
 router.get("/status", async (req, res) => {
   try {
     const statusData = await Ticket.find({})
@@ -187,6 +194,7 @@ router.get("/status", async (req, res) => {
 })
 
 //Обновление информации о записи
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/:ticketId", (req, res, next) => {
   const id = req.params.ticketId
@@ -214,6 +222,7 @@ router.patch("/:ticketId", (req, res, next) => {
 
 
 //Удаление выбранного талона
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.delete("/:ticketId", (req, res, next) => {
   res.status(200).json({

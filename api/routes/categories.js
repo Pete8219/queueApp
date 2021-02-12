@@ -25,6 +25,7 @@ router.get("/", async(req, res) => {
 })
 
 // Запись новой категории
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.post("/", async(req, res)=> {
     console.log(req.body)
@@ -47,6 +48,7 @@ router.post("/", async(req, res)=> {
 })
 
 //Получение категории по id
+//Здесь нужно сделать проверку авторизации!!!! ???
 
 router.get("/:id", async (req, res) => {
     try {
@@ -68,6 +70,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //Обновление категории
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.patch('/:id', async (req, res) => {
     try {
@@ -89,6 +92,7 @@ router.patch('/:id', async (req, res) => {
 
 
 //Удалении категории
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.delete("/:id", async(req, res) => {
     try {

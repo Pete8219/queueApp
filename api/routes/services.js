@@ -20,6 +20,7 @@ router.get("/", async (req, res) => {
 })
 
 //Запись услуги в базу данных
+//Здесь нужно сделать проверку авторизации!!!!
 router.post("/", [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape()], async (req, res) => {
   try {
     const errors = validationResult(req)
@@ -68,6 +69,7 @@ router.get("/info/:id", async (req, res) => {
 })
 
 //Получение списка услуг принадлежащих сотруднику
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/byUser/:userId", async (req, res) => {
   try {
@@ -107,6 +109,8 @@ router.get("/:id", async (req, res) => {
   }
 })
 
+//Обновление информации об услуге
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/:id", async (req, res) => {
   try {
@@ -127,6 +131,7 @@ router.patch("/:id", async (req, res) => {
 })
 
 //Удаление выбранной услуги
+//Здесь нужно сделать проверку авторизации!!!!
 router.delete("/:id", async (req, res) => {
   try {
     await Service.deleteOne({ _id: req.params.id })

@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs")
 const User = require("../models/users")
 
 //Получение списка всех пользователей
+//Здесь нужно сделать проверку авторизации!!!!
 router.get("/", async (req, res) => {
   try {
     const users = await User.find({}).select({ login: 0, password: 0, userType: 0 })
@@ -18,6 +19,7 @@ router.get("/", async (req, res) => {
 })
 
 //Сохранения нового пользователя в базе
+//Здесь нужно сделать проверку авторизации!!!!
 router.post("/create", async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12)
@@ -42,6 +44,7 @@ router.post("/create", async (req, res) => {
 })
 
 //Получения одного пользователя по userId
+//Здесь нужно сделать проверку авторизации!!!!
 router.get("/:id", async (req, res) => {
   try {
     const data = await await User.findOne({ _id: req.params.id })
@@ -57,6 +60,7 @@ router.get("/:id", async (req, res) => {
 })
 
 //Получение имени пользователя для отображения на странице приветствия
+//Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/welcome/:id", async (req, res) => {
   try {
@@ -105,6 +109,7 @@ router.get("/substitute/:userId/:date", async(req, res) => {
 })
 
 //Обновление пользовательских полей
+//Здесь нужно сделать проверку авторизации!!!!
 router.patch("/:id", async (req, res) => {
   try {
     const data = await User.findById({ _id: req.params.id })
@@ -143,6 +148,7 @@ router.patch("/:id", async (req, res) => {
 })
 
 //Удаление выбранного пользователя
+//Здесь нужно сделать проверку авторизации!!!!
 router.delete("/:id", async (req, res) => {
   try {
     await User.deleteOne({ _id: req.params.id })

@@ -8,7 +8,9 @@ const bcrypt = require("bcryptjs")
 const { check, validationResult } = require("express-validator")
 const User = require("../models/users")
 
-router.post("/register", [check("login", "Некорректный Логин").trim().isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
+//Закрываем регистрацию пользователей
+
+/* router.post("/register", [check("login", "Некорректный Логин").trim().isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
   try {
     const errors = validationResult(req)
 
@@ -39,7 +41,7 @@ router.post("/register", [check("login", "Некорректный Логин").
       message: `Что то пошло не так????`,
     })
   }
-})
+}) */
 
 router.post("/login", [check("login", "Введите корретный логин").trim().isLength({ min: 3 }), check("password", "Введите пароль").exists()], async (req, res) => {
   try {
