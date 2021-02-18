@@ -2,7 +2,8 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 
 
-export const EditTicket = ({serviceData, ticketData, activeHandler}) => {
+export const EditTicket = ({serviceData, ticketData, userName, activeHandler}) => {
+    console.log(userName)
     const history = useHistory()
     
     const {date, firstname, lastname, surname} = ticketData
@@ -21,8 +22,9 @@ export const EditTicket = ({serviceData, ticketData, activeHandler}) => {
                 <span><b>Услуга:</b> {serviceData.title} </span>
                 <span><b>Дата приема:</b> {date.slice(0,10).split('-').reverse().join('.')} </span>
                 <span><b>Время приема:</b> {date.slice(11,16)} </span>
-                <span><b>Кабинет:</b> {serviceData.user.cabinet} </span> 
-                <span><b>Прием ведет:</b> {serviceData.user.name} </span>
+                <span><b>Кабинет:</b> {userName.cabinet} </span> 
+                <span><b>Прием ведет:</b> {userName.name} </span> {//Здесь нужно выводить имя реального сотрдуника, который оказывает услугу
+                }
                 <span><b>Посетитель:</b> {firstname} {lastname} {surname} </span> 
                 
 

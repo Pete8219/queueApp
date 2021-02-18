@@ -10,9 +10,10 @@ export const TicketEditPage = () => {
     const ticketData = JSON.parse(localStorage.getItem('TicketData'))
     
     const [serviceData, setServiceData] = useState('')
+    const [userName, setUserName] = useState('')
     const [active, setActive] = useState('ticket')
 
-    const { service } = ticketData
+    const { service, user } = ticketData
 
      useEffect(() => {
         const fetchService = async() => {
@@ -22,6 +23,14 @@ export const TicketEditPage = () => {
 
         fetchService()
     },[request, service]) 
+
+    useEffect(() => {
+        const fetchUser = async() => {
+            const fetched = await request(`/users/welcome/${user}`, 'GET', null, {})
+            setUserName(fetched)
+        }
+        fetchUser()
+    },[request, user])
 
     const activeHandler = () => {
         setActive('category')
@@ -34,7 +43,7 @@ export const TicketEditPage = () => {
 
     return (
         <>
-            {!loading && serviceData && active === 'ticket' && <EditTicket ticketData={ticketData} serviceData={serviceData} activeHandler={activeHandler}/> }
+            {!loading && serviceData && userName && active === 'ticket' && <EditTicket ticketData={ticketData} serviceData={serviceData} userName={userName} activeHandler={activeHandler}/> }
             {!loading && active === 'category' && <Categories /> }
         </>
     )
