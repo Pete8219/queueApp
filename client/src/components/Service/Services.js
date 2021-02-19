@@ -35,7 +35,7 @@ export const ServicesList = ({ services, onDelete }) => {
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={createHandler}>
         <i className="material-icons">add</i>
       </a>
-      <div className="card table-service">
+      <div className="card table-service padding-10">
         <table className="striped">
           <thead>
             <tr>

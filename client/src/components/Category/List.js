@@ -7,7 +7,7 @@ export const List = ({categories, create, edit, OnDelete}) => {
         <div className="row col-s12">
         <h4>Категории услуг</h4>
         <ButtonCreate action={() => create('Create')}/>
-        <div className="card table-service">
+        <div className="card table-service padding-10">
           <table className="striped">
             <thead>
               <tr>

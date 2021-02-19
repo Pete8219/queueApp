@@ -11,7 +11,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={onCreate}>
         <i className="material-icons">add</i>
       </a>
-      <div className="card table-service" style={{padding:"20px"}}>
+      <div className="card table-service padding-10" style={{padding:"20px"}}>
         <table className="striped">
           <thead>
             <tr>
