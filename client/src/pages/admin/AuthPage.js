@@ -40,6 +40,12 @@ export const AuthPage = () => {
     } catch (e) {}
   }
 
+  const pressHandler =  (event) => {
+    if (event.key === 'Enter') {
+      loginHandler()
+    }
+  }
+
   return (
     <div className="row valign-wrapper">
       <div className="col s6 offset-s3">
@@ -58,7 +64,7 @@ export const AuthPage = () => {
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">https</i>
-                  <input placeholder="Введите пароль" id="password" type="password" name="password" className="validate password" onChange={changeHandler} style={{ color: "#fff !important" }} />
+                  <input placeholder="Введите пароль" id="password" type="password" name="password" className="validate password" onChange={changeHandler} onKeyPress={pressHandler} style={{ color: "#fff !important" }} />
                   <label htmlFor="password">Пароль</label>
                 </div>
               </div>
