@@ -4,11 +4,13 @@ import { Detail } from "../../../components/Service/Detail"
 import { useParams } from "react-router-dom"
 
 export const ServiceDetailPage = () => {
+  const serviceId = useParams().id
+
   const [service, setService] = useState('')
   const [users, setUsers] = useState('')
   const [categories, setCategories] = useState('')
   const { loading, request } = useHttp()
-  const serviceId = useParams().id
+  
 
 
   useEffect(() => {

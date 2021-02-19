@@ -6,6 +6,7 @@ import { useHttp } from '../../hooks/http.hook'
 import { useMessage } from '../../hooks/message.hook'
 
 export const ServicesList = ({ services, onDelete }) => {
+  /* console.log(services) */
   const history = useHistory()
   const message = useMessage()
   const {request, error, clearError} = useHttp()
@@ -15,6 +16,7 @@ export const ServicesList = ({ services, onDelete }) => {
   }
   
   const editHandler = (data) => {
+    
     history.push(`/services/detail/${data}`)
   }
 

@@ -41,7 +41,7 @@ router.post("/", [check("title", "Поле не должно быть пусты
       })
     }
 
-    const service = await new Service({ title: req.body.title, time: req.body.time, user: req.body.user })
+    const service = await new Service({ title: req.body.title, time: req.body.time, user: req.body.user, category: req.body.category })
 
     await service.save()
 

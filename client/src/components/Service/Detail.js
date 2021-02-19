@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
@@ -9,6 +9,9 @@ import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const Detail = ({ service, users, categories }) => {
   console.log(service)
+
+
+
 
   const message = useMessage()
   const { request } = useHttp()
