@@ -28,7 +28,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
   const { date, hours, minutes } = req.body
   receptionDate = new Date(date.split('.').reverse().join('-'))
   receptionDate.setHours(hours)
-  receptionDate.setHours(receptionDate.getHours() + 5)
+  /* receptionDate.setHours(receptionDate.getHours() + 5) */
   receptionDate.setMinutes(minutes)
 
   req.body.date = receptionDate

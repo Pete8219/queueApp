@@ -107,14 +107,14 @@ export const ContactForm = () => {
 
                const userData = JSON.parse(localStorage.getItem('userData'))
 
-               if(userData) {
-                   /* message('Посетитель зарегистрирован') */
+            /*    if(userData) {
+                   
                    history.push('/')
                } else {
                    history.push('/ticket')
-               }
+               } */
                
-                
+               history.push('/ticket')
    
         } catch(e) {}
 

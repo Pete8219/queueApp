@@ -16,7 +16,7 @@ export const TicketForm = ({data, name}) => {
     return (
 
         <div className="container ticket">
-        <blockquote>Сфотографируйте Ваш талон на мобильный телефон для предъявления на приеме</blockquote>
+        {/* <blockquote>Сфотографируйте Ваш талон на мобильный телефон для предъявления на приеме</blockquote> */}
         <div className= "card ticketForm">
         <p style={{textDecoration:"underline", textAlign:"center"}}><b>Талон на прием № {name.name.slice(0,1)} - {hours}/{time}</b></p>
             <div className="ticketFormContent" >
