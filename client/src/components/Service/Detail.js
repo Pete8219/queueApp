@@ -8,11 +8,7 @@ import { CategoryDropdown } from '../Category/CategoryDropdown'
 import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const Detail = ({ service, users, categories }) => {
-  console.log(service)
-
-
-
-
+ 
   const message = useMessage()
   const { request } = useHttp()
   const history = useHistory()
@@ -21,10 +17,10 @@ export const Detail = ({ service, users, categories }) => {
     title: service.title,
     time: service.time,
     user: service.user._id,
-    category: service.category._id
+    category: service.category
   })
 
-
+  const [categoryList, setCategoryList] = useState(categories)
 
   useEffect(() => {
     M.AutoInit()
@@ -45,6 +41,26 @@ export const Detail = ({ service, users, categories }) => {
       history.push("/services")
     } catch (e) {}
   }
+  let selCats = []
+  const selectHandler = (event) => {
+    let options = event.target.options
+    let selectedOptions = []
+    
+
+    for (let i = 0; i <options.length; i++) {
+      if(options[i].selected) {
+        selectedOptions.push(options[i].value)
+        const selCat = categories.filter( item => item._id === options[i].value)
+        console.log(selCat)
+        selCats.push(selCat)
+             
+        
+      }
+    }
+
+    setForm({...form, category: selCats})
+
+  }
 
   const cancelHandler = () => {
     history.push("/services")
@@ -63,9 +79,9 @@ export const Detail = ({ service, users, categories }) => {
             <label htmlFor="title">Название</label>
           </div>
           <CategoryDropdown
-            categories={categories}
+            categories={categoryList}
             category={form.category}
-            handler={changeHandler}
+            handler={selectHandler}
           />
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />

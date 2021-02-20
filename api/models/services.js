@@ -4,7 +4,7 @@ const Category = require("./categories")
 
 const serviceSchema = mongoose.Schema({
   title: String,
-  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+  category: [{ type: mongoose.Schema.Types.ObjectId, ref: "Category" }],
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

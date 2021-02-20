@@ -13,7 +13,7 @@ export const CreateService = ({users, categories}) => {
     title: "",
     time: "",
     user: '',
-    category: ''
+    category: [],
   })
 
   const history = useHistory()
@@ -36,6 +36,18 @@ export const CreateService = ({users, categories}) => {
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
+  }
+
+  const selectHandler = (event) => {
+    let options = event.target.options
+    let selectedOptions = []
+
+    for (let i = 0; i <options.length; i++) {
+      if(options[i].selected) {
+        selectedOptions.push(options[i].value)
+      }
+    }
+    setForm({...form, category: selectedOptions})
   }
 
   const cancelHandler = () => {
@@ -61,7 +73,7 @@ export const CreateService = ({users, categories}) => {
           </div>
           <CategoryDropdown
              categories={categories}
-             handler={changeHandler} 
+             handler={selectHandler} 
              category={form.category}
              />
           <div className="input-field col s4">
