@@ -4,11 +4,16 @@ import { useHistory, useParams } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
-import { CategoryDropdown } from '../Category/CategoryDropdown'
+import { CategoryDropdown } from "../Category/CategoryDropdown"
 import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const Detail = ({ service, users, categories }) => {
- 
+  const { category } = service
+
+  /*  const selectedCategories = service.map((item) => item.category._id)
+
+  console.log(selectedCategories) */
+
   const message = useMessage()
   const { request } = useHttp()
   const history = useHistory()
@@ -17,7 +22,7 @@ export const Detail = ({ service, users, categories }) => {
     title: service.title,
     time: service.time,
     user: service.user._id,
-    category: service.category
+    category: category,
   })
 
   const [categoryList, setCategoryList] = useState(categories)
@@ -45,28 +50,22 @@ export const Detail = ({ service, users, categories }) => {
   const selectHandler = (event) => {
     let options = event.target.options
     let selectedOptions = []
-    
 
-    for (let i = 0; i <options.length; i++) {
-      if(options[i].selected) {
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
         selectedOptions.push(options[i].value)
-        const selCat = categories.filter( item => item._id === options[i].value)
+        const selCat = categories.filter((item) => item._id === options[i].value)
         console.log(selCat)
         selCats.push(selCat)
-             
-        
       }
     }
 
-    setForm({...form, category: selCats})
-
+    setForm({ ...form, category: selCats })
   }
 
   const cancelHandler = () => {
     history.push("/services")
   }
-
-
 
   return (
     <div className="row">
@@ -78,22 +77,14 @@ export const Detail = ({ service, users, categories }) => {
             <input type="text" id="title" name="title" value={form.title} className="materialize-textarea" onChange={changeHandler} />
             <label htmlFor="title">Название</label>
           </div>
-          <CategoryDropdown
-            categories={categoryList}
-            category={form.category}
-            handler={selectHandler}
-          />
+          <CategoryDropdown categories={categoryList} category={form.category} handler={selectHandler} />
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />
             <label htmlFor="title">Время оказания</label>
           </div>
-          <UsersDropdown 
-            users={users}
-            user={form.user}
-            handler={changeHandler}
-            />
-        </div> 
-        <div className="row" style={{float:"right"}}>
+          <UsersDropdown users={users} user={form.user} handler={changeHandler} />
+        </div>
+        <div className="row" style={{ float: "right" }}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={updateHandler}>
             Сохранить
           </a>

@@ -2,32 +2,27 @@
 
 import React, { useEffect } from "react"
 import { useHistory } from "react-router-dom"
-import { useHttp } from '../../hooks/http.hook'
-import { useMessage } from '../../hooks/message.hook'
+import { useHttp } from "../../hooks/http.hook"
+import { useMessage } from "../../hooks/message.hook"
 
 export const ServicesList = ({ services, onDelete }) => {
   /* console.log(services) */
   const history = useHistory()
   const message = useMessage()
-  const {request, error, clearError} = useHttp()
-   
+  const { request, error, clearError } = useHttp()
+
   const createHandler = () => {
     history.push("/services/create")
   }
-  
+
   const editHandler = (data) => {
-    
     history.push(`/services/detail/${data}`)
   }
 
-
-
-  useEffect(()=> {
+  useEffect(() => {
     message(error)
     clearError()
   }, [message, error, clearError, request])
-
-
 
   return (
     <div className="row col-s12">
@@ -55,7 +50,7 @@ export const ServicesList = ({ services, onDelete }) => {
                   <td>
                     {" "}
                     <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" onClick={() => editHandler(item._id)}>
-                      <i className="material-icons">create</i>
+                      <i className="material-icons">settings</i>
                     </a>
                   </td>
                   <td>

@@ -41,10 +41,7 @@
     border-radius: 5px;
   }
 
- 
   .time-container {
-    
-   
     min-width: 100%;
   }
 
@@ -55,7 +52,7 @@
     grid-template-columns: 1fr;
     grid-template-rows: 5rem;
     align-items: center;
-    border-radius: 5px; 
+    border-radius: 5px;
   }
 
   .ticket {
@@ -68,17 +65,16 @@
     display: grid;
     grid-template-columns: 1fr;
     text-align: center;
-    border: 2px dashed rgba(17,68,102,0.34);
+    border: 2px dashed rgba(17, 68, 102, 0.34);
   }
   .ticketFormContent {
     grid-template-columns: 1fr;
-    display:grid;
+    display: grid;
     text-align: left;
   }
 }
 
 @media screen and (min-width: 850px) {
-
   .container h4 {
     text-align: center;
   }
@@ -127,10 +123,9 @@
   .service-list > div.card {
     margin-top: 1rem !important;
     align-content: center !important;
-    padding:0 10px 25px 10px !important;
-    
+    padding: 0 10px 25px 10px !important;
   }
- /*  .service-list .card {
+  /*  .service-list .card {
     align-content: center;
     
   } */
@@ -141,7 +136,7 @@
     text-align: center;
   }
 
-   .timeTable ul {
+  .timeTable ul {
     display: grid;
     justify-content: center;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -151,7 +146,7 @@
     text-align: center;
     color: #fff;
     margin-top: 4rem;
-  } 
+  }
 
   /* Contact Form styles */
 
@@ -171,15 +166,15 @@
     display: grid;
     text-align: center;
     color: white;
-    grid-template-columns: 1fr ;
+    grid-template-columns: 1fr;
     grid-template-rows: 5rem;
     align-items: center;
     border-radius: 5px;
   }
 
   .time-container {
-    display:grid;
-    grid-template-columns:1fr;
+    display: grid;
+    grid-template-columns: 1fr;
     min-width: 50%;
   }
 
@@ -190,24 +185,22 @@
     grid-template-columns: 1fr;
     grid-template-rows: 5rem;
     align-items: center;
-    border-radius: 5px; 
+    border-radius: 5px;
   }
 
-  /* Стили для 404 страницы */ 
+  /* Стили для 404 страницы */
 
   .notFound {
     height: 100vh;
     display: grid;
     grid-auto-rows: 1fr;
     align-items: center;
-
   }
 
-  .notFound>div {
+  .notFound > div {
     display: grid;
     justify-content: center;
     grid-auto-rows: auto;
-
   }
 
   .notFoundText {
@@ -217,11 +210,10 @@
     font-weight: 800;
     color: cornflowerblue;
     text-align: center;
-
   }
 
   .homeLink {
-    text-align:center;
+    text-align: center;
     font-size: 1.5rem;
   }
 
@@ -233,7 +225,7 @@
     display: grid;
     grid-template-columns: 0.6fr;
     justify-content: center;
-    grid-template-rows:1fr;
+    grid-template-rows: 1fr;
   }
 
   .ticketForm {
@@ -241,23 +233,33 @@
     display: grid;
     grid-template-columns: 1fr;
     text-align: center;
-    border: 2px dashed rgba(17,68,102,0.34);
-    grid-gap:2rem;
-    margin-bottom:4rem;
+    border: 2px dashed rgba(17, 68, 102, 0.34);
+    grid-gap: 2rem;
+    margin-bottom: 4rem;
   }
   .ticketFormContent {
     grid-template-columns: 1fr;
-    display:grid;
+    display: grid;
     text-align: left;
-    grid-gap:1rem;
-    padding-left:20px;
-    padding-bottom:2rem;
+    grid-gap: 1rem;
+    padding-left: 20px;
+    padding-bottom: 2rem;
   }
-
 
   .padding-10 {
-    padding:15px;
+    padding: 15px;
   }
+}
 
+.selectedCats {
+  z-index: 100;
+  margin-left: -40px;
+  padding-top: 5px;
+  font-size: 0.9em;
+}
 
+.selectedCats:hover {
+  color: crimson;
+  cursor: pointer;
+  font-size: 1.2em;
 }
