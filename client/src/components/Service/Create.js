@@ -8,13 +8,15 @@ import { CategoryDropdown } from '../Category/CategoryDropdown'
 import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const CreateService = ({users, categories}) => {
-  console.log(categories)
+  
     const [form, setForm] = useState({
     title: "",
     time: "",
     user: '',
     category: [],
   })
+
+  const [unSelectedCategories, setUnSelectedCategories] = useState(categories)
 
   const history = useHistory()
   const { request, error, clearError } = useHttp()
@@ -34,11 +36,19 @@ export const CreateService = ({users, categories}) => {
     clearError()
   }, [message, error, clearError])
 
-  const changeHandler = (event) => {
-    setForm({ ...form, [event.target.name]: event.target.value })
-  }
 
-  const selectHandler = (event) => {
+  useEffect(() => {
+    const filteredCats = form.category.map(JSON.stringify) 
+    const unselected = categories.map(JSON.stringify).filter(e => !filteredCats.includes(e)).map(JSON.parse)
+
+    setUnSelectedCategories(unselected)
+},[form.category]) 
+
+   const changeHandler = (event) => {
+    setForm({ ...form, [event.target.name]: event.target.value })
+  } 
+
+/*   const selectHandler = (event) => {
     let options = event.target.options
     let selectedOptions = []
 
@@ -48,7 +58,25 @@ export const CreateService = ({users, categories}) => {
       }
     }
     setForm({...form, category: selectedOptions})
+  } */
+
+//Добавление в список Выбранных категорий
+
+  const addHandler = (data) => {
+    const result = [...form.category]
+    result.push(data)
+    setForm({...form, category: result})
+
   }
+
+   // Удаление категории из списка выбранных 
+   const deleteHandler = (data) => {
+    const result = form.category.filter(item => {
+        return item._id !== data._id
+ })
+  
+ setForm({...form, category: result})
+}
 
   const cancelHandler = () => {
     history.push("/services")
@@ -72,9 +100,11 @@ export const CreateService = ({users, categories}) => {
             <label htmlFor="title">Название</label>
           </div>
           <CategoryDropdown
-             categories={categories}
-             handler={selectHandler} 
+             categories={unSelectedCategories}
              category={form.category}
+             handler={addHandler}
+             deleteHandler={deleteHandler} 
+             
              />
           <div className="input-field col s4">
             <input placeholder="Время,мин" id="time" type="text" name="time" className="validate" onChange={changeHandler} />

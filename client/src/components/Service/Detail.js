@@ -8,12 +8,7 @@ import { CategoryDropdown } from "../Category/CategoryDropdown"
 import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const Detail = ({ service, users, categories }) => {
-  const { category } = service
-
-  /*  const selectedCategories = service.map((item) => item.category._id)
-
-  console.log(selectedCategories) */
-
+ 
   const message = useMessage()
   const { request } = useHttp()
   const history = useHistory()
@@ -22,10 +17,23 @@ export const Detail = ({ service, users, categories }) => {
     title: service.title,
     time: service.time,
     user: service.user._id,
-    category: category,
+    category: service.category
+   
   })
 
-  const [categoryList, setCategoryList] = useState(categories)
+
+  const [unSelectedCategories, setUnSelectedCategories] = useState(categories)
+  //const [selectedCats, setSelectedCats] = useState(service.category)
+
+
+  useEffect(() => {
+    const filteredCats = form.category.map(JSON.stringify) 
+    const unselected = categories.map(JSON.stringify).filter(e => !filteredCats.includes(e)).map(JSON.parse)
+
+    setUnSelectedCategories(unselected)
+},[form.category]) 
+
+
 
   useEffect(() => {
     M.AutoInit()
@@ -46,6 +54,9 @@ export const Detail = ({ service, users, categories }) => {
       history.push("/services")
     } catch (e) {}
   }
+
+  /* Обработка выбранных категорий из списка */
+/* 
   let selCats = []
   const selectHandler = (event) => {
     let options = event.target.options
@@ -55,17 +66,37 @@ export const Detail = ({ service, users, categories }) => {
       if (options[i].selected) {
         selectedOptions.push(options[i].value)
         const selCat = categories.filter((item) => item._id === options[i].value)
-        console.log(selCat)
+        
         selCats.push(selCat)
       }
     }
 
     setForm({ ...form, category: selCats })
+  } */
+
+  //Добавление в список Выбранных категорий
+
+  const addHandler = (data) => {
+    const result = [...form.category]
+    result.push(data)
+    setForm({...form, category: result})
+
   }
 
-  const cancelHandler = () => {
-    history.push("/services")
+  // Удаление категории из списка выбранных 
+  const deleteHandler = (data) => {
+       const result = form.category.filter(item => {
+           return item._id !== data._id
+    })
+     
+    setForm({...form, category: result})
   }
+
+
+    // Обработчик кнопки отмена 
+    const cancelHandler = () => {
+      history.push("/services")
+    }
 
   return (
     <div className="row">
@@ -77,7 +108,7 @@ export const Detail = ({ service, users, categories }) => {
             <input type="text" id="title" name="title" value={form.title} className="materialize-textarea" onChange={changeHandler} />
             <label htmlFor="title">Название</label>
           </div>
-          <CategoryDropdown categories={categoryList} category={form.category} handler={selectHandler} />
+          <CategoryDropdown categories={unSelectedCategories} category={form.category} handler={addHandler} deleteHandler={deleteHandler}  />
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />
             <label htmlFor="title">Время оказания</label>

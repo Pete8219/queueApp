@@ -1,52 +1,46 @@
-import React from "react"
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, {useState, useEffect} from "react"
 
-export const CategoryDropdown = ({ categories, category, handler }) => {
-  /* const selected = category === undefined || category === '' ? <option defaultValue='Выберите категорию'>Выберите категорию</option> : null */
-
-  let unselectedCategories = []
-
-  if (category.length) {
-    const selIds = category.map((elem) => elem._id)
-
-    categories.map((item) => {
-      if (!selIds.includes(item._id)) {
-        unselectedCategories.push(item)
-      }
-    })
-  } else {
-    unselectedCategories = categories
-  }
-
+export const CategoryDropdown = ({ categories, category, handler, deleteHandler }) => {
+  
   const selectedCategory = category.map((item) => {
     return (
       <div>
-        <li key={item._id} className="col s11" value={item._id} style={{ fontSize: "0.8em", float: "left", backgroundColor: "#b7ece8", borderRadius: "10px", padding: "15px", marginBottom: "10px" }}>
+        <li key={item._id} className="col s11 " value={item._id} style={{ fontSize: "0.8em", float: "left", backgroundColor: "#b7ece8", borderRadius: "10px", padding: "15px", marginBottom: "10px" }} >
           {item.title}
         </li>
+       
+       <a style={{color:"#000"}} onClick={() => deleteHandler(item)}> 
         <i className="material-icons col s1 selectedCats">close</i>
+        </a>
       </div>
     )
   })
 
-  const list = unselectedCategories.map((item) => {
+
+  const list = categories.map((item) => {
     return (
-      <option key={item._id} value={item._id}>
+      <li key={item._id} value={item._id} onClick={() => handler(item)} style={{cursor:"pointer"}}>
         {item.title}
-      </option>
+      </li>
     )
   })
+
   return (
-    <div className="input-field col s12">
-      <div className="input-field col s6">
-        <select multiple={true} name="category" value={selectedCategory} onChange={handler}>
+    <div className="col s12" style={{paddingLeft:"0px !important", paddingRight:"0px !important"}}>
+
+      <div className="col s6" style={{marginBottom:"40px"}}>
+      <b>Категории услуг</b>
+        <ul className ="unselectedCats">
           {list}
-        </select>
-        <label>Категория услуг</label>
+          </ul>
+        
       </div>
-      <div className=" col s6">
+      <div className="col s6">
         <b>Выбранные категории</b>
         <ul>{selectedCategory}</ul>
       </div>
+
     </div>
   )
 }
