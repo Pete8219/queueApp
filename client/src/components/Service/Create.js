@@ -48,17 +48,6 @@ export const CreateService = ({users, categories}) => {
     setForm({ ...form, [event.target.name]: event.target.value })
   } 
 
-/*   const selectHandler = (event) => {
-    let options = event.target.options
-    let selectedOptions = []
-
-    for (let i = 0; i <options.length; i++) {
-      if(options[i].selected) {
-        selectedOptions.push(options[i].value)
-      }
-    }
-    setForm({...form, category: selectedOptions})
-  } */
 
 //Добавление в список Выбранных категорий
 

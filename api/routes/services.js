@@ -21,7 +21,7 @@ router.get("/", async (req, res) => {
 
 //Запись услуги в базу данных
 //Здесь нужно сделать проверку авторизации!!!!
-router.post("/", [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape()], async (req, res) => {
+router.post("/", [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape(), check("user", "Выберите ответственного сотрудника").not().isEmpty()], async (req, res) => {
   try {
     const errors = validationResult(req)
 
@@ -32,14 +32,17 @@ router.post("/", [check("title", "Поле не должно быть пусты
       })
     }
 
-    const { title } = req.body
+    const { title, user } = req.body
 
-    const isExist = await Service.findOne({ title })
+    console.log(user)
+
+    const isExist = await Service.findOne({$and: [{ title }, {user}]})
+    console.log(isExist)
     if (isExist) {
-      return res.status(400).json({
-        message: "Такая услуга уже есть в базе",
-      })
-    }
+          return res.status(400).json({
+          message: "Такая услуга уже есть в базе",
+        })
+      }
 
     const service = await new Service({ title: req.body.title, time: req.body.time, user: req.body.user, category: req.body.category })
 
