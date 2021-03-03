@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { useHistory } from 'react-router-dom'
+import { useMessage } from "../../hooks/message.hook"
 import { AuthContext } from "../../context/AuthContext"
 import { Loader } from '../Loader'
 import { UserName } from "./UserName"
@@ -19,6 +20,8 @@ export const TicketList = () => {
 
   const { loading, request } = useHttp()
 
+  const message = useMessage()
+
   useEffect(() => {
     const fetchUserName = async () => {
       try {
@@ -34,7 +37,7 @@ export const TicketList = () => {
       return
     }
     const fetchTickets = async () => {
-      console.log(date)
+      
       try {
         const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {})
         
@@ -42,12 +45,26 @@ export const TicketList = () => {
       } catch (e) {}
     }
     fetchTickets()
-  }, [request, userId, date])
+  }, [request, userId, date, status])
 
 
 
-  const handleChange = (event) => {
-    setStatus(event.target.value)
+  const handleChange = async (event) => {
+    const ticketId = event.target.dataset.ticketId
+    const newStatus = event.target.value
+    const body = {
+      status: newStatus
+    }
+    
+    
+     try {
+      const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {})
+      message(data.message)
+      setStatus(event.target.value)
+    } catch(e) {} 
+
+    
+
   }
 
   const dateHandler = (event) => {

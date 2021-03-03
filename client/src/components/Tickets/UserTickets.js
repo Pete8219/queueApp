@@ -3,8 +3,8 @@ import React from "react"
 import { DateSelect } from '../Calendar/DateSelect'
 import { FindUser } from '../Tickets/FindUser'
 
+
 export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, visitor, findHandler, pressHandler, changeRecord }) => {
-  
 
   const statusList = ["В работе", "Исполнено(проведена консультация)", "Исполнено(принято заявление)", "Исполнено(заявитель отказался подавать заяаление)", "Отказ от записи", "Не явился"]
 
@@ -24,8 +24,6 @@ export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, 
     )
   }
  
-  
-
   return (
       <div className="container" style={{width:"100%"}}>
         <div className = "row col s12">
@@ -62,7 +60,7 @@ export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, 
 
                 <td>{ticket.date.slice(11, 16)}</td>
                 <td>
-                  <select className="browser-default" value={status.value} onChange={handleChange}>
+                  <select className="browser-default" data-ticket-id={ticket._id} defaultValue={status} onChange={handleChange}>
                     {statusList.map((item, i) => {
                       return (
                         <option key={i} value={item}>

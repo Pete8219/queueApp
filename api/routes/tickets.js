@@ -196,26 +196,27 @@ router.get("/status", async (req, res) => {
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/:ticketId", (req, res, next) => {
-  const id = req.params.ticketId
+router.patch("/:ticketId", async (req, res, next) => {
+  try {
+        const id = req.params.ticketId
 
-  const updateOps = {}
+        const updateOps = {}
 
-  for (ops of req.body) {
-    updateOps[ops.propName] = ops.value
-  }
+        for (let key in req.body) {
+          updateOps[key] = req.body[key]
+        }
 
-  Ticket.updateOne({ _id: id }, { $set: updateOps })
-    .exec()
-    .then((ticket) => {
-      res.status(200).json({
-        message: "Updated ticket!",
-        ticket,
+        await Ticket.updateOne({ _id: id }, { $set: updateOps })
+        res.status(200).json({
+          message: `Статус заявления изменен на: "${req.body.status}"`
       })
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+} catch (e) {
+  res.status(400).json({
+    message: "Произошла ошибка. Обратитесь к разработчику"
+  })
+}
+
+
 })
 
 
