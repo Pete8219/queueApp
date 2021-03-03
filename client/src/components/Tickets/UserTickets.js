@@ -4,9 +4,9 @@ import { DateSelect } from '../Calendar/DateSelect'
 import { FindUser } from '../Tickets/FindUser'
 
 export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, visitor, findHandler, pressHandler, changeRecord }) => {
-  /* console.log(tickets) */
+  
 
-  const statusList = ["В работе", "Отработан", "Отказ", "Уточнение сведений"]
+  const statusList = ["В работе", "Исполнено(проведена консультация)", "Исполнено(принято заявление)", "Исполнено(заявитель отказался подавать заяаление)", "Отказ от записи", "Не явился"]
 
   if(!tickets.length) {
     return (
