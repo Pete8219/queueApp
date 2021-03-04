@@ -10,6 +10,7 @@ export const Time = () => {
   const { preHoliday } = YearCalendar()
   let date = ""
   let serviceId = ""
+  let userId = ""
   let day = ""
   let month = ""
   let isShort = ""
@@ -20,8 +21,10 @@ export const Time = () => {
   if (localData === null) {
     history.push("/")
   } else {
+    console.log(localData.user[0]._id)
     date = localData.date
     serviceId = localData.serviceId
+    userId = localData.user[0]._id
     day = new Date(date.split(".").reverse().join("-"))
     month = day.getMonth()
     isShort = preHoliday[month].includes(day.getDate()) ? "true" : "false"
@@ -42,14 +45,14 @@ export const Time = () => {
     
     const fetchTickets = async () => {
       try {
-        const fetched = await request(`tickets/byService/${serviceId}/${date}`, "GET", null, {})
+        const fetched = await request(`tickets/byService/${serviceId}/${date}/${userId}`, "GET", null, {})
         console.log(fetched)
         
         setTickets(fetched)
       } catch (e) {}
     }
     fetchTickets()
-  }, [request, serviceId, date])
+  }, [request, serviceId, date, userId])
 
   useEffect(() => {
     if (!serviceId) {

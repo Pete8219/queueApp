@@ -5,17 +5,24 @@ export const Staff = () => {
     const history = useHistory()
     const getLocalStorageData = JSON.parse(localStorage.getItem("Items"))
 
-    let user = []
+    let users = []
 
     if (getLocalStorageData === null) {
          history.push("/")
         
     } else {
-        user = getLocalStorageData.user
+        if(getLocalStorageData.users) {
+            users = [...getLocalStorageData.users]
+        } else {
+            users = [...getLocalStorageData.user]
+            getLocalStorageData.users = users
+        }
+
+        console.log(getLocalStorageData)
     }
 
    
-    const list = user.map((item, index) => {
+    const list = users.map((item, index) => {
         return (
           <div key={item._id} className="card blue darken-2"  onClick={() => ClickUserHandler(item._id)}  style={{ borderRadius: "5px",  display: "grid", justifyItems: "center", alignItems: "center" }}>
             <li key={index}>{item.name}</li>
@@ -30,7 +37,7 @@ export const Staff = () => {
 
     const ClickUserHandler = (id) => {
 
-        const selectedUser = user.filter(item => {
+        const selectedUser = users.filter(item => {
             return item._id !== id
          })
 

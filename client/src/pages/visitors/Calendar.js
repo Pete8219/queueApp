@@ -55,7 +55,7 @@ export const Calendar = () => {
     }
 
     const {user} = localData
-    console.log(user)
+    
     
     if(user.length > 1 ) {
       localStorage.setItem("Items", JSON.stringify(localData))

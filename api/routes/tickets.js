@@ -136,8 +136,8 @@ router.get("/ticketlist/:userId/:date", async(req, res) => {
 //Выбор тикетов по id-услуги, за заданный промежуток времени. Используется при формировании времени приема 
 
 //Здесь нужно сделать проверку авторизации!!!!
-router.get("/byService/:serviceId/:date", async(req, res) => {
-  const { serviceId, date} = req.params
+router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
+  const { serviceId, date, userId} = req.params
  
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -147,7 +147,7 @@ router.get("/byService/:serviceId/:date", async(req, res) => {
   endDate.setHours(23,59,0,0)
 
   try {
-    const tickets = await Ticket.find({ $and : [{service: req.params.serviceId}, { date: {$gte : startDate, $lte: endDate} }]})
+    const tickets = await Ticket.find({ $and : [{service: req.params.serviceId}, { date: {$gte : startDate, $lte: endDate} }, {user: req.params.userId}]})
     
     res.status(200).json(tickets)
     } catch(e) {
