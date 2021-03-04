@@ -137,7 +137,9 @@ router.get("/ticketlist/:userId/:date", async(req, res) => {
 
 //Здесь нужно сделать проверку авторизации!!!!
 router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
-  const { serviceId, date, userId} = req.params
+
+  console.log(req.params.userId)
+  //const { serviceId, date, userId} = req.params
  
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -147,8 +149,15 @@ router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
   endDate.setHours(23,59,0,0)
 
   try {
-    const tickets = await Ticket.find({ $and : [{service: req.params.serviceId}, { date: {$gte : startDate, $lte: endDate} }, {user: req.params.userId}]})
+    const tickets = await Ticket.find({ 
+      $and : [
+        {service: req.params.serviceId},
+        {user: req.params.userId},
+        {date: {$gte : startDate, $lte: endDate} 
+      }]
+    })
     
+    console.log(tickets)
     res.status(200).json(tickets)
     } catch(e) {
     res.status(500).json({

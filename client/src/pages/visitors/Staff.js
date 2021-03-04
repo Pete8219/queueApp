@@ -38,7 +38,7 @@ export const Staff = () => {
     const ClickUserHandler = (id) => {
 
         const selectedUser = users.filter(item => {
-            return item._id !== id
+            return item._id === id
          })
 
     getLocalStorageData.user = selectedUser

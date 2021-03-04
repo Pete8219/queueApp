@@ -11,7 +11,10 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
          tickets.map(ticket => {
            return  ticketsList.push(ticket.date)
         }) 
+
+        
     }
+
  
     const {time} = service
     const {start, end, vacationFrom,vacationTo, substitute, _id} = service.user[0]
