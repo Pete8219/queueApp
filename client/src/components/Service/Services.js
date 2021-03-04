@@ -6,7 +6,15 @@ import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 
 export const ServicesList = ({ services, onDelete }) => {
-  /* console.log(services) */
+  
+
+  function sortServiceByFieldTitle (field) {
+    return (a, b) => a[field] > b[field] ? 1 : -1
+  } 
+
+  services.sort(sortServiceByFieldTitle('title'))
+
+  
   const history = useHistory()
   const message = useMessage()
   const { request, error, clearError } = useHttp()
@@ -42,10 +50,10 @@ export const ServicesList = ({ services, onDelete }) => {
           </thead>
 
           <tbody>
-            {services.map((item, index) => {
+            {services.map((item, i=0) => {
               return (
                 <tr key={item._id}>
-                  <td>{index + 1}</td>
+                  <td>{i + 1}</td>
                   <td>{item.title}</td>
                   <td>
                     {" "}

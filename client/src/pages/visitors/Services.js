@@ -32,14 +32,24 @@ export const Services = () => {
     return <Loader />
   }
 
-  const ClickHandler = (id) => {
-    const items = {
-      categoryId: category,
-      serviceId: id,
-    }
+  const ClickHandler = async (id) => {
+    
+    try {
+        const getServiceData = await request(`/services/${id}`, 'GET', null, {})
+        const {user} = getServiceData
+        
+        const items = {
+          categoryId: category,
+          serviceId: id,
+          user: user
+        }
+    
+        localStorage.setItem("Items", JSON.stringify(items))
+        history.push("/calendar")
 
-    localStorage.setItem("Items", JSON.stringify(items))
-    history.push("/calendar")
+    } catch(e) {}
+
+
   }
 
   return <>{!loading && services && <ServiceList services={services} handler={ClickHandler} />}</>

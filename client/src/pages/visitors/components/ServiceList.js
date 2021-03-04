@@ -2,7 +2,7 @@ import React from "react"
 import { useHistory } from "react-router-dom" 
 
 export const ServiceList = ({ services, handler }) => {
-
+  console.log(services)
   
    const history = useHistory()
 

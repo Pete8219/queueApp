@@ -26,7 +26,7 @@ router.post("/", [check("title", "Поле не должно быть пусты
     const errors = validationResult(req)
 
     if (!errors.isEmpty) {
-      res.status(400).json({
+      return res.status(400).json({
         errors: errors.array(),
         message: "Проверьте введенные данные",
       })
@@ -37,7 +37,7 @@ router.post("/", [check("title", "Поле не должно быть пусты
     console.log(user)
 
     const isExist = await Service.findOne({$and: [{ title }, {user}]})
-    console.log(isExist)
+    
     if (isExist) {
           return res.status(400).json({
           message: "Такая услуга уже есть в базе",

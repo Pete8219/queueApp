@@ -20,6 +20,7 @@ import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
 import { TicketEditPage } from "./pages/admin/TicketEditPage"
+import { Staff } from "./pages/visitors/Staff"
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -62,6 +63,9 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/contact" exact>
           <Contact />
         </Route>
+        <Route path="/staff" exact>
+        <Staff />
+      </Route>
         <Route path="/ticket" exact>
           <Ticket />
         </Route>
@@ -99,6 +103,9 @@ export const useRoutes = (isAuthenticated) => {
       </Route>
       <Route path="/contact" exact>
         <Contact />
+      </Route>
+      <Route path="/staff" exact>
+        <Staff />
       </Route>
       <Route path="/ticket" exact>
         <Ticket />

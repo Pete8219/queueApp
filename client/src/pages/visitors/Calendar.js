@@ -54,8 +54,18 @@ export const Calendar = () => {
       message("Пожалуйста выберите дату")
     }
 
+    const {user} = localData
+    console.log(user)
+    
+    if(user.length > 1 ) {
+      localStorage.setItem("Items", JSON.stringify(localData))
+      history.push("/staff")
+    } else {
+
     localStorage.setItem("Items", JSON.stringify(localData))
     history.push("/time")
+    }
+
   }
 
   useEffect(() => {

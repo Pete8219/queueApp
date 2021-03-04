@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {useState, useEffect} from "react"
+import React from "react"
 
 export const CategoryDropdown = ({ categories, category, handler, deleteHandler }) => {
   

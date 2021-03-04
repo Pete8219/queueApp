@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react"
-import { useHistory, useParams } from "react-router-dom"
+import { useHistory} from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
@@ -8,6 +8,7 @@ import { CategoryDropdown } from "../Category/CategoryDropdown"
 import { UsersDropdown } from "../Users/UsersDropdown"
 
 export const Detail = ({ service, users, categories }) => {
+  
  
   const message = useMessage()
   const { request } = useHttp()
@@ -16,14 +17,14 @@ export const Detail = ({ service, users, categories }) => {
   const [form, setForm] = useState({
     title: service.title,
     time: service.time,
-    user: service.user._id,
-    category: service.category
+    category: service.category,
+    user: service.user
    
   })
 
 
   const [unSelectedCategories, setUnSelectedCategories] = useState(categories)
-  //const [selectedCats, setSelectedCats] = useState(service.category)
+  const [unSelectedUsers, setUnSelectedUsers] = useState(users)
 
 
   useEffect(() => {
@@ -31,7 +32,14 @@ export const Detail = ({ service, users, categories }) => {
     const unselected = categories.map(JSON.stringify).filter(e => !filteredCats.includes(e)).map(JSON.parse)
 
     setUnSelectedCategories(unselected)
-},[form.category]) 
+},[form.category, categories]) 
+
+useEffect(() => {
+  const filteredUsers = form.user.map(JSON.stringify) 
+  const unselected = users.map(JSON.stringify).filter(e => !filteredUsers.includes(e)).map(JSON.parse)
+
+  setUnSelectedUsers(unselected)
+},[form.user, users]) 
 
 
 
@@ -55,24 +63,7 @@ export const Detail = ({ service, users, categories }) => {
     } catch (e) {}
   }
 
-  /* Обработка выбранных категорий из списка */
-/* 
-  let selCats = []
-  const selectHandler = (event) => {
-    let options = event.target.options
-    let selectedOptions = []
 
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selectedOptions.push(options[i].value)
-        const selCat = categories.filter((item) => item._id === options[i].value)
-        
-        selCats.push(selCat)
-      }
-    }
-
-    setForm({ ...form, category: selCats })
-  } */
 
   //Добавление в список Выбранных категорий
 
@@ -83,6 +74,16 @@ export const Detail = ({ service, users, categories }) => {
 
   }
 
+  //Добавление в список Выбранных сотрудников
+
+  const addUserHandler = (data) => {
+    const result = [...form.user]
+    result.push(data)
+    setForm({...form, user: result})
+
+  }
+
+
   // Удаление категории из списка выбранных 
   const deleteHandler = (data) => {
        const result = form.category.filter(item => {
@@ -91,6 +92,16 @@ export const Detail = ({ service, users, categories }) => {
      
     setForm({...form, category: result})
   }
+
+  //Удаление сотрудника из списка выбранных
+
+  const deleteUserHandler = (data) => {
+    const result = form.user.filter(item => {
+        return item._id !== data._id
+ })
+  
+ setForm({...form, user: result})
+}  
 
 
     // Обработчик кнопки отмена 
@@ -109,11 +120,12 @@ export const Detail = ({ service, users, categories }) => {
             <label htmlFor="title">Название</label>
           </div>
           <CategoryDropdown categories={unSelectedCategories} category={form.category} handler={addHandler} deleteHandler={deleteHandler}  />
+          <UsersDropdown users={unSelectedUsers} user={form.user} handler={addUserHandler} deleteHandler={deleteUserHandler} />
           <div className="input-field col s4">
             <input id="time" name="time" type="text" value={form.time} style={{ color: "#000" }} onChange={changeHandler} />
             <label htmlFor="title">Время оказания</label>
           </div>
-          <UsersDropdown users={users} user={form.user} handler={changeHandler} />
+          
         </div>
         <div className="row" style={{ float: "right" }}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={updateHandler}>

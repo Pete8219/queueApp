@@ -14,7 +14,7 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
     }
  
     const {time} = service
-    const {start, end, vacationFrom,vacationTo, substitute, _id} = service.user
+    const {start, end, vacationFrom,vacationTo, substitute, _id} = service.user[0]
 
     const serviceData = {...service}
 

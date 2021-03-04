@@ -12,11 +12,12 @@ export const CreateService = ({users, categories}) => {
     const [form, setForm] = useState({
     title: "",
     time: "",
-    user: '',
+    user: [],
     category: [],
   })
 
   const [unSelectedCategories, setUnSelectedCategories] = useState(categories)
+  const [unSelectedUsers, setUnSelectedUsers] = useState(users)
 
   const history = useHistory()
   const { request, error, clearError } = useHttp()
@@ -42,7 +43,14 @@ export const CreateService = ({users, categories}) => {
     const unselected = categories.map(JSON.stringify).filter(e => !filteredCats.includes(e)).map(JSON.parse)
 
     setUnSelectedCategories(unselected)
-},[form.category]) 
+},[form.category, categories]) 
+
+useEffect(() => {
+  const filteredUsers = form.user.map(JSON.stringify) 
+  const unselected = users.map(JSON.stringify).filter(e => !filteredUsers.includes(e)).map(JSON.parse)
+
+  setUnSelectedUsers(unselected)
+},[form.user, users]) 
 
    const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value })
@@ -58,6 +66,15 @@ export const CreateService = ({users, categories}) => {
 
   }
 
+//Добавление в список Выбранных сотрудников
+
+  const addUserHandler = (data) => {
+    const result = [...form.user]
+    result.push(data)
+    setForm({...form, user: result})
+
+  }
+
    // Удаление категории из списка выбранных 
    const deleteHandler = (data) => {
     const result = form.category.filter(item => {
@@ -66,6 +83,16 @@ export const CreateService = ({users, categories}) => {
   
  setForm({...form, category: result})
 }
+
+  //Удаление сотрудника из списка выбранных
+
+  const deleteUserHandler = (data) => {
+    const result = form.user.filter(item => {
+        return item._id !== data._id
+ })
+  
+ setForm({...form, user: result})
+} 
 
   const cancelHandler = () => {
     history.push("/services")
@@ -100,9 +127,10 @@ export const CreateService = ({users, categories}) => {
             <label htmlFor="time">Время оказания</label>
           </div>
           <UsersDropdown
-            users={users}
+            users={unSelectedUsers}
             user={form.user}
-            handler={changeHandler}
+            handler={addUserHandler}
+            deleteHandler={deleteUserHandler}
           />
         </div>
                 <div className="row" style={{float:"right"}}>
