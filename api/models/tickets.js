@@ -17,6 +17,7 @@ const ticketSchema = mongoose.Schema({
     default: "В работе",
   },
   phone: String,
+  email: String,
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",

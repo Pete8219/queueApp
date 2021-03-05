@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 
 export const EditTicket = ({serviceData, ticketData, userName, activeHandler}) => {
-    console.log(userName)
+   
     const history = useHistory()
     
     const {date, firstname, lastname, surname} = ticketData

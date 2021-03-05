@@ -6,6 +6,8 @@ import { AuthContext } from "../../context/AuthContext"
 import { Loader } from '../Loader'
 import { UserName } from "./UserName"
 import { UserTickets } from "./UserTickets.js"
+import { ShowModal } from "./ShowModal"
+
 
 export const TicketList = () => {
   localStorage.removeItem('TicketData')
@@ -17,10 +19,14 @@ export const TicketList = () => {
   const [status, setStatus] = useState("В работе")
   const [date, setDate] = useState(new Date().toISOString().slice(0,10).split('.').reverse().join('-'))
   const [visitor, setVisitor] = useState('')
+  const [ticketData, setTicketData] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   const { loading, request } = useHttp()
 
   const message = useMessage()
+
+ 
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -89,10 +95,25 @@ export const TicketList = () => {
     }
   }
 
-  const changeRecord = (id) => {
-    const ticketData = tickets.find(item => item._id === id)
-    localStorage.setItem('TicketData', JSON.stringify(ticketData))
-    history.push('/ticket/edit')
+  const changeRecord =  (id) => {
+    
+    
+      const ticketData = tickets.find(item => item._id === id)
+      setTicketData(ticketData)
+      localStorage.setItem('TicketData', JSON.stringify(ticketData))
+      
+      setShowModal(prev => !prev)
+    
+  
+
+
+
+    
+    
+    
+
+
+    //history.push('/ticket/edit')
 
     
   }
@@ -103,8 +124,12 @@ export const TicketList = () => {
 
   return (
     <>
+  
+
+
       {!loading && userName  && <UserName name={userName} />}
       {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
+      {ticketData && <ShowModal ticketData={ticketData} showModal={showModal}/>}
     </>
   )
 }
