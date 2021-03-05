@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 
 export const TimeList = ({day, date, service, tickets, hour}) => {
+    console.log(tickets)
 
     const history = useHistory()
 
@@ -14,6 +15,8 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
 
         
     }
+
+    
 
  
     const {time} = service

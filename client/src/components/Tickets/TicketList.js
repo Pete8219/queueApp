@@ -103,19 +103,14 @@ export const TicketList = () => {
       localStorage.setItem('TicketData', JSON.stringify(ticketData))
       
       setShowModal(prev => !prev)
-    
-  
-
-
-
-    
-    
-    
-
 
     //history.push('/ticket/edit')
 
     
+  }
+
+  const closeModal = () => {
+    setShowModal(prev => !prev)
   }
 
    if(loading) {
@@ -129,7 +124,7 @@ export const TicketList = () => {
 
       {!loading && userName  && <UserName name={userName} />}
       {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
-      {ticketData && <ShowModal ticketData={ticketData} showModal={showModal}/>}
+      {ticketData && <ShowModal ticketData={ticketData} showModal={showModal} closeModal={closeModal}/>}
     </>
   )
 }

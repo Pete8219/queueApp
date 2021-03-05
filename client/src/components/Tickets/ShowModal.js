@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const ShowModal = ({showModal, ticketData}) => {
+export const ShowModal = ({showModal, ticketData, closeModal}) => {
     /* const ticketData = JSON.parse(localStorage.getItem('TicketData')) */
      const {date, firstname, lastname, surname} = ticketData
     
@@ -22,7 +22,7 @@ export const ShowModal = ({showModal, ticketData}) => {
                     <span><b>Посетитель:</b>  {firstname} {lastname} {surname} </span> 
                         <div className="row" style={{display:"grid"}}>
                         <button className="waves-effect btn-large" style={{display:"grid",width:"100%", float:"right"}}  /* onClick= {clickHandler} */ >Перезаписать на другую дату</button> 
-                        <button className="waves-effect btn-large" style={{display:"grid",width:"100%", float:"right"}}  /* onClick= {clickHandler} */ >Отмена</button> 
+                        <button className="waves-effect btn-large" style={{display:"grid",width:"100%", float:"right"}}   onClick= {closeModal} >Отмена</button> 
                         </div> 
                     </div> 
                       
