@@ -100,7 +100,7 @@ export const Calendar = () => {
     <div className="container" style={{ display: "grid" }}>
       <h4 style={{ textAlign: "center" }}>Выберите дату приема</h4>
       <button className="waves-effect waves-light btn" onClick={goBackHandler}>
-        <i className="material-icons left">arrow_back</i>Вернуться к выбору услуги
+        <i className="material-icons left">arrow_back</i>Вернуться к выбору вопроса
       </button>
       <div className="input field col s12" style={{ display: "grid", margin: "0 auto", marginTop: "2rem", width: "100%" }}>
         <select className="browser-default" defaultValue={date} onChange={dateHandler} style={{ width: "100%" }}>

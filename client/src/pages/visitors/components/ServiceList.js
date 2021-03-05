@@ -20,7 +20,7 @@ export const ServiceList = ({ services, handler }) => {
 }
   return (
     <div className="container" style={{display:"grid"}}>
-      <h4 style={{ textAlign: "center" }}>Выберите услугу</h4>
+      <h4 style={{ textAlign: "center" }}>Выберите вопрос</h4>
       <button className="waves-effect waves-light btn" onClick = {goBackHandler}>
                     <i className="material-icons left">arrow_back</i>Вернуться к выбору категории
                 </button>

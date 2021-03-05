@@ -12,7 +12,7 @@ export const CategoryList = ({ categories, handler }) => {
   })
   return (
     <div className="container">
-      <h4 style={{ textAlign: "center" }}>Выберите категорию услуг</h4>
+      <h4 style={{ textAlign: "center" }}>Выберите категорию</h4>
       <div className="service-container">
         <ul className="service-list">{list}</ul>
       </div>
