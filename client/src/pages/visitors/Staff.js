@@ -17,8 +17,7 @@ export const Staff = () => {
             users = [...getLocalStorageData.user]
             getLocalStorageData.users = users
         }
-
-        console.log(getLocalStorageData)
+      
     }
 
    

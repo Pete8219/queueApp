@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom'
 export const TicketForm = ({data, name}) => {
     const history = useHistory()
 
-    const {title, date,  hours, minutes, time, firstname,lastname, surname} = data
+    const {title, date,  hours, minutes, firstname,lastname, surname} = data
 
     const registerDate = new Date()
 

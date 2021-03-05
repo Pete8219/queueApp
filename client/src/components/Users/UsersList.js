@@ -33,7 +33,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
                   <td>
                     {" "}
                     <a className="btn-floating btn-small waves-effect blue darken-2" title="Редактировать" target="_blank" style={{float:"right"}} onClick={() => onEdit(item._id)}> 
-                      <i className="material-icons">create</i>
+                      <i className="material-icons">settings</i>
                     </a>
                   </td>
                   <td>

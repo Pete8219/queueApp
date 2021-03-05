@@ -30,7 +30,12 @@ const userSchema = new mongoose.Schema({
   substitute:{ 
     type:mongoose.Schema.Types.ObjectId,
     default: null
+  },
+  online: {
+    type: Boolean,
+    default: true
   }
+
 })
 
 userSchema.virtual("getRoles").get(function () {

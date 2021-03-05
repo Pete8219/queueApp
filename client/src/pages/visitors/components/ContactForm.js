@@ -48,7 +48,7 @@ export const ContactForm = () => {
                 ticketId: _id
             })
         }
-      },[])
+      },[dataFromAdmin])
 
     useEffect(() => {
         M.AutoInit()
@@ -105,15 +105,8 @@ export const ContactForm = () => {
 
                message(data.message)
 
-               const userData = JSON.parse(localStorage.getItem('userData'))
+              // const userData = JSON.parse(localStorage.getItem('userData'))
 
-            /*    if(userData) {
-                   
-                   history.push('/')
-               } else {
-                   history.push('/ticket')
-               } */
-               
                history.push('/ticket')
    
         } catch(e) {}

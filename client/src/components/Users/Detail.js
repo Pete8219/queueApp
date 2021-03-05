@@ -34,7 +34,9 @@ export const Detail = ({ users, user, cancelHandler }) => {
     vacationFrom: vacationFrom,
     vacationTo: vacationTo,
     substitute: userData.substitute,
+    online: userData.online
   })
+  
 
   const rolesList = roles.map((item, i) => {
     return (
@@ -77,6 +79,14 @@ export const Detail = ({ users, user, cancelHandler }) => {
     }
     setForm({ ...form, vacationTo: date })
   }
+
+   const onlineToggle = () => {
+     const check = {...form}
+     check.online = !check.online
+     
+     setForm({...check})
+
+  } 
 
   useEffect(() => {
     M.AutoInit()
@@ -152,6 +162,15 @@ export const Detail = ({ users, user, cancelHandler }) => {
               {userList}
             </select>
           </div>
+        </div>
+        <div className="row">
+            <p>
+              <label>
+                <input type="checkbox" name="online"  className="browser-default"  checked={form.online} onChange={onlineToggle} />
+                <span>Доступен для записи онлайн</span>
+              </label>
+            </p>
+
         </div>
         <div className="row" style={{ float: "right" }}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={() => updateHandler(userData._id)}>

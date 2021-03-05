@@ -63,6 +63,15 @@ export const Create = ({formData, createHandler, changeHandler, cancelHandler}) 
             <label>Права сотрудника</label>
           </div>
         </div>
+        <div className="row">
+            <p>
+              <label>
+                <input type="checkbox" class="filled-in" checked="checked" />
+                <span>Доступен для записи онлайн</span>
+              </label>
+            </p>
+
+        </div>
 
         <div className="row" style={{float:"right"}}>
           <a className="waves-effect waves-light btn" style={{ margin: "2rem" }} onClick={createHandler}>

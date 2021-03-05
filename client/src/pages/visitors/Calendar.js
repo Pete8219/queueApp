@@ -15,6 +15,7 @@ export const Calendar = () => {
 
   const daysWeek = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"]
   const localData = JSON.parse(localStorage.getItem("Items"))
+  const userData = JSON.parse(localStorage.getItem("userData"))
 
   if (localData === null) {
     history.push("/")
@@ -57,14 +58,33 @@ export const Calendar = () => {
     const {user} = localData
     
     
-    if(user.length > 1 ) {
-      localStorage.setItem("Items", JSON.stringify(localData))
-      history.push("/staff")
-    } else {
+    if(!userData) { // Проверяем авторизован ли пользователь
+      
+     const  onlineUser = user.filter(elem => {
+        return elem.online === true
+      })
 
-    localStorage.setItem("Items", JSON.stringify(localData))
-    history.push("/time")
+      if(onlineUser.length > 1 ) {
+        localStorage.setItem("Items", JSON.stringify(localData))
+        history.push("/staff")
+      } else {
+  
+      localStorage.setItem("Items", JSON.stringify(localData))
+      history.push("/time")
+      }
+
+    } else {
+      if(user.length > 1 ) {
+        localStorage.setItem("Items", JSON.stringify(localData))
+        history.push("/staff")
+      } else {
+  
+      localStorage.setItem("Items", JSON.stringify(localData))
+      history.push("/time")
+      }
     }
+
+    
 
   }
 
