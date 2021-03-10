@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom"
 export const Staff = () => {
     const history = useHistory()
     const getLocalStorageData = JSON.parse(localStorage.getItem("Items"))
+    //console.log(getLocalStorageData)
 
     let users = []
 
@@ -13,9 +14,11 @@ export const Staff = () => {
     } else {
         if(getLocalStorageData.users) {
             users = [...getLocalStorageData.users]
+            
         } else {
             users = [...getLocalStorageData.user]
             getLocalStorageData.users = users
+            console.log(getLocalStorageData)
         }
       
     }
