@@ -90,6 +90,7 @@ export const ContactForm = () => {
         }
         
         const ticketData = Object.assign(serviceData, form)
+        console.log(ticketData)
         
         localStorage.setItem('Items', JSON.stringify(ticketData))
 

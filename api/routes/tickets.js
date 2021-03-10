@@ -26,12 +26,14 @@ router.get("/", (req, res, next) => {
 router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], async (req, res) => {
 
   const { date, hours, minutes } = req.body
+  
   receptionDate = new Date(date.split('.').reverse().join('-'))
   receptionDate.setHours(hours)
   /* receptionDate.setHours(receptionDate.getHours() + 5) */
   receptionDate.setMinutes(minutes)
 
   req.body.date = receptionDate
+  
 
   const { surname } = req.body
   const { ticketId } = req.body
@@ -66,7 +68,10 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
       })
     }
 
-    const isExist = await Ticket.findOne({ date: req.body.date })
+    const isExist = await Ticket.findOne({ $and: [{ date: req.body.date }, { user: req.body.employee}] })
+    console.log(isExist)
+//
+
 
     if(ticketId){
       
@@ -86,7 +91,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
       }
 
     }
-    
+    //
 
     if (isExist) {
       return res.status(400).json({
