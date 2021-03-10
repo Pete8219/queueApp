@@ -3,7 +3,22 @@ import { useHistory } from 'react-router-dom'
 
 
 export const TimeList = ({day, date, service, tickets, hour}) => {
-    console.log(tickets)
+    const localData = JSON.parse(localStorage.getItem("Items"))
+
+    console.log(service)
+
+    const userId = localData.user[0]._id // вытаскиваем Id пользователя из хранилища
+    const users = service.user // достаем массив пользователей данной услуги
+    console.log(userId)
+    const selectedUser = users.filter((elem) => { //фильтруем только нужного нам пользователя
+        return elem._id === userId
+    })
+
+    service.user = selectedUser
+
+    console.log(service)
+
+    
 
     const history = useHistory()
 
@@ -43,6 +58,7 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
     
     
     if(!tickets.length) {
+        console.log("А ничего нет")
         timeList.map(item => {
             return (
                 lists.push(item)

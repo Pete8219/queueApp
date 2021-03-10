@@ -17,11 +17,12 @@ export const Time = () => {
   let hour = ""
 
   const localData = JSON.parse(localStorage.getItem("Items"))
+  
 
   if (localData === null) {
     history.push("/")
   } else {
-    console.log(localData.user[0]._id)
+   /*  console.log(localData.user[0]._id) */
     date = localData.date
     serviceId = localData.serviceId
     userId = localData.user[0]._id
@@ -46,7 +47,7 @@ export const Time = () => {
     const fetchTickets = async () => {
       try {
         const fetched = await request(`tickets/byService/${serviceId}/${date}/${userId}`, "GET", null, {})
-        console.log(fetched)
+        //console.log(fetched)
         
         setTickets(fetched)
       } catch (e) {}

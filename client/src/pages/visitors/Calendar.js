@@ -28,8 +28,6 @@ export const Calendar = () => {
     const month = day.getMonth()
 
 
-     console.log(dayOfWeek)
-
     const isShort = preHoliday[month].includes(day.getDate()) ? "true" : "false"
 
     if (!weekendAndHolidays[month].includes(day.getDate()) && ![0,1,6].includes(day.getDate())) {
@@ -63,21 +61,24 @@ export const Calendar = () => {
      const  onlineUser = user.filter(elem => {
         return elem.online === true
       })
+      
 
-      if(onlineUser.length > 1 ) {
+      if(onlineUser.length > 1 ) { //Если  больше одного сотрудника доступно для выбора онлайн перейти к выбору конкретного сотрудника
         localStorage.setItem("Items", JSON.stringify(localData))
-        history.push("/staff")
+        history.push("/staff") //страница выбора сотрудника
       } else {
+
+      localData.user = onlineUser  
   
-      localStorage.setItem("Items", JSON.stringify(localData))
+      localStorage.setItem("Items", JSON.stringify(localData)) // записываем в локальное хранилище данные и переходим к выбору времени
       history.push("/time")
       }
 
-    } else {
-      if(user.length > 1 ) {
+    } else { // если авторизован, проверяем на количество сотрудников  
+      if(user.length > 1 ) { // если больше одного, переходим к странице выбора сотрудника
         localStorage.setItem("Items", JSON.stringify(localData))
         history.push("/staff")
-      } else {
+      } else { // иначе записываем в локальное хранилище данные и идем к выбору времени
   
       localStorage.setItem("Items", JSON.stringify(localData))
       history.push("/time")
