@@ -221,7 +221,9 @@ router.patch("/:ticketId", async (req, res, next) => {
         }
 
         await Ticket.updateOne({ _id: id }, { $set: updateOps })
+        
         res.status(200).json({
+
           message: `Статус заявления изменен на: "${req.body.status}"`
       })
 } catch (e) {

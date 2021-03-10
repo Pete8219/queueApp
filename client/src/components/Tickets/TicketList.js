@@ -16,7 +16,7 @@ export const TicketList = () => {
 
   const [userName, setUserName] = useState("")
   const [tickets, setTickets] = useState([])
-  const [status, setStatus] = useState("В работе")
+  const [status, setStatus] = useState('')
   const [date, setDate] = useState(new Date().toISOString().slice(0,10).split('.').reverse().join('-'))
   const [visitor, setVisitor] = useState('')
   const [ticketData, setTicketData] = useState('')
@@ -48,26 +48,30 @@ export const TicketList = () => {
         const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {})
         
         setTickets(data)
+        setStatus(data.status)
       } catch (e) {}
     }
     fetchTickets()
-  }, [request, userId, date, status])
+  }, [request, userId, date])
 
 
 
-  const handleChange = async (event) => {
+  const handleChange =  async (event) => {
+    setStatus(event.target.value)
     const ticketId = event.target.dataset.ticketId
     const newStatus = event.target.value
     const body = {
       status: newStatus
     }
-    
-    
-     try {
+    try {
       const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {})
+       if(!data) {
+        return <Loader />
+      } 
       message(data.message)
-      setStatus(event.target.value)
-    } catch(e) {} 
+    } catch(e) {}
+
+     
 
     
 
@@ -123,7 +127,7 @@ export const TicketList = () => {
 
 
       {!loading && userName  && <UserName name={userName} />}
-      {!loading && tickets && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
+      {!loading && tickets  && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
       {ticketData && <ShowModal ticketData={ticketData} showModal={showModal} closeModal={closeModal}/>}
     </>
   )
