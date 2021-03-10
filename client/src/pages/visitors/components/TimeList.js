@@ -15,6 +15,7 @@ export const TimeList = ({day, date, service, tickets, hour}) => {
     })
 
     service.user = selectedUser
+    service.users = localData.users
 
     console.log(service)
 
