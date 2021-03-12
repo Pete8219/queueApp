@@ -4,7 +4,8 @@ import { DateSelect } from '../Calendar/DateSelect'
 import { FindUser } from '../Tickets/FindUser'
 
 
-export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, visitor, findHandler, pressHandler, changeRecord }) => {
+export const UserTickets = ({ tickets, handleChange, date, dateHandler, visitor, findHandler, pressHandler, changeRecord }) => {
+
 
   const statusList = ["В работе", "Исполнено(проведена консультация)", "Исполнено(принято заявление)", "Исполнено(заявитель отказался подавать заяаление)", "Отказ от записи", "Не явился"]
 
@@ -60,7 +61,7 @@ export const UserTickets = ({ tickets, status, handleChange, date, dateHandler, 
 
                 <td>{ticket.date.slice(11, 16)}</td>
                 <td>
-                  <select className="browser-default" data-ticket-id={ticket._id} defaultValue={status} onChange={handleChange}>
+                  <select className="browser-default" data-ticket-id={ticket._id} value={ticket.status} onChange={handleChange}>
                     {statusList.map((item, i) => {
                       return (
                         <option key={i} value={item}>

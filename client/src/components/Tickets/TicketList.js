@@ -16,10 +16,12 @@ export const TicketList = () => {
 
   const [userName, setUserName] = useState("")
   const [tickets, setTickets] = useState([])
-  const [status, setStatus] = useState('')
+  
   const [date, setDate] = useState(new Date().toISOString().slice(0,10).split('.').reverse().join('-'))
   const [visitor, setVisitor] = useState('')
   const [ticketData, setTicketData] = useState('')
+  const [serviceData, setServiceData] = useState('')
+  const [userData, setUserData] = useState('')
   const [showModal, setShowModal] = useState(false)
 
   const { loading, request } = useHttp()
@@ -48,32 +50,60 @@ export const TicketList = () => {
         const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {})
         
         setTickets(data)
-        setStatus(data.status)
+        
       } catch (e) {}
     }
     fetchTickets()
   }, [request, userId, date])
 
+// На основе данных из талона делаем запрос к базе, чтобы получить информацию об услуге и о сотруднике, оказывающем услугу
+  useEffect(() => {
+
+    if(!ticketData) {
+      return
+    }
+
+    const {service, user} = ticketData
+
+    const fetchServiceData = async () => {
+      try {
+        const data = await request(`/services/${service}`, 'GET', null, {})
+        const userData = await request(`/users/welcome/${user}`, 'GET', null, {})
+        setServiceData(data)
+        setUserData(userData)
+
+      } catch(e) {}
+    }
+    fetchServiceData()
+
+
+  },[request, ticketData])
+
+
 
 
   const handleChange =  async (event) => {
-    setStatus(event.target.value)
+    
     const ticketId = event.target.dataset.ticketId
     const newStatus = event.target.value
+
+    const ticketsArray = tickets
+    
+    ticketsArray.forEach(ticket => {
+      if(ticket._id === ticketId) {
+        ticket.status = newStatus
+      }
+    })
+
+    setTickets(ticketsArray)
+  
     const body = {
       status: newStatus
     }
     try {
       const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {})
-       if(!data) {
-        return <Loader />
-      } 
       message(data.message)
     } catch(e) {}
-
-     
-
-    
 
   }
 
@@ -81,9 +111,19 @@ export const TicketList = () => {
     setDate(event.target.value)
   }
 
-  const findHandler = (data) => {
-    
-      setVisitor(data.toUpperCase())
+  const findHandler = async (data) => {
+    let text = ''
+    if(text.length < 1) {
+      text = data
+    } else {
+      text += data
+    }
+     
+    setVisitor(text.toUpperCase())
+
+
+ 
+
   }
 
   const pressHandler = async(event) => {
@@ -94,6 +134,7 @@ export const TicketList = () => {
       try {
         const data =  await request(`/tickets/find/${visitor}`, 'GET', null , {})
         setTickets(data)
+        setVisitor('')
 
       } catch(e) {}
     }
@@ -101,16 +142,22 @@ export const TicketList = () => {
 
   const changeRecord =  (id) => {
     
-    
       const ticketData = tickets.find(item => item._id === id)
       setTicketData(ticketData)
-      localStorage.setItem('TicketData', JSON.stringify(ticketData))
-      
-      setShowModal(prev => !prev)
+      openModal() 
 
-    //history.push('/ticket/edit')
+ }
 
+  const openModal = () => {
+    setShowModal(prev => !prev)
+  }
+
+  const rewriteRecord = () => {
+    const dataForRewrite = Object.assign(ticketData, serviceData)
+    localStorage.setItem("TicketData", JSON.stringify(dataForRewrite))
     
+    closeModal()
+    history.push('/category')
   }
 
   const closeModal = () => {
@@ -127,8 +174,8 @@ export const TicketList = () => {
 
 
       {!loading && userName  && <UserName name={userName} />}
-      {!loading && tickets  && userType === "user" && <UserTickets  tickets={tickets} status={status} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
-      {ticketData && <ShowModal ticketData={ticketData} showModal={showModal} closeModal={closeModal}/>}
+      {!loading && tickets  && userType === "user" && <UserTickets  tickets={tickets} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
+      {ticketData && serviceData &&userData && <ShowModal ticketData={ticketData} serviceData={serviceData} userData={userData} showModal={showModal} closeModal={closeModal} rewriteRecord={rewriteRecord}/>}
     </>
   )
 }

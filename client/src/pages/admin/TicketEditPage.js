@@ -37,10 +37,6 @@ export const TicketEditPage = () => {
     }
 
 
-    console.log(serviceData)
-
-
-
     return (
         <>
             {!loading && serviceData && userName && active === 'ticket' && <EditTicket ticketData={ticketData} serviceData={serviceData} userName={userName} activeHandler={activeHandler}/> }
