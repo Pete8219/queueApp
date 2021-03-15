@@ -3,13 +3,17 @@ import { useHistory } from 'react-router-dom'
 /*import { useMessage } from '../../../hooks/message.hook' */
 
 export const TicketForm = ({data, name}) => {
+
+    console.log(data)
     const history = useHistory()
 
     const {title, date,  hours, minutes, firstname,lastname, surname} = data
 
     const registerDate = new Date()
+       
 
     const clickHandler = () => {
+       // e.preventDefault()
         history.push('/')
     }
 
@@ -17,6 +21,7 @@ export const TicketForm = ({data, name}) => {
 
         <div className="container ticket">
         {/* <blockquote>Сфотографируйте Ваш талон на мобильный телефон для предъявления на приеме</blockquote> */}
+        
         <div className= "card ticketForm">
         <p style={{textDecoration:"underline", textAlign:"center"}}><b>Талон на прием № {name.name.slice(0,1)} - {hours}/{minutes}</b></p>
             <div className="ticketFormContent" >
@@ -33,7 +38,8 @@ export const TicketForm = ({data, name}) => {
             
 
         </div>
-        <button className="waves-effect btn-large" onClick= {clickHandler}>Завершить регистрацию</button>
+        <button  className="waves-effect btn-large" onClick= {clickHandler}>Завершить регистрацию</button>
+        
     </div>
     )
 }

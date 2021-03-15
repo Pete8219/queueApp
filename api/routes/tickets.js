@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+const nodemailer = require("nodemailer")
 
 const Ticket = require("../models/tickets")
 const Service = require("../models/services")
@@ -53,6 +54,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
     lastname: req.body.lastname,
     surname: req.body.surname,
     phone: req.body.phone,
+    email: req.body.email,
     service: req.body.serviceId
   }
 
@@ -69,7 +71,7 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
     }
 
     const isExist = await Ticket.findOne({ $and: [{ date: req.body.date }, { user: req.body.employee}] })
-    console.log(isExist)
+    
 //
 
 
@@ -107,6 +109,21 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
   } catch (e) {
     res.status(500).json({
       message: "Что то не так",
+    })
+  }
+})
+
+
+//Отправка письма заявителю
+router.post("/send", async(req, res) => {
+
+  console.log(req.body)
+  try {
+    console.log(req.body)
+
+  } catch(e) {
+    res.status(500).json({
+      message: "Возникла ошибка при отправке почтового сообщения"
     })
   }
 })

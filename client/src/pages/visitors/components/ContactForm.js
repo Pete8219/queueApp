@@ -20,7 +20,8 @@ export const ContactForm = () => {
         firstname:'',
         lastname:'',
         surname:'',
-        phone: ''
+        phone: '',
+        email: ''
     })
 
     const dataFromAdmin = JSON.parse(localStorage.getItem('TicketData'))
@@ -39,12 +40,13 @@ export const ContactForm = () => {
         M.AutoInit()
         if(dataFromAdmin) {
             console.log(dataFromAdmin)
-            const { firstname, lastname, surname, phone, _id } = dataFromAdmin
+            const { firstname, lastname, surname, phone,email, _id } = dataFromAdmin
             setForm({
                 firstname,
                 lastname,
                 surname,
                 phone,
+                email,
                 ticketId: _id
             })
         }
@@ -90,7 +92,7 @@ export const ContactForm = () => {
         }
         
         const ticketData = Object.assign(serviceData, form)
-        console.log(ticketData)
+        
         
         localStorage.setItem('Items', JSON.stringify(ticketData))
 
@@ -154,6 +156,13 @@ export const ContactForm = () => {
                         <div className="input-field col s12">
                         <input id="phone" type="text" name="phone" value={form.phone} required={true} data-name="Номер телефона" className="validate" onChange={changeHandler} onBlur={blurHandler}/>
                         <label htmlFor="phone" className="active">Номер телефона</label>
+                        
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-field col s12">
+                        <input id="email" type="email" name="email" value={form.email} required={true} data-name="Ваш Email" className="validate" onChange={changeHandler} onBlur={blurHandler}/>
+                        <label htmlFor="email" className="active">Ваш Email</label>
                         
                         </div>
                     </div>

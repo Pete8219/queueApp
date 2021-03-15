@@ -2,7 +2,7 @@ import React from 'react'
 
 export const ShowModal = ({showModal, ticketData, serviceData, userData, rewriteRecord, closeModal}) => {
     
-     const {date, firstname, lastname, surname} = ticketData
+     const {date, firstname, lastname, surname, phone, email} = ticketData
     
     return (
         <>
@@ -15,6 +15,8 @@ export const ShowModal = ({showModal, ticketData, serviceData, userData, rewrite
                     <h4>Подробная информация о записи</h4>
                     <div  >
                         <p><b>Посетитель:</b>  {firstname} {lastname} {surname} </p>
+                        <p><b>Телефон:</b> {phone} </p>
+                        <p><b>Email:</b> {email} </p>
                         <p><b>Вопрос:</b> {serviceData.title} </p>
                         <p><b>Дата приема:</b>  {date.slice(0,10).split('-').reverse().join('.')} </p>
                         <p><b>Время приема:</b> {date.slice(11,16)} </p>
