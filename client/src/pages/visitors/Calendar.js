@@ -26,13 +26,11 @@ export const Calendar = () => {
     day.setDate(day.getDate() + i)
     const dayOfWeek = day.getDay()
     const month = day.getMonth()
-
-    console.log(dayOfWeek)
     const isShort = preHoliday[month].includes(day.getDate()) ? "true" : "false"
 
     
     if (!weekendAndHolidays[month].includes(day.getDate()) && ![0,1,6].includes(dayOfWeek)) {  
-        console.log(day)
+        
         days.push({ day, dayOfWeek, isShort })
      
     }

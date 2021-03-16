@@ -1,7 +1,7 @@
 import React from "react"
 
 export const CategoryList = ({ categories, handler }) => {
-  console.log(categories)
+ 
 
   const list = categories.map((item, index) => {
     return (

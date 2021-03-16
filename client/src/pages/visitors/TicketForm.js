@@ -5,6 +5,7 @@ import { useMessage } from '../../../hooks/message.hook'
 import M from "materialize-css/dist/js/materialize.min.js"
 
 export const TicketForm = ({data, name}) => {
+    console.log(data)
 
     const { request, error, clearError } = useHttp()
     const message = useMessage()
@@ -36,14 +37,13 @@ export const TicketForm = ({data, name}) => {
         cab: `Кабинет:  ${cabinet}`,
         employee: `Прием ведет: ${staffName}`,
         registered: registerDate.toLocaleDateString(),
-        email
+        
 
     }
 
 
     const clickHandler = async () => {
-        console.log(formData)
-
+        
         function goHome () {
             setTimeout(() => {
                 history.push('/')
@@ -73,6 +73,7 @@ export const TicketForm = ({data, name}) => {
                         <span><b>Кабинет:</b> {name.cabinet} </span>
                         <span><b>Прием ведет:</b> {name.name} </span>
                         <span><b>Посетитель:</b> {firstname} {lastname} {surname} </span>
+                        <span><b>Адрес электронной почты:</b> {email} </span>
                         <span><b>Дата регистрации:</b> {registerDate.toLocaleDateString()} </span>
 
                     </div>

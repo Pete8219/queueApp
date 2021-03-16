@@ -116,10 +116,54 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
 
 //Отправка письма заявителю
 router.post("/send", async(req, res) => {
+  
 
-  console.log(req.body)
+  const output = `
+    <p>Запись на прием в управление жилищной политики Администрации МО город Салехард<p>
+    <h3>Информация о записи<h3>
+    <ul>
+      <li>${req.body.ticketNumber}</li>
+      <li>${req.body.service}</li>
+      <li>${req.body.visitor}</li>
+      <li>${req.body.date}</li>
+      <li>${req.body.timeToReceipt}</li>
+      <li>${req.body.cab}</li>
+      <li>${req.body.employee}</li>
+      <li>Дата регистрации:  ${req.body.registered}</li>
+
+    </ul>
+  `
+
+  const email = req.body.email
+
+  // скрипт от правки письма получателю
   try {
-    console.log(req.body)
+      // create reusable transporter object using the default SMTP transport
+      let transporter = nodemailer.createTransport({
+        host: "mx.salekhard.org",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+          user: 'itu@salekhard.org', // generated ethereal user
+          pass: 'CnfhsqYjdsqGjxnfhm7', // generated ethereal password
+        },
+    
+      });
+
+      // send mail with defined transport object
+      let info = await transporter.sendMail({
+        from: '"Электронная очередь" <itu@salekhard.org>', // sender address
+        to: email, // list of receivers
+        subject: "Запись на прием", // Subject line
+        html: output, // html body
+      });
+
+      console.log("Message sent: %s", info.messageId);
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
+      res.status(200).json({
+        message: 'На ваш Email отправлена информации о приеме'
+      })
 
   } catch(e) {
     res.status(500).json({
