@@ -127,7 +127,7 @@ router.post("/send", async(req, res) => {
       <li>${req.body.visitor}</li>
       <li>${req.body.date}</li>
       <li>${req.body.timeToReceipt}</li>
-      <li>${req.body.cab}</li>
+      <li>Приём проводится по адресу: ул Броднева, д. 28, ${req.body.cab}</li>
       <li>${req.body.employee}</li>
       <li>Дата регистрации:  ${req.body.registered}</li>
 
