@@ -2,6 +2,8 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
 const nodemailer = require("nodemailer")
+const dotenv = require("dotenv")
+dotenv.config()
 
 const Ticket = require("../models/tickets")
 const Service = require("../models/services")
@@ -140,12 +142,12 @@ router.post("/send", async(req, res) => {
   try {
       // create reusable transporter object using the default SMTP transport
       let transporter = nodemailer.createTransport({
-        host: "mx.salekhard.org",
+        host: process.env.MAIL_HOST,
         port: 465,
         secure: true, // true for 465, false for other ports
         auth: {
-          user: 'itu@salekhard.org', // generated ethereal user
-          pass: 'CnfhsqYjdsqGjxnfhm7', // generated ethereal password
+          user: process.env.MAIL_USER, // generated ethereal user
+          pass: process.env.MAIL_PASSWORD, // generated ethereal password
         },
     
       });
