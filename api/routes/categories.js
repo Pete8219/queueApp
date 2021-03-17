@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const mongoose = require("mongoose")
+const auth = require('../middleware/auth.middleware')
 const Category = require('../models/categories')
 
 
@@ -27,8 +28,8 @@ router.get("/", async(req, res) => {
 // Запись новой категории
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.post("/", async(req, res)=> {
-    console.log(req.body)
+router.post("/", auth, async(req, res)=> {
+    
     try {
 
        
@@ -72,7 +73,7 @@ router.get("/:id", async (req, res) => {
 //Обновление категории
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', auth, async (req, res) => {
     try {
         const filter = { _id: req.params.id}
         const update = { title: req.body.title}
@@ -94,7 +95,7 @@ router.patch('/:id', async (req, res) => {
 //Удалении категории
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.delete("/:id", async(req, res) => {
+router.delete("/:id", auth, async(req, res) => {
     try {
         await Category.deleteOne({ _id : req.params.id})
         res.status(200).json ({

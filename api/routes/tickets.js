@@ -1,6 +1,7 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+const auth = require('../middleware/auth.middleware')
 const nodemailer = require("nodemailer")
 const dotenv = require("dotenv")
 dotenv.config()
@@ -177,7 +178,7 @@ router.post("/send", async(req, res) => {
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/ticketlist/:userId/:date", async(req, res) => {
+router.get("/ticketlist/:userId/:date", auth, async(req, res) => {
   
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -258,7 +259,7 @@ router.get("/find/:visitor", async (req, res) => {
 
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/status", async (req, res) => {
+router.get("/status",auth, async (req, res) => {
   try {
     const statusData = await Ticket.find({})
     res.status(201).json(statusData.getStatus)
@@ -273,7 +274,7 @@ router.get("/status", async (req, res) => {
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/:ticketId", async (req, res, next) => {
+router.patch("/:ticketId", auth, async (req, res, next) => {
   try {
         const id = req.params.ticketId
 
@@ -304,7 +305,7 @@ router.patch("/:ticketId", async (req, res, next) => {
 //Удаление выбранного талона
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.delete("/:ticketId", (req, res, next) => {
+router.delete("/:ticketId", auth, (req, res) => {
   res.status(200).json({
     message: "Ticket deleted",
   })

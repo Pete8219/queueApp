@@ -42,7 +42,7 @@ export const TicketForm = ({data, name}) => {
 
 
     const clickHandler = async () => {
-        console.log(formData)
+        
 
         function goHome () {
             setTimeout(() => {

@@ -2,6 +2,7 @@ const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
+const auth = require('../middleware/auth.middleware')
 
 const User = require("../models/users")
 
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
 
 //Сохранения нового пользователя в базе
 //Здесь нужно сделать проверку авторизации!!!!
-router.post("/create", async (req, res) => {
+router.post("/create", auth, async (req, res) => {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12)
     req.body.password = hashedPassword
@@ -110,7 +111,7 @@ router.get("/substitute/:userId/:date", async(req, res) => {
 
 //Обновление пользовательских полей
 //Здесь нужно сделать проверку авторизации!!!!
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
     const data = await User.findById({ _id: req.params.id })
     const userPassword = data.password
@@ -149,7 +150,7 @@ router.patch("/:id", async (req, res) => {
 
 //Удаление выбранного пользователя
 //Здесь нужно сделать проверку авторизации!!!!
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     await User.deleteOne({ _id: req.params.id })
     res.status(200).json({

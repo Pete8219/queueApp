@@ -2,6 +2,7 @@
 const express = require("express")
 const router = express.Router()
 const mongoose = require("mongoose")
+const auth = require('../middleware/auth.middleware')
 const Service = require("../models/services")
 const User = require("../models/users")
 const { check, validationResult } = require("express-validator")
@@ -21,7 +22,7 @@ router.get("/", async (req, res) => {
 
 //Запись услуги в базу данных
 //Здесь нужно сделать проверку авторизации!!!!
-router.post("/", [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape(), check("user", "Выберите ответственного сотрудника").not().isEmpty()], async (req, res) => {
+router.post("/", auth, [check("title", "Поле не должно быть пустым").not().isEmpty().trim().escape(), check("user", "Выберите ответственного сотрудника").not().isEmpty()], async (req, res) => {
   try {
     const errors = validationResult(req)
 
@@ -115,7 +116,7 @@ router.get("/:id", async (req, res) => {
 //Обновление информации об услуге
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", auth, async (req, res) => {
   try {
     const updateOps = {}
     for (key in req.body) {
@@ -135,7 +136,7 @@ router.patch("/:id", async (req, res) => {
 
 //Удаление выбранной услуги
 //Здесь нужно сделать проверку авторизации!!!!
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     await Service.deleteOne({ _id: req.params.id })
     res.status(200).json({
