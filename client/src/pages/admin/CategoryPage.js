@@ -1,9 +1,10 @@
-import React, { useEffect, useState} from 'react'
+import React, { useEffect, useState, useContext} from 'react'
 import { useHttp } from "../../hooks/http.hook"
 import { List } from '../../components/Category/List'
 import { Create } from '../../components/Category/Create'
 import { Detail } from '../../components/Category/Detail'
 import { useMessage } from '../../hooks/message.hook'
+import { AuthContext } from '../../context/AuthContext'
  
 export const CategoryPage = () => {
     const [categories, setCategories] = useState([])
@@ -13,6 +14,7 @@ export const CategoryPage = () => {
 
     const {loading, request} = useHttp()
     const message = useMessage()
+    const { token } = useContext(AuthContext)
 
 
     useEffect(()=> {
@@ -29,7 +31,7 @@ export const CategoryPage = () => {
     },[request, active])
 
     const deleteHandler = async (id) => {
-        const data = await request(`/categories/${id}`, "DELETE", null, {})
+        const data = await request(`/categories/${id}`, "DELETE", null, { Authorization: `Bearer ${token}`})
         message(data.message)
         
         setCategories(categories.filter(({ _id }) => id !== _id))
@@ -54,7 +56,7 @@ export const CategoryPage = () => {
 
       const saveCategoryHandler = async()=> {
         try {
-            const data = await request("/categories", "POST", {title})
+            const data = await request("/categories", "POST", {title}, { Authorization: `Bearer ${token}` })
             message(data.message)
             setActive("List")
           } catch (e) {}
@@ -63,7 +65,7 @@ export const CategoryPage = () => {
 
       const updateCategoryHandler = async (id) => {
         try {
-            const data = await request(`/categories/${id}`, 'PATCH', {title})
+            const data = await request(`/categories/${id}`, 'PATCH', {title}, { Authorization: `Bearer ${token}`})
 
             message(data.message)
             setActive('List')
