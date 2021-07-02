@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
+import { AuthContext } from "../../context/AuthContext"
 import M from "materialize-css/dist/js/materialize.min.js"
 import DatePicker from "react-datepicker"
 
@@ -13,6 +14,8 @@ registerLocale("ru", ru)
 
 export const Detail = ({ users, user, cancelHandler }) => {
   setDefaultLocale("ru")
+
+  const { token } = useContext(AuthContext)
   const userData = user.data
   const roles = user.roles
   const vacationFrom = userData.vacationFrom !== null ? new Date(userData.vacationFrom.slice(0, 10)) : null
@@ -60,7 +63,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
 
   const updateHandler = async (id) => {
     try {
-      const data = await request(`/users/${id}`, "PATCH", { ...form })
+      const data = await request(`/users/${id}`, "PATCH", { ...form }, {Authorization: `Bearer ${token}`})
       message(data.message)
       history.push("/users")
     } catch (e) {}

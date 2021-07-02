@@ -1,14 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useHistory} from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import M from "materialize-css/dist/js/materialize.min.js"
 import { CategoryDropdown } from "../Category/CategoryDropdown"
 import { UsersDropdown } from "../Users/UsersDropdown"
+import { AuthContext } from '../../context/AuthContext'
 
 export const Detail = ({ service, users, categories }) => {
-  
+  const { token } = useContext(AuthContext)
  
   const message = useMessage()
   const { request } = useHttp()
@@ -57,7 +58,7 @@ useEffect(() => {
 
   const updateHandler = async () => {
     try {
-      const data = await request(`/services/${service._id}`, "PATCH", { ...form })
+      const data = await request(`/services/${service._id}`, "PATCH", { ...form }, { Authorization: `Bearer ${token}`})
       message(data.message)
       history.push("/services")
     } catch (e) {}

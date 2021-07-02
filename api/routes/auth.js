@@ -55,6 +55,10 @@ router.post("/login", [check("login", "Введите корретный лог�
     }
 
     const { login, password } = req.body
+
+    const hashedPassword = await bcrypt.hash(password, 12)
+    console.log(hashedPassword)
+
     const user = await User.findOne({ login })
 
     if (!user) {

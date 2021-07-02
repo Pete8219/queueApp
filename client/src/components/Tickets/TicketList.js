@@ -11,7 +11,7 @@ import { ShowModal } from "./ShowModal"
 
 export const TicketList = () => {
   localStorage.removeItem('TicketData')
-  const { userId, userType} = useContext(AuthContext)
+  const { userId, userType, token } = useContext(AuthContext)
   const history = useHistory()
 
   const [userName, setUserName] = useState("")
@@ -47,14 +47,16 @@ export const TicketList = () => {
     const fetchTickets = async () => {
       
       try {
-        const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {})
+        const data = await request(`/tickets/ticketlist/${userId}/${date}`, "GET", null, {
+          Authorization: `Bearer ${token}`
+        })
         
         setTickets(data)
         
       } catch (e) {}
     }
     fetchTickets()
-  }, [request, userId, date])
+  }, [request, userId, date, token])
 
 // На основе данных из талона делаем запрос к базе, чтобы получить информацию об услуге и о сотруднике, оказывающем услугу
   useEffect(() => {
@@ -101,7 +103,9 @@ export const TicketList = () => {
       status: newStatus
     }
     try {
-      const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {})
+      const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {
+        Authorization: `Bearer ${token}`
+      })
       message(data.message)
     } catch(e) {}
 

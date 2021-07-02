@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import M from "materialize-css/dist/js/materialize.min.js"
 
 
-export const Create = ({formData, createHandler, changeHandler, cancelHandler}) => {
+export const Create = ({formData, createHandler, changeHandler, cancelHandler, onlineToggle}) => {
 
   
 
@@ -66,7 +66,7 @@ export const Create = ({formData, createHandler, changeHandler, cancelHandler}) 
         <div className="row">
             <p>
               <label>
-                <input type="checkbox" class="filled-in" checked="checked" />
+                <input type="checkbox" className="browser-default" name="online" checked={formData.online} onChange={onlineToggle}/>
                 <span>Доступен для записи онлайн</span>
               </label>
             </p>

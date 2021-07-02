@@ -1,12 +1,13 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import { useHttp } from '../../../hooks/http.hook'
 import {Create} from '../../../components/Users/Create'
 import { useMessage} from '../../../hooks/message.hook'
 import { useHistory } from 'react-router-dom'
+import { AuthContext } from '../../../context/AuthContext'
 
 
 export const UserCreatePage = () => {
-
+    const { token } = useContext(AuthContext)
 
     const [form, setForm] = useState({
         name: '',
@@ -16,6 +17,7 @@ export const UserCreatePage = () => {
         start: '',
         end:'',
         userType: 'user',
+        online: false
         
     })
     const {loading, request, error, clearError} = useHttp()
@@ -31,6 +33,12 @@ export const UserCreatePage = () => {
         setForm({...form, [event.target.name]: event.target.value})
     }
 
+    const onlineToggle = () => {
+        const check = { ...form}
+        check.online = !check.online
+        setForm({...check})
+    }
+
 
     
 
@@ -42,7 +50,9 @@ export const UserCreatePage = () => {
 
     const createHandler =  async() => {
         try {
-            const data = await request('/users/create', "POST", {...form}, {})
+            const data = await request('/users/create', "POST", {...form}, {
+                Authorization: `Bearer ${token}`
+            })
             message(data.message)
             history.push("/users")
 
@@ -63,6 +73,7 @@ export const UserCreatePage = () => {
         createHandler={createHandler}
         cancelHandler={cancelHandler}
         formData={form}
+        onlineToggle={onlineToggle}
         />}
         </>
     )

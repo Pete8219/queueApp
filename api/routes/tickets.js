@@ -178,7 +178,7 @@ router.post("/send", async(req, res) => {
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/ticketlist/:userId/:date", auth, async(req, res) => {
+router.get("/ticketlist/:userId/:date",  auth,  async(req, res) => {
   
   const startDate = new Date(req.params.date)
   startDate.toISOString()
