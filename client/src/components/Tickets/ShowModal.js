@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {useEffect} from 'react'
+import M from "materialize-css/dist/js/materialize.min.js"
 
-export const ShowModal = ({showModal, ticketData, serviceData, userData, rewriteRecord, closeModal}) => {
+export const ShowModal = ({showModal, ticketData, serviceData, userData, note, rewriteRecord, save, cancel}) => {
+
+    useEffect(() => {
+        M.AutoInit()
+      }, [])
     
-     const {date, firstname, lastname, surname, phone, email} = ticketData
+    const {date, firstname, lastname, surname, phone, email} = ticketData
     
     return (
         <>
@@ -21,15 +26,28 @@ export const ShowModal = ({showModal, ticketData, serviceData, userData, rewrite
                         <p><b>Дата приема:</b>  {date.slice(0,10).split('-').reverse().join('.')} </p>
                         <p><b>Время приема:</b> {date.slice(11,16)} </p>
                         <p><b>Кабинет:</b>  {userData.cabinet} </p> 
-                        <p><b>Прием ведет:</b> {userData.name} </p> 
+                        <p><b>Прием ведет:</b> {userData.name} </p>
+                        <div className="row">
+                            <form className="col s12">
+                            <div className="row">
+                                <div className="input-field col s12">
+                                <textarea id="note" defaultValue={note} className="materialize-textarea"></textarea>
+                                <label htmlFor="note">Примечание к записи</label>
+                                </div>
+                            </div>
+                            </form>
+                            </div>
+
                         
                      
-                        <div style={{display:"grid", justifyContent:"center",justifyItems:"center"}}>
+                        <div style={{display:"flex", flexDirection:"column",justifyContent:"center",justifyItems:"center"}}>
                             <div style={{marginBottom:"1rem"}}>
                             <button className="waves-effect btn-small"   onClick= {rewriteRecord}>Перезаписать на другую дату</button>
                             </div> 
-                            <div>
-                            <button className="waves-effect btn-small blue darken-1"    onClick= {closeModal} >Отмена</button> 
+                           
+                            <div style={{display:"flex", flexDirection:"row", justifyContent:"end"}}>
+                            <button style ={{marginRight:"10px"}} className="waves-effect btn orange darken-4"   onClick= {save}>Сохранить</button>
+                            <button className="waves-effect btn blue darken-1"    onClick= {cancel} >Отмена</button> 
                             </div>
                             
                         </div> 

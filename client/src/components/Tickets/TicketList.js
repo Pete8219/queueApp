@@ -23,6 +23,7 @@ export const TicketList = () => {
   const [serviceData, setServiceData] = useState('')
   const [userData, setUserData] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [notes, setNotes] = useState('')
 
   const { loading, request } = useHttp()
 
@@ -52,6 +53,7 @@ export const TicketList = () => {
         })
         
         setTickets(data)
+        
         
       } catch (e) {}
     }
@@ -83,7 +85,7 @@ export const TicketList = () => {
 
 
 
-
+// Обработчик изменения статуса заявления
   const handleChange =  async (event) => {
     
     const ticketId = event.target.dataset.ticketId
@@ -111,6 +113,7 @@ export const TicketList = () => {
 
   }
 
+//Обработчик изменения даты в окне выбора даты приема  
   const dateHandler = (event) => {
     setDate(event.target.value)
   }
@@ -130,6 +133,7 @@ export const TicketList = () => {
 
   }
 
+//Обработчик нажатия кнопки Enter в  поле поиска зявителя
   const pressHandler = async(event) => {
     if(event.key === 'Enter') {
       setDate('')
@@ -144,18 +148,21 @@ export const TicketList = () => {
     }
   }
 
+// Изменение и/или просмотр записи о заявке посетителя
+
   const changeRecord =  (id) => {
     
       const ticketData = tickets.find(item => item._id === id)
+      //Возможно нужно сделать запрос к базе и вытащить то заявление которое нужно, иначе в поле Примечание будут старые данные
       setTicketData(ticketData)
+      setNotes(ticketData.note)
+      console.log(notes)
       openModal() 
 
  }
 
-  const openModal = () => {
-    setShowModal(prev => !prev)
-  }
 
+// Реакция на нажатие кнопки "Перезаписать на другую дату"
   const rewriteRecord = () => {
     const dataForRewrite = Object.assign(ticketData, serviceData)
     localStorage.setItem("TicketData", JSON.stringify(dataForRewrite))
@@ -164,10 +171,53 @@ export const TicketList = () => {
     history.push('/category')
   }
 
-  const closeModal = () => {
+// Реакция на нажатие кнопки "Сохранить изменения"
+
+  const saveRecord = async () => {
+    const id = ticketData._id
+    const note = document.getElementById('note')
+    
+
+    const body = {
+      note:note.value
+    }
+
+    
+    try {
+      const data =  await request(`/tickets/notes/${id}`, 'PATCH', body , {
+        Authorization: `Bearer ${token}`
+      })
+      setNotes(note.value)
+      console.log(notes)
+      message(data.message)
+    } catch(e) {}
+    
+
+    closeModal()
+  }
+
+  const cancelHandler = () => {
+    const isCancel = window.confirm ('Вы уверены, что хотите закрыть форму?')
+    if(!isCancel) {
+      setShowModal(true)
+    } else {
+      closeModal()
+    }
+      
+  }
+
+// Управление видимостью модального окна
+  const openModal = () => {
     setShowModal(prev => !prev)
   }
 
+  const closeModal = () => {
+
+    setShowModal(prev => !prev)
+  }
+
+
+//Лоадер 
    if(loading) {
     return <Loader />
   }  
@@ -179,7 +229,7 @@ export const TicketList = () => {
 
       {!loading && userName  && <UserName name={userName} />}
       {!loading && tickets  && userType === "user" && <UserTickets  tickets={tickets} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
-      {ticketData && serviceData &&userData && <ShowModal ticketData={ticketData} serviceData={serviceData} userData={userData} showModal={showModal} closeModal={closeModal} rewriteRecord={rewriteRecord}/>}
+      {ticketData && serviceData &&userData && <ShowModal ticketData={ticketData} note={notes} serviceData={serviceData} userData={userData} showModal={showModal}  rewriteRecord={rewriteRecord} save={saveRecord} cancel = {cancelHandler}/>}
     </>
   )
 }

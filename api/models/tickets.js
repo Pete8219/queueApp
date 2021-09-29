@@ -18,6 +18,7 @@ const ticketSchema = mongoose.Schema({
   },
   phone: String,
   email: String,
+  note: String,
   service: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Service",

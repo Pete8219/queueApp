@@ -5,7 +5,7 @@ import { useMessage } from '../../../hooks/message.hook'
 import M from "materialize-css/dist/js/materialize.min.js"
 
 export const TicketForm = ({data, name}) => {
-    console.log(data)
+    
 
     const { request, error, clearError } = useHttp()
     const message = useMessage()

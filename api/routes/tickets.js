@@ -299,6 +299,34 @@ router.patch("/:ticketId", auth, async (req, res, next) => {
 
 })
 
+router.patch("/notes/:ticketId", auth, async (req, res, next) => {
+
+
+  console.log(req.body)
+   try {
+      const id = req.params.ticketId
+      const updateOps = {}
+
+      for (let key in req.body) {
+        updateOps[key] = req.body[key]
+      }
+
+      console.log(updateOps)
+
+      await Ticket.updateOne({ _id: id }, { $set: updateOps })
+
+      res.status(200).json({
+        message: `Информация о заявлении обновлена`
+      })
+     
+   } catch (e) {
+     res.status(400).json({
+       message: "Произошла ошибка. Обратитесь к разработчику"
+     })
+     
+   }
+})
+
 
 
 
