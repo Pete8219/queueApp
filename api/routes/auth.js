@@ -76,7 +76,7 @@ router.post("/login", [check("login", "Введите корретный лог�
     }
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1m" })
-    res.json({ token, userId: user.id, userType: user.userType, expires: (Date.now() + 60*60*1000 )})
+    res.json({ token, userId: user.id, userType: user.userType})
   } catch (e) {
     res.status(500).json({
       message: "Что то пошло не так!!!",

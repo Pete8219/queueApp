@@ -302,7 +302,7 @@ router.patch("/:ticketId", auth, async (req, res, next) => {
 router.patch("/notes/:ticketId", auth, async (req, res, next) => {
 
 
-  console.log(req.body)
+  //console.log(req.body)
    try {
       const id = req.params.ticketId
       const updateOps = {}
@@ -311,7 +311,7 @@ router.patch("/notes/:ticketId", auth, async (req, res, next) => {
         updateOps[key] = req.body[key]
       }
 
-      console.log(updateOps)
+      //console.log(updateOps)
 
       await Ticket.updateOne({ _id: id }, { $set: updateOps })
 
