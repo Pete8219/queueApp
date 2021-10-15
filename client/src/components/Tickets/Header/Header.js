@@ -6,7 +6,8 @@ import { Calendar } from '../../../UI/Calendar/Calendar'
 
 
 export const Header = ( {props} ) => {
-    const { getCalendarDate } = props
+    const { getCalendarDate, update } = props
+    
 
     return (
         <div className = "row col s12">
@@ -22,7 +23,7 @@ export const Header = ( {props} ) => {
                         />
                   </SearchForm>  
                   
-                  <Calendar props={{getCalendarDate}}/> 
+                  <Calendar props={{getCalendarDate, update}}/> 
                  
               </div> 
         </div>

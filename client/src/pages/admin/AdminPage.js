@@ -14,7 +14,7 @@ export const AdminPage = () => {
   }
   return (
     <div>
-       <StaffProfile />
+       {/* <StaffProfile /> */}
        
        <TicketsMainPage />
     </div>
