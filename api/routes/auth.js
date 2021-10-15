@@ -4,6 +4,7 @@ const dotenv = require("dotenv")
 dotenv.config()
 
 const jwt = require("jsonwebtoken")
+const jwtDecode = require('jwt-decode')
 const bcrypt = require("bcryptjs")
 const { check, validationResult } = require("express-validator")
 const User = require("../models/users")
@@ -75,13 +76,29 @@ router.post("/login", [check("login", "Введите корретный лог�
       })
     }
 
-    const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1m" })
+    const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" })
     res.json({ token, userId: user.id, userType: user.userType})
   } catch (e) {
     res.status(500).json({
       message: "Что то пошло не так!!!",
     })
   }
+})
+
+
+router.post("/verifyToken/:token", async (req, res ) => {
+    if(!req.params.token || null) {
+      return 
+    }
+
+    try {
+      const decode = jwtDecode(req.params.token)
+      res.status(200).json(decode)
+    } catch (error) {
+      res.status(500).json("Something wrong")
+    }
+    
+    
 })
 
 module.exports = router

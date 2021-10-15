@@ -1,0 +1,15 @@
+.profile {
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.staffName {
+    font-size: 1em;
+}
+
+.staffIcon {
+    color: rgb(238, 114, 13);
+    margin-right: 10px;
+}

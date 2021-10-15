@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react'
 import M from "materialize-css/dist/js/materialize.min.js"
 
+
 export const DateSelect = ({currentDate, handler}) => {
+
+    console.log(currentDate)
     useEffect(() => {
         M.AutoInit()
       }, [])
@@ -21,11 +24,11 @@ export const DateSelect = ({currentDate, handler}) => {
 
     }
 
-    
+      
 
-    return (
+     return (
          <div className="input-field col s8">
-       {/*  <p>Список посетителей на:</p>  */}
+       
         <select className="browser-default" defaultValue={currentDate} onChange={handler}>
             {dateArray.map((item,index) => {
                 return (
@@ -35,7 +38,7 @@ export const DateSelect = ({currentDate, handler}) => {
          
         </select>
         </div>
-    )
+    ) 
     
     
 }

@@ -8,7 +8,7 @@ const User = require("../models/users")
 
 //Получение списка всех пользователей
 //Здесь нужно сделать проверку авторизации!!!!
-router.get("/", async (req, res) => {
+router.get("/",  auth, async (req, res) => {
   try {
     const users = await User.find({}).select({ login: 0, password: 0, userType: 0 })
     res.status(200).json(users)

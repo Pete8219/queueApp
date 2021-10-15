@@ -10,8 +10,11 @@ const Ticket = require("../models/tickets")
 const Service = require("../models/services")
 
 const { check, validationResult } = require("express-validator")
+//const { request } = require("express")
 
-router.get("/", (req, res, next) => {
+
+//Получение списка тикетов из базы. Надо поработать с аутентификацией или выбирать только некоторые поля при запросе, иначе любой может получить данные посетителей
+router.get("/", auth, (req, res, next) => {
   Ticket.find({})
     .exec()
     .then((tickets) => {
@@ -178,7 +181,7 @@ router.post("/send", async(req, res) => {
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/ticketlist/:userId/:date",  auth,  async(req, res) => {
+router.get("/ticketlist/:userId/:date",    async(req, res) => {
   
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -196,6 +199,25 @@ router.get("/ticketlist/:userId/:date",  auth,  async(req, res) => {
       message:'Что то пошло не так'
     })
   }
+
+})
+
+//Выборка тикета по ID
+
+router.get("/:ticketId", auth, async(req, res) => {
+
+    const id = req.params.ticketId
+
+    try {
+      const ticket = await Ticket.findOne({_id: id})
+
+      return res.status(200).json(ticket)
+      
+    } catch (e) {
+        res.status(500).json({
+          message: "Ошибка запроса"
+        })
+    }
 
 })
 
@@ -240,10 +262,13 @@ router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
 
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/find/:visitor", async (req, res) => {
+router.get("/find/:visitor", auth, async (req, res) => {
+
+  
  
   try {
      const data = await Ticket.find({firstname : req.params.visitor})
+     
 
     res.status(200).json(data)
     
@@ -274,7 +299,7 @@ router.get("/status",auth, async (req, res) => {
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/:ticketId", auth, async (req, res, next) => {
+router.patch("/status/:ticketId", auth, async (req, res, next) => {
   try {
         const id = req.params.ticketId
 

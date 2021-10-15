@@ -16,10 +16,14 @@ export const UserPage = () => {
   const message = useMessage()
   const fetchUsers = useCallback(async () => {
     try {
-      const fetched = await request("/users", "GET", null, {})
+      const fetched = await request("/users", "GET", null, {
+        Authorization: `Bearer ${token}`
+      })
+
+      
       setUsers(fetched)
     } catch (e) {}
-  }, [request])
+  }, [request, token])
 
   useEffect(() => {
     fetchUsers()

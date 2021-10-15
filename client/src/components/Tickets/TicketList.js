@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext} from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { useHistory } from 'react-router-dom'
 import { useMessage } from "../../hooks/message.hook"
 import { AuthContext } from "../../context/AuthContext"
 import { Loader } from '../Loader'
-import { UserName } from "./UserName"
+//import { UserName } from "./UserName"
 import { UserTickets } from "./UserTickets.js"
 import { ShowModal } from "./ShowModal"
+
 
 
 export const TicketList = () => {
@@ -14,8 +15,9 @@ export const TicketList = () => {
   const { userId, userType, token } = useContext(AuthContext)
   const history = useHistory()
 
-  const [userName, setUserName] = useState("")
+  //const [userName, setUserName] = useState("")
   const [tickets, setTickets] = useState([])
+  const [ticket, setTicket] = useState('')
   
   const [date, setDate] = useState(new Date().toISOString().slice(0,10).split('.').reverse().join('-'))
   const [visitor, setVisitor] = useState('')
@@ -31,7 +33,7 @@ export const TicketList = () => {
 
  
 
-  useEffect(() => {
+  /* useEffect(() => {
     const fetchUserName = async () => {
       try {
         const data = await request(`/users/welcome/${userId}`, "GET", null, {})
@@ -39,12 +41,16 @@ export const TicketList = () => {
       } catch (e) {}
     }
     fetchUserName()
-  }, [request, userId])
+  }, [request, userId]) */
 
   useEffect(() => {
+
+    let isSubscribed = true
     if(!date) {
       return
     }
+
+
     const fetchTickets = async () => {
       
       try {
@@ -52,12 +58,17 @@ export const TicketList = () => {
           Authorization: `Bearer ${token}`
         })
         
-        setTickets(data)
+        if(isSubscribed) {
+          setTickets(data)
+        }
+        
         
         
       } catch (e) {}
     }
     fetchTickets()
+
+    return () => isSubscribed = false
   }, [request, userId, date, token])
 
 // На основе данных из талона делаем запрос к базе, чтобы получить информацию об услуге и о сотруднике, оказывающем услугу
@@ -105,7 +116,7 @@ export const TicketList = () => {
       status: newStatus
     }
     try {
-      const data =  await request(`/tickets/${ticketId}`, 'PATCH', body , {
+      const data =  await request(`/tickets/status/${ticketId}`, 'PATCH', body , {
         Authorization: `Bearer ${token}`
       })
       message(data.message)
@@ -150,14 +161,26 @@ export const TicketList = () => {
 
 // Изменение и/или просмотр записи о заявке посетителя
 
-  const changeRecord =  (id) => {
-    
-      const ticketData = tickets.find(item => item._id === id)
+  const changeRecord =  async (id) => {
+
+      try {
+          const data = await request(`/tickets/${id}`, 'GET', null, {
+            Authorization: `Bearer ${token}`
+          })
+
+          setTicket(data)
+          console.log(ticket)
+          openModal()
+      } catch (e) { }  
+
+
+
+    //  const ticketData = tickets.find(item => item._id === id)
       //Возможно нужно сделать запрос к базе и вытащить то заявление которое нужно, иначе в поле Примечание будут старые данные
-      setTicketData(ticketData)
-      setNotes(ticketData.note)
-      console.log(notes)
-      openModal() 
+    //  setTicketData(ticketData)
+    //  setNotes(ticketData.note)
+      //console.log(notes)
+      
 
  }
 
@@ -226,10 +249,9 @@ export const TicketList = () => {
     <>
   
 
-
-      {!loading && userName  && <UserName name={userName} />}
+      {/* {!loading && userName  && <UserName name={userName} />} */}
       {!loading && tickets  && userType === "user" && <UserTickets  tickets={tickets} date={date} visitor={visitor} handleChange={handleChange} findHandler={findHandler} dateHandler={dateHandler} pressHandler={pressHandler} changeRecord={changeRecord}/>}
-      {ticketData && serviceData &&userData && <ShowModal ticketData={ticketData} note={notes} serviceData={serviceData} userData={userData} showModal={showModal}  rewriteRecord={rewriteRecord} save={saveRecord} cancel = {cancelHandler}/>}
+      {!loading && serviceData &&userData && ticket && <ShowModal ticket = {ticket} /* ticketData={ticketData} */ note={notes} serviceData={serviceData} userData={userData} showModal={showModal}  rewriteRecord={rewriteRecord} save={saveRecord} cancel = {cancelHandler}/>}
     </>
   )
 }

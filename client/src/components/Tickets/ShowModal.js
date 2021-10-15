@@ -1,17 +1,18 @@
 import React, {useEffect} from 'react'
 import M from "materialize-css/dist/js/materialize.min.js"
 
-export const ShowModal = ({showModal, ticketData, serviceData, userData, note, rewriteRecord, save, cancel}) => {
+export const ShowModal = ({showModal, ticket, ticketData, serviceData, userData, note, rewriteRecord, save, cancel}) => {
 
     useEffect(() => {
         M.AutoInit()
       }, [])
     
-    const {date, firstname, lastname, surname, phone, email} = ticketData
+    //const {date, firstname, lastname, surname, phone, email} = ticketData
+    const {date, firstname, lastname, surname, phone, email} = ticket
     
     return (
         <>
-           {showModal ? (
+           {!showModal ? (
                <div>
                <div className="modalWindow" style={{position:"absolute", display:"grid",justifyContent:"center",top:"0", left:"0", width:"100%", height:"100%", backgroundColor:"#1c1c1d", zIndex:"1000", opacity:"80%"}}>
                </div>    

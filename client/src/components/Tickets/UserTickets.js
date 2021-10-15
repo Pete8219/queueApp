@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
 import { DateSelect } from '../Calendar/DateSelect'
-import { FindUser } from '../Tickets/FindUser'
+import { SearchForm } from "../../UI/SearchForm/SearchForm"
+import { Input } from "../../UI/Input/Input"
+import { List } from "./List/List"
 
 
 export const UserTickets = ({ tickets, handleChange, date, dateHandler, visitor, findHandler, pressHandler, changeRecord }) => {
@@ -14,13 +16,24 @@ export const UserTickets = ({ tickets, handleChange, date, dateHandler, visitor,
       <div className="container" style={{width:"100%"}}>
             <div className = "row col s12">
               <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
-                  <FindUser  handler={findHandler} pressHandler={pressHandler}/>
+                  <SearchForm>
+                  <Input 
+                             placeholder="Поиск посетителя по фамилии" 
+                             id="filterUser" 
+                             name ="filterUser" 
+                             type="text"
+                             onChange={e => findHandler(e.target.value)}
+                             onKeyPress={pressHandler}
+                        />
+                  </SearchForm>  
+                 
                   <DateSelect currentDate = {date} handler={dateHandler}/>
               </div> 
             </div>
             <div className="row col s12">
-              <h4>Ни одной записи не найдено</h4>
+              <h4>На сегодня записей нет</h4>
             </div>
+            
       </div>
     )
   }
@@ -29,10 +42,21 @@ export const UserTickets = ({ tickets, handleChange, date, dateHandler, visitor,
       <div className="container" style={{width:"100%"}}>
         <div className = "row col s12">
           <div className="row col-s12" style={{display:"grid", gridTemplateColumns:"1fr 1fr"}}>
-            <FindUser visitor={visitor} handler={findHandler} pressHandler={pressHandler}/>
-              <DateSelect currentDate = {date} handler={dateHandler}/>
+            <SearchForm handler={findHandler} pressHandler={pressHandler}>
+                        <Input 
+                             placeholder="Поиск посетителя по фамилии" 
+                             id="filterUser" 
+                             name ="filterUser" 
+                             type="text"
+                             onChange={e => findHandler(e.target.value)}
+                             onKeyPress={pressHandler}
+                        />
+            </SearchForm>
+            <DateSelect currentDate = {date} handler={dateHandler}/>
           </div> 
 
+
+    <List tickets={tickets} date={date}/>
 
     <div className="row col s12">
       <div className="card" style={{padding:"20px"}}>

@@ -12,6 +12,9 @@ export const useAuth = () => {
     setUserId(id)
     setUserType(type)
 
+
+   
+
     localStorage.setItem(
       storageName,
       JSON.stringify({

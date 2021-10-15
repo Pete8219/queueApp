@@ -13,7 +13,6 @@ import { UserCreatePage } from "./pages/admin/Users/UserCreatePage"
 import { Calendar } from "./pages/visitors/Calendar"
 import { Time } from "./pages/visitors/Time"
 import { Contact } from './pages/visitors/Contact'
-/* import { ReceptionPage } from "./pages/admin/Reception/ReceptionPage" */
 import { Reception } from "./pages/admin/Reception/Reception"
 import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
@@ -21,11 +20,15 @@ import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
 import { TicketEditPage } from "./pages/admin/TicketEditPage"
 import { Staff } from "./pages/visitors/Staff"
+import { TicketForm } from "../src/components/Tickets/Ticket/Ticket"
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
+        <Route path="/ticketForm" exact>
+          <TicketForm/>
+        </Route>
         <Route path="/" exact>
           <AdminPage />
         </Route>

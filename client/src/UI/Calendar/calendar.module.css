@@ -1,0 +1,9 @@
+.calendarBody {
+    margin-top: 15px;
+}
+
+.calendarBody::before {
+    content: "Дата:";
+    padding: 30px;
+    font-size: 1.4em;
+}
