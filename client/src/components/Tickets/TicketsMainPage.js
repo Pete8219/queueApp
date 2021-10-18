@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { Header } from './Header/Header'
 import { List } from './List/List'
 import { AuthContext } from '../../context/AuthContext'
 import { Loader } from '../Loader'
-import { formatDate } from '../../utils/formatDate'
+//import { formatDate } from '../../utils/formatDate'
 import { useHttp } from "../../hooks/http.hook"
 import { SearchForm } from '../../UI/SearchForm/SearchForm'
 import { Input } from '../../UI/Input/Input'
@@ -12,83 +11,39 @@ import styles from "./mainPage.module.css"
 
 export const TicketsMainPage = () => {
     const { userId, ready, token  } = useContext(AuthContext)
-    const { loading, request } = useHttp()
+    const { loading } = useHttp()
 
-    const [date, setDate] = useState( formatDate(new Date()))
+    const [date, setDate] = useState( new Date() )
     const [name, setName] = useState('')
-    const [ticketList, setTicketList] = useState([])
-    const [update, setUpdate] = useState(false)
-    
-    
+    const [visitor, setVisitor] = useState('')
 
-
-    const getCalendarDate = (d) => {
-        const selectedDate = formatDate(d) 
-        setDate(selectedDate)
-        
-
-
-    } 
-
-    const getVisitorTickets =  ( data )=> {
-        let  text = ''
-        if( text.length < 1) {
-            text = data
-        } else {
-            text += data
-        }
-        
-        setName(text.toUpperCase())
+    const updateDate = (d) => {
+        setDate(d)
     }
 
-     useEffect(() => {
-         if(!date) {
-             return
-         }
-        console.log('alert')
-
-        const fetchTickets = async() => {
-          try {
-            const result = await request (`/tickets/ticketlist/${userId}/${date}`, "GET", null, {
-                Authorization: `Bearer ${token}`
-            })
-            
-            setTicketList(result)
-
-
-        } catch (error) { }
-
-        }
-
-        fetchTickets()
-    },[ date, userId, request, token])  
-
+    const handleChange = (e) => {
+        setVisitor((e.target.value).toUpperCase())
+    }
 
 //Обработчик нажатия кнопки Enter в  поле поиска зявителя
   const pressHandler = async(e) => {
                   
             if(e.key === 'Enter') {
-                setDate('')
-                console.log('dfsdf')
-                     try {
-                    const result =  await request(`/tickets/find/${name}`, 'GET', null , {
-                        Authorization: `Bearer ${token}`
-                    })
-                    
-                    setTicketList(result)
-                    setName('')
-
-                } catch(e) {}  
+                setName(visitor)
+                
+                e.preventDefault()
+                
+                setVisitor('')
+ 
             }
-            
-    }
+     }
     
-     if( !ready ) {
+    if( !ready ) {
         <Loader />
     }
+ 
 
-
-     if(loading) {
+    if(loading) {
         <Loader />
     }  
     return (
@@ -97,29 +52,28 @@ export const TicketsMainPage = () => {
             <div className={styles.Header}>
                 <div>
                 
-                 <SearchForm>
+                 <SearchForm >
                     <Input 
                         placeholder="Поиск посетителя по фамилии" 
                         id="filterUser" 
                         name ="filterUser" 
                         type="text"
-                        onChange={e => getVisitorTickets(e.target.value)}
+                        value = {visitor}
+                        onChange={handleChange}
                         onKeyPress={pressHandler}
+                        
                     />
                 </SearchForm> 
                 </div>
                 
                 <div>
-                     <Calendar props={{getCalendarDate, update}}/> 
+                     <Calendar props={{updateDate, date}}/> 
                 </div> 
             </div>
-        
-        
-        
-        
+       
             <div>
   
-            {!loading && ticketList  && <List props = {{ userId, token, ticketList }}/>}
+             <List props = {{ userId, token, date, name}}/>
             </div>
         
         

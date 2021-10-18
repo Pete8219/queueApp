@@ -263,7 +263,7 @@ router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/find/:visitor", auth, async (req, res) => {
-
+  console.log(req.params)
   
  
   try {

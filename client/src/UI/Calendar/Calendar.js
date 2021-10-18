@@ -8,28 +8,16 @@ registerLocale("ru", ru)
 
 export const Calendar = ({props}) => {
 
-    const { getCalendarDate, update } = props
-
-    
-
+    const { updateDate, date } = props
     
     setDefaultLocale("ru")
 
-    const [startDate, setStartDate ] = useState(new Date())
-    
-
-     useEffect(() => {
-        if(update) {
-            return
-        }
-        getCalendarDate(startDate)
-    }, [startDate, getCalendarDate, update]) 
 
     return (
             <div className={styles.calendarBody}>
                 <DatePicker
-                    selected = {startDate}
-                    onChange = { (date) => {getCalendarDate(date)}}
+                    selected = {date}
+                    onChange = { (d) => {updateDate(d)}}
                     dateFormat= "P"
                     />
             </div>
