@@ -1,16 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect, useContext} from 'react'
+import { AuthContext } from '../../../context/AuthContext'
+import { useAuth } from '../../../hooks/auth.hook'
+import { useHttp } from '../../../hooks/http.hook'
+import { useMessage } from '../../../hooks/message.hook'
 
 export const ListItem = ({ticket, i}) => {
     
+    const {  token } = useAuth(AuthContext)
+    const {  request } = useHttp()
 
+    const [ status, setStatus] = useState(ticket.status)
 
-    const changeRecord= (id) => {
+    const message = useMessage()
+
+    const changeRecord= (id) => {}
+
+    const statusChange =  async (event) => {
         
+            setStatus(event.target.value)
+            const body = {
+                status: event.target.value
+            }
+
+            try {
+                const data = await request(`/tickets/status/${ticket._id}`, 'PATCH', body, {
+                    Authorization: `Bearer ${token}`
+                })
+                message(data.message)
+            } catch(e) {}
+          
     }
-    const statusChange = () => {}
+
     
     const fullName = `${ticket.firstname} ${ticket.lastname} ${ticket.surname}`
-    const statusList = ["В работе", "Исполнено(проведена консультация)", "Исполнено(принято заявление)", "Исполнено(заявитель отказался подавать заяаление)", "Отказ от записи", "Не явился"]
+    const statusList = [
+                        "В работе",
+                        "Исполнено(проведена консультация)",
+                        "Исполнено(принято заявление)",
+                        "Исполнено(заявитель отказался подавать заяаление)",
+                        "Отказ от записи",
+                        "Не явился"
+                        ]
 
     
     return (
@@ -22,7 +52,7 @@ export const ListItem = ({ticket, i}) => {
 
                             <td>{ticket.date.slice(11, 16)}</td>
                             <td>
-                            <select className="browser-default" data-ticket-id={ticket._id} value={ticket.status} onChange={statusChange}>
+                            <select defaultValue={status} className="browser-default" data-ticket-id={ticket._id}  onChange={statusChange}>
                                 {statusList.map((item, i) => {
                                 return (
                                     <option key={i} value={item}>
