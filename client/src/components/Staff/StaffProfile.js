@@ -2,7 +2,7 @@ import React, {useContext, useState, useEffect } from 'react'
 import styles from "./profile.module.css"
 import { AuthContext } from '../../context/AuthContext'
 import { useHttp } from '../../hooks/http.hook' 
-import { Loader } from '../Loader'
+
 
 export const StaffProfile = () => {
     const { userId  }               =   useContext(AuthContext)
@@ -25,14 +25,14 @@ export const StaffProfile = () => {
         }
         fetchUserName()
 
-    }, [])
+    }, [request, userId])
 
 
 
     if(!loading && userName) {
         return (
             <div className = {styles.profile}>
-                    <span className={styles.staffIcon}><i className="material-icons">account_circle</i></span>
+                    <span className={styles.staffIcon}><i className="material-icons prefix">account_circle</i></span>
                     <span className={styles.staffName}>{userName.name} </span>
             </div>
         )

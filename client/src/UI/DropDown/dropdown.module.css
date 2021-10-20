@@ -1,0 +1,21 @@
+.DropDown {
+    width:100%;
+    padding:10px;
+    color:rgb(65, 62, 62);
+    line-height: 100%;
+    height: 100% !important;
+    text-transform: initial;
+    text-align: left;
+}
+
+.DropdownUl {
+    padding:10px;
+    
+}
+
+.ListItem{
+    
+    padding: 15px;
+    line-height: 26px;
+    border-bottom:2px solid rgb(235, 231, 231);
+}

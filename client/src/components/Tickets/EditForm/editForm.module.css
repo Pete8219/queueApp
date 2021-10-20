@@ -1,0 +1,19 @@
+.Button {
+    margin-left: 10px !important;
+    color:#fff ;
+    float: right;
+    width: 30%;
+}
+
+.rewriteBtn {
+    float: left;
+    width: 30%;
+    color:#fff;
+}
+
+.content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* border-bottom: solid 1px #c2c2c2; */
+}
+

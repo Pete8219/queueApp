@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { List } from './List/List'
 import { AuthContext } from '../../context/AuthContext'
 import { Loader } from '../Loader'
-//import { formatDate } from '../../utils/formatDate'
 import { useHttp } from "../../hooks/http.hook"
 import { SearchForm } from '../../UI/SearchForm/SearchForm'
 import { Input } from '../../UI/Input/Input'

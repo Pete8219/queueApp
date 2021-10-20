@@ -1,25 +1,34 @@
-import React, { useState, useEffect, useContext} from 'react'
+/* eslint-disable jsx-a11y/anchor-is-valid */
+
+import React, { useState } from 'react'
 import { AuthContext } from '../../../context/AuthContext'
 import { useAuth } from '../../../hooks/auth.hook'
 import { useHttp } from '../../../hooks/http.hook'
 import { useMessage } from '../../../hooks/message.hook'
+import styles from "./list.module.css"
 
-export const ListItem = ({ticket, i}) => {
-    
+
+export const ListItem = ({ticket, i, handler}) => {
+  
     const {  token } = useAuth(AuthContext)
     const {  request } = useHttp()
-
-    const [ status, setStatus] = useState(ticket.status)
-
     const message = useMessage()
+    
+    const [ status, setStatus] = useState(ticket.status)
+    
 
-    const changeRecord= (id) => {}
 
     const statusChange =  async (event) => {
-        
-            setStatus(event.target.value)
+        const selIndex = event.target.options.selectedIndex
+        const text = event.target.options[selIndex].outerText  
+        const statusValue = event.target.value
+
+        console.log(event.target.value)
+            
+            setStatus(text)
             const body = {
-                status: event.target.value
+                status: text,
+                statusValue 
             }
 
             try {
@@ -33,36 +42,46 @@ export const ListItem = ({ticket, i}) => {
 
     
     const fullName = `${ticket.firstname} ${ticket.lastname} ${ticket.surname}`
-    const statusList = [
-                        "В работе",
-                        "Исполнено(проведена консультация)",
-                        "Исполнено(принято заявление)",
-                        "Исполнено(заявитель отказался подавать заяаление)",
-                        "Отказ от записи",
-                        "Не явился"
-                        ]
 
-    
+
+    const statusObject = {
+        pending: 'В работе',
+        consultation: 'Исполнено(проведена консультация)',
+        statement: 'Исполнено(принято заявление)',
+        notStatement: 'Исполнено(заявитель отказался подавать заяаление)',
+        refusal: 'Отказ от записи',
+        notShow: 'Не явился'
+    }
+
+    const items= []
+
+    for (let key in statusObject) {
+       
+        items.push(<option key = {key} value={key}>{statusObject[key]}</option>)
+       
+    }
+
+        
     return (
-        <tr>
+        
+        
+                        <tr>
                             <td>{i + 1}</td>
-                            <td><a style={{textDecoration:"underline", cursor:"pointer"}} onClick={() => changeRecord(ticket._id)}> {fullName}</a></td>
+                            <td><a className={styles.editLink} onClick={() =>  handler(ticket._id)}> {fullName}</a></td>
                             <td>{ticket.phone || ''}</td>
                             <td>{ticket.date.slice(0,10).split('-').reverse().join('.')}</td>
 
                             <td>{ticket.date.slice(11, 16)}</td>
                             <td>
+                            
                             <select defaultValue={status} className="browser-default" data-ticket-id={ticket._id}  onChange={statusChange}>
-                                {statusList.map((item, i) => {
-                                return (
-                                    <option key={i} value={item}>
-                                    {item}
-                                    </option>
-                                )
-                                })}
+                                {items}
 
-                            </select>
+                            </select>     
+
                             </td>
                         </tr>
+                   
     )
+    
 }

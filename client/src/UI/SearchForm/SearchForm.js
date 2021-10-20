@@ -1,6 +1,4 @@
 import React from 'react'
-import styles from "./search.module.css"
-import { Input } from "../Input/Input"
 
 export const SearchForm = ({ children, ...props}) => {
     

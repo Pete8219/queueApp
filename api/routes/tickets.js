@@ -181,7 +181,7 @@ router.post("/send", async(req, res) => {
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/ticketlist/:userId/:date",    async(req, res) => {
+router.get("/ticketlist/:userId/:date",   auth,  async(req, res) => {
   
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -263,7 +263,7 @@ router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.get("/find/:visitor", auth, async (req, res) => {
-  console.log(req.params)
+  
   
  
   try {
@@ -300,6 +300,8 @@ router.get("/status",auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/status/:ticketId", auth, async (req, res, next) => {
+
+  
   try {
         const id = req.params.ticketId
 
@@ -309,6 +311,14 @@ router.patch("/status/:ticketId", auth, async (req, res, next) => {
           updateOps[key] = req.body[key]
         }
 
+        if(req.body.statusValue === 'refusal') {
+          updateOps['isBusy'] = false
+        } else {
+          updateOps['isBusy'] = true
+        }
+
+        
+
         await Ticket.updateOne({ _id: id }, { $set: updateOps })
         
         res.status(200).json({
@@ -316,7 +326,7 @@ router.patch("/status/:ticketId", auth, async (req, res, next) => {
           message: `Статус заявления изменен на: "${req.body.status}"`
       })
 } catch (e) {
-  res.status(400).json({
+  res.status(500).json({
     message: "Произошла ошибка. Обратитесь к разработчику"
   })
 }

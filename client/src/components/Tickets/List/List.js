@@ -1,20 +1,37 @@
-import React, { useState, useEffect, useCallback } from 'react'
-//import { AuthContext } from "../../../context/AuthContext"
+import React, { useState, useEffect } from 'react'
 import { useHttp } from "../../../hooks/http.hook"
-//import { Loader } from '../../Loader'
 import { ListItem } from './ListItem'
 import { formatDate } from '../../../utils/formatDate'
 import { Loader } from '../../Loader'
+import { EditForm } from '../EditForm/EditForm'
+import M from 'materialize-css'
 
 
 export const List = ({props}) => {
 
+    useEffect(() => {
+        M.AutoInit()
+    },[])
+
+    
+    let instance = {}
+
+    const elem = document.getElementById('modalWindow')
+        if(elem) {
+            
+            instance = M.Modal.getInstance(elem)
+        }
+
     const { userId, token, date, name } = props
     const { loading, request } = useHttp()
     const [ ticketList, setTicketList ] = useState([])
-
+    const [ editData, setEditData ] = useState([])
+    
 
      useEffect(() => {
+         if(!name) {
+             return
+         }
         const getTickets = async() => {
             
           try {
@@ -36,7 +53,7 @@ export const List = ({props}) => {
                 const data = await request (`/tickets/ticketlist/${userId}/${formatDate(date)}`, 'GET', null , {
                     Authorization: `Bearer ${token}`
                 })
-                console.log(data)
+
                  setTicketList(data)
             } catch (e) {}
         }
@@ -44,10 +61,24 @@ export const List = ({props}) => {
         getTickets()
     },[date, userId, request, token])
 
+
+
+
+    const changeItem =  (id) => {
+        
+        const filterData = ticketList.filter(item => item._id === id)
+        localStorage.setItem('ticketId', JSON.stringify(filterData))
+        
+        setEditData(filterData) 
+        instance.open()
+     
+    }
+
+
     if(loading) {
         <Loader />
     }
-  
+
     if(ticketList.length > 0) {
        return (
         <div className="row col s12">
@@ -67,7 +98,9 @@ export const List = ({props}) => {
                     <tbody>
                         {ticketList.map((ticket, index) => {
                             return (
-                                <ListItem  key = {ticket._id} ticket= {ticket} i={index} />
+                                
+                                <ListItem  key = {ticket._id} ticket= {ticket} i={index} handler = {changeItem}/>
+   
                             )
                         })
                     }
@@ -75,6 +108,8 @@ export const List = ({props}) => {
                     </tbody>
                 </table>
             </div>
+
+            <EditForm />
         </div>
     ) }
 
@@ -82,6 +117,7 @@ export const List = ({props}) => {
     return (
         <div>
             <h1>Записей не найдено</h1>
+             <EditForm />
         </div>
     )
 }

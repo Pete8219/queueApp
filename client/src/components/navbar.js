@@ -57,9 +57,7 @@ export const Navbar = () => {
         <li>
               <NavLink to="/category">Создать запись</NavLink>
             </li>
-          <li>
-            <NavLink to="/tickets">Тикеты</NavLink>
-          </li>
+
           <li>
             <a href="/" onClick={logoutHandler}>
               Выйти

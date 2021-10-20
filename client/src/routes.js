@@ -1,7 +1,7 @@
 import React from "react"
 import { Switch, Route, Redirect } from "react-router-dom"
 import { AuthPage } from "./pages/admin/AuthPage"
-/* import { HomePage } from "./pages/visitors/HomePage" */
+
 import { AdminPage } from "./pages/admin/AdminPage"
 import { ServicePage } from "./pages/admin/Services/ServicePage"
 import { UserPage } from "./pages/admin/UserPage"
@@ -20,15 +20,13 @@ import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
 import { TicketEditPage } from "./pages/admin/TicketEditPage"
 import { Staff } from "./pages/visitors/Staff"
-import { TicketForm } from "../src/components/Tickets/Ticket/Ticket"
+
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
     return (
       <Switch>
-        <Route path="/ticketForm" exact>
-          <TicketForm/>
-        </Route>
+
         <Route path="/" exact>
           <AdminPage />
         </Route>
@@ -69,9 +67,7 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/staff" exact>
         <Staff />
       </Route>
-        <Route path="/ticket" exact>
-          <Ticket />
-        </Route>
+
         <Route path="/ticket/edit" exact>
           <TicketEditPage />
         </Route>
