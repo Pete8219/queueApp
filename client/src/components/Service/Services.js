@@ -4,6 +4,7 @@ import React, { useEffect } from "react"
 import { useHistory } from "react-router-dom"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
+import styles from "./service.module.css"
 
 export const ServicesList = ({ services, onDelete }) => {
   
@@ -33,6 +34,7 @@ export const ServicesList = ({ services, onDelete }) => {
   }, [message, error, clearError, request])
 
   return (
+    <div className={styles.MainContainer}>
     <div className="row col-s12">
       <h4>Список услуг управления</h4>
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={createHandler}>
@@ -73,6 +75,7 @@ export const ServicesList = ({ services, onDelete }) => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   )
 }

@@ -8,24 +8,21 @@ import { useMessage } from '../../../hooks/message.hook'
 import styles from "./list.module.css"
 
 
-export const ListItem = ({ticket, i, handler}) => {
+export const ListItem = ({ticket, i, handler, handleRewrite}) => {
   
     const {  token } = useAuth(AuthContext)
     const {  request } = useHttp()
     const message = useMessage()
     
     const [ status, setStatus] = useState(ticket.status)
-    
-
 
     const statusChange =  async (event) => {
         const selIndex = event.target.options.selectedIndex
         const text = event.target.options[selIndex].outerText  
         const statusValue = event.target.value
 
-        console.log(event.target.value)
-            
-            setStatus(text)
+                    
+        setStatus(text)
             const body = {
                 status: text,
                 statusValue 
@@ -57,7 +54,7 @@ export const ListItem = ({ticket, i, handler}) => {
 
     for (let key in statusObject) {
        
-        items.push(<option key = {key} value={key}>{statusObject[key]}</option>)
+        items.push(<option key = {key} value={statusObject[key]}>{statusObject[key]}</option>)
        
     }
 
@@ -79,6 +76,13 @@ export const ListItem = ({ticket, i, handler}) => {
 
                             </select>     
 
+                            </td>
+                            <td>
+                                <button 
+                                className={['btn-flat btn darken red', styles.Button].join(' ')}
+                                onClick={()=> handleRewrite(ticket._id)} >
+                                    Перезаписать
+                                </button>
                             </td>
                         </tr>
                    

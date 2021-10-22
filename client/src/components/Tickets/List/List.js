@@ -5,6 +5,7 @@ import { formatDate } from '../../../utils/formatDate'
 import { Loader } from '../../Loader'
 import { EditForm } from '../EditForm/EditForm'
 import M from 'materialize-css'
+import { RewriteForm } from '../RewriteForm/RewriteForm'
 
 
 export const List = ({props}) => {
@@ -15,6 +16,7 @@ export const List = ({props}) => {
 
     
     let instance = {}
+     
 
     const elem = document.getElementById('modalWindow')
         if(elem) {
@@ -22,10 +24,18 @@ export const List = ({props}) => {
             instance = M.Modal.getInstance(elem)
         }
 
+/*      const rewriteBtn = document.getElementById('modalRewrite')
+        if(rewriteBtn) {
+            rewrite = M.Modal.getInstance(rewriteBtn)
+        }   */  
+
     const { userId, token, date, name } = props
     const { loading, request } = useHttp()
     const [ ticketList, setTicketList ] = useState([])
     const [ editData, setEditData ] = useState([])
+    const [isActive, setIsActive] = useState(false)
+    
+   // let isActivModal = false 
     
 
      useEffect(() => {
@@ -61,7 +71,11 @@ export const List = ({props}) => {
         getTickets()
     },[date, userId, request, token])
 
+      useEffect(() => {
+        const id = JSON.parse(localStorage.getItem('ticketId'))
+        openRModal()
 
+    },[isActive]) 
 
 
     const changeItem =  (id) => {
@@ -69,10 +83,37 @@ export const List = ({props}) => {
         const filterData = ticketList.filter(item => item._id === id)
         localStorage.setItem('ticketId', JSON.stringify(filterData))
         
+        
         setEditData(filterData) 
+
+        
         instance.open()
      
     }
+
+
+    const openRewrite = ( id ) => {
+        const filterData = ticketList.filter(item => item._id === id)
+        localStorage.setItem('ticketId', JSON.stringify(filterData))
+        setIsActive((prev) => !prev)
+
+        } 
+
+     const openRModal = () => {
+        
+        let rewriteBtn = document.getElementById('modalRewrite')
+        console.log(rewriteBtn)
+        if(rewriteBtn !==null) {
+        let instance = M.Modal.getInstance(rewriteBtn)
+        console.log(instance)
+        instance.open()
+        }
+
+
+        
+    }     
+
+    
 
 
     if(loading) {
@@ -92,6 +133,7 @@ export const List = ({props}) => {
                     <th>Дата приема</th>
                     <th>Время</th>
                     <th>Статус</th>
+                    <th></th>
                 </tr>
                 </thead>
 
@@ -99,7 +141,7 @@ export const List = ({props}) => {
                         {ticketList.map((ticket, index) => {
                             return (
                                 
-                                <ListItem  key = {ticket._id} ticket= {ticket} i={index} handler = {changeItem}/>
+                                <ListItem  key = {ticket._id} ticket= {ticket} i={index} handler = {changeItem} handleRewrite={openRewrite}/>
    
                             )
                         })
@@ -109,7 +151,8 @@ export const List = ({props}) => {
                 </table>
             </div>
 
-            <EditForm />
+             {/* { isActive  ? <EditForm /> : null}  */}
+              { isActive  ? <RewriteForm /> : null  } 
         </div>
     ) }
 
@@ -117,7 +160,8 @@ export const List = ({props}) => {
     return (
         <div>
             <h1>Записей не найдено</h1>
-             <EditForm />
+           {/*  { isActivModal ? <EditForm /> : null} */}
+           {/*  { isActivModal ? <RewriteForm /> : null}  */}
         </div>
     )
 }

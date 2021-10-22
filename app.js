@@ -2,8 +2,6 @@ const express = require("express")
 const helmet = require("helmet")
 const cors = require("cors")
 const app = express()
-//const Router = express.Router()
-
 const morgan = require("morgan")
 const mongoose = require("mongoose")
 const errorMiddleware = require("./api/middleware/error-middleware")
@@ -29,7 +27,7 @@ async function start() {
     })
   } catch (e) {
     console.log("Server Error", e.message)
-    /* process.exit(1) */
+  
   }
 }
 
@@ -50,6 +48,7 @@ app.use("/services", require("./api/routes/services"))
 app.use("/categories", require("./api/routes/categories"))
 app.use("/users", require("./api/routes/users"))
 app.use("/tickets", require("./api/routes/tickets"))
+app.use("/client/users", require("./api/routes/client/users"))
 app.use(errorMiddleware)
 
 

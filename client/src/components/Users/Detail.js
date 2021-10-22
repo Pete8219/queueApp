@@ -6,6 +6,7 @@ import { useMessage } from "../../hooks/message.hook"
 import { AuthContext } from "../../context/AuthContext"
 import M from "materialize-css/dist/js/materialize.min.js"
 import DatePicker from "react-datepicker"
+import styles from "./users.module.css"
 
 
 import { registerLocale, setDefaultLocale } from "react-datepicker"
@@ -105,6 +106,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
   }, [message, error, clearError])
 
   return (
+    <div className={styles.MainContainer}>
     <div className="row">
       <h4>Редактирование пользователя</h4>
       <form className="col s12">
@@ -184,6 +186,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
           </a>
         </div>
       </form>
+    </div>
     </div>
   )
 }

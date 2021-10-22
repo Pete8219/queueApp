@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { useHttp } from '../../hooks/http.hook'
+import { useHttp } from '../hooks/http.hook'
 import { EditTicket } from '../../components/Tickets/EditTicket'
-import { Categories } from '../../pages/visitors/Categories'
+import { Categories } from '../pages/visitors/Categories'
 
 
 export const TicketEditPage = () => {

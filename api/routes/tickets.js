@@ -229,8 +229,7 @@ router.get("/:ticketId", auth, async(req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
 
-  console.log(req.params.userId)
-  //const { serviceId, date, userId} = req.params
+
  
   const startDate = new Date(req.params.date)
   startDate.toISOString()
@@ -337,7 +336,7 @@ router.patch("/status/:ticketId", auth, async (req, res, next) => {
 router.patch("/notes/:ticketId", auth, async (req, res, next) => {
 
 
-  //console.log(req.body)
+  console.log(req.body)
    try {
       const id = req.params.ticketId
       const updateOps = {}

@@ -29,9 +29,7 @@ export const TicketsMainPage = () => {
                   
             if(e.key === 'Enter') {
                 setName(visitor)
-                
                 e.preventDefault()
-                
                 setVisitor('')
  
             }

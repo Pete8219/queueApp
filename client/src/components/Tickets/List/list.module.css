@@ -2,3 +2,10 @@
     text-decoration: underline;
     cursor: pointer;
 }
+
+.Button {
+    margin-left: 10px !important;
+    color:#fff ;
+    float: right;
+    width: 80%;
+}

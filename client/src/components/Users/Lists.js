@@ -10,7 +10,7 @@ export const Lists = ()=> {
     useEffect(()=> {
         const fetchUsers = async() => {
             try{
-                const fetched = await request('/users', 'GET', null, {})
+                const fetched = await request('/users', 'GET', null, {Authorization: `Bearer ${token}`})
                 setUsers(fetched)
     
             } catch (e) {}

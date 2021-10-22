@@ -17,29 +17,6 @@ function App() {
 
   const isAuthenticated = !!token
 
-
-/*    useEffect(() => {
-      const verify = async () => {
-            if( !token ) {
-              return
-            }    
-                try {
-                  const result = await request(`/auth/verifyToken/${token}`, 'POST', null, {})
-                  
-                  const { exp } = result
-
-                  if( exp*1000 < Date.now()) { 
-                    logout()
-                  }
-
-                } catch (e) {
-                       
-                }
-        }
-
-      verify()
-  }, [])  */
-  
   
   const routes = useRoutes(isAuthenticated)
 
@@ -60,9 +37,7 @@ function App() {
     >
       <Router>
         {isAuthenticated && <Navbar />}
-        {/* {isAuthenticated && !loading && <StaffProfile/>} */}
-        
-        {/* <div className="container">{routes}</div> */}
+
         <div>{routes}</div>
       </Router>
     </AuthContext.Provider>

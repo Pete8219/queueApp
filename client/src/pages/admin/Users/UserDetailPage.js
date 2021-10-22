@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext  } from "react"
 import { useHttp } from "../../../hooks/http.hook"
 import { useParams } from "react-router-dom"
 import { Detail } from "../../../components/Users/Detail"
 import { useHistory } from "react-router-dom"
+import { AuthContext } from "../../../context/AuthContext"
 
 export const UserDetailPage = () => {
+
+  const {  token } = useContext(AuthContext)
+
   const [user, setUser] = useState("")
   const [users, setUsers] = useState("")
   const {loading, request} = useHttp()
@@ -25,7 +29,7 @@ export const UserDetailPage = () => {
   useEffect(() =>  {
     const fetchUsers = async () => {
       try {
-        const fetched = await request(`/users/${userId}`, 'GET', null, {})
+        const fetched = await request(`/users/${userId}`, 'GET', null, {Authorization: `Bearer ${token}`})
         setUser(fetched)
 
       } catch(e){}
@@ -36,7 +40,7 @@ export const UserDetailPage = () => {
   useEffect(()=> {
     const fetchUserList = async() => {
       try {
-        const fetched = await request('/users', 'GET', null, {})
+        const fetched = await request('/users', 'GET', null, {Authorization: `Bearer ${token}`})
         setUsers(fetched)
 
       }catch(e) {}

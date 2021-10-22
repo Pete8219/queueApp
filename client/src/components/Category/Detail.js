@@ -1,12 +1,13 @@
 import React from 'react'
 import { ButtonSave } from '../ButtonSave'
 import { ButtonCancel} from '../ButtonCancel'
+import styles from "./category.module.css"
 
 export const Detail = ({category, title, cancel, update, changeTitle}) => {
 
     console.log(category)
     return (
-        <div>
+        <div className={styles.MainContainer}>
             <h4>Редактирование категории</h4>
 
             <form className="col s12">

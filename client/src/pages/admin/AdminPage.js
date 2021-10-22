@@ -6,16 +6,23 @@ import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage"
 
 
 export const AdminPage = () => {
-  const { ready } = useAuth()
+  const { ready , userType } = useAuth()
 
   if (!ready) {
     return <Loader />
   }
+
   return (
     <div>
-       <StaffProfile /> 
-       
-       <TicketsMainPage />
+      {(userType === 'superAdmin') ? (
+        <StaffProfile />
+      ):
+      <>
+      <StaffProfile />
+      <TicketsMainPage />
+      </>
+      }
     </div>
   )
+
 }

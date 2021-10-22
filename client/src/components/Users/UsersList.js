@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react"
+import styles from "./users.module.css"
 
 
 export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
 
 
   return (
+    <div className={styles.MainContainer}>
     <div className="row col-s12">
       <h4> Список сотрудников</h4>
       <a className="btn-floating btn-large waves-effect waves-light red" title="Добавить" style={{ float: "right" }} onClick={onCreate}>
@@ -48,6 +50,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   )
 }

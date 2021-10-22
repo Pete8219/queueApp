@@ -1,23 +1,35 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { useHistory } from 'react-router'
 import { useHttp } from '../../../hooks/http.hook'
+import { AuthContext } from '../../../context/AuthContext'
 import { Calendar } from '../../../UI/Calendar/Calendar'
 import { DropDown } from '../../../UI/DropDown/DropDown'
 import { RadioSelect } from '../../../UI/RadioSelect/RadioSelect'
-//import { AuthContext } from '../../../context/AuthContext'
 import { Loader } from '../../Loader'
 import styles from "./editForm.module.css"
+import { useMessage } from '../../../hooks/message.hook'
 
 export const EditForm = () => {
+
+    
     const ticket = JSON.parse(localStorage.getItem('ticketId'))
 
+
+
+    const { date:ticketDate, note: ticketNote, _id, firstname, surname, lastname, email, phone, service } = ticket[0]
+
+    const { token } = useContext(AuthContext)
+    const message = useMessage()
+
     const { loading, request } = useHttp()
-    //const { userId, ready, token  } = useContext(AuthContext)
     const [services, setServices] = useState([])
     const [date, setDate] = useState(new Date())
     const [serviceType, setServiceType] = useState(null)
     const [employeeId, setEmployeeId] = useState(null)
     const [employeeData, setEmployeeData] = useState([])
     const [serviceTitle, setServiceTitle] = useState('Выберите услугу')
+    const [update, setUpdate] = useState(false)
+    const [note, setNote] = useState(ticketNote)
 
     
     
@@ -35,29 +47,28 @@ export const EditForm = () => {
     },[request])
 
       useEffect(() => {
-          if(!employeeId) {
+          if(!employeeId || update === false) {
               return
           }
         const fetchEmployee = async() => {
 
             try {
-                const data = await request (`/users/welcome/${employeeId}`, 'GET', null, {})
-    
+                const data = await request (`/client/users/${employeeId}`, 'GET', null, {Authorization: `Bearer ${token}`})
+                console.log(data)
                 setEmployeeData(data)
             } catch (error) {}
 
         }
 
         fetchEmployee()
-    },[employeeId, request])
+    },[employeeId, request, update])
  
 
-    const { firstname, surname, lastname , service} = ticket[0]
-    const fullname =  `${firstname} ${surname} ${lastname}` 
-    const day = ticket[0].date.slice(0,10).split('-').reverse().join('-') + ' г'
-    const time =  ticket[0].date.slice(11,16)
-    const filterDay = true
-    const minDate = true
+    
+    const fullname =  `${firstname}  ${lastname} ${surname}` 
+    const day = new Date(ticketDate).toLocaleDateString()
+    const time = new Date(ticketDate).toLocaleTimeString().slice(0,-3)
+
 
     let nameOfService=''
 
@@ -74,6 +85,7 @@ export const EditForm = () => {
     const changeService = (e) => {
         const serviceName = (e.target.innerText)
         setEmployeeId(e.target.dataset.employee)
+        setUpdate(true)
         setServiceTitle(serviceName)
     }
 
@@ -82,6 +94,28 @@ export const EditForm = () => {
             setServiceType(e.target.value)
         }
     } 
+
+    const closeButton = () => {
+        setUpdate(false)
+        setEmployeeData([])
+        setServiceTitle('Выберите услугу')
+    }
+
+    const cancelButton = () => {
+        
+    }
+
+    const saveButton = async() => {
+        console.log('saved')
+        try {
+            const data = await request(`/tickets/notes/${_id}`, 'PATCH', {note}, {Authorization: `Bearer ${token}`})
+            message(data.message)
+        } catch (error) {
+            
+        }
+    }
+
+
 
     if(loading) {
         <Loader />
@@ -106,62 +140,21 @@ export const EditForm = () => {
                         <p>{nameOfService}</p>
                         
                     </div>
-                    <hr></hr><br></br>
                     <div className={styles.content}>
-                        <h6>Перезаписать на услугу:</h6>
-                        <DropDown props={{services, serviceTitle, changeService}}/>
-                        
-                    </div>
-                    {(employeeData) 
-                        ?   <> 
-                            <div className={styles.content}>
-                                <h6>Сотрудник, оказывающий услугу:</h6>
-                                <p>{employeeData.name}</p>
-                                
-                            </div>
-                            <div className={styles.content}>
-                                <h6>Номер кабинета:</h6>
-                                <p>{employeeData.cabinet}</p>
-                            </div>
-                            </>
+                        <h6>Примечание:</h6>
+                        <p>
+                        <i className="material-icons prefix">mode_edit</i>
                             
-
-                        :   null
-                        
-                    
-                    } 
-
-                    <div className={styles.content}>
-                        <h6>Тип услуги:</h6>
-                        <div>
-                        <RadioSelect 
-                            type ="radio"
-                            group = "group"
-                            value = "Консультация"
-                            onChange = {onSelect}
-                            />
-                          <RadioSelect 
-                            type ="radio"
-                            group = "group"
-                            value = "Подача документов"
-                            onChange = {onSelect}
-                            /> 
-                        </div>       
-                        
+                            <textarea id="textarea1" value = {note} className="materialize-textarea" onChange={(e) => setNote(e.target.value)}></textarea>
+                            
+                        </p>
                     </div>
-                    <div className={styles.content}>
-                        <h6>Выбрать новую дату:</h6>
-                        <Calendar props= {{ updateDate, date, filterDay, minDate}}/>
-                        
-                    </div>
-                    <div className={styles.content}>
-                        <h6>Доступное время для записи:</h6>
-                       
-                    </div>
+                   
                 </div>
                 <div className="modal-footer">
-                <button className={['modal-close  btn-flat btn red', styles.rewriteBtn].join(' ')}>Перезаписать</button>
-                <button className={['modal-close  btn-flat btn green', styles.Button].join(' ')}>Закрыть</button>
+                
+                <button className={['modal-close  btn-flat btn blue', styles.rewriteBtn].join(' ')} onClick={saveButton}>Сохранить</button>
+                <button className={['modal-close  btn-flat btn green', styles.Button].join(' ')} onClick={cancelButton}>Закрыть</button>
                 </div>
 
            </div>

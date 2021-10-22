@@ -1,9 +1,11 @@
 import React from 'react'
 import { ButtonCreate } from "../ButtonCreate"
+import styles from "./category.module.css"
 
 
 export const List = ({categories, create, edit, OnDelete}) => {
     return (
+      <div className={styles.MainContainer}>
         <div className="row col-s12">
         <h4>Категории услуг</h4>
         <ButtonCreate action={() => create('Create')}/>
@@ -42,6 +44,7 @@ export const List = ({categories, create, edit, OnDelete}) => {
             </tbody>
           </table>
         </div>
+      </div>
       </div>
     )
 }

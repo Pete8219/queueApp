@@ -48,11 +48,14 @@ router.post("/create", auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 router.get("/:id", async (req, res) => {
   try {
-    const data = await await User.findOne({ _id: req.params.id })
-    res.status(200).json({
+    const data = await User.findOne({ _id: req.params.id })
+
+     return res.status(200).json({
       data,
       roles: data.getRoles,
-    })
+    }) 
+
+   /*  res.status(200).json(user) */
   } catch (e) {
     res.status(400).json({
       message: "Пользователь не найден",

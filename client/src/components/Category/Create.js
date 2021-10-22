@@ -1,10 +1,11 @@
 import React from 'react'
 import { ButtonSave } from '../ButtonSave'
 import { ButtonCancel } from '../ButtonCancel'
+import styles from "./category.module.css"
 
 export const Create =({save, cancel, changeTitle}) => {
     return (
-        <div>
+        <div className={styles.MainContainer}>
             <h4>Создание категории</h4>
             
                 <form className="col s12">

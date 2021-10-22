@@ -18,7 +18,7 @@ import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
-import { TicketEditPage } from "./pages/admin/TicketEditPage"
+//import { TicketEditPage } from "./pages/admin/TicketEditPage"
 import { Staff } from "./pages/visitors/Staff"
 
 
@@ -68,9 +68,9 @@ export const useRoutes = (isAuthenticated) => {
         <Staff />
       </Route>
 
-        <Route path="/ticket/edit" exact>
+{/*         <Route path="/ticket/edit" exact>
           <TicketEditPage />
-        </Route>
+        </Route> */}
 
         <Route path="/tickets" exact>
           <TicketsPage />
