@@ -178,6 +178,109 @@ router.post("/send", async(req, res) => {
   }
 })
 
+router.post("/reservation", async(req,res) => {
+  try {
+    
+  } catch (error) {
+    
+  }
+})
+
+//Поиск тикетов по фамилии посетителя
+
+//Здесь нужно сделать проверку авторизации!!!!
+
+router.get("/find/:visitor", auth, async (req, res) => {
+  console.log(req.params)
+  
+ 
+  try {
+     const data = await Ticket.find({firstname : req.params.visitor})
+      .populate({
+        path: 'user',
+        select:'name cabinet'
+      })
+     
+
+    res.status(200).json(data)
+    
+
+  } catch (e) {
+    res.status(500).json({
+      message: 'Что то пошло не так'
+    })
+  }
+})
+
+
+//Поиск тикетов по ID сотрудника и дате
+router.get("/:employeeId/:date", async(req, res) => {
+     
+
+  const startDate = new Date(req.params.date)
+  const endDate = new Date(req.params.date)
+  endDate.setHours(23,59,0,0)
+
+     try {
+       const tickets = await Ticket.find({$and: [{ date: {$gte : startDate, $lte: endDate}}, {isBusy: true}, { user: req.params.employeeId } ]}).select('time date serviceType')
+/*        if(!tickets.length) {
+        return  res.status(200).json(
+           
+          { message: "Пока еще все свободно"}
+         )
+       }
+ */
+       res.status(200).json(tickets)
+     } catch (e) {
+       res.status(500).json({
+         message: "Ошибка выполнения запроса"
+       })
+       
+     }
+})
+
+router.get("/checkTime/:employeeId/:time/", async (req, res) => {
+  console.log(req.params.time)
+  const time = req.params.time
+  const startDate = new Date()
+  startDate.setHours(5,0,0,0)
+  const endDate = new Date()
+  endDate.setHours(23,59,0,0)
+
+  console.log(startDate, endDate)
+
+  try {
+    const tickets = await Ticket.find({$and: [{ date: {$gte : startDate, $lte: endDate} }, { user : req.params.employeeId }]}).select('date')
+       
+    const checking =  tickets.filter(ticket => {
+       return (ticket.date.toTimeString().slice(0,5) === time && ticket.isBusy === true)
+      
+    }) 
+
+    if(!checking.length) {
+
+      //Вариант с резервацией времени при выбоое времени. Посмотрим понадобиться или нет
+/*       const hours = time.slice(0,2)
+      const minutes = time.slice(3,5)
+      const day = new Date()
+      day.setHours(hours)
+      day.setMinutes(minutes,0,0)
+      
+      const reserv = new Ticket({user: req.params.employeeId, date: day, isBusy:true })
+      reserv.save() */
+    }
+    
+
+    res.status(200).json(checking)
+  } catch (e) {
+    res.status(500).json({
+      message: "Ошибка выполнения запроса"
+    })
+    
+  }
+
+})
+
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
@@ -193,6 +296,11 @@ router.get("/ticketlist/:userId/:date",   auth,  async(req, res) => {
 
   try {
     const tickets = await Ticket.find({ $and : [{user: req.params.userId}, { date: {$gte : startDate, $lte: endDate} }]})
+        .populate(
+          {
+            path: 'user',
+            select: 'name cabinet'
+            })
     res.status(200).json(tickets)
     } catch(e) {
     res.status(500).json({
@@ -257,27 +365,7 @@ router.get("/byService/:serviceId/:date/:userId", async(req, res) => {
 
 })
 
-//Поиск тикетов по фамилии посетителя
 
-//Здесь нужно сделать проверку авторизации!!!!
-
-router.get("/find/:visitor", auth, async (req, res) => {
-  
-  
- 
-  try {
-     const data = await Ticket.find({firstname : req.params.visitor})
-     
-
-    res.status(200).json(data)
-    
-
-  } catch (e) {
-    res.status(500).json({
-      message: 'Что то пошло не так'
-    })
-  }
-})
 
 // Выбор тикетов в зависимости от статуса
 
@@ -295,10 +383,32 @@ router.get("/status",auth, async (req, res) => {
   }
 })
 
+router.patch("/:id", auth, async(req, res) => {
+
+  try {
+    
+    const updateOps = {}
+    for (let key in req.body) {
+      updateOps[key] = req.body[key]
+    }
+
+    await Ticket.updateOne({_id: req.params.id}, { $set: updateOps})
+
+    res.status(200).json({
+      message: "Данные по записи успешно обновлены"
+    })
+  } catch (e) {
+    res.status(500).json({
+      message:"Ошибка обновления информации о талоне. Попробуйте еще раз или обратитесь к разработчику"
+    })
+  }
+})
+
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/status/:ticketId", auth, async (req, res, next) => {
+  console.log(req.body)
 
   
   try {

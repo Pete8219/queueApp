@@ -1,0 +1,35 @@
+
+.Timebox {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    width:100%;
+    padding: 10px;
+}
+
+.box {
+    display:flex;
+    width: 80%;
+    justify-content: center;
+    height: 40px;
+    color: cornsilk;
+    background-color: darkgreen;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.box:hover {
+    background-color: rgb(65, 186, 65);
+}
+
+.boxClear {
+    display:flex;
+    width: 80%;
+    height: 40px;
+    margin-top: 10px;
+    opacity: 0;
+}
+
+.boxFree {
+    background-color: deepskyblue;
+}

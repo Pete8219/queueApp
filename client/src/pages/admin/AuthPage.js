@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react"
 import { useHttp } from "../../hooks/http.hook"
 import { useMessage } from "../../hooks/message.hook"
 import { AuthContext } from "../../context/AuthContext"
+import styles from "./pages.module.css"
 
 export const AuthPage = () => {
   const auth = useContext(AuthContext)
@@ -47,10 +48,11 @@ export const AuthPage = () => {
   }
 
   return (
-    <div className="row valign-wrapper">
+    <div className={styles.MainContainer}>
+      <div className="row valign-wrapper">
       <div className="col s6 offset-s3">
         <h1 className="center-align">Электронная очередь</h1>
-        <div className="card blue-grey darken-4">
+        <div className="card blue-grey darken-4" style={{width:"60%", margin:"0 auto"}}>
           <div className="card-content">
             <span className="card-title ">Авторизация</span>
             <div>
@@ -80,6 +82,7 @@ export const AuthPage = () => {
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }

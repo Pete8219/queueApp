@@ -8,7 +8,7 @@ import { useMessage } from '../../../hooks/message.hook'
 import styles from "./list.module.css"
 
 
-export const ListItem = ({ticket, i, handler, handleRewrite}) => {
+export const ListItem = ({ticket, i, handler, rewrite}) => {
   
     const {  token } = useAuth(AuthContext)
     const {  request } = useHttp()
@@ -19,7 +19,9 @@ export const ListItem = ({ticket, i, handler, handleRewrite}) => {
     const statusChange =  async (event) => {
         const selIndex = event.target.options.selectedIndex
         const text = event.target.options[selIndex].outerText  
-        const statusValue = event.target.value
+        const statusValue = event.target.options[selIndex].dataset.status
+
+        console.log(statusValue)
 
                     
         setStatus(text)
@@ -54,7 +56,7 @@ export const ListItem = ({ticket, i, handler, handleRewrite}) => {
 
     for (let key in statusObject) {
        
-        items.push(<option key = {key} value={statusObject[key]}>{statusObject[key]}</option>)
+        items.push(<option key = {key} data-status={key} value={statusObject[key]}>{statusObject[key]}</option>)
        
     }
 
@@ -68,7 +70,7 @@ export const ListItem = ({ticket, i, handler, handleRewrite}) => {
                             <td>{ticket.phone || ''}</td>
                             <td>{ticket.date.slice(0,10).split('-').reverse().join('.')}</td>
 
-                            <td>{ticket.date.slice(11, 16)}</td>
+                            <td>{new Date(ticket.date).toLocaleTimeString().slice(0, 5)}</td>
                             <td>
                             
                             <select defaultValue={status} className="browser-default" data-ticket-id={ticket._id}  onChange={statusChange}>
@@ -80,7 +82,7 @@ export const ListItem = ({ticket, i, handler, handleRewrite}) => {
                             <td>
                                 <button 
                                 className={['btn-flat btn darken red', styles.Button].join(' ')}
-                                onClick={()=> handleRewrite(ticket._id)} >
+                                onClick={()=> rewrite(ticket._id)} >
                                     Перезаписать
                                 </button>
                             </td>

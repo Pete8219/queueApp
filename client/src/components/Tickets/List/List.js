@@ -8,23 +8,31 @@ import M from "materialize-css"
 import { RewriteForm } from "../RewriteForm/RewriteForm"
 
 export const List = ({ props }) => {
+    const { userId, token, date, name } = props
+    const { loading, request } = useHttp()
+    const [ticketList, setTicketList] = useState([])
+    const [services, setServices] = useState([])
+    const [isActive, setIsActive] = useState(false)
+    const [isActiveRewrite, setIsActiveRewrite] = useState(false)
+    const [reloadList, setReloadList] = useState(false)
+
+
   useEffect(() => {
     M.AutoInit()
+
   }, [])
 
-  /*      const rewriteBtn = document.getElementById('modalRewrite')
-        if(rewriteBtn) {
-            rewrite = M.Modal.getInstance(rewriteBtn)
-        }   */
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const data = await request("/services/", "GET", null, {})
+        setServices(data)
+      } catch (error) {}
+    }
 
-  const { userId, token, date, name } = props
-  const { loading, request } = useHttp()
-  const [ticketList, setTicketList] = useState([])
-  const [editData, setEditData] = useState([])
-  const [isActive, setIsActive] = useState(false)
-
-  // let isActivModal = false
-
+    fetchServices()
+  }, [request])
+ 
   useEffect(() => {
     if (!name) {
       return
@@ -53,82 +61,90 @@ export const List = ({ props }) => {
     }
 
     getTickets()
-  }, [date, userId, request, token])
+  }, [date, userId, request, token, reloadList])
 
-  useEffect(() => {
-    const id = JSON.parse(localStorage.getItem("ticketId"))
-    openRModal()
-  }, [isActive])
 
-  const elem = document.getElementById("modalWindow")
-  const instance = M.Modal.getInstance(elem)
-  instance.open()
+  const filterData = (ticketId) => {
+    const filterData = ticketList.filter((item) => item._id === ticketId)
+    localStorage.setItem("ticketId", JSON.stringify(filterData))
+  }
 
   const changeItem = (id) => {
-    const filterData = ticketList.filter((item) => item._id === id)
-    localStorage.setItem("ticketId", JSON.stringify(filterData))
-
-    setEditData(filterData)
-    instance.open()
+    filterData(id)
+    setIsActive(true)
   }
 
-  const openRewrite = (id) => {
-    const filterData = ticketList.filter((item) => item._id === id)
-    localStorage.setItem("ticketId", JSON.stringify(filterData))
-    //setIsActive((prev) => !prev)
+  const editTicketList = (_id, note) => {
+      ticketList.map(ticket =>  {
+          
+          if(ticket._id === _id) {
+              ticket.note = note
+          }
+      })
   }
 
-  const openRModal = () => {
-    /*     let rewriteBtn = document.getElementById("modalRewrite")
-    let instance = M.Modal.getInstance(rewriteBtn)
-    instance.open() */
+  const openRewriteForm = (id) => {
+    filterData(id)
+    setIsActiveRewrite(true)
   }
+
+  const closeForm = (id) => {
+      setIsActive(false)
+      setIsActiveRewrite(false)
+      //getReload()
+  }
+
+  const getReload = () => {
+      setReloadList(prev => !prev)
+  }
+
 
   if (loading) {
-    ;<Loader />
+    <Loader />
   }
 
-  if (ticketList.length > 0) {
+  if(!ticketList.length) {
+      return (
+        <div>
+            <h1>Записей не найдено</h1>
+        </div>
+      )
+  }
+
+  
     return (
-      <div className="row col s12">
-        <div className="card" style={{ padding: "20px" }}>
-          <table className="striped">
-            <thead style={{ backgroundColor: "c2c2c2" }}>
-              <tr>
-                <th>#</th>
-                <th>Посетитель</th>
-                <th>Телефон</th>
-                <th>Дата приема</th>
-                <th>Время</th>
-                <th>Статус</th>
-                <th></th>
-              </tr>
-            </thead>
+        <div>
+            <div className="row col s12">
+                <div className="card" style={{ padding: "20px" }}>
+                <table className="striped">
+                    <thead style={{ backgroundColor: "c2c2c2" }}>
+                    <tr>
+                        <th>#</th>
+                        <th>Посетитель</th>
+                        <th>Телефон</th>
+                        <th>Дата приема</th>
+                        <th>Время</th>
+                        <th>Статус</th>
+                        <th></th>
+                    </tr>
+                    </thead>
 
-            <tbody>
-              {ticketList.map((ticket, index) => {
-                return <ListItem key={ticket._id} ticket={ticket} i={index} handler={changeItem} handleRewrite={openRewrite} />
-              })}
-            </tbody>
-          </table>
-        </div>
+                    <tbody>
+                    {ticketList.map((ticket, index) => {
+                        return <ListItem key={ticket._id} ticket={ticket} i={index} handler={changeItem} rewrite={openRewriteForm}/>
+                    })}
+                    </tbody>
+                </table>
 
-        <div id="modalWindow" className="modal modal-fixed-footer">
-          <div className="modal-content">
-            <h4>Редактирование записи</h4>
-            <EditForm />
-          </div>
-        </div>
-        {/*   { isActive  ? <RewriteForm /> : null  }  */}
-      </div>
+
+                </div>
+                     {isActive && <EditForm props={{closeForm, editTicketList}}/>}
+                     {isActiveRewrite && <RewriteForm close={closeForm} serviceList={services} reload={getReload}/>}
+                </div> 
+     
+
+        </div>        
+
     )
-  }
 
-  return (
-    <div>
-      <h1>Записей не найдено</h1>
-      <EditForm />
-      {/*  { isActivModal ? <RewriteForm /> : null}  */}
-    </div>
-  )
 }

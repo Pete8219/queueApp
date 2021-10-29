@@ -7,7 +7,7 @@ export const RadioSelect = ({...props}) => {
             
                 <p>
                 <label>
-                    <input name={props.group} type={props.type} value={props.value} onClick = {props.onChange} />
+                    <input name={props.group} type={props.type} data-stype={props.data} value={props.value} onClick = {props.onChange} />
                     <span>{props.value}</span>
                 </label>
                 </p>

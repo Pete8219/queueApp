@@ -26,6 +26,7 @@ export const Calendar = () => {
     day.setDate(day.getDate() + i)
     const dayOfWeek = day.getDay()
     const month = day.getMonth()
+    
     const isShort = preHoliday[month].includes(day.getDate()) ? "true" : "false"
 
     

@@ -1,15 +1,18 @@
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from "./dropdown.module.css"
+import M from "materialize-css"
 
 
 export const DropDown = ({props}) => {
-    //const serviceData = JSON.parse(localStorage.getItem('ticketId'))
-    
+        
+    useEffect(() => {
+        M.AutoInit()
+    },[])
 
     const items = props.services.map(item => {
         return (
-            <li key ={item._id} className={styles.ListItem} data-employee = {item.user[0]} onClick = {(e) => props.changeService(e)}>{item.title}</li>
+            <li key ={item._id} className={styles.ListItem} data-employee = {item.user[0]} data-service-id={item._id} onClick = {(e) => props.changeService(e)}>{item.title}</li>
             )
     })
 

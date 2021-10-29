@@ -1,28 +1,34 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { useHttp } from '../../../hooks/http.hook'
 import { AuthContext } from '../../../context/AuthContext'
 import { Calendar } from '../../../UI/Calendar/Calendar'
 import { DropDown } from '../../../UI/DropDown/DropDown'
 import { RadioSelect } from '../../../UI/RadioSelect/RadioSelect'
-import { Loader } from '../../Loader'
 import styles from "../EditForm/editForm.module.css"
 import { useMessage } from '../../../hooks/message.hook'
+import { formatDate } from '../../../utils/formatDate'
+import { TimeTable } from '../../TimeTable/TimeTable'
 
-export const RewriteForm = () => {
+
+
+export const RewriteForm = ({close, rewrite, serviceList, reload}) => {
 
     const ticket = JSON.parse(localStorage.getItem('ticketId'))
-    const { date:ticketDate, note: ticketNote, _id, firstname, surname, lastname, email, phone, service } = ticket[0]
+    const {  firstname, surname, lastname, email, phone,  _id: ticketId, ...rest } = ticket[0]
 
+    const { token } = useContext(AuthContext)
+    const message = useMessage()
 
-
-    const { loading, request } = useHttp()
-    const [services, setServices] = useState([])
+    const { request } = useHttp()
+    const [services, setServices] = useState(serviceList)
     const [date, setDate] = useState(new Date())
     const [serviceType, setServiceType] = useState(null)
     const [employeeId, setEmployeeId] = useState(null)
     const [employeeData, setEmployeeData] = useState([])
     const [serviceTitle, setServiceTitle] = useState('Выберите услугу')
+    const [serviceId, setServiceId] = useState(null)
     const [update, setUpdate] = useState(false)
+    
 
 
     const filterDay = true
@@ -32,43 +38,77 @@ export const RewriteForm = () => {
         setDate(d)
     }
 
+    
+
+    useEffect(() => {
+        if (!employeeId || update === false) {
+          return
+        }
+        const fetchEmployee = async () => {
+          try {
+            const data = await request(`/client/users/${employeeId}`, "GET", null, { Authorization: `Bearer ${token}` })
+            
+            setEmployeeData(data)
+          } catch (error) {}
+        }
+    
+        fetchEmployee()
+      }, [employeeId, request, update, token])
+
     const changeService = (e) => {
         const serviceName = (e.target.innerText)
         setEmployeeId(e.target.dataset.employee)
         setUpdate(true)
         setServiceTitle(serviceName)
+        setServiceId(e.target.dataset.serviceId)
     }
 
     const onSelect = (e) => {
         if(e) {
-            setServiceType(e.target.value)
+           setServiceType(e.target.dataset.stype)
         }
     } 
 
-    const rewriteButton = () => {
 
+    const rewriteButton = async () => {
+        const time = JSON.parse(localStorage.getItem('time'))
+        const rewriteDate = new Date(date)
+        rewriteDate.setHours(time.slice(0,2))
+        rewriteDate.setMinutes(time.slice(3,5))
         
         const body = {
+            service: serviceId,
+            date: rewriteDate,
+            time,
             firstname,
-            surname, 
-            lastname,
-            email,
+            lastname, 
+            surname,
             phone,
-            serviceTitle,
+            email,
+            status:'pending',
             serviceType,
-            employee: employeeData._id,
-            employeeName: employeeData.name,
-            cabinet: employeeData.cabinet
-
+            user: employeeData._id,
+            note: rest.note
         }
 
+          try {
+                const data = await request (`/tickets/${ticketId}`, "PATCH", body, {
+                    Authorization: `Bearer ${token}`
+                })
+
+                message(data.message)
+            } catch (error) {}
+            
+        close()
+        reload() 
     }
 
 
 
     return (
-        <div id="modalRewrite" className="modal modal-fixed-footer">
-            <div className="modal-content">
+        <div  className={styles.popup}>
+            <div className={styles.PopupModal}>
+                <div className={styles.PopupContent}>
                 <h4>Создание новой записи</h4>
                 
                 <div className={styles.content}>
@@ -97,12 +137,14 @@ export const RewriteForm = () => {
                     <RadioSelect 
                         type ="radio"
                         group = "group"
+                        data = "consultation"
                         value = "Консультация"
                         onChange = {onSelect}
                         />
                       <RadioSelect 
                         type ="radio"
                         group = "group"
+                        data = "submission"
                         value = "Подача документов"
                         onChange = {onSelect}
                         /> 
@@ -116,12 +158,17 @@ export const RewriteForm = () => {
                 </div>
                 <div className={styles.content}>
                     <h6>Доступное время для записи:</h6>
+                    <div className={styles.TimeBoxContainer}>
+                    {employeeId && <TimeTable props={{date, employeeId, serviceId }}/>}
+                    </div>
                    
                 </div>
+                <div className={["modal-footer", styles.PopupFooter].join(' ')}>
+                    <button className={['modal-close  btn-flat btn red', styles.rewriteBtn].join(' ')} onClick = {rewriteButton}>Записать</button>
+                    <button className={['modal-close  btn-flat btn green', styles.Button].join(' ')}  onClick={close} >Закрыть</button>
+                </div>
             </div>
-            <div className="modal-footer">
-            <button className={['modal-close  btn-flat btn red', styles.rewriteBtn].join(' ')} onClick = {rewriteButton}>Перезаписать</button>
-            <button className={['modal-close  btn-flat btn green', styles.Button].join(' ')} /* onClick={closeButton} */>Закрыть</button>
+
             </div>
 
        </div>
