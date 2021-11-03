@@ -37,7 +37,8 @@ export const AuthPage = () => {
   const loginHandler = async () => {
     try {
       const data = await request("/auth/login", "POST", { ...form })
-      auth.login(data.token, data.userId, data.userType)
+      
+      auth.login(data.token, data.userId, data.userType, data.exp)
     } catch (e) {}
   }
 

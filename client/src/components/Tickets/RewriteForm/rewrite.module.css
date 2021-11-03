@@ -9,7 +9,7 @@
 
 .PopupModal {
     width: 100%;
-    min-height: 100%;
+    /*min-height: 100%;*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,12 +20,13 @@
     
     padding: 25px;
     width:65%;
-    height: calc(100% - 50px);
+    min-height: calc(100vh - 50px);
     background-color: rgb(236, 238, 238);
 }
 
 .PopupFooter {
     margin-top: 3em;
+    height: 50px;
 }
 
 .hideWindow {

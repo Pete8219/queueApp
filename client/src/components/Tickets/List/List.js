@@ -6,6 +6,7 @@ import { Loader } from "../../Loader"
 import { EditForm } from "../EditForm/EditForm"
 import M from "materialize-css"
 import { RewriteForm } from "../RewriteForm/RewriteForm"
+import { OverwriteClient } from "../../OverwriteClient/OverwriteClient"
 
 export const List = ({ props }) => {
     const { userId, token, date, name } = props
@@ -140,6 +141,7 @@ export const List = ({ props }) => {
                 </div>
                      {isActive && <EditForm props={{closeForm, editTicketList}}/>}
                      {isActiveRewrite && <RewriteForm close={closeForm} serviceList={services} reload={getReload}/>}
+                     {isActiveRewrite && <OverwriteClient />}
                 </div> 
      
 

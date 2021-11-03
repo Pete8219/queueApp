@@ -20,6 +20,7 @@ import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
 //import { TicketEditPage } from "./pages/admin/TicketEditPage"
 import { Staff } from "./pages/visitors/Staff"
+import { Record } from "./pages/admin/newRecord/Record"
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -68,15 +69,11 @@ export const useRoutes = (isAuthenticated) => {
         <Staff />
       </Route>
 
-{/*         <Route path="/ticket/edit" exact>
-          <TicketEditPage />
-        </Route> */}
-
         <Route path="/tickets" exact>
           <TicketsPage />
         </Route>
-        <Route path="/category" exact>
-          <Categories />
+        <Route path="/record/new" exact>
+          <Record />
         </Route>
         <Route path="/service" exact>
         <Services />

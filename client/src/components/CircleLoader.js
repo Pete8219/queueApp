@@ -3,10 +3,10 @@ import React from 'react'
 export const CircleLoader = () => {
     return (
       <>
-        <p style={{display:"block"}}>Проверяем ....</p>
+        
         <div className="preloader-wrapper small active">
 
-        
+        {/* <p style={{display:"block"}}>Проверяем ....</p>  */}       
         <div className="spinner-layer spinner-green-only">
           <div className="circle-clipper left">
             <div className="circle"></div>

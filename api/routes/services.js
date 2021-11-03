@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     const services = await Service.find({})
     res.status(200).json(services)
   } catch (e) {
-    console.log(err)
+    
     res.status(500).json({
       error: err,
     })

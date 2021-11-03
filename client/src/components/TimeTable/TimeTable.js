@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react'
 import { useHttp } from '../../hooks/http.hook'
-import { useMessage } from "../../hooks/message.hook" 
+
 import { formatDate } from "../../utils/formatDate"
 import { YearCalendar } from '../Calendar/YearCalendar'
 import { timeline } from '../../utils/timeline'
@@ -8,15 +8,17 @@ import styles from "./timetable.module.css"
 import { CircleLoader } from '../CircleLoader'
 
 export const TimeTable = ({props}) => {
+
+    console.log(props)
     const { preHoliday } = YearCalendar() //импортируем из годового календаря массив предпраздничных дней
-    const message = useMessage()
+    
     const { date, employeeId, serviceId } = props
     const { loading, request } = useHttp()
     const [tickets, setTickets] = useState([]) // список выданных тикетов на этот день
     const [selectedTime, setSelectedTime] = useState(null)
     const [isFree, setIsFree] = useState(null)
     const [ready, setReady] = useState(true)
-    const [ reload, setReload] = useState(false)
+    
 
     const startReceipt = 14   //Время начала приема 14.00
     const endReceipt = 17    // Окончание приема 17.00
@@ -44,7 +46,7 @@ export const TimeTable = ({props}) => {
         }
         fetchTickets()
         
-    },[date, request, employeeId, reload])
+    },[date, request, employeeId])
 
     useEffect(() => {
         setReady(false)
@@ -66,7 +68,7 @@ export const TimeTable = ({props}) => {
 
         setTimeout(() => {
             setReady(true)
-        }, 2000)
+        }, 1000)
 
         checkTime()
     },[ employeeId, selectedTime, request ])
