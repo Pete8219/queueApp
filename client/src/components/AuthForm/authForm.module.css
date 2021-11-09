@@ -1,0 +1,39 @@
+.MainContainer {
+    width: 100%;
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.body {
+    width: 30%;
+    height: 40vh;
+    
+}
+
+.MyTabs {
+    background-color: transparent;
+}
+
+.TabOne {
+    height: 200px;
+}
+
+a.auth {
+    color:#6eeea8 !important;
+}
+
+.desc {
+    width: 70%;
+    
+    margin:0 auto;
+    color:white;
+    padding: 1rem;
+    font-size: 0.8em;
+    
+    text-align: center;
+}
+
+

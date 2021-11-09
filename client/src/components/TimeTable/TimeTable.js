@@ -6,18 +6,22 @@ import { YearCalendar } from '../Calendar/YearCalendar'
 import { timeline } from '../../utils/timeline'
 import styles from "./timetable.module.css"
 import { CircleLoader } from '../CircleLoader'
+import { getReadyToSubmission } from '../../utils/getReadyToSubmission'
 
 export const TimeTable = ({props}) => {
 
-    console.log(props)
+    
     const { preHoliday } = YearCalendar() //импортируем из годового календаря массив предпраздничных дней
     
-    const { date, employeeId, serviceId } = props
+    const { date, employeeId, serviceId, serviceType } = props
     const { loading, request } = useHttp()
     const [tickets, setTickets] = useState([]) // список выданных тикетов на этот день
     const [selectedTime, setSelectedTime] = useState(null)
     const [isFree, setIsFree] = useState(null)
     const [ready, setReady] = useState(true)
+    const [type, setType] = useState(serviceType)
+    const [riders, setRiders] = useState([])
+    const [times, setTimes] = useState([])
     
 
     const startReceipt = 14   //Время начала приема 14.00
@@ -32,6 +36,10 @@ export const TimeTable = ({props}) => {
   
 
     const records = timeline(startReceipt, endReceipt, shortDay, minReceiptTime)
+
+    useEffect(()=> {
+        setType(serviceType)
+    },[serviceType])
 
     useEffect(() => {
         setSelectedTime(null) //Обнуляем значение выбранного времени
@@ -50,17 +58,30 @@ export const TimeTable = ({props}) => {
 
     useEffect(() => {
         setReady(false)
- 
+
         const checkTime = async() =>{
             if(selectedTime === null) {
                 return
             }
 
-            localStorage.setItem('time', JSON.stringify(selectedTime))
+                
+            //устанавливаем время и записываем в полном формате дату и время выбранное в таблице времени приема
+            const time = selectedTime
+            const hour = time.slice(0,2)
+            const minutes = time.slice(3,5)
+
+            date.setHours(hour)
+            date.setMinutes(minutes,0)
+            
+            localStorage.setItem('date', JSON.stringify(date))
+        
+
+            // отправка запроса с проверкой свободно выбранное время или нет
 
             try {
                 const checking = await request(`/tickets/checkTime/${employeeId}/${selectedTime}`, 'GET', null, {}) 
-                if(checking.length) { setIsFree(false) } 
+                
+                if(checking.length) { setIsFree(false) } //если вернулся пустой массив значит время свободно
                 else { setIsFree(true) }
             
             } catch (error) {}
@@ -78,13 +99,26 @@ export const TimeTable = ({props}) => {
     },[ serviceId])
 
 
+    useEffect(() => {
+
+        records.map((record, index) => {
+            getReadyToSubmission(records, index,record, serviceType)
+        })
+        setRiders(records)
+        //console.log(records)
+        
+    },[type])
+
+
     //Если пришел массив тикетов, то для каждого элемента запускаем функцию проверки записи
     if(!loading && tickets.length > 0) {
        tickets.map((ticket)=> {
             let ticketTime = new Date(ticket.date).toLocaleTimeString().slice(0,5)
             let type = ticket.serviceType
             checkRecords(ticketTime, type)
+            
         })
+        
     } 
     
     //функция проверки массива временных меток приема. Если есть тикет с временем, то помечаем эту метку как занятую
@@ -106,11 +140,26 @@ export const TimeTable = ({props}) => {
         } else {
             records[index].isBusy = true
         }
+
+
+    }
+
+    //проверка возможности записаться на выбранное время в зависимости от выбранного  типа записи
+
+    const submissionCheck = (e,time) => {
+        setSelectedTime(time)
+   
     }
 
     const items = records.map((record, index) => {
             return (
-                <div key={index} className={record.isBusy ? styles.boxClear : styles.box} onClick ={ (e) => setSelectedTime(record.time)}>{record.time}</div>
+                <div key={index} 
+                    data-index = {index}
+                    value={record.time}
+                    className={ record.isBusy  ? styles.boxClear : styles.box}
+                    onClick ={(e) => submissionCheck(e, record.time)}>
+                    {record.time}
+                </div>
             )
         })
     
@@ -126,7 +175,7 @@ export const TimeTable = ({props}) => {
 
         </div>
         <div style={{width:"100%", textAlign:"center"}}>
-            {isFree === null ? null: (isFree ? <h5>{selectedTime} свободно</h5> : <h5>{selectedTime} только что было занято</h5>)  }
+            {isFree === null ? null: (isFree ? <h5>{selectedTime} свободно</h5> : <h5>{selectedTime} уже занято</h5>)  }
             </div>
         </div>
     )

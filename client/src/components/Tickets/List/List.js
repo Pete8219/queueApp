@@ -141,7 +141,7 @@ export const List = ({ props }) => {
                 </div>
                      {isActive && <EditForm props={{closeForm, editTicketList}}/>}
                      {isActiveRewrite && <RewriteForm close={closeForm} serviceList={services} reload={getReload}/>}
-                     {isActiveRewrite && <OverwriteClient />}
+                     
                 </div> 
      
 

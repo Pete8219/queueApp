@@ -12,6 +12,7 @@ export const Record = () => {
     const {loading, request } = useHttp()
 
     const [serviceList, setServiceList] = useState([])
+    const [serviceId, setServiceId] = useState(null)
     const [ticketsList, setTicketsList] = useState([])
     const [date, setDate] = useState(new Date())
     const [userId, setUserId] = useState(null)
@@ -32,6 +33,7 @@ export const Record = () => {
         setServiceTitle(e.target.innerText)
         setDate(new Date())
         setUserId(e.target.dataset.employee)
+        setServiceId(e.target.dataset.serviceId)
  
     }
 
@@ -46,7 +48,7 @@ export const Record = () => {
     return (
         <div className={styles.MainContainer}>
             <div className={styles.recordContent}>
-                {!loading && serviceList  && <RecordForm props ={{serviceList, serviceTitle, userId,  ticketsList, changeService, date, updateDate}}/>}
+                {!loading && serviceList  && <RecordForm props ={{serviceList, serviceTitle, serviceId, userId,  ticketsList, changeService, date, updateDate}}/>}
             </div>
         </div>
     )

@@ -78,7 +78,7 @@ router.post("/login", [check("login", "Введите корретный лог�
 
     const token = jwt.sign({ userId: user.id }, process.env.SECRET, { expiresIn: "1h" })
     const current = new Date()
-    const expirateDate = current.getTime() + 60*1000
+    const expirateDate = current.getTime() + 60*60*1000
     
     res.json({ token, userId: user.id, userType: user.userType, exp: expirateDate})
   } catch (e) {

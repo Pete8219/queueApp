@@ -30,7 +30,7 @@ router.get("/", auth, (req, res, next) => {
 // Сохранение пользователя в базе. Проводятся проверки на запонение полей формы
 
 //Наверное нужно сделать проверку на наличие параметров в запросе : service, date, time, user
-router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], async (req, res) => {
+router.post("/", [check("firstname", "Введите фамилию").trim().toUpperCase().isLength({ min: 2 }), check("lastname", "Введите Имя").trim().toUpperCase().isLength({ min: 2 }), check("phone", "Введите номер телефона").not().isEmpty().trim(), check("phone", "Вы ввели некорректный номер. Длина номера должна быть от 5 до 11 знаков").isLength({ min: 5, max: 11 })/* , check("phone", "Номер телефона должен содержать только цифры").isNumeric() */], auth, async (req, res) => {
 
   const { date, hours, minutes } = req.body
   
@@ -119,6 +119,23 @@ router.post("/", [check("firstname", "Введите фамилию").trim().toU
   }
 })
 
+
+router.post("/create", auth, async(req, res) => {
+  try {
+    const ticket = new Ticket({...req.body})
+
+    await ticket.save()
+    res.status(201).json({
+      message:"Ваша заявка принята"
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: "Возникла ошибка. Обратитесь к администратору системы"
+    })
+  }
+
+
+})
 
 //Отправка письма заявителю
 router.post("/send", async(req, res) => {
@@ -240,14 +257,14 @@ router.get("/:employeeId/:date", async(req, res) => {
 })
 
 router.get("/checkTime/:employeeId/:time/", async (req, res) => {
-  console.log(req.params.time)
+  
   const time = req.params.time
   const startDate = new Date()
   startDate.setHours(5,0,0,0)
   const endDate = new Date()
   endDate.setHours(23,59,0,0)
 
-  console.log(startDate, endDate)
+  
 
   try {
     const tickets = await Ticket.find({$and: [{ date: {$gte : startDate, $lte: endDate} }, { user : req.params.employeeId }]}).select('date')
@@ -257,7 +274,7 @@ router.get("/checkTime/:employeeId/:time/", async (req, res) => {
       
     }) 
 
-    if(!checking.length) {
+//    if(!checking.length) {
 
       //Вариант с резервацией времени при выбоое времени. Посмотрим понадобиться или нет
 /*       const hours = time.slice(0,2)
@@ -268,7 +285,7 @@ router.get("/checkTime/:employeeId/:time/", async (req, res) => {
       
       const reserv = new Ticket({user: req.params.employeeId, date: day, isBusy:true })
       reserv.save() */
-    }
+//    }
     
 
     res.status(200).json(checking)

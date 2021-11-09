@@ -18,9 +18,9 @@ import { CategoryPage } from "./pages/admin/CategoryPage"
 import { Categories } from "./pages/visitors/Categories"
 import { Services } from "./pages/visitors/Services"
 import { Ticket } from "./pages/visitors/Ticket"
-//import { TicketEditPage } from "./pages/admin/TicketEditPage"
 import { Staff } from "./pages/visitors/Staff"
 import { Record } from "./pages/admin/newRecord/Record"
+import LoginPage from "./pages/LoginPage"
 
 
 export const useRoutes = (isAuthenticated) => {
@@ -77,6 +77,11 @@ export const useRoutes = (isAuthenticated) => {
         </Route>
         <Route path="/service" exact>
         <Services />
+        
+      </Route>
+      <Route path="/login" exact>
+        <LoginPage />
+        
       </Route>
         <Redirect to="/" />
       </Switch>

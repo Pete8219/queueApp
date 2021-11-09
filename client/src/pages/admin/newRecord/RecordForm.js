@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { DropDown } from "../../../UI/DropDown/DropDown"
 import { Calendar } from "../../../UI/Calendar/Calendar"
 import { Employee } from '../../../components/Employee/Employee'
@@ -11,23 +11,39 @@ import { formatDate } from '../../../utils/formatDate'
 import { useHttp } from '../../../hooks/http.hook'
 import { TimeTable } from '../../../components/TimeTable/TimeTable'
 import { RadioSelect } from '../../../UI/RadioSelect/RadioSelect'
+import { useHistory } from "react-router-dom"
+import { AuthContext } from '../../../context/AuthContext'
+import { useAuth } from '../../../hooks/auth.hook'
 
 
 
 
 export const RecordForm = ({props}) => {
     const { request } = useHttp()
+    const history = useHistory()
+    const { token } = useAuth(AuthContext)
+
+    const { serviceList: services, serviceTitle, serviceId, date, updateDate, changeService, userId } = props
 
     const [employee, setEmployee] = useState([])
     const [employeeId, setEmployeeId] = useState(null)
     const [serviceType, setServiceType] = useState(null)
+    const [selectedDate, setSelectedDate] = useState(date)
+
+    const [form, setForm] = useState( {
+        firstname: '',
+        surname: '',
+        lastname: '',
+        email: '',
+        phone: ''
+    })
 
     useEffect(() => {
         M.updateTextFields()
        
     },[])
     
-    const { serviceList: services, serviceTitle, date, updateDate, changeService, userId } = props
+    
 
     const filterDay = true
     const minDate = true
@@ -56,13 +72,48 @@ export const RecordForm = ({props}) => {
         }
     } 
 
+    const changeForm = (e) => {
+        setForm({...form, [e.target.name] : e.target.value} )
+    }
+
+    const onClose = () => {
+        history.push("/")
+    }
+
+    const onWrite = async () => {
+        console.log("Saving data to dataBase")
+        const date = JSON.parse(localStorage.getItem('date'))
+
+        const { firstname, surname, lastname, email, phone } = form
+        const body = {
+            firstname,
+            lastname,
+            surname,
+            phone,
+            email,
+            user: employeeId,
+            serviceType,
+            serviceId,
+            date,
+            }
+
+            try {
+                   const data = await request("/tickets/create", "POST", {...body}, { Authorization: `Bearer ${token}`})
+                   console.log(data) 
+            } catch (error) {
+                
+            } 
+
+        
+    }
+
 
     return (
         <>
             <div className={styles.FormContent}>
                     <h4 className={styles.recordHeader}>Создаем запись</h4>
 
-                    <ClientForm />
+                    <ClientForm props = {{form, changeForm}} />
                     <h5>Данные об услуге</h5>
                     <div className={styles.content}>
                         <h6>Выберите услугу</h6>
@@ -75,14 +126,14 @@ export const RecordForm = ({props}) => {
                         type ="radio"
                         group = "group"
                         data = "consultation"
-                        value = "Консультация"
+                        value = "Консультация (длительность приема 15 минут)"
                         onChange = {onSelect}
                         />
                       <RadioSelect 
                         type ="radio"
                         group = "group"
                         data = "submission"
-                        value = "Подача документов"
+                        value = "Подача документов (длительность приема 1 час)"
                         onChange = {onSelect}
                         /> 
                     </div>       
@@ -99,14 +150,14 @@ export const RecordForm = ({props}) => {
                     <div className={styles.content}>
                         <h6>Доступное время для записи</h6>
                         <div className={styles.TimeBoxContainer}>
-                        {employeeId !== null && <TimeTable props ={{date, employeeId}}/>}
+                        {employeeId !== null && <TimeTable props ={{date, employeeId, serviceType}}/>}
                         </div>
                     </div>
                     
 
         
                 </div>
-                        <FormFooter />
+                        <FormFooter props={{onClose, onWrite}}/>
         </>
     )
 }

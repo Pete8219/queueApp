@@ -10,6 +10,7 @@ export function timeline(start, end, short, minTime) {
         today.setHours(start) // устанваливаем время начала приема
         records[i] = {
             isBusy: false,
+            access:true,
             time  : (new Date(today.setMinutes(i * minTime))).toLocaleTimeString().slice(0,5)
         }
 
