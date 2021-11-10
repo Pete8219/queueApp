@@ -1,7 +1,4 @@
 export function getReadyToSubmission(records, index, record, serviceType) {
-    if(serviceType === 'consultation') {
-        records.map(record => record.access = false)
-    }
 
     const arr = [];
         for (let i = index; i < index + 4; i++) {

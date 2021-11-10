@@ -98,18 +98,6 @@ export const TimeTable = ({props}) => {
         setIsFree(null)
     },[ serviceId])
 
-
-    useEffect(() => {
-
-        records.map((record, index) => {
-            getReadyToSubmission(records, index,record, serviceType)
-        })
-        setRiders(records)
-        //console.log(records)
-        
-    },[type])
-
-
     //Если пришел массив тикетов, то для каждого элемента запускаем функцию проверки записи
     if(!loading && tickets.length > 0) {
        tickets.map((ticket)=> {
@@ -151,22 +139,35 @@ export const TimeTable = ({props}) => {
    
     }
 
-    const items = records.map((record, index) => {
-            return (
-                <div key={index} 
-                    data-index = {index}
-                    value={record.time}
-                    className={ record.isBusy  ? styles.boxClear : styles.box}
-                    onClick ={(e) => submissionCheck(e, record.time)}>
-                    {record.time}
-                </div>
-            )
-        })
     
     if (loading || !ready) {
         return <CircleLoader/>
     }  
     
+
+    let filteredData = []
+    if(type === "consultation") {
+        filteredData = records.filter(item =>  item.isBusy !== true )
+    }
+    if(type === "submission") {
+
+        records.map((record, index) => {
+            getReadyToSubmission(records, index,record, type)
+        })
+        filteredData = records.filter(record => record.access === true)
+    }
+
+    const items = filteredData.map((record, index) => {
+        return (
+            <div key={index} 
+                data-index = {index}
+                value={record.time}
+                className={styles.box}
+                onClick ={(e) => submissionCheck(e, record.time)}>
+                {record.time}
+            </div>
+        )
+    })
 
     return (
         <div style={{width:"100%"}}>
