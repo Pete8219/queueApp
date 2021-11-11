@@ -1,12 +1,6 @@
-import React from 'react'
-import styles from "./Input.module.css"
+import React from "react";
+import styles from "./Input.module.css";
 
 export const Input = (props) => {
-
-    
-    return (
-        
-        <input {...props} className= {styles.MyInput} />
-        
-    )
-}
+  return <input {...props} /* className= {props.className } */ />;
+};
