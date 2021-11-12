@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useRoutes } from "./routes";
 import { useAuth } from "./hooks/auth.hook";
@@ -14,12 +14,11 @@ function App() {
 
   //Где то здесь надо сделать отслеживание валидности Токена
 
-  /*   setInterval(() => {
-    const data = JSON.parse(localStorage.getItem("userData"));
-    if (!data || !data.token) {
-      logout();
+  setInterval(() => {
+    if (Date.now() === exp) {
+      alert("Сессия окончена");
     }
-  }, 10000); */
+  }, 1000);
 
   const isAuthenticated = !!token;
 

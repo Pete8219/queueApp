@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useHttp } from "../../../hooks/http.hook";
 import { useHistory } from "react-router";
 
@@ -7,13 +7,12 @@ import { CircleLoader } from "../../../components/CircleLoader";
 import styles from "./record.module.css";
 
 export const Record = () => {
-  //const { user, token } = useContext(AuthContext)
   const { loading, request } = useHttp();
   const history = useHistory();
 
   const [serviceList, setServiceList] = useState([]);
   const [serviceId, setServiceId] = useState(null);
-  const [ticketsList, setTicketsList] = useState([]);
+  const [ticketsList] = useState([]);
   const [date, setDate] = useState(new Date());
   const [userId, setUserId] = useState(null);
   const [serviceTitle, setServiceTitle] = useState("Выберите услугу");
@@ -26,7 +25,7 @@ export const Record = () => {
       } catch (error) {}
     };
     getServiceList();
-  }, []);
+  }, [request]);
 
   const changeService = (e) => {
     setServiceTitle(e.target.innerText);

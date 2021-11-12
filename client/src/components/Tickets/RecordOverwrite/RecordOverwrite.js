@@ -1,15 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ClientForm } from "../../ClientForm/ClientForm";
-import { FormFooter } from "../../FormFooter/FormFooter";
-import { DropDown } from "../../../UI/DropDown/DropDown";
-import { RadioSelect } from "../../../UI/RadioSelect/RadioSelect";
-import { AuthContext } from "../../../context/AuthContext";
-import { Calendar } from "../../../UI/Calendar/Calendar";
+import React, { useState, useEffect } from "react";
 import { RecordForm } from "../../../pages/admin/newRecord/RecordForm";
 import { CircleLoader } from "../../CircleLoader";
 import { useHttp } from "../../../hooks/http.hook";
 import styles from "./RecordOverwrite.module.css";
-import { formatDate } from "../../../utils/formatDate";
 
 export const RecordOverwrite = ({ props }) => {
   const { onClose } = props;
@@ -18,7 +11,7 @@ export const RecordOverwrite = ({ props }) => {
 
   const [serviceList, setServiceList] = useState([]);
   const [serviceId, setServiceId] = useState(null);
-  const [ticketsList, setTicketsList] = useState([]);
+  const [ticketsList] = useState([]);
   const [date, setDate] = useState(new Date());
   const [userId, setUserId] = useState(null);
   const [serviceTitle, setServiceTitle] = useState("Выберите услугу");
@@ -31,7 +24,7 @@ export const RecordOverwrite = ({ props }) => {
       } catch (error) {}
     };
     getServiceList();
-  }, []);
+  }, [request]);
 
   const changeService = (e) => {
     setServiceTitle(e.target.innerText);

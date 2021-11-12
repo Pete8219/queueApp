@@ -10,9 +10,8 @@ import { formatDate } from "../../../utils/formatDate";
 import { useHttp } from "../../../hooks/http.hook";
 import { TimeTable } from "../../../components/TimeTable/TimeTable";
 import { RadioSelect } from "../../../UI/RadioSelect/RadioSelect";
-import { useHistory } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
-import { useAuth } from "../../../hooks/auth.hook";
+//import { useAuth } from "../../../hooks/auth.hook";
 import { useMessage } from "../../../hooks/message.hook";
 
 export const RecordForm = ({ props }) => {
@@ -37,8 +36,7 @@ export const RecordForm = ({ props }) => {
   }
 
   const { request } = useHttp();
-  const { token } = useAuth(AuthContext);
-  const history = useHistory();
+  const { token } = useContext(AuthContext);
   const message = useMessage();
 
   const {
@@ -83,7 +81,7 @@ export const RecordForm = ({ props }) => {
       } catch (error) {}
     };
     getEmployee();
-  }, [date]);
+  }, [date, request, userId]);
 
   const onSelect = (e) => {
     if (e) {

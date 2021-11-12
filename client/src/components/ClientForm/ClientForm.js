@@ -29,7 +29,7 @@ export const ClientForm = ({ props }) => {
             name="lastname"
             type="text"
             data-name="Фамилия"
-            value={lastname}
+            defaultValue={lastname}
             className="validate"
             onChange={props.changeForm}
             onBlur={onBlur}
@@ -44,7 +44,7 @@ export const ClientForm = ({ props }) => {
             name="firstname"
             type="text"
             data-name="Имя"
-            value={firstname}
+            defaultValue={firstname}
             className="validate"
             onChange={props.changeForm}
             onBlur={onBlur}
@@ -59,7 +59,7 @@ export const ClientForm = ({ props }) => {
             type="text"
             data-name="Отчество"
             name="surname"
-            value={surname}
+            defaultValue={surname}
             className="validate"
             onChange={props.changeForm}
           />
@@ -72,7 +72,7 @@ export const ClientForm = ({ props }) => {
             name="email"
             type="email"
             data-name="Email"
-            value={email}
+            defaultValue={email}
             className="validate"
             onChange={props.changeForm}
             required
@@ -86,7 +86,7 @@ export const ClientForm = ({ props }) => {
             name="phone"
             type="text"
             data-name="Номер телефона"
-            value={phone}
+            defaultValue={phone}
             className="validate"
             onChange={props.changeForm}
             onBlur={onBlur}

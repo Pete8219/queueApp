@@ -9,7 +9,7 @@ import { FormFooter } from "../../FormFooter/FormFooter";
 export const RecordEdit = ({ props }) => {
   const clientData = JSON.parse(localStorage.getItem("clientData"));
   const { onClose, editTicketList } = props;
-  const { request, loading } = useHttp();
+  const { request } = useHttp();
   const { token } = useContext(AuthContext);
   const message = useMessage();
 
@@ -28,7 +28,7 @@ export const RecordEdit = ({ props }) => {
     status,
   } = clientData[0];
 
-  const [form, seForm] = useState({
+  const [form] = useState({
     firstname,
     lastname,
     surname,
@@ -60,7 +60,7 @@ export const RecordEdit = ({ props }) => {
       } catch (error) {}
     };
     serviceName();
-  }, []);
+  }, [request, token, service]);
 
   const onWrite = async () => {
     try {
@@ -79,7 +79,7 @@ export const RecordEdit = ({ props }) => {
   };
 
   document.addEventListener("keydown", function (event) {
-    if (event.code == "Escape") {
+    if (event.code === "Escape") {
       onClose();
     }
   });
@@ -120,7 +120,7 @@ export const RecordEdit = ({ props }) => {
             <p>Время: {new Date(date).toLocaleTimeString().slice(0, 5)}</p>
           </div>
           <h5> Данные о сотруднике</h5>
-          <h6 style={{ textDecoration: "underline" }}></h6>
+
           <p>{user.name}</p>
           <p>кабинет № {user.cabinet}</p>
           <h5>Примечания:</h5>

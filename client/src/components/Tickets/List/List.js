@@ -14,7 +14,7 @@ export const List = ({ props }) => {
   const [services, setServices] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [isActiveRewrite, setIsActiveRewrite] = useState(false);
-  const [reloadList, setReloadList] = useState(false);
+  const [reloadList] = useState(false);
 
   useEffect(() => {
     M.AutoInit();
