@@ -411,7 +411,7 @@ router.patch("/:id", auth, async (req, res) => {
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/status/:ticketId", auth, async (req, res, next) => {
+router.patch("/status/:ticketId", auth, async (req, res) => {
   console.log(req.body);
 
   try {
@@ -423,7 +423,7 @@ router.patch("/status/:ticketId", auth, async (req, res, next) => {
       updateOps[key] = req.body[key];
     }
 
-    if (req.body.statusValue === "refusal") {
+    if (req.body.status === "refusal") {
       updateOps["isBusy"] = false;
     } else {
       updateOps["isBusy"] = true;
@@ -441,8 +441,7 @@ router.patch("/status/:ticketId", auth, async (req, res, next) => {
   }
 });
 
-router.patch("/notes/:ticketId", auth, async (req, res, next) => {
-  console.log(req.body);
+router.patch("/notes/:ticketId", auth, async (req, res) => {
   try {
     const id = req.params.ticketId;
     const updateOps = {};

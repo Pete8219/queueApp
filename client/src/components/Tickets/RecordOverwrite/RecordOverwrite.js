@@ -44,6 +44,12 @@ export const RecordOverwrite = ({ props }) => {
     setDate(d);
   };
 
+  document.addEventListener("keydown", function (event) {
+    if (event.code === "Escape") {
+      onClose();
+    }
+  });
+
   if (loading) {
     <CircleLoader />;
   }
@@ -64,6 +70,7 @@ export const RecordOverwrite = ({ props }) => {
                   changeService,
                   date,
                   updateDate,
+                  onClose,
                 }}
               />
             )}

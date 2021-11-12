@@ -18,8 +18,6 @@ export const TimeTable = ({ props }) => {
   const [isFree, setIsFree] = useState(null);
   const [ready, setReady] = useState(true);
   const [type, setType] = useState(serviceType);
-  const [riders, setRiders] = useState([]);
-  const [times, setTimes] = useState([]);
 
   const startReceipt = 14; //Время начала приема 14.00
   const endReceipt = 17; // Окончание приема 17.00
@@ -153,7 +151,7 @@ export const TimeTable = ({ props }) => {
     filteredData = records.filter((record) => record.access === true);
   }
 
-  const items = filteredData.map((record, index) => {
+  let items = filteredData.map((record, index) => {
     return (
       <div
         key={index}
@@ -166,6 +164,12 @@ export const TimeTable = ({ props }) => {
       </div>
     );
   });
+
+  const currentDay = date.getDay();
+
+  if (currentDay === 5) {
+    items = [];
+  }
 
   return (
     <div style={{ width: "100%" }}>

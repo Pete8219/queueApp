@@ -17,11 +17,28 @@ import { useMessage } from "../../../hooks/message.hook";
 
 export const RecordForm = ({ props }) => {
   const clientData = JSON.parse(localStorage.getItem("clientData"));
-  console.log(clientData);
+
+  let clientInfo = {
+    firstname: "",
+    lastname: "",
+    surname: "",
+    email: "",
+    phone: "",
+  };
+
+  if (clientData) {
+    clientInfo = {
+      firstname: clientData[0].firstname,
+      lastname: clientData[0].lastname,
+      surname: clientData[0].surname,
+      email: clientData[0].email,
+      phone: clientData[0].phone,
+    };
+  }
 
   const { request } = useHttp();
-  const history = useHistory();
   const { token } = useAuth(AuthContext);
+  const history = useHistory();
   const message = useMessage();
 
   const {
@@ -32,20 +49,15 @@ export const RecordForm = ({ props }) => {
     updateDate,
     changeService,
     userId,
+    onClose,
   } = props;
 
   const [employee, setEmployee] = useState([]);
   const [employeeId, setEmployeeId] = useState(null);
   const [serviceType, setServiceType] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(date);
+  // const [selectedDate, setSelectedDate] = useState(date);
 
-  const [form, setForm] = useState({
-    firstname: "",
-    surname: "",
-    lastname: "",
-    email: "",
-    phone: "",
-  });
+  const [form, setForm] = useState({ ...clientInfo });
 
   useEffect(() => {
     M.updateTextFields();
@@ -83,10 +95,6 @@ export const RecordForm = ({ props }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const onClose = () => {
-    history.push("/");
-  };
-
   const onWrite = async () => {
     console.log("Saving data to dataBase");
     const date = JSON.parse(localStorage.getItem("date"));
@@ -100,7 +108,7 @@ export const RecordForm = ({ props }) => {
       email,
       user: employeeId,
       serviceType,
-      serviceId,
+      service: serviceId,
       date,
     };
 
@@ -112,7 +120,7 @@ export const RecordForm = ({ props }) => {
         { Authorization: `Bearer ${token}` }
       );
       message(data.message);
-      setTimeout(() => history.push("/"), 1000);
+      onClose();
     } catch (error) {}
   };
 

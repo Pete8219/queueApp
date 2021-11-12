@@ -3,16 +3,11 @@ import { useHttp } from "../../../hooks/http.hook";
 import { ListItem } from "./ListItem";
 import { formatDate } from "../../../utils/formatDate";
 import { Loader } from "../../Loader";
-import { EditForm } from "../../../OldScripts/EditForm/EditForm";
 import M from "materialize-css";
-import { RewriteForm } from "../RewriteForm/RewriteForm";
-import { OverwriteClient } from "../../OverwriteClient/OverwriteClient";
-import { useHistory } from "react-router";
 import { RecordEdit } from "../RecordEdit/RecordEdit";
 import { RecordOverwrite } from "../RecordOverwrite/RecordOverwrite";
 
 export const List = ({ props }) => {
-  const history = useHistory();
   const { userId, token, date, name } = props;
   const { loading, request } = useHttp();
   const [ticketList, setTicketList] = useState([]);
@@ -72,9 +67,9 @@ export const List = ({ props }) => {
   }, [date, userId, request, token, reloadList]);
 
   const filterData = (ticketId) => {
-    const filterData = ticketList.filter((item) => item._id === ticketId);
-    //localStorage.setItem("ticketId", JSON.stringify(filterData));
-    localStorage.setItem("clientData", JSON.stringify(filterData));
+    const clientData = ticketList.filter((item) => item._id === ticketId);
+
+    localStorage.setItem("clientData", JSON.stringify(clientData));
   };
 
   const changeItem = (id) => {
@@ -90,6 +85,14 @@ export const List = ({ props }) => {
     });
   };
 
+  const editTicketStatus = (_id, status) => {
+    ticketList.map((ticket) => {
+      if (ticket._id === _id) {
+        ticket.status = status;
+      }
+    });
+  };
+
   const openRewriteForm = (id) => {
     filterData(id);
     setIsActiveRewrite(true);
@@ -99,14 +102,13 @@ export const List = ({ props }) => {
     setIsActive(false);
     setIsActiveRewrite(false);
     localStorage.removeItem("clientData");
-    //localStorage.removeItem("ticketId");
   };
 
   const onWrite = () => {};
 
-  const getReload = () => {
+  /*   const getReload = () => {
     setReloadList((prev) => !prev);
-  };
+  }; */
 
   if (loading) {
     <Loader />;
@@ -146,6 +148,7 @@ export const List = ({ props }) => {
                     i={index}
                     handler={changeItem}
                     rewrite={openRewriteForm}
+                    statusHandler={editTicketStatus}
                   />
                 );
               })}
@@ -153,15 +156,10 @@ export const List = ({ props }) => {
           </table>
         </div>
         {/* {isActive && <EditForm props={{ closeForm, editTicketList }} />} */}
-        {isActive && <RecordEdit props={{ onClose }} />}
+        {isActive && <RecordEdit props={{ onClose, editTicketList }} />}
         {isActiveRewrite && (
           <RecordOverwrite props={{ onClose, onWrite, services }} />
         )}
-        {/* <RewriteForm
-            close={onClose}
-            serviceList={services}
-            reload={getReload}
-          /> */}
       </div>
     </div>
   );

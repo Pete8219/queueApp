@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useHttp } from "../../../hooks/http.hook";
+import { useHistory } from "react-router";
 
 import { RecordForm } from "./RecordForm";
 import { CircleLoader } from "../../../components/CircleLoader";
@@ -8,6 +9,7 @@ import styles from "./record.module.css";
 export const Record = () => {
   //const { user, token } = useContext(AuthContext)
   const { loading, request } = useHttp();
+  const history = useHistory();
 
   const [serviceList, setServiceList] = useState([]);
   const [serviceId, setServiceId] = useState(null);
@@ -37,6 +39,10 @@ export const Record = () => {
     setDate(d);
   };
 
+  const onClose = () => {
+    history.push("/");
+  };
+
   if (loading) {
     <CircleLoader />;
   }
@@ -55,6 +61,7 @@ export const Record = () => {
               changeService,
               date,
               updateDate,
+              onClose,
             }}
           />
         )}
