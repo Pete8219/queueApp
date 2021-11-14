@@ -167,7 +167,7 @@ export const TimeTable = ({ props }) => {
 
   const currentDay = date.getDay();
 
-  if (currentDay === 5) {
+  if (currentDay === 5 || currentDay === 6 || currentDay === 0) {
     items = [];
   }
 

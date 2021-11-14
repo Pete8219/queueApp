@@ -155,7 +155,7 @@ export const List = ({ props }) => {
             </tbody>
           </table>
         </div>
-        {/* {isActive && <EditForm props={{ closeForm, editTicketList }} />} */}
+        
         {isActive && <RecordEdit props={{ onClose, editTicketList }} />}
         {isActiveRewrite && (
           <RecordOverwrite props={{ onClose, onWrite, services }} />

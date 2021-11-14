@@ -39,7 +39,7 @@ export const ListItem = ({ ticket, i, handler, rewrite, statusHandler }) => {
     } catch (e) {}
   };
 
-  const fullName = `${ticket.firstname} ${ticket.lastname} ${ticket.surname}`;
+  const fullName = `${ticket.firstname} ${ticket.surname} ${ticket.lastname} `;
 
   const statusObject = {
     pending: "В работе",
