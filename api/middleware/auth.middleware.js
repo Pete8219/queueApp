@@ -20,21 +20,6 @@ module.exports = (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.SECRET);
 
-    /*     jwt.verify(
-      token,
-      process.env.SECRET,
-      { complete: true },
-      function (err, decoded) {
-        console.log(decoded);
-        if (err) {
-          console.log(err.name, err.message);
-          throw ApiError.UnautorizedError();
-        }
-
-
-      }
-    ); */
-
     req.user = decoded;
 
     next();

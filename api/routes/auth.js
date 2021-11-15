@@ -1,48 +1,69 @@
 const express = require("express");
 const router = express.Router();
+const activatelogin = require("../utils/activateLogin");
+
 const dotenv = require("dotenv");
 dotenv.config();
 
 const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
 const bcrypt = require("bcryptjs");
-const { check, validationResult } = require("express-validator");
+const {
+  body,
+  check,
+  param,
+  validationResult,
+  checkSchema,
+} = require("express-validator");
 const User = require("../models/users");
+const ApiError = require("../exceptions/api-error");
+const { v4: uuidv4 } = require("uuid");
 
 //Закрываем регистрацию пользователей
 
-/* router.post("/register", [check("login", "Некорректный Логин").trim().isLength({ min: 3 }), check("password", "минимальная длина пароля 6 символов").isLength({ min: 6 })], async (req, res) => {
+router.post("/register", body("email").isEmail(), async (req, res) => {
   try {
-    const errors = validationResult(req)
+    const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
         message: "Некорректные данные при регистрации",
-      })
+      });
     }
-    const { login, password } = req.body
-    const candidate = await User.findOne({ login })
+    const { email } = req.body;
+    const candidate = await User.findOne({ login: email });
 
     if (candidate) {
       return res.status(400).json({
         message: "Такой пользователь уже существует",
-      })
+      });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 12)
-    const user = await new User({ login: req.body.login, password: hashedPassword })
-    await user.save()
+    /*       const hashedPassword = await bcrypt.hash(password, 12);
+      const user = await new User({
+        login: req.body.login,
+        password: hashedPassword,
+      });
+      await user.save(); */
+
+    /* console.log(
+      `${process.env.SITE_URL}/users/${req.body.email}/activate/${uuidv4()}`
+    ); */
+
+    //Отправка письма с кодом активации на email пользователя
+
+    activatelogin(req);
 
     res.status(201).json({
       message: "Пользователь создан",
-    })
+    });
   } catch (e) {
     res.status(500).json({
-      message: `Что то пошло не так????`,
-    })
+      message: `Ошибка запроса`,
+    });
   }
-}) */
+});
 
 router.post(
   "/login",
@@ -115,5 +136,30 @@ router.get("/verifyToken/:token", async (req, res) => {
     res.status(500).json("Something wrong");
   }
 });
+
+router.get(
+  "/activate/:email/:uuid",
+  param("email").isEmail().normalizeEmail(),
+  param("uuid").not().isEmpty().trim().escape(),
+  async (req, res) => {
+    const { email: login, uuid } = req.body;
+
+    try {
+      const errors = validationResult(req);
+
+      if (!errors.isEmpty()) {
+        res.redirect(`${process.env.SITE_URL}/register`);
+        /* return res.status(400).json({
+          errors: errors.array(),
+          message: "Некорректные данные для активации",
+        });*/
+      }
+
+      res.status(200).json({
+        message: "Даные валидны",
+      });
+    } catch (error) {}
+  }
+);
 
 module.exports = router;

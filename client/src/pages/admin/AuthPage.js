@@ -39,6 +39,8 @@ export const AuthPage = () => {
       const data = await request("/auth/login", "POST", { ...form });
 
       auth.login(data.token, data.userId, data.userType, data.exp);
+
+      message(data.message);
     } catch (e) {}
   };
 
@@ -91,6 +93,21 @@ export const AuthPage = () => {
                     <label htmlFor="password">Пароль</label>
                   </div>
                 </div>
+              </div>
+              <div className="row">
+                <p
+                  style={{
+                    width: "100%",
+                    margin: "0 auto",
+                    textAlign: "center",
+                    color: "white",
+                  }}
+                >
+                  Нет логина и пароля?{" "}
+                  <a href="/register">
+                    <span style={{ color: "#0bd9a1e" }}>Зарегистрируйтесь</span>
+                  </a>
+                </p>
               </div>
             </div>
             <div className="card-action center-align">

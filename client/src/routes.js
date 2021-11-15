@@ -20,8 +20,9 @@ import { Services } from "./pages/visitors/Services";
 import { Ticket } from "./pages/visitors/Ticket";
 import { Staff } from "./pages/visitors/Staff";
 import { Record } from "./pages/admin/newRecord/Record";
-import LoginPage from "./pages/LoginPage";
+
 import { RecordEdit } from "./components/Tickets/RecordEdit/RecordEdit";
+import { Register } from "./pages/Register";
 
 export const useRoutes = (isAuthenticated) => {
   if (isAuthenticated) {
@@ -51,19 +52,7 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/users/create" exact>
           <UserCreatePage />
         </Route>
-        <Route path="/reception" exact>
-          <Reception />
-        </Route>
 
-        <Route path="/calendar" exact>
-          <Calendar />
-        </Route>
-        <Route path="/time" exact>
-          <Time />
-        </Route>
-        <Route path="/contact" exact>
-          <Contact />
-        </Route>
         <Route path="/staff" exact>
           <Staff />
         </Route>
@@ -80,9 +69,7 @@ export const useRoutes = (isAuthenticated) => {
         <Route path="/service" exact>
           <Services />
         </Route>
-        <Route path="/login" exact>
-          <LoginPage />
-        </Route>
+
         <Redirect to="/" />
       </Switch>
     );
@@ -90,8 +77,8 @@ export const useRoutes = (isAuthenticated) => {
 
   return (
     <Switch>
-      <Route path="/category" exact>
-        <Categories />
+      <Route path="/register" exact>
+        <Register />
       </Route>
       <Route path="/service" exact>
         <Services />
@@ -111,10 +98,10 @@ export const useRoutes = (isAuthenticated) => {
       <Route path="/ticket" exact>
         <Ticket />
       </Route>
-      <Route path="/auth/zhilye" exact>
+      <Route path="/login" exact>
         <AuthPage />
       </Route>
-      <Redirect to="/category" />
+      <Redirect to="/login" />
     </Switch>
   );
 };

@@ -1,14 +1,13 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-  
   login: {
     type: String,
-    /* required: true, */
+    required: true,
   },
   password: {
     type: String,
-    /* required: true, */
+    required: true,
   },
   name: String,
   cabinet: Number,
@@ -21,25 +20,28 @@ const userSchema = new mongoose.Schema({
   },
   vacationFrom: {
     type: Date,
-    default: ''
+    default: "",
   },
   vacationTo: {
     type: Date,
-    default: ''
+    default: "",
   },
-  substitute:{ 
-    type:mongoose.Schema.Types.ObjectId,
-    default: null
+  substitute: {
+    type: mongoose.Schema.Types.ObjectId,
+    default: null,
   },
   online: {
     type: Boolean,
-    default: true
-  }
-
-})
+    default: true,
+  },
+  activate: {
+    type: Boolean,
+    default: false,
+  },
+});
 
 userSchema.virtual("getRoles").get(function () {
-  return userSchema.path("userType").options.enum
-})
+  return userSchema.path("userType").options.enum;
+});
 
-module.exports = mongoose.model("User", userSchema)
+module.exports = mongoose.model("User", userSchema);
