@@ -1,73 +1,18 @@
-import React, { useContext } from "react"
-import { NavLink, useHistory } from "react-router-dom"
-import { AuthContext } from "../context/AuthContext"
+import React, { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { AdminMenu } from "./Menu/AdminMenu";
+import { EmployeeMenu } from "./Menu/EmployeeMenu";
+import { UserMenu } from "./Menu/UserMenu";
 
 export const Navbar = () => {
-  const { userType } = useContext(AuthContext)
+  const { userType } = useContext(AuthContext);
 
-  const isAdmin = ["superAdmin", "admin"]
-  const history = useHistory()
-  const auth = useContext(AuthContext)
+  const isSuperAdmin = userType === "superAdmin" ? true : false;
+  const isAdmin = userType === "admin" ? true : false;
 
-  const logoutHandler = (event) => {
-    event.preventDefault()
-    auth.logout()
-    history.push("/")
-  }
-  if (isAdmin.includes(userType))
-    return (
-      <nav>
-        <div className="nav-wrapper blue darken-2">
-          <a href="/">
-            <span className="brand-logo">Электронная очередь</span>
-          </a>
-          <ul id="nav-mobile" className="right hide-on-med-and-down">
-          <li>
-              <NavLink to="/record/new">Создать запись</NavLink>
-            </li>
-            <li>
-              <NavLink to="/users">Пользователи</NavLink>
-            </li>
-            
-            <li>
-              <NavLink to="/services">Услуги</NavLink>
-            </li>
-            <li>
-              <NavLink to="/categories">Категории услуг</NavLink>
-            </li>
-            <li>
-              <NavLink to="/tickets">Тикеты</NavLink>
-            </li>
-            <li>
-              <a href="/" onClick={logoutHandler}>
-                Выйти
-              </a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    )
-  return (
-    <nav>
-      <div className="nav-wrapper blue darken-2">
-        <a href="/">
-          <span className="brand-logo">Электронная очередь</span>
-        </a>
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-            <li>
-              <NavLink to="/record/new">Создать запись</NavLink>
-            </li>
-            <li>
-              <NavLink to="/">Список записей</NavLink>
-            </li>
+  if (isSuperAdmin) return <AdminMenu />;
 
-          <li>
-            <a href="/" onClick={logoutHandler}>
-              Выйти
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-  )
-}
+  if (isAdmin) return <EmployeeMenu />;
+
+  if (!isSuperAdmin && !isAdmin) return <UserMenu />;
+};

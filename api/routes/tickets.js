@@ -10,10 +10,11 @@ const Ticket = require("../models/tickets");
 const Service = require("../models/services");
 
 const { check, validationResult } = require("express-validator");
+const userRightsMiddleware = require("../middleware/userRights.middleware");
 //const { request } = require("express")
 
 //Получение списка тикетов из базы. Надо поработать с аутентификацией или выбирать только некоторые поля при запросе, иначе любой может получить данные посетителей
-router.get("/", auth, (req, res, next) => {
+router.get("/", auth, userRightsMiddleware, (req, res, next) => {
   Ticket.find({})
     .exec()
     .then((tickets) => {

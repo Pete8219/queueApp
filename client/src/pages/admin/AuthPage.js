@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { AuthContext } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/auth.hook";
 import styles from "./pages.module.css";
 
 export const AuthPage = () => {
@@ -27,18 +28,11 @@ export const AuthPage = () => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  /*   const registerHandler = async () => {
-    try {
-      const data = await request("/auth/register", "POST", { ...form })
-      message(data.message)
-    } catch (e) {}
-  } */
-
   const loginHandler = async () => {
     try {
       const data = await request("/auth/login", "POST", { ...form });
 
-      auth.login(data.token, data.userId, data.userType, data.exp);
+      auth.login(data.token, data.userId, data.userType);
 
       message(data.message);
     } catch (e) {}
@@ -66,7 +60,7 @@ export const AuthPage = () => {
                   <div className="input-field col s12">
                     <i className="material-icons prefix">account_circle</i>
                     <input
-                      placeholder="Введите имя пользователя"
+                      placeholder="Введите свой Email"
                       id="login"
                       name="login"
                       type="text"
@@ -118,9 +112,6 @@ export const AuthPage = () => {
               >
                 Войти
               </button>
-              {/*   <button className="btn-large waves-effect waves-light blue lighten-1 register" onClick={registerHandler} disabled={loading}>
-              Регистрация
-            </button> */}
             </div>
           </div>
         </div>

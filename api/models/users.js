@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema({
   login: {
     type: String,
+    unique: true,
     required: true,
   },
   password: {
@@ -34,9 +35,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  activate: {
+  isActivated: {
     type: Boolean,
     default: false,
+  },
+  activationLink: {
+    type: String,
   },
 });
 

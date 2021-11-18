@@ -15,6 +15,7 @@ export const RegisterForm = () => {
   const message = useMessage();
 
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const pressHandler = (e) => {
     if (e.code === "Enter") {
@@ -24,7 +25,10 @@ export const RegisterForm = () => {
 
   const registerHandler = async () => {
     try {
-      const register = await request(`/auth/register`, "POST", { email });
+      const register = await request(`/auth/register`, "POST", {
+        email,
+        password,
+      });
       console.log(register);
       message(register.message);
     } catch (error) {}
@@ -60,6 +64,38 @@ export const RegisterForm = () => {
                       <label htmlFor="email"></label>
                     </div>
                   </div>
+                  <div className="row">
+                    <div className="input-field col s12">
+                      <i className="material-icons prefix">https</i>
+                      <input
+                        placeholder="Введите пароль"
+                        id="password"
+                        name="password"
+                        type="password"
+                        value={password}
+                        className={styles.MyInput}
+                        onChange={(e) => setPassword(e.target.value)}
+                        onKeyPress={pressHandler}
+                        style={{ color: "#fff !important" }}
+                      />
+                      <p
+                        style={{
+                          color: "white",
+                          margin: "0 auto",
+                          textAlign: "center",
+                        }}
+                      >
+                        <small>
+                          Пароль должен быть не менее 8 символов, содержать хотя
+                          бы одну цифру и заглавную букву.
+                        </small>
+
+                        <br />
+                        <small>Например: Yhgtnhd1</small>
+                      </p>
+                      <label htmlFor="email"></label>
+                    </div>
+                  </div>
                 </div>
                 <div className="row">
                   <p className={styles.description}>
@@ -77,9 +113,6 @@ export const RegisterForm = () => {
                 >
                   Зарегистрироваться
                 </button>
-                {/*   <button className="btn-large waves-effect waves-light blue lighten-1 register" onClick={registerHandler} disabled={loading}>
-              Регистрация
-            </button> */}
               </div>
             </div>
           </div>

@@ -1,44 +1,22 @@
-import React, { useEffect} from "react"
-import { useAuth } from "../../hooks/auth.hook"
-import { Loader } from "../../components/Loader"
-import { StaffProfile } from "../../components/Staff/StaffProfile"
-import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage"
-
+import React, { useContext } from "react";
+import { useAuth } from "../../hooks/auth.hook";
+import { Loader } from "../../components/Loader";
+import { StaffProfile } from "../../components/Staff/StaffProfile";
+import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage";
+import { AuthContext } from "../../context/AuthContext";
 
 export const AdminPage = () => {
-  const { ready , userType, token, logout, exp } = useAuth()
-  
-   useEffect(() => {
-      if(!token || token === null) {
-            return
-      }
-    
-      
-      if( Date.now() > exp ) {
-          logout()
-      }
-
-    })
-
-
+  const { ready } = useAuth();
+  const { userType } = useContext(AuthContext);
 
   if (!ready) {
-    return <Loader />
+    return <Loader />;
   }
-
-  
 
   return (
     <div>
-      {(userType === 'superAdmin') ? (
-        <StaffProfile />
-      ):
-      <>
       <StaffProfile />
       <TicketsMainPage />
-      </>
-      }
     </div>
-  )
-
-}
+  );
+};

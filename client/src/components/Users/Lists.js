@@ -1,43 +1,38 @@
-import  { useEffect, useState } from 'react'
-import { useHttp } from '../../hooks/http.hook'
+import { useEffect, useState } from "react";
+import { useHttp } from "../../hooks/http.hook";
 
+export const Lists = () => {
+  const [users, setUsers] = useState([]);
 
-export const Lists = ()=> {
-    const [users, setUsers] = useState('')
+  const { loading, request } = useHttp();
 
-    const {loading, request} = useHttp()
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const fetched = await request("/users", "GET", null, {
+          Authorization: `Bearer ${token}`,
+        });
 
-    useEffect(()=> {
-        const fetchUsers = async() => {
-            try{
-                const fetched = await request('/users', 'GET', null, {Authorization: `Bearer ${token}`})
-                setUsers(fetched)
-    
-            } catch (e) {}
-        }
-    
-        fetchUsers()
+        setUsers(fetched);
+      } catch (e) {}
+    };
 
-    },[request])
+    fetchUsers();
+  }, [request]);
 
-
-    
-           const userList = users.map((user) => {
-               return (
-                   <options key={user._id} value={user._id}>{user.name}</options>
-               )
-           }) 
-        
-    
-
+  const userList = users.map((user) => {
     return (
-        <div>
-            <select defaultValue={userList[0]}>
-                {userList}
-            </select>
-        </div>
-    )
-    
-}
+      <options key={user._id} value={user._id}>
+        {user.name}
+      </options>
+    );
+  });
 
-export default Lists
+  return (
+    <div>
+      <select defaultValue={userList[0]}>{userList}</select>
+    </div>
+  );
+};
+
+export default Lists;
