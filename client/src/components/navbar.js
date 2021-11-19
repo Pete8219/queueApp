@@ -1,18 +1,19 @@
 import React, { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 import { AdminMenu } from "./Menu/AdminMenu";
 import { EmployeeMenu } from "./Menu/EmployeeMenu";
 import { UserMenu } from "./Menu/UserMenu";
+import StateContext from "../context/StateContext";
 
 export const Navbar = () => {
-  const { userType } = useContext(AuthContext);
+  const appState = useContext(StateContext);
+  const { role } = appState;
 
-  const isSuperAdmin = userType === "superAdmin" ? true : false;
-  const isAdmin = userType === "admin" ? true : false;
+  const isSuperAdmin = role === "superAdmin" ? true : false;
+  const isAdmin = role === "admin" ? true : false;
 
-  if (isSuperAdmin) return <AdminMenu />;
+  if (role === "superAdmin") return <AdminMenu />;
 
-  if (isAdmin) return <EmployeeMenu />;
+  if (role === "admin") return <EmployeeMenu />;
 
-  if (!isSuperAdmin && !isAdmin) return <UserMenu />;
+  return <UserMenu />;
 };

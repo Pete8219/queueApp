@@ -1,5 +1,4 @@
 import { Route, Switch, Redirect } from "react-router-dom";
-import { AuthPage } from "../pages/admin/AuthPage";
 import { Register } from "../pages/Register";
 import { Calendar } from "../pages/visitors/Calendar";
 import { Contact } from "../pages/visitors/Contact";

@@ -2,11 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { AuthContext } from "../../context/AuthContext";
-import { useAuth } from "../../hooks/auth.hook";
+import DispatchContext from "../../context/DispatchContext";
 import styles from "./pages.module.css";
 
 export const AuthPage = () => {
-  const auth = useContext(AuthContext);
+  const appDispatch = useContext(DispatchContext);
+  //const auth = useContext(AuthContext);
   const message = useMessage();
   const { loading, error, request, clearError } = useHttp();
 
@@ -32,9 +33,13 @@ export const AuthPage = () => {
     try {
       const data = await request("/auth/login", "POST", { ...form });
 
-      auth.login(data.token, data.userId, data.userType);
+      if (!data) {
+        return message("Неверный логин или пароль");
+      }
 
-      message(data.message);
+      console.log(data);
+      localStorage.setItem("userData", JSON.stringify({ token: data.token }));
+      appDispatch({ type: "login", payload: data });
     } catch (e) {}
   };
 
@@ -49,10 +54,7 @@ export const AuthPage = () => {
       <div className="row valign-wrapper">
         <div className="col s6 offset-s3">
           <h1 className="center-align">Электронная очередь</h1>
-          <div
-            className="card blue-grey darken-4"
-            style={{ width: "60%", margin: "0 auto" }}
-          >
+          <div className={["card blue-grey", styles.Card].join(" ")}>
             <div className="card-content">
               <span className="card-title ">Авторизация</span>
               <div>
@@ -104,9 +106,14 @@ export const AuthPage = () => {
                 </p>
               </div>
             </div>
-            <div className="card-action center-align">
+            <div
+              className={["card-action center-align", styles.CardAction].join(
+                " "
+              )}
+            >
               <button
                 className="btn-large waves-effect waves-light blue lighten-1 login"
+                style={{ borderRadius: "10px" }}
                 onClick={loginHandler}
                 disabled={loading}
               >

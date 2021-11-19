@@ -6,12 +6,11 @@ import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage";
 import { AuthContext } from "../../context/AuthContext";
 
 export const AdminPage = () => {
-  const { ready } = useAuth();
-  const { userType } = useContext(AuthContext);
+  /*   const { ready } = useAuth();
 
   if (!ready) {
     return <Loader />;
-  }
+  } */
 
   return (
     <div>

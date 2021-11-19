@@ -40,10 +40,7 @@ export const RegisterForm = () => {
         <div className="row valign-wrapper">
           <div className="col s6 offset-s3">
             <h1 className="center-align">Электронная очередь</h1>
-            <div
-              className="card blue-grey darken-4"
-              style={{ width: "60%", margin: "0 auto" }}
-            >
+            <div className={["card blue-grey ", styles.Card].join(" ")}>
               <div className="card-content">
                 <span className="card-title ">Регистрация</span>
                 <div>
@@ -105,9 +102,14 @@ export const RegisterForm = () => {
                 </div>
               </div>
 
-              <div className="card-action center-align">
+              <div
+                className={["card-action center-align", styles.CardAction].join(
+                  " "
+                )}
+              >
                 <button
                   className="btn-large  waves-light blue lighten-1 login"
+                  style={{ borderRadius: "10px" }}
                   onClick={registerHandler}
                   disabled={loading}
                 >

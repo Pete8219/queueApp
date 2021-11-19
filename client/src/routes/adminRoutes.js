@@ -13,12 +13,13 @@ import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
 import { Services } from "../pages/visitors/Services";
 import { Staff } from "../pages/visitors/Staff";
+import { Main } from "../Main";
 
 export const AdminRoutes = () => {
   const routes = [
     {
-      path: "/",
-      component: AdminPage,
+      path: "/main",
+      component: Main,
     },
     {
       path: "/allservices",

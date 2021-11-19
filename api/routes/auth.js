@@ -86,9 +86,6 @@ router.post(
 
       const { login, password } = req.body;
 
-      //const hashedPassword = await bcrypt.hash(password, 12);
-      //console.log(hashedPassword)
-
       const user = await User.findOne({ login });
 
       if (!user) {
@@ -115,8 +112,8 @@ router.post(
 
       res.json({
         token,
+        role: user.userType,
         userId: user._id,
-        userType: user.userType,
       });
     } catch (e) {
       res.status(500).json({
@@ -156,5 +153,24 @@ router.get(
     } catch (error) {}
   }
 );
+
+router.get("/checkToken/:token", async (req, res) => {
+  const { token } = req.params;
+
+  if (!token) {
+    return res.status(401).json({
+      message: "Пользователь не авторизован",
+    });
+  }
+
+  try {
+    const data = jwt.verify(token, SECRET);
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({
+      message: "Ошибка выполнения запроса",
+    });
+  }
+});
 
 module.exports = router;

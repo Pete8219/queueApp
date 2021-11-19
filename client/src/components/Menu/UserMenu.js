@@ -1,9 +1,16 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import DispatchContext from "../../context/DispatchContext";
 
 export const UserMenu = () => {
   const { logout } = useContext(AuthContext);
+  const appDispatch = useContext(DispatchContext);
+
+  const logoutHandler = () => {
+    appDispatch({ type: " logout " });
+    localStorage.removeItem("userData");
+  };
 
   const links = [
     {
@@ -31,7 +38,7 @@ export const UserMenu = () => {
             );
           })}
           <li>
-            <a href="/logout" onClick={logout}>
+            <a href="/" onClick={logoutHandler}>
               Выйти
             </a>
           </li>

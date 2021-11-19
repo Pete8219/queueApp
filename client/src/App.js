@@ -1,6 +1,7 @@
-import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
-import { useRoutes } from "./routes";
+import React, { useState, useEffect, useReducer, useContext } from "react";
+
+import { Main } from "./Main";
+
 import { useAuth } from "./hooks/auth.hook";
 import { AuthContext } from "./context/AuthContext";
 import { Navbar } from "../src/components/navbar";
@@ -8,39 +9,42 @@ import { Loader } from "../src/components/Loader";
 import "materialize-css";
 import "react-datepicker/dist/react-datepicker.css";
 
-function App() {
-  const { login, logout, token, userId, userType, ready } = useAuth();
+import StateContext from "./context/StateContext";
+import DispatchContext from "./context/DispatchContext";
 
-  //
-  //Где то здесь надо сделать отслеживание валидности Токена
+/* const initialState = {
+  isAuthenticated: Boolean(localStorage.getItem("userData")),
+  role: null,
+  userId: null,
+};
 
-  //----------//
-
-  const isAuthenticated = !!token;
-
-  const routes = useRoutes(isAuthenticated, userType);
-
-  if (!ready) {
-    return <Loader />;
+function authReducer(state, action) {
+  switch (action.type) {
+    case "login":
+      return {
+        isAuthenticated: true,
+        role: action.payload.role,
+        userId: action.payload.userId,
+      };
+    case "logout":
+      return {
+        isAuthenticated: false,
+        role: null,
+        userId: null,
+      };
+    default:
+      return state;
   }
+} */
 
+function App() {
+  //const [state, dispatch] = useReducer(authReducer, initialState);
   return (
-    <AuthContext.Provider
-      value={{
-        token,
-        userId,
-        userType,
-        login,
-        logout,
-        isAuthenticated,
-      }}
-    >
-      <Router>
-        {isAuthenticated && <Navbar />}
-
-        <div>{routes}</div>
-      </Router>
-    </AuthContext.Provider>
+    <StateContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        <Main />;
+      </DispatchContext.Provider>
+    </StateContext.Provider>
   );
 }
 

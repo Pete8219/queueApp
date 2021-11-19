@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { AdminPage } from "../pages/admin/AdminPage";
 import { Record } from "../pages/admin/newRecord/Record";
 import { TicketsPage } from "../pages/admin/TicketsPage";
+import { Main } from "../Main";
 
 export const EmployeeRoutes = () => {
   const routes = [
