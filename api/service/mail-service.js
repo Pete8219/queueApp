@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
-const { v: uuidv4 } = require("uuid");
+
 dotenv.config();
 
 class MailService {
@@ -36,8 +36,8 @@ class MailService {
         html: output, // html body
       });
 
-      console.log("Message sent: %s", info.messageId);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      //console.log("Message sent: %s", info.messageId);
+      //console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     } catch (error) {
       console.log(error);
     }

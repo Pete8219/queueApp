@@ -13,6 +13,7 @@ import { RadioSelect } from "../../../UI/RadioSelect/RadioSelect";
 import { AuthContext } from "../../../context/AuthContext";
 //import { useAuth } from "../../../hooks/auth.hook";
 import { useMessage } from "../../../hooks/message.hook";
+import { useSelector } from "react-redux";
 
 export const RecordForm = ({ props }) => {
   const clientData = JSON.parse(localStorage.getItem("clientData"));
@@ -36,7 +37,7 @@ export const RecordForm = ({ props }) => {
   }
 
   const { request } = useHttp();
-  const { token } = useContext(AuthContext);
+  const { token } = useSelector((state) => state);
   const message = useMessage();
 
   const {

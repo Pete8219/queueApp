@@ -8,6 +8,7 @@ import { RadioSelect } from "../../../UI/RadioSelect/RadioSelect";
 import { useMessage } from "../../../hooks/message.hook";
 import styles from "./rewrite.module.css";
 import { TimeTable } from "../../TimeTable/TimeTable";
+import { useSelector } from "react-redux";
 
 export const RewriteForm = ({ close, rewrite, serviceList, reload }) => {
   const ticket = JSON.parse(localStorage.getItem("ticketId"));
@@ -21,7 +22,7 @@ export const RewriteForm = ({ close, rewrite, serviceList, reload }) => {
     ...rest
   } = ticket[0];
 
-  const { token } = useContext(AuthContext);
+  const { token } = useSelector((state) => state);
   const message = useMessage();
 
   const { request } = useHttp();

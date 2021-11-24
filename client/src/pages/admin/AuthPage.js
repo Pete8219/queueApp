@@ -12,7 +12,6 @@ export const AuthPage = () => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.error);
 
-  //const auth = useContext(AuthContext);
   const message = useMessage();
   const { loading, request, clearError } = useHttp();
 
@@ -23,6 +22,7 @@ export const AuthPage = () => {
 
   useEffect(() => {
     message(error);
+
     clearError();
   }, [error, message, clearError]);
 
@@ -107,7 +107,7 @@ export const AuthPage = () => {
               )}
             >
               <button
-                className="btn-large waves-effect waves-light blue lighten-1 login"
+                className="btn-large  blue lighten-1 login"
                 style={{ borderRadius: "10px" }}
                 onClick={loginHandler}
                 disabled={loading}

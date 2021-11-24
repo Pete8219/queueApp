@@ -12,7 +12,6 @@ const User = require("../models/users");
 router.get("/", role(["superAdmin"]), async (req, res) => {
   try {
     const users = await User.find({}).select({
-      login: 0,
       password: 0,
       userType: 0,
     });

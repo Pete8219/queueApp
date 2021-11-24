@@ -3,6 +3,7 @@ import M from "materialize-css";
 import styles from "./register.module.css";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
+import { useHistory } from "react-router";
 
 export const RegisterForm = () => {
   useEffect(() => {
@@ -13,6 +14,7 @@ export const RegisterForm = () => {
   const { loading, request } = useHttp();
 
   const message = useMessage();
+  const history = useHistory();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +31,14 @@ export const RegisterForm = () => {
         email,
         password,
       });
-      console.log(register);
-      message(register.message);
+      if (register.status === "200") {
+        message(register.message);
+        history.push("/success_registration");
+      }
+
+      if (register.errors.length) {
+        return register.errors.map((err) => message(err.msg));
+      }
     } catch (error) {}
   };
 
@@ -100,6 +108,25 @@ export const RegisterForm = () => {
                     ссылкой на активацию учетной записи
                   </p>
                 </div>
+              </div>
+              <div className="row">
+                <p
+                  style={{
+                    width: "100%",
+                    margin: "0 auto",
+                    textAlign: "center",
+                    color: "white",
+                  }}
+                >
+                  Есть логин и пароль?{" "}
+                  <a href="/login">
+                    <span
+                      style={{ color: "#ede70d", textDecoration: "underline" }}
+                    >
+                      Авторизуйтесь
+                    </span>
+                  </a>
+                </p>
               </div>
 
               <div

@@ -5,12 +5,14 @@ import { useMessage } from "../../../hooks/message.hook";
 import { AuthContext } from "../../../context/AuthContext";
 import styles from "./recordEdit.module.css";
 import { FormFooter } from "../../FormFooter/FormFooter";
+import { useSelector } from "react-redux";
 
 export const RecordEdit = ({ props }) => {
+  const { token } = useSelector((state) => state);
   const clientData = JSON.parse(localStorage.getItem("clientData"));
   const { onClose, editTicketList } = props;
   const { request } = useHttp();
-  const { token } = useContext(AuthContext);
+
   const message = useMessage();
 
   const {

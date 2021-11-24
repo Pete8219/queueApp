@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const passGenerator = require("password-generator");
+
 const mailService = require("../service/mail-service");
 
 const dotenv = require("dotenv");
@@ -18,8 +18,19 @@ const { v4: uuidv4 } = require("uuid");
 
 router.post(
   "/register",
-  body("email").isEmail(),
-  body("password").isLength({ min: 8, max: 20 }),
+  body("email", "В поле Логин должен быть ваш email адрес")
+    .isEmail()
+    .normalizeEmail(),
+  body("password")
+    .isLength({
+      min: 8,
+      max: 20,
+    })
+    .withMessage("Пароль должен быть не менее 8 символов")
+    .matches(/\d/)
+    .withMessage("Пароль должен содержать хотя бы одну цифру")
+    .matches(/([A-Z])/)
+    .withMessage("Пароль должен содержать хотя бы одну заглавную букву"),
   async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -27,7 +38,7 @@ router.post(
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
-          message: "Некорректные данные при регистрации",
+          //message: "Некорректные данные при регистрации",
         });
       }
       const { email, password } = req.body;
@@ -39,7 +50,7 @@ router.post(
         });
       }
       const activationLink = uuidv4();
-      //const password = passGenerator(12 ,false)
+
       const hashedPassword = await bcrypt.hash(password, 12);
       const user = new User({
         login: email,
@@ -56,8 +67,9 @@ router.post(
         `${process.env.API_SERVER}/auth/activate/${activationLink}`
       );
 
-      res.status(201).json({
+      res.status(200).json({
         message: "Пользователь создан",
+        status: "200",
       });
     } catch (e) {
       res.status(500).json({
@@ -70,17 +82,18 @@ router.post(
 router.post(
   "/login",
   [
-    check("login", "Введите корретный логин").trim().isLength({ min: 3 }),
-    check("password", "Введите пароль").exists(),
+    check("login", "Логин должен быть ваш email").isEmail().normalizeEmail(),
+    check("password", "Пароль не может быть пустым")
+      .exists()
+      .isLength({ min: 6 }),
   ],
 
   async (req, res) => {
-    console.log(req.body);
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return res.json({
+        return res.status(400).json({
           errors: errors.array(),
           message: "Некорректные данные при входе",
         });
@@ -137,10 +150,6 @@ router.get(
       if (!errors.isEmpty()) {
         console.log(errors);
         res.redirect(`${process.env.SITE_URL}/register`);
-        /* return res.status(400).json({
-          errors: errors.array(),
-          message: "Некорректные данные для активации",
-        });*/
       }
 
       const user = await User.findOne({ activationLink: uuid });

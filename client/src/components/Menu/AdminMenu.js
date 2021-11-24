@@ -37,9 +37,8 @@ export const AdminMenu = () => {
   return (
     <nav>
       <div className="nav-wrapper blue darken-2">
-        <a href="/">
-          <span className="brand-logo">Электронная очередь</span>
-        </a>
+        <span className="brand-logo">Электронная очередь</span>
+
         <ul id="nav-mobile" className="right hide-on-med-and-down">
           {links.map((link, i) => {
             return (

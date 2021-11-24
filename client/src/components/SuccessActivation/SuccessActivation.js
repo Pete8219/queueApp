@@ -14,6 +14,11 @@ export const SuccessActivation = () => {
 
   return (
     <div className={styles.MainContainer}>
+      <div>
+        <span style={{ color: "green" }}>
+          <i class="large material-icons">check_circle</i>
+        </span>
+      </div>
       <h3>Ваш аккаун успешно активирован</h3>
       <p style={{ fontStyle: "italic" }}>
         Вы будете перенеправлены на станицу авторизации через {countDown}

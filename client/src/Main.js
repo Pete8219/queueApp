@@ -18,9 +18,12 @@ export const Main = () => {
     const token = JSON.parse(localStorage.getItem("access_token"));
 
     if (!token) {
+      return;
+    }
+    if (token === "undefined") {
+      localStorage.removeItem("access_token");
       return dispatch(logout());
     }
-
     dispatch(checkToken(token));
   }, []);
 

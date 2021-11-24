@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { AuthPage } from "../pages/admin/AuthPage";
 import { Register } from "../pages/Register";
 import { SuccessActivation } from "../components/SuccessActivation/SuccessActivation";
+import { SuccessRegistration } from "../components/SuccessRegistration/SuccessRegistration";
 import { NotFound } from "../components/404/NotFound";
 
 export const UnAuthorizeRoutes = () => {
@@ -18,6 +19,10 @@ export const UnAuthorizeRoutes = () => {
     {
       path: "/success",
       component: SuccessActivation,
+    },
+    {
+      path: "/success_registration",
+      component: SuccessRegistration,
     },
     {
       path: "/not_found",

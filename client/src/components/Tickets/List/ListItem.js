@@ -5,10 +5,11 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useAuth } from "../../../hooks/auth.hook";
 import { useHttp } from "../../../hooks/http.hook";
 import { useMessage } from "../../../hooks/message.hook";
+import { useSelector } from "react-redux";
 import styles from "./list.module.css";
 
 export const ListItem = ({ ticket, i, handler, rewrite, statusHandler }) => {
-  const { token } = useAuth(AuthContext);
+  const { token } = useSelector((state) => state);
   const { request } = useHttp();
   const message = useMessage();
 

@@ -5,9 +5,10 @@ import { useHttp } from "../../hooks/http.hook";
 import { UsersList } from "../../components/Users/UsersList";
 import { useMessage } from "../../hooks/message.hook";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const UserPage = () => {
-  const { token } = useContext(AuthContext);
+  const { token } = useSelector((state) => state);
 
   const [users, setUsers] = useState([]);
   const { loading, request } = useHttp();

@@ -22,10 +22,8 @@ export const fetchUser = (login) => {
       .catch(function (error) {
         dispatch(readyToLogin());
         if (error.response) {
-          console.log(error.response.data);
           dispatch(errorData(error.response.data));
         } else if (error.request) {
-          console.log(error.request);
         }
       });
   };

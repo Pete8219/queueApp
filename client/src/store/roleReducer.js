@@ -29,7 +29,7 @@ export const roleReducer = (state = defaultState, action) => {
         role: action.payload.userType,
         userId: action.payload.userId,
         isAuthenticated: true,
-        isFetching: true,
+        isFetching: false,
         error: null,
       };
     case APP_USER_INFO_ERROR:

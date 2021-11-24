@@ -25,6 +25,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
             <thead>
               <tr>
                 <th>№</th>
+                <th>Логин</th>
                 <th>Сотрудник</th>
 
                 <th></th>
@@ -37,6 +38,7 @@ export const UsersList = ({ users, onDelete, onEdit, onCreate }) => {
                 return (
                   <tr key={item._id}>
                     <td>{index + 1}</td>
+                    <td>{item.login}</td>
                     <td>{item.name}</td>
 
                     <td>
