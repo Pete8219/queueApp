@@ -1,39 +1,38 @@
-import React, { useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import { useRoutes } from "./routes";
+import { useHttp } from "./hooks/http.hook";
 import { Navbar } from "../src/components/navbar";
 import { Loader } from "../src/components/Loader";
 import "materialize-css";
 import "react-datepicker/dist/react-datepicker.css";
-
-import StateContext from "./context/StateContext";
+import { logout } from "./store/roleReducer";
+import { checkToken } from "./store/asyncActions";
 
 export const Main = () => {
-  const appState = useContext(StateContext);
-  const { isAuthenticated, role } = appState;
+  const dispatch = useDispatch();
+  const { isAuthenticated, role, isFetching } = useSelector((state) => state);
+
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("access_token"));
+
+    if (!token) {
+      return dispatch(logout());
+    }
+
+    dispatch(checkToken(token));
+  }, []);
 
   const routes = useRoutes(isAuthenticated, role);
 
-  /*   if (!ready) {
-        return <Loader />;
-      } */
+  if (isFetching) {
+    return <Loader />;
+  }
 
   return (
-    /*     <AuthContext.Provider
-          value={{
-            token,
-            userId,
-            userType,
-            login,
-            logout,
-            isAuthenticated,
-          }}
-        > */
-
     <Router>
-      {isAuthenticated && <Navbar />}
-
-      <div>{routes}</div>
+      {isAuthenticated && <Navbar />} <div>{routes}</div>
     </Router>
   );
 };

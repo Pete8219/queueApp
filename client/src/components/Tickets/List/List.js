@@ -6,15 +6,18 @@ import { Loader } from "../../Loader";
 import M from "materialize-css";
 import { RecordEdit } from "../RecordEdit/RecordEdit";
 import { RecordOverwrite } from "../RecordOverwrite/RecordOverwrite";
+import { useSelector } from "react-redux";
 
 export const List = ({ props }) => {
-  const { userId, token, date, name } = props;
+  const { userId, date, name } = props;
   const { loading, request } = useHttp();
   const [ticketList, setTicketList] = useState([]);
   const [services, setServices] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [isActiveRewrite, setIsActiveRewrite] = useState(false);
   const [reloadList] = useState(false);
+
+  const { token } = useSelector((state) => state);
 
   useEffect(() => {
     M.AutoInit();
@@ -155,7 +158,7 @@ export const List = ({ props }) => {
             </tbody>
           </table>
         </div>
-        
+
         {isActive && <RecordEdit props={{ onClose, editTicketList }} />}
         {isActiveRewrite && (
           <RecordOverwrite props={{ onClose, onWrite, services }} />

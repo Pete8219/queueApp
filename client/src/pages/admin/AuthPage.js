@@ -2,14 +2,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { AuthContext } from "../../context/AuthContext";
-import DispatchContext from "../../context/DispatchContext";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "../../store/asyncActions";
+
 import styles from "./pages.module.css";
+import { readyToLogin, roleReducer } from "../../store/roleReducer";
 
 export const AuthPage = () => {
-  const appDispatch = useContext(DispatchContext);
+  const dispatch = useDispatch();
+  const error = useSelector((state) => state.error);
+
   //const auth = useContext(AuthContext);
   const message = useMessage();
-  const { loading, error, request, clearError } = useHttp();
+  const { loading, request, clearError } = useHttp();
 
   const [form, setForm] = useState({
     login: "",
@@ -29,18 +34,8 @@ export const AuthPage = () => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
-  const loginHandler = async () => {
-    try {
-      const data = await request("/auth/login", "POST", { ...form });
-
-      if (!data) {
-        return message("Неверный логин или пароль");
-      }
-
-      console.log(data);
-      localStorage.setItem("userData", JSON.stringify({ token: data.token }));
-      appDispatch({ type: "login", payload: data });
-    } catch (e) {}
+  const loginHandler = () => {
+    dispatch(fetchUser(form));
   };
 
   const pressHandler = (event) => {

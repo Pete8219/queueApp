@@ -73,12 +73,14 @@ router.post(
     check("login", "Введите корретный логин").trim().isLength({ min: 3 }),
     check("password", "Введите пароль").exists(),
   ],
+
   async (req, res) => {
+    console.log(req.body);
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return res.status(400).json({
+        return res.json({
           errors: errors.array(),
           message: "Некорректные данные при входе",
         });
@@ -112,7 +114,7 @@ router.post(
 
       res.json({
         token,
-        role: user.userType,
+        userType: user.userType,
         userId: user._id,
       });
     } catch (e) {
@@ -154,8 +156,9 @@ router.get(
   }
 );
 
-router.get("/checkToken/:token", async (req, res) => {
-  const { token } = req.params;
+router.post("/checkToken", async (req, res) => {
+  const { token } = req.body;
+  console.log(token);
 
   if (!token) {
     return res.status(401).json({
@@ -164,7 +167,8 @@ router.get("/checkToken/:token", async (req, res) => {
   }
 
   try {
-    const data = jwt.verify(token, SECRET);
+    const data = jwt.verify(token, process.env.SECRET);
+    data.token = token;
     res.json(data);
   } catch (error) {
     res.status(500).json({

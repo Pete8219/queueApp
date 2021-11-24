@@ -5,7 +5,7 @@ import { useMessage } from "./message.hook";
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const message = useMessage();
+  //const message = useMessage();
 
   const auth = useContext(AuthContext);
 

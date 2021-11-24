@@ -1,26 +1,22 @@
 import React, { useState, useCallback, useContext, useEffect } from "react";
-import { AuthContext } from "./context/AuthContext";
+import { useSelector } from "react-redux";
 import { AdminRoutes } from "./routes/AdminRoutes";
 import { EmployeeRoutes } from "./routes/EmployeeRoutes";
 import { UnAuthorizeRoutes } from "./routes/UnAuthorizeRoutes";
 import { UserRoutes } from "./routes/UserRoutes";
-import StateContext from "./context/StateContext";
-import DispatchContext from "./context/DispatchContext";
-import { useHttp } from "./hooks/http.hook";
 
-export const useRoutes = (isAuth, role) => {
-  const appDispatch = useContext(DispatchContext);
-
-  if (isAuth && role === "superAdmin") {
+export const useRoutes = () => {
+  const { role, isAuthenticated } = useSelector((state) => state);
+  if (isAuthenticated && role === "superAdmin") {
     return <AdminRoutes />;
   }
-  if (isAuth && role === "admin") {
+  if (isAuthenticated && role === "admin") {
     return <EmployeeRoutes />;
   }
 
-  if (isAuth && role === "user") {
+  if (isAuthenticated && role === "user") {
     return <UserRoutes />;
   }
 
-  return <UnAuthorizeRoutes />;
+  if (!isAuthenticated) return <UnAuthorizeRoutes />;
 };

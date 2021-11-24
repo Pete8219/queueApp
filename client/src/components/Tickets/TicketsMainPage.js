@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
 import { List } from "./List/List";
 import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 import { Loader } from "../Loader";
 import { useHttp } from "../../hooks/http.hook";
 import { SearchForm } from "../../UI/SearchForm/SearchForm";
@@ -9,8 +10,10 @@ import { Calendar } from "../../UI/Calendar/Calendar";
 import styles from "./mainPage.module.css";
 
 export const TicketsMainPage = () => {
-  const { userId, ready, token } = useContext(AuthContext);
+  const { ready } = useContext(AuthContext);
   const { loading } = useHttp();
+
+  const { role, userId, token } = useSelector((state) => state);
 
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState("");
@@ -32,14 +35,14 @@ export const TicketsMainPage = () => {
       setVisitor("");
     }
   };
-
+  /* 
   if (!ready) {
     <Loader />;
-  }
-
+  } */
+  /* 
   if (loading) {
     <Loader />;
-  }
+  } */
   return (
     <div className={styles.MainContainer}>
       <div className={styles.Header}>

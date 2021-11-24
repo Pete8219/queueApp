@@ -1,16 +1,14 @@
 import React, { useContext } from "react";
 import { NavLink } from "react-router-dom";
-import DispatchContext from "../../context/DispatchContext";
-
-import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { logout, roleReducer } from "../../store/roleReducer";
 
 export const AdminMenu = () => {
-  const { logout } = useContext(AuthContext);
-  const appDispatch = useContext(DispatchContext);
+  const dispatch = useDispatch(roleReducer);
 
   const logoutHandler = () => {
-    appDispatch({ type: " logout " });
-    localStorage.removeItem("userData");
+    localStorage.removeItem("access_token");
+    dispatch(logout());
   };
 
   const links = [
