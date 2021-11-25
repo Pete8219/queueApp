@@ -8,7 +8,6 @@ module.exports = function (err, req, res, next) {
       });
     }
     if (err.status === 400) {
-      console.log(err.status);
       return res.status(400).json({
         message: "Некорректные данные при вводе",
       });

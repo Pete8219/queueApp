@@ -202,7 +202,7 @@ router.post("/send", async (req, res) => {
   }
 });
 
-router.post("/reservation", async (req, res) => {
+router.post("/reservation", auth, async (req, res) => {
   try {
   } catch (error) {}
 });
@@ -229,7 +229,7 @@ router.get("/find/:visitor", auth, async (req, res) => {
 });
 
 //Поиск тикетов по ID сотрудника и дате
-router.get("/:employeeId/:date", async (req, res) => {
+router.get("/:employeeId/:date", auth, async (req, res) => {
   const startDate = new Date(req.params.date);
   const endDate = new Date(req.params.date);
   endDate.setHours(23, 59, 0, 0);
@@ -257,7 +257,7 @@ router.get("/:employeeId/:date", async (req, res) => {
   }
 });
 
-router.get("/checkTime/:employeeId/:time/", async (req, res) => {
+router.get("/checkTime/:employeeId/:time/", auth, async (req, res) => {
   const time = req.params.time;
   const startDate = new Date();
   startDate.setHours(5, 0, 0, 0);
@@ -281,7 +281,7 @@ router.get("/checkTime/:employeeId/:time/", async (req, res) => {
 
     //    if(!checking.length) {
 
-    //Вариант с резервацией времени при выбоое времени. Посмотрим понадобиться или нет
+    //Вариант с резервацией времени при выборе времени. Посмотрим понадобиться или нет
     /*       const hours = time.slice(0,2)
       const minutes = time.slice(3,5)
       const day = new Date()
@@ -348,7 +348,7 @@ router.get("/:ticketId", auth, async (req, res) => {
 //Выбор тикетов по id-услуги, за заданный промежуток времени. Используется при формировании времени приема
 
 //Здесь нужно сделать проверку авторизации!!!!
-router.get("/byService/:serviceId/:date/:userId", async (req, res) => {
+router.get("/byService/:serviceId/:date/:userId", auth, async (req, res) => {
   const startDate = new Date(req.params.date);
   startDate.toISOString();
 

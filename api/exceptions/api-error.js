@@ -14,7 +14,7 @@ class ApiError extends Error {
   }
 
   static BadRequest() {
-    console.log(message);
+    //console.log(message);
     return new ApiError(400, message, errors);
   }
 }

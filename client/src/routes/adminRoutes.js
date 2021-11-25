@@ -14,6 +14,7 @@ import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
 import { Services } from "../pages/visitors/Services";
 import { Staff } from "../pages/visitors/Staff";
 import { Main } from "../Main";
+import { UsersList } from "../components/Users/UsersList";
 
 export const AdminRoutes = () => {
   const routes = [
@@ -21,6 +22,7 @@ export const AdminRoutes = () => {
       path: "/main",
       component: Main,
     },
+
     {
       path: "/allservices",
       component: List,
@@ -43,7 +45,7 @@ export const AdminRoutes = () => {
     },
     {
       path: "/users",
-      component: UserPage,
+      component: UsersList,
     },
     {
       path: "/users/detail/:id",
@@ -78,7 +80,7 @@ export const AdminRoutes = () => {
           <Route key={i} path={route.path} component={route.component} exact />
         );
       })}
-      <Redirect to="/tickets" />
+      <Redirect to="/" />
     </Switch>
   );
 };

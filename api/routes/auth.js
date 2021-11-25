@@ -85,7 +85,7 @@ router.post(
     check("login", "Логин должен быть ваш email").isEmail().normalizeEmail(),
     check("password", "Пароль не может быть пустым")
       .exists()
-      .isLength({ min: 6 }),
+      .isLength({ min: 8 }),
   ],
 
   async (req, res) => {
@@ -167,7 +167,6 @@ router.get(
 
 router.post("/checkToken", async (req, res) => {
   const { token } = req.body;
-  console.log(token);
 
   if (!token) {
     return res.status(401).json({
@@ -182,6 +181,7 @@ router.post("/checkToken", async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: "Ошибка выполнения запроса",
+      error,
     });
   }
 });

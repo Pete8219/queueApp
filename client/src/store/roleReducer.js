@@ -20,6 +20,7 @@ export const roleReducer = (state = defaultState, action) => {
     case LOGIN:
       return {
         ...state,
+        isFetching: true,
         error: null,
       };
     case APP_GET_USER_INFO:
@@ -69,6 +70,7 @@ export const roleReducer = (state = defaultState, action) => {
 
 export const readyToLogin = () => ({ type: LOGIN });
 export const logout = () => ({ type: LOGOUT });
+export const fetchData = () => ({ type: FETCH_DATA });
 export const getUserData = (payload) => ({ type: APP_GET_USER_INFO, payload });
 export const errorData = (payload) => ({ type: APP_USER_INFO_ERROR, payload });
 export const closeFetchData = () => ({ type: FETCH_END });

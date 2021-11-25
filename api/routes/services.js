@@ -11,7 +11,7 @@ const {
 } = require("helmet/dist/middlewares/strict-transport-security");
 
 //Получение списка услуг
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const services = await Service.find({});
     res.status(200).json(services);
@@ -78,7 +78,7 @@ router.post(
   }
 );
 
-router.get("/info/:id", async (req, res) => {
+router.get("/info/:id", auth, async (req, res) => {
   const id = req.params.id;
   try {
     const data = await Service.findOne({ _id: id }).populate("user", [
@@ -110,7 +110,7 @@ router.get("/getTitle/:id", auth, async (req, res) => {
 //Получение списка услуг принадлежащих сотруднику
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/byUser/:userId", async (req, res) => {
+router.get("/byUser/:userId", auth, async (req, res) => {
   try {
     const data = await Service.find({ user: req.params.userId });
 
@@ -123,7 +123,7 @@ router.get("/byUser/:userId", async (req, res) => {
 });
 
 //Получение услуг по выбранной категории
-router.get("/byCategory/:categoryId", async (req, res) => {
+router.get("/byCategory/:categoryId", auth, async (req, res) => {
   try {
     const data = await Service.find({ category: req.params.categoryId });
     res.status(200).json(data);
@@ -136,7 +136,7 @@ router.get("/byCategory/:categoryId", async (req, res) => {
 
 //Новый  api по получению выбранной услуги
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
     const data = await Service.findOne({ _id: req.params.id })
       .populate("user", ["-login", "-password", "-userType"])

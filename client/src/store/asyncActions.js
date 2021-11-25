@@ -1,13 +1,17 @@
 import {
   closeFetchData,
   errorData,
+  fetchData,
   getUserData,
   readyToLogin,
 } from "./roleReducer";
+const { store } = require("./index");
 const axios = require("axios").default;
 
 export const fetchUser = (login) => {
   return function (dispatch) {
+    dispatch(fetchData());
+
     axios
       .post("/auth/login", { ...login })
       .then(function (response) {
@@ -31,6 +35,8 @@ export const fetchUser = (login) => {
 
 export const checkToken = (token) => {
   return function (dispatch) {
+    dispatch(fetchData());
+
     axios
       .post("/auth/checkToken", { token })
       .then(function (response) {
@@ -38,12 +44,18 @@ export const checkToken = (token) => {
           "access_token",
           JSON.stringify(response.data.token)
         );
-        console.log(response);
+
         dispatch(getUserData(response.data));
-        dispatch(closeFetchData());
+        /* dispatch(closeFetchData()); */
       })
       .catch(function (error) {
+        if (error.response) {
+          console.log(error.toJSON());
+        }
         console.log(error.toJSON());
+      })
+      .finally(function () {
+        dispatch(closeFetchData());
       });
   };
 };
