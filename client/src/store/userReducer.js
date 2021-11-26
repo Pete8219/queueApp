@@ -1,20 +1,19 @@
-import * as actions from "./actions";
+const GET_USERS = "GET_USERS";
 
 const initialState = {
-  token: null,
-  isAuthenticated: false,
-  isFetching: false,
-  currentUser: {},
+  users: [],
 };
 
-function getUserInfo(state = initialState, action) {
+export const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case actions.LOGIN:
+    case GET_USERS:
       return {
         ...state,
-        form,
+        users: [...action.payload],
       };
     default:
       return state;
   }
-}
+};
+
+export const getUsers = (payload) => ({ type: GET_USERS, payload });

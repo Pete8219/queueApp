@@ -52,10 +52,23 @@ export const checkToken = (token) => {
         if (error.response) {
           console.log(error.toJSON());
         }
-        console.log(error.toJSON());
       })
       .finally(function () {
         dispatch(closeFetchData());
+      });
+  };
+};
+
+export const getAllUsers = () => {
+  return (dispatch) => {
+    axios
+      .get("/users")
+      .then(function (response) {
+        console.log(response.data);
+        dispatch(getUserData(response.data));
+      })
+      .catch(function (error) {
+        console.log(error.response);
       });
   };
 };

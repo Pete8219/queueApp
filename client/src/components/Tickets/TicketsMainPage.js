@@ -13,7 +13,7 @@ export const TicketsMainPage = () => {
   const { ready } = useContext(AuthContext);
   const { loading } = useHttp();
 
-  const { role, userId, token } = useSelector((state) => state);
+  const { role, userId, token } = useSelector((state) => state.userRole);
 
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState("");

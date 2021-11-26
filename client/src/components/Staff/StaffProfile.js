@@ -1,35 +1,29 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./profile.module.css";
-import { AuthContext } from "../../context/AuthContext";
-import { useHttp } from "../../hooks/http.hook";
 import { useSelector } from "react-redux";
 
 export const StaffProfile = () => {
-  const { userId } = useSelector((state) => state);
+  const { userId } = useSelector((state) => state.userRole);
+  const { users } = useSelector((state) => state.users);
 
-  const [userName, setUserName] = useState("");
-  const { loading, request } = useHttp();
+  let currentUser = [];
 
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const data = await request(`users/welcome/${userId}`, "GET", null, {});
-        setUserName(data);
-      } catch (e) {}
-    };
-    fetchUserName();
-  }, [request, userId]);
-
-  if (!loading && userName) {
-    return (
-      <div className={styles.profile}>
-        <span className={styles.staffIcon}>
-          <i className="material-icons prefix">account_circle</i>
-        </span>
-        <span className={styles.staffName}>{userName.name} </span>
-      </div>
-    );
+  if (users.length > 0) {
+    currentUser = users.filter((user) => user._id === userId);
   }
 
-  return null;
+  return (
+    <div>
+      {currentUser.length > 0 ? (
+        <div className={styles.profile}>
+          <span className={styles.staffIcon}>
+            <i className="material-icons prefix">account_circle</i>
+          </span>
+          <span className={styles.staffName}>{currentUser[0].name}</span>
+        </div>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
 };

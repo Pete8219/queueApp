@@ -33,6 +33,7 @@ export const ClientForm = ({ props }) => {
             className="validate"
             onChange={props.changeForm}
             onBlur={onBlur}
+            disabled={props.disabled}
             required
           />
           <label htmlFor="lastname">Фамилия</label>
@@ -48,6 +49,7 @@ export const ClientForm = ({ props }) => {
             className="validate"
             onChange={props.changeForm}
             onBlur={onBlur}
+            disabled={props.disabled}
             required
           />
           <label htmlFor="firstname">Имя</label>
@@ -62,6 +64,7 @@ export const ClientForm = ({ props }) => {
             defaultValue={surname}
             className="validate"
             onChange={props.changeForm}
+            disabled={props.disabled}
           />
           <label htmlFor="surname">Отчество</label>
         </div>
@@ -75,6 +78,7 @@ export const ClientForm = ({ props }) => {
             defaultValue={email}
             className="validate"
             onChange={props.changeForm}
+            disabled={props.disabled}
             required
           />
           <label htmlFor="email">Email</label>
@@ -89,6 +93,7 @@ export const ClientForm = ({ props }) => {
             defaultValue={phone}
             className="validate"
             onChange={props.changeForm}
+            disabled={props.disabled}
             onBlur={onBlur}
             required
           />

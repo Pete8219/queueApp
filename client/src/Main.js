@@ -9,10 +9,17 @@ import "materialize-css";
 import "react-datepicker/dist/react-datepicker.css";
 import { logout } from "./store/roleReducer";
 import { checkToken } from "./store/asyncActions";
+import api from "./http";
+import { getServices } from "./store/serviceReducer";
+import { getUsers } from "./store/userReducer";
 
 export const Main = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated, role, isFetching } = useSelector((state) => state);
+  const { isAuthenticated, isFetching } = useSelector(
+    (state) => state.userRole
+  );
+
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("access_token"));
@@ -27,7 +34,43 @@ export const Main = () => {
     dispatch(checkToken(token));
   }, []);
 
-  const routes = useRoutes(isAuthenticated, role);
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    setLoading(true);
+    const getService = async () => {
+      try {
+        const response = await api("/services");
+        dispatch(getServices(response.data));
+      } catch (error) {
+        console.log(error.response);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getService();
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    setLoading(true);
+    const fetchUsers = async () => {
+      try {
+        const response = await api("/users");
+        dispatch(getUsers(response.data));
+      } catch (error) {
+        console.log(error.response);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUsers();
+  }, [isAuthenticated]);
+
+  const routes = useRoutes();
 
   if (isFetching) {
     return <Loader />;

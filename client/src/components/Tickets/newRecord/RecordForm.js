@@ -14,9 +14,12 @@ import { AuthContext } from "../../../context/AuthContext";
 //import { useAuth } from "../../../hooks/auth.hook";
 import { useMessage } from "../../../hooks/message.hook";
 import { useSelector } from "react-redux";
+import api from "../../../http";
 
 export const RecordForm = ({ props }) => {
   const clientData = JSON.parse(localStorage.getItem("clientData"));
+
+  const { services } = useSelector((state) => state.services);
 
   let clientInfo = {
     firstname: "",
@@ -37,11 +40,11 @@ export const RecordForm = ({ props }) => {
   }
 
   const { request } = useHttp();
-  const { token } = useSelector((state) => state);
+  //const { token } = useSelector((state) => state.userRole);
   const message = useMessage();
 
   const {
-    serviceList: services,
+    //serviceList: services,
     serviceTitle,
     serviceId,
     date,
@@ -71,18 +74,21 @@ export const RecordForm = ({ props }) => {
     }
     const getEmployee = async () => {
       try {
-        const data = await request(
+        const response = await api.get("/client/users/", {
+          params: { userId, date: formatDate(date) },
+        });
+        /*         const data = await request(
           `/client/users/${userId}/${formatDate(date)}`,
           "GET",
           null,
           {}
-        );
-        setEmployee(data);
-        setEmployeeId(data._id);
+        ); */
+        setEmployee(response.data);
+        setEmployeeId(response.data._id);
       } catch (error) {}
     };
     getEmployee();
-  }, [date, request, userId]);
+  }, [date, userId]);
 
   const onSelect = (e) => {
     if (e) {
@@ -112,13 +118,8 @@ export const RecordForm = ({ props }) => {
     };
 
     try {
-      const data = await request(
-        "/tickets/create",
-        "POST",
-        { ...body },
-        { Authorization: `Bearer ${token}` }
-      );
-      message(data.message);
+      const response = await api.post("/tickets/create", { ...body });
+      message(response.data.message);
       onClose();
     } catch (error) {}
   };

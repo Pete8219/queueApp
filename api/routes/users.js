@@ -9,7 +9,7 @@ const User = require("../models/users");
 
 //Получение списка всех пользователей
 //Здесь нужно сделать проверку авторизации!!!!
-router.get("/", role(["superAdmin"]), async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const users = await User.find({}).select({
       password: 0,
@@ -50,7 +50,7 @@ router.post("/create", auth, async (req, res) => {
 
 //Получения одного пользователя по userId
 //Здесь нужно сделать проверку авторизации!!!!
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
     const data = await User.findOne({ _id: req.params.id });
 
@@ -70,7 +70,7 @@ router.get("/:id", async (req, res) => {
 //Получение имени пользователя для отображения на странице приветствия
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/welcome/:id", async (req, res) => {
+router.get("/welcome/:id", auth, async (req, res) => {
   try {
     const username = await User.findOne({ _id: req.params.id }).select([
       "name",
@@ -84,7 +84,7 @@ router.get("/welcome/:id", async (req, res) => {
   }
 });
 
-router.get("/substitute/:userId/:date", async (req, res) => {
+router.get("/substitute/:userId/:date", auth, async (req, res) => {
   currentDate = new Date(req.params.date).toISOString();
 
   try {

@@ -6,7 +6,8 @@ import { UnAuthorizeRoutes } from "./routes/UnAuthorizeRoutes";
 import { UserRoutes } from "./routes/UserRoutes";
 
 export const useRoutes = () => {
-  const { role, isAuthenticated } = useSelector((state) => state);
+  const { role, isAuthenticated } = useSelector((state) => state.userRole);
+
   if (isAuthenticated && role === "superAdmin") {
     return <AdminRoutes />;
   }

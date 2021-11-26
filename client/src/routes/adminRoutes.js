@@ -1,14 +1,14 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { RecordEdit } from "../components/Tickets/RecordEdit/RecordEdit";
-import { AdminPage } from "../pages/admin/AdminPage";
+//import { AdminPage } from "../pages/admin/AdminPage";
 import { CategoryPage } from "../pages/admin/CategoryPage";
-import { Record } from "../pages/admin/newRecord/Record";
+import { Record } from "../components/Tickets/newRecord/Record";
 import { List } from "../pages/admin/Services/List";
 import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
 import { ServiceDetailPage } from "../pages/admin/Services/ServiceDetailPage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
-import { UserPage } from "../pages/admin/UserPage";
+//import { UserPage } from "../pages/admin/UserPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
 import { Services } from "../pages/visitors/Services";

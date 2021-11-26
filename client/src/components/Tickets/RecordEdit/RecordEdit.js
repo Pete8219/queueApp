@@ -6,9 +6,11 @@ import { AuthContext } from "../../../context/AuthContext";
 import styles from "./recordEdit.module.css";
 import { FormFooter } from "../../FormFooter/FormFooter";
 import { useSelector } from "react-redux";
+import api from "../../../http";
 
 export const RecordEdit = ({ props }) => {
-  const { token } = useSelector((state) => state);
+  const { token } = useSelector((state) => state.userRole);
+  const { services } = useSelector((state) => state.services);
   const clientData = JSON.parse(localStorage.getItem("clientData"));
   const { onClose, editTicketList } = props;
   const { request } = useHttp();
@@ -50,31 +52,18 @@ export const RecordEdit = ({ props }) => {
   };
 
   useEffect(() => {
-    const serviceName = async function () {
-      try {
-        const getServiceName = await request(
-          `/services/getTitle/${service}`,
-          "GET",
-          null,
-          { Authorization: `BEARER ${token}` }
-        );
-        setServiceTitle(getServiceName);
-      } catch (error) {}
-    };
-    serviceName();
-  }, [request, token, service]);
+    const current = services.filter((item) => item._id === service);
+    setServiceTitle(current[0].title);
+  }, []);
 
   const onWrite = async () => {
+    console.log(note);
     try {
-      const data = await request(
-        `/tickets/notes/${_id}`,
-        "PATCH",
-        { note },
-        { Authorization: `Bearer ${token}` }
-      );
-
+      const response = await api.patch(`/tickets/notes/update/${_id}`, {
+        note,
+      });
       editTicketList(_id, note);
-      message(data.message);
+      message(response.data.message);
     } catch (error) {}
 
     onClose();
@@ -107,7 +96,7 @@ export const RecordEdit = ({ props }) => {
           <ClientForm props={{ form }} />
           <h5>Данные об услуге</h5>
           <h6 style={{ textDecoration: "underline" }}>Наименование услуги :</h6>
-          <p>{serviceTitle.title}</p>
+          <p>{serviceTitle}</p>
           <h6 style={{ textDecoration: "underline" }}>Тип услуги:</h6>
           <p>
             {" "}

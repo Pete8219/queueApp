@@ -7,7 +7,7 @@ import { Categories } from "../pages/visitors/Categories";
 import { Staff } from "../pages/visitors/Staff";
 import { Ticket } from "../pages/visitors/Ticket";
 import { Time } from "../pages/visitors/Time";
-import { Record } from "../pages/admin/newRecord/Record";
+import { Record } from "../components/Tickets/newRecord/Record";
 
 export const UserRoutes = () => {
   const routes = [

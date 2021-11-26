@@ -211,11 +211,11 @@ router.post("/reservation", auth, async (req, res) => {
 
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/find/:visitor", auth, async (req, res) => {
-  console.log(req.params);
+router.get("/find/", auth, async (req, res) => {
+  console.log(req.query);
 
   try {
-    const data = await Ticket.find({ firstname: req.params.visitor }).populate({
+    const data = await Ticket.find({ firstname: req.query.name }).populate({
       path: "user",
       select: "name cabinet",
     });
@@ -303,18 +303,18 @@ router.get("/checkTime/:employeeId/:time/", auth, async (req, res) => {
 //Выбор тикетов для пользователя за определенную дату
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.get("/ticketlist/:userId/:date", auth, async (req, res) => {
-  const startDate = new Date(req.params.date);
+router.get("/ticketlist/", auth, async (req, res) => {
+  const startDate = new Date(req.query.date);
   startDate.toISOString();
 
-  const endDate = new Date(req.params.date);
+  const endDate = new Date(req.query.date);
 
   endDate.setHours(23, 59, 0, 0);
 
   try {
     const tickets = await Ticket.find({
       $and: [
-        { user: req.params.userId },
+        { user: req.query.userId },
         { date: { $gte: startDate, $lte: endDate } },
       ],
     }).populate({
@@ -442,14 +442,15 @@ router.patch("/status/:ticketId", auth, async (req, res) => {
   }
 });
 
-router.patch("/notes/:ticketId", auth, async (req, res) => {
+router.patch("/notes/update/:id", auth, async (req, res) => {
   try {
-    const id = req.params.ticketId;
+    const id = req.params.id;
     const updateOps = {};
 
     for (let key in req.body) {
       updateOps[key] = req.body[key];
     }
+    console.log(updateOps);
 
     //console.log(updateOps)
 

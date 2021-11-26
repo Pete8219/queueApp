@@ -5,10 +5,10 @@ import { UserMenu } from "./Menu/UserMenu";
 import { useSelector } from "react-redux";
 
 export const Navbar = () => {
-  const { role } = useSelector((state) => state);
-
+  const { role } = useSelector((state) => state.userRole);
+  /* 
   const isSuperAdmin = role === "superAdmin" ? true : false;
-  const isAdmin = role === "admin" ? true : false;
+  const isAdmin = role === "admin" ? true : false; */
 
   if (role === "superAdmin") return <AdminMenu />;
 

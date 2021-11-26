@@ -7,67 +7,60 @@ import M from "materialize-css";
 import { RecordEdit } from "../RecordEdit/RecordEdit";
 import { RecordOverwrite } from "../RecordOverwrite/RecordOverwrite";
 import { useSelector } from "react-redux";
+import api from "../../../http";
 
 export const List = ({ props }) => {
   const { userId, date, name } = props;
-  const { loading, request } = useHttp();
+  const { request } = useHttp();
   const [ticketList, setTicketList] = useState([]);
-  const [services, setServices] = useState([]);
+  //const [services, setServices] = useState([]);
   const [isActive, setIsActive] = useState(false);
   const [isActiveRewrite, setIsActiveRewrite] = useState(false);
   const [reloadList] = useState(false);
-
-  const { token } = useSelector((state) => state);
+  const [loading, setLoading] = useState(false);
+  const { token } = useSelector((state) => state.userRole);
+  const { services } = useSelector((state) => state.services);
 
   useEffect(() => {
     M.AutoInit();
   }, []);
 
   useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const data = await request("/services/", "GET", null, {});
-        setServices(data);
-      } catch (error) {}
-    };
-
-    fetchServices();
-  }, [request]);
-
-  useEffect(() => {
     if (!name) {
       return;
     }
     const getTickets = async () => {
+      setLoading(true);
       try {
-        const data = await request(`/tickets/find/${name}`, "GET", null, {
-          Authorization: `Bearer ${token}`,
-        });
-        setTicketList(data);
-      } catch (error) {}
+        const response = await api.get("/tickets/find", { params: { name } });
+        setTicketList(response.data);
+      } catch (error) {
+        console.log(error.response);
+      } finally {
+        setLoading(false);
+      }
     };
 
     getTickets();
-  }, [name, request, token]);
+  }, [name]);
 
   useEffect(() => {
+    setLoading(true);
     const getTickets = async () => {
       try {
-        const data = await request(
-          `/tickets/ticketlist/${userId}/${formatDate(date)}`,
-          "GET",
-          null,
-          {
-            Authorization: `Bearer ${token}`,
-          }
-        );
+        const response = await api.get("/tickets/ticketlist", {
+          params: { userId, date: formatDate(date) },
+        });
 
-        setTicketList(data);
-      } catch (e) {}
+        setTicketList(response.data);
+      } catch (e) {
+      } finally {
+        setLoading(false);
+      }
     };
 
     getTickets();
-  }, [date, userId, request, token, reloadList]);
+  }, [date, userId, reloadList]);
 
   const filterData = (ticketId) => {
     const clientData = ticketList.filter((item) => item._id === ticketId);
@@ -108,10 +101,6 @@ export const List = ({ props }) => {
   };
 
   const onWrite = () => {};
-
-  /*   const getReload = () => {
-    setReloadList((prev) => !prev);
-  }; */
 
   if (loading) {
     <Loader />;

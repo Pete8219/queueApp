@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
-import { useAuth } from "../../hooks/auth.hook";
-import { Loader } from "../../components/Loader";
+
 import { StaffProfile } from "../../components/Staff/StaffProfile";
 import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
+import { Loader } from "../../components/Loader";
 
 export const AdminPage = () => {
-  /*   const { ready } = useAuth();
+  const { users } = useSelector((state) => state.users);
+  const { userId } = useSelector((state) => state.userRole);
 
-  if (!ready) {
+  if (!users) {
     return <Loader />;
-  } */
-
+  }
   return (
     <div>
-      <StaffProfile />
+      {users && <StaffProfile />}
       <TicketsMainPage />
     </div>
   );
