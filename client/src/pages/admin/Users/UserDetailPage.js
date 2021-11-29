@@ -1,66 +1,32 @@
-import React, { useState, useEffect, useContext } from "react";
-import { useHttp } from "../../../hooks/http.hook";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
+import { useParams, useLocation } from "react-router-dom";
 import { Detail } from "../../../components/Users/Detail";
-import { useHistory } from "react-router-dom";
 
 import { useSelector } from "react-redux";
+import api from "../../../http";
 
 export const UserDetailPage = () => {
-  const { token } = useSelector((state) => state);
+  const userId = useParams().id;
+  const { users } = useSelector((state) => state.users);
 
   const [user, setUser] = useState("");
-  const [users, setUsers] = useState("");
-  const { loading, request } = useHttp();
-  const history = useHistory();
-  const userId = useParams().id;
-
-  /*   const fetchUsers = useCallback(async () => {
-    try {
-      const fetched = await request(`/users/${userId}`, "GET", null, {})
-      setUser(fetched)
-    } catch (e) {}
-  }, [userId, request])
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers]) */
-
-  useEffect(() => {
+    setLoading(true);
     const fetchUsers = async () => {
       try {
-        const fetched = await request(`/users/${userId}`, "GET", null, {
-          Authorization: `Bearer ${token}`,
-        });
-        setUser(fetched);
-      } catch (e) {}
+        const response = await api.get(`/users/${userId}`);
+        setUser(response.data);
+      } catch (error) {
+        console.log(error.response.data.message);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchUsers();
-  }, [request, userId]);
+  }, [userId]);
 
-  useEffect(() => {
-    const fetchUserList = async () => {
-      try {
-        const fetched = await request("/users", "GET", null, {
-          Authorization: `Bearer ${token}`,
-        });
-        setUsers(fetched);
-      } catch (e) {}
-    };
-    fetchUserList();
-  }, [request]);
-
-  // Handlers
-
-  const cancelHandler = () => {
-    history.push("/users");
-  };
-
-  return (
-    <>
-      {!loading && user && users && (
-        <Detail user={user} users={users} cancelHandler={cancelHandler} />
-      )}
-    </>
-  );
+  return <>{!loading && user && <Detail user={user} />}</>;
 };

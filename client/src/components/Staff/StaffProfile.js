@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./profile.module.css";
 import { useSelector } from "react-redux";
 

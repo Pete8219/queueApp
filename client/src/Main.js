@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useRoutes } from "./routes";
-import { useHttp } from "./hooks/http.hook";
+
 import { Navbar } from "../src/components/navbar";
 import { Loader } from "../src/components/Loader";
 import "materialize-css";
 import "react-datepicker/dist/react-datepicker.css";
-import { logout } from "./store/roleReducer";
+import { fetchData, logout } from "./store/roleReducer";
 import { checkToken } from "./store/asyncActions";
 import api from "./http";
 import { getServices } from "./store/serviceReducer";
@@ -32,7 +32,7 @@ export const Main = () => {
       return dispatch(logout());
     }
     dispatch(checkToken(token));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -50,7 +50,7 @@ export const Main = () => {
       }
     };
     getService();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -68,9 +68,13 @@ export const Main = () => {
       }
     };
     fetchUsers();
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const routes = useRoutes();
+
+  if (loading) {
+    return <Loader />;
+  }
 
   if (isFetching) {
     return <Loader />;

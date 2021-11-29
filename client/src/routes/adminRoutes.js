@@ -17,6 +17,8 @@ import { Main } from "../Main";
 import { UsersList } from "../components/Users/UsersList";
 
 export const AdminRoutes = () => {
+  const link = JSON.parse(localStorage.getItem("link"));
+
   const routes = [
     {
       path: "/main",
@@ -80,7 +82,7 @@ export const AdminRoutes = () => {
           <Route key={i} path={route.path} component={route.component} exact />
         );
       })}
-      <Redirect to="/" />
+      <Redirect to={link} />
     </Switch>
   );
 };

@@ -10,12 +10,13 @@ import styles from "./users.module.css";
 
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from "date-fns/locale/ru";
+import api from "../../http";
 registerLocale("ru", ru);
 
-export const Detail = ({ users, user, cancelHandler }) => {
+export const Detail = ({ user }) => {
   setDefaultLocale("ru");
 
-  const { token } = useSelector((state) => state);
+  const { users } = useSelector((state) => state.users);
   const userData = user.data;
   const roles = user.roles;
   const vacationFrom =
@@ -29,7 +30,7 @@ export const Detail = ({ users, user, cancelHandler }) => {
 
   const history = useHistory();
   const message = useMessage();
-  const { request, error, clearError } = useHttp();
+  const { error, clearError } = useHttp();
 
   const [form, setForm] = useState({
     userId: userData._id,
@@ -68,13 +69,8 @@ export const Detail = ({ users, user, cancelHandler }) => {
 
   const updateHandler = async (id) => {
     try {
-      const data = await request(
-        `/users/${id}`,
-        "PATCH",
-        { ...form },
-        { Authorization: `Bearer ${token}` }
-      );
-      message(data.message);
+      const response = await api.patch(`/users/${id}`, { ...form });
+      message(response.data.message);
       history.push("/users");
     } catch (e) {}
   };
@@ -98,6 +94,10 @@ export const Detail = ({ users, user, cancelHandler }) => {
     check.online = !check.online;
 
     setForm({ ...check });
+  };
+
+  const cancelHandler = () => {
+    history.push("/users");
   };
 
   useEffect(() => {

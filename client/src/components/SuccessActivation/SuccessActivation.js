@@ -10,7 +10,7 @@ export const SuccessActivation = () => {
     countDown === 0
       ? history.push("/login")
       : setTimeout(() => setCountDown(countDown - 1), 1000);
-  }, [countDown]);
+  }, [countDown, history]);
 
   return (
     <div className={styles.MainContainer}>

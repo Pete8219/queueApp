@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { RecordForm } from "../../../pages/admin/newRecord/RecordForm";
-import { Loader } from "../../Loader";
-import { useHttp } from "../../../hooks/http.hook";
 import { useSelector } from "react-redux";
 import { ClientForm } from "../../ClientForm/ClientForm";
 import { DropDown } from "../../../UI/DropDown/DropDown";

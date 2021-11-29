@@ -5,7 +5,7 @@ import {
   getUserData,
   readyToLogin,
 } from "./roleReducer";
-const { store } = require("./index");
+
 const axios = require("axios").default;
 
 export const fetchUser = (login) => {

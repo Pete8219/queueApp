@@ -1,19 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
-import { AuthContext } from "../../context/AuthContext";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUser } from "../../store/asyncActions";
 
 import styles from "./pages.module.css";
-import { readyToLogin, roleReducer } from "../../store/roleReducer";
 
 export const AuthPage = () => {
   const dispatch = useDispatch();
   const error = useSelector((state) => state.error);
 
   const message = useMessage();
-  const { loading, request, clearError } = useHttp();
+  const { loading, clearError } = useHttp();
 
   const [form, setForm] = useState({
     login: "",

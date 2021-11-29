@@ -1,35 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import api from "../../http";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
+import { useSelector } from "react-redux";
 import styles from "./users.module.css";
 
 import { Loader } from "../Loader";
 
-export const UsersList = ({ onDelete, onEdit, onCreate }) => {
+export const UsersList = () => {
+  localStorage.setItem("link", JSON.stringify(useLocation()));
   const history = useHistory();
   const message = useMessage();
-
-  const [users, setUsers] = useState([]);
+  const { users } = useSelector((state) => state.users);
   const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getUsers = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get("/users");
-        console.log(response.data);
-        setUsers(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error.response);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getUsers();
-  }, []);
 
   const editHandler = (id) => {
     history.push(`/users/detail/${id}`);
@@ -44,7 +28,7 @@ export const UsersList = ({ onDelete, onEdit, onCreate }) => {
     try {
       const response = await api.delete(`/users/${id}`);
       message(response.data.message);
-      setUsers(users.filter(({ _id }) => id !== _id));
+      users.filter(({ _id }) => id !== _id);
       setLoading(false);
     } catch (error) {
       console.log(error.response);
