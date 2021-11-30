@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useHttp } from "../../hooks/http.hook";
+
 import { useMessage } from "../../hooks/message.hook";
+import api from "../../http";
 import styles from "./service.module.css";
 
-export const ServicesList = ({ services, onDelete }) => {
+export const ServicesList = ({ services}) => {
   function sortServiceByFieldTitle(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
   }
@@ -15,21 +16,35 @@ export const ServicesList = ({ services, onDelete }) => {
 
   const history = useHistory();
   const message = useMessage();
-  const { request, error, clearError } = useHttp();
+  //const { request, error, clearError } = useHttp();
+  const [serviceList, setServiceList] = useState(services)
+  const [loading, setLoading] = useState(false)
 
   const createHandler = () => {
     history.push("/services/create");
   };
 
   const editHandler = (id) => {
-    console.log(id);
+    
     history.push(`/service/detail/${id}`);
   };
+  const deleteHandler = async (id) => {
+    setLoading(true)
+     try {
+      const response = await api.delete(`/services/${id}`);
+      message(response.data.message); 
+      setServiceList(services.filter(({ _id }) => id !== _id));
+    } catch (error) {
+        console.log(error.response)
+    } finally {
+      setLoading(false)
+    }
+  };
 
-  useEffect(() => {
+/*   useEffect(() => {
     message(error);
     clearError();
-  }, [message, error, clearError, request]);
+  }, [message, error, clearError, request]); */
 
   return (
     <div className={styles.MainContainer}>
@@ -55,7 +70,7 @@ export const ServicesList = ({ services, onDelete }) => {
             </thead>
 
             <tbody>
-              {services.map((item, i = 0) => {
+              {serviceList.map((item, i = 0) => {
                 return (
                   <tr key={item._id}>
                     <td>{i + 1}</td>
@@ -77,7 +92,7 @@ export const ServicesList = ({ services, onDelete }) => {
                         className="btn-floating btn-small waves-effect blue darken-2"
                         title="Удалить"
                         target="_blank"
-                        onClick={() => onDelete(item._id)}
+                        onClick={() => deleteHandler(item._id)}
                       >
                         <i className="material-icons">delete_forever</i>
                       </a>

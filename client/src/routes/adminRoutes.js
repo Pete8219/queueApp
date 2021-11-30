@@ -82,7 +82,7 @@ export const AdminRoutes = () => {
           <Route key={i} path={route.path} component={route.component} exact />
         );
       })}
-      <Redirect to={link} />
+      <Redirect to="/" />
     </Switch>
   );
 };
