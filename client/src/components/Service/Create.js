@@ -6,11 +6,20 @@ import { useMessage } from "../../hooks/message.hook";
 import M from "materialize-css/dist/js/materialize.min.js";
 import { CategoryDropdown } from "../Category/CategoryDropdown";
 import { UsersDropdown } from "../Users/UsersDropdown";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
+import api from "../../http";
+import {
+  addService,
+  fetchComplited,
+  fetchStart,
+  serviceReducer,
+} from "../../store/serviceReducer";
+import { getAllServices } from "../../store/asyncActions";
 
-export const CreateService = ({ users, categories }) => {
-  const { token } = useContext(AuthContext);
+export const CreateService = () => {
+  const { users } = useSelector((state) => state.users);
+  const { categories } = useSelector((state) => state.categories);
 
   const [form, setForm] = useState({
     title: "",
@@ -23,7 +32,7 @@ export const CreateService = ({ users, categories }) => {
   const [unSelectedUsers, setUnSelectedUsers] = useState(users);
 
   const history = useHistory();
-  const { request, error, clearError } = useHttp();
+
   const message = useMessage();
 
   useEffect(() => {
@@ -33,11 +42,6 @@ export const CreateService = ({ users, categories }) => {
   useEffect(() => {
     window.M.updateTextFields();
   }, []);
-
-  useEffect(() => {
-    message(error);
-    clearError();
-  }, [message, error, clearError]);
 
   useEffect(() => {
     const filteredCats = form.category.map(JSON.stringify);
@@ -66,8 +70,14 @@ export const CreateService = ({ users, categories }) => {
   //Добавление в список Выбранных категорий
 
   const addHandler = (data) => {
+    const selectedCats = categories.filter(
+      (categorie) => categorie._id === data
+    );
+
     const result = [...form.category];
-    result.push(data);
+
+    result.push(...selectedCats);
+
     setForm({ ...form, category: result });
   };
 
@@ -82,7 +92,7 @@ export const CreateService = ({ users, categories }) => {
   // Удаление категории из списка выбранных
   const deleteHandler = (data) => {
     const result = form.category.filter((item) => {
-      return item._id !== data._id;
+      return item._id !== data;
     });
 
     setForm({ ...form, category: result });
@@ -99,20 +109,19 @@ export const CreateService = ({ users, categories }) => {
   };
 
   const cancelHandler = () => {
-    history.push("/services");
+    history.push("/allservices");
   };
 
   const createHandler = async () => {
     try {
-      const data = await request(
-        "/services",
-        "POST",
-        { ...form },
-        { Authorization: `Bearer ${token}` }
-      );
-      message(data.message);
-      history.push("/services");
-    } catch (e) {}
+      const response = await api.post("/services", { ...form });
+
+      message(response.data.message);
+      history.push("/allservices");
+    } catch (error) {
+      console.log(error.response);
+    } finally {
+    }
   };
 
   return (

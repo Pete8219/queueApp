@@ -1,4 +1,13 @@
 .MainContainer {
-    width: 80%;
-    margin: 0 auto;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.categoryList {
+  font-size: "0.8em";
+  float: "left";
+  background-color: "#b7ece8";
+  border-radius: "10px";
+  padding: "15px";
+  margin-bottom: "10px";
 }

@@ -7,11 +7,12 @@ import { Navbar } from "../src/components/navbar";
 import { Loader } from "../src/components/Loader";
 import "materialize-css";
 import "react-datepicker/dist/react-datepicker.css";
-import { fetchData, logout } from "./store/roleReducer";
+import { logout } from "./store/roleReducer";
 import { checkToken } from "./store/asyncActions";
 import api from "./http";
 import { getServices } from "./store/serviceReducer";
 import { getUsers } from "./store/userReducer";
+import { getCategoriesFromApi } from "./store/actions/categories";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -50,6 +51,13 @@ export const Main = () => {
       }
     };
     getService();
+  }, [isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    dispatch(getCategoriesFromApi());
   }, [isAuthenticated, dispatch]);
 
   useEffect(() => {

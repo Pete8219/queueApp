@@ -69,6 +69,7 @@ router.post(
 
       res.status(201).json({
         message: "Услуга создана",
+        service,
       });
     } catch (e) {
       res.status(500).json({

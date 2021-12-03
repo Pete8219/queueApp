@@ -1,3 +1,5 @@
+import api from "../http";
+import { getCategories } from "./categoriesReducer";
 import {
   closeFetchData,
   errorData,
@@ -5,6 +7,7 @@ import {
   getUserData,
   readyToLogin,
 } from "./roleReducer";
+import { fetchComplited, getServices } from "./serviceReducer";
 
 const axios = require("axios").default;
 
@@ -61,11 +64,39 @@ export const checkToken = (token) => {
 
 export const getAllUsers = () => {
   return (dispatch) => {
-    axios
+    api
       .get("/users")
       .then(function (response) {
         console.log(response.data);
         dispatch(getUserData(response.data));
+      })
+
+      .catch(function (error) {
+        console.log(error.response);
+      });
+  };
+};
+
+export const getAllServices = () => {
+  return (dispatch) => {
+    api
+      .get("/services")
+      .then(function (response) {
+        dispatch(getServices(response.data));
+      })
+      .catch(function (error) {
+        console.log(error.response);
+        dispatch(fetchComplited());
+      });
+  };
+};
+
+export const getAllCategories = () => {
+  return (dispatch) => {
+    api
+      .get("/categories")
+      .then(function (response) {
+        dispatch(getCategories(response.data));
       })
       .catch(function (error) {
         console.log(error.response);

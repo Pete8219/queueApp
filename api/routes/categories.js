@@ -24,14 +24,12 @@ router.get("/", auth, async (req, res) => {
 // Запись новой категории
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.post("/", auth, async (req, res) => {
+router.post("/create", auth, async (req, res) => {
   try {
-    const category = await new Category({ title: req.body.title });
+    const category = new Category({ title: req.body.data });
     await category.save();
 
-    res.status(201).json({
-      message: "Новая категория создана",
-    });
+    res.status(201).json(category);
   } catch (e) {
     res.status(500).json({
       message: "Непредвиденная ошибка, попробуйте снова",

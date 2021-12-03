@@ -1,13 +1,22 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-
 import { useMessage } from "../../hooks/message.hook";
 import api from "../../http";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
+import { filterServices, serviceReducer } from "../../store/serviceReducer";
+import { getAllServices } from "../../store/asyncActions";
 
-export const ServicesList = ({ services}) => {
+export const ServicesList = () => {
+  useEffect(() => {
+    dispatch(getAllServices());
+  }, []);
+
+  const { services } = useSelector((state) => state.services);
+
+  const dispatch = useDispatch(serviceReducer);
   function sortServiceByFieldTitle(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
   }
@@ -16,35 +25,33 @@ export const ServicesList = ({ services}) => {
 
   const history = useHistory();
   const message = useMessage();
-  //const { request, error, clearError } = useHttp();
-  const [serviceList, setServiceList] = useState(services)
-  const [loading, setLoading] = useState(false)
+
+  const [serviceList, setServiceList] = useState(services);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setServiceList(services);
+  }, [services]);
 
   const createHandler = () => {
     history.push("/services/create");
   };
 
   const editHandler = (id) => {
-    
     history.push(`/service/detail/${id}`);
   };
   const deleteHandler = async (id) => {
-    setLoading(true)
-     try {
+    dispatch(filterServices(id));
+    setLoading(true);
+    try {
       const response = await api.delete(`/services/${id}`);
-      message(response.data.message); 
-      setServiceList(services.filter(({ _id }) => id !== _id));
+      message(response.data.message);
     } catch (error) {
-        console.log(error.response)
+      console.log(error.response);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
-
-/*   useEffect(() => {
-    message(error);
-    clearError();
-  }, [message, error, clearError, request]); */
 
   return (
     <div className={styles.MainContainer}>

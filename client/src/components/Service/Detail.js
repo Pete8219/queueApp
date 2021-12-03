@@ -7,24 +7,39 @@ import M from "materialize-css/dist/js/materialize.min.js";
 import { CategoryDropdown } from "../Category/CategoryDropdown";
 import { UsersDropdown } from "../Users/UsersDropdown";
 import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 import styles from "./service.module.css";
+import api from "../../http";
 
-export const Detail = ({ service, users, categories }) => {
-  const { token } = useContext(AuthContext);
+export const Detail = ({ id }) => {
+  const { users } = useSelector((state) => state.users);
+  const { services } = useSelector((state) => state.services);
+  const { categories } = useSelector((state) => state.categories);
+
+  const service = services.filter((item) => item._id === id);
+
+  const { _id, title, time, category, user } = service[0];
 
   const message = useMessage();
-  const { request } = useHttp();
   const history = useHistory();
 
+  const selectedCategory = categories.filter((item) =>
+    category.includes(item._id)
+  );
+
+  const selectedUsers = users.filter((item) => user.includes(item._id));
+
   const [form, setForm] = useState({
-    title: service.title,
-    time: service.time,
-    category: service.category,
-    user: service.user,
+    title,
+    time,
+    category: selectedCategory,
+    user: selectedUsers,
   });
 
-  const [unSelectedCategories, setUnSelectedCategories] = useState(categories);
-  const [unSelectedUsers, setUnSelectedUsers] = useState(users);
+  console.log("form=>", form);
+
+  const [unSelectedCategories, setUnSelectedCategories] = useState(categories); //state который хранит не выделенные категории услуг
+  const [unSelectedUsers, setUnSelectedUsers] = useState(users); // хранит невыбранных пользователей в списке всех сотрудников
 
   useEffect(() => {
     const filteredCats = form.category.map(JSON.stringify);
@@ -60,22 +75,23 @@ export const Detail = ({ service, users, categories }) => {
 
   const updateHandler = async () => {
     try {
-      const data = await request(
-        `/services/${service._id}`,
-        "PATCH",
-        { ...form },
-        { Authorization: `Bearer ${token}` }
-      );
-      message(data.message);
-      history.push("/services");
+      const response = await api.patch(`/services/${_id}`, { ...form });
+      message(response.data.message);
+      history.push("/allservices");
     } catch (e) {}
   };
 
   //Добавление в список Выбранных категорий
 
   const addHandler = (data) => {
+    const selectedCats = categories.filter(
+      (categorie) => categorie._id === data
+    );
+
     const result = [...form.category];
-    result.push(data);
+
+    result.push(...selectedCats);
+
     setForm({ ...form, category: result });
   };
 
@@ -89,8 +105,9 @@ export const Detail = ({ service, users, categories }) => {
 
   // Удаление категории из списка выбранных
   const deleteHandler = (data) => {
+    console.log(data);
     const result = form.category.filter((item) => {
-      return item._id !== data._id;
+      return item._id !== data;
     });
 
     setForm({ ...form, category: result });
@@ -108,7 +125,7 @@ export const Detail = ({ service, users, categories }) => {
 
   // Обработчик кнопки отмена
   const cancelHandler = () => {
-    history.push("/services");
+    history.push("/allservices");
   };
 
   return (

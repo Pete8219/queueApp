@@ -1,23 +1,23 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { RecordEdit } from "../components/Tickets/RecordEdit/RecordEdit";
-//import { AdminPage } from "../pages/admin/AdminPage";
-import { CategoryPage } from "../pages/admin/CategoryPage";
 import { Record } from "../components/Tickets/newRecord/Record";
 import { List } from "../pages/admin/Services/List";
 import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
 import { ServiceDetailPage } from "../pages/admin/Services/ServiceDetailPage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
-//import { UserPage } from "../pages/admin/UserPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
 import { Services } from "../pages/visitors/Services";
 import { Staff } from "../pages/visitors/Staff";
 import { Main } from "../Main";
 import { UsersList } from "../components/Users/UsersList";
+import { Categories } from "../pages/admin/Categories/Categories";
+import { CategoryCreate } from "../pages/admin/Categories/CategoryCreate";
+import { CategoryEdit } from "../pages/admin/Categories/CategoryEdit";
 
 export const AdminRoutes = () => {
-  const link = JSON.parse(localStorage.getItem("link"));
+  //const link = JSON.parse(localStorage.getItem("link"));
 
   const routes = [
     {
@@ -31,7 +31,15 @@ export const AdminRoutes = () => {
     },
     {
       path: "/categories",
-      component: CategoryPage,
+      component: Categories,
+    },
+    {
+      path: "/categories/create",
+      component: CategoryCreate,
+    },
+    {
+      path: "/categories/edit",
+      component: CategoryEdit,
     },
     {
       path: "/services",
