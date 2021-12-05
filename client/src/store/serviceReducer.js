@@ -3,10 +3,12 @@ const FILTER_SERVICE = "FILTER_SERVICE";
 const ADD_SERVICE = "ADD_SERVICE";
 const FETCH_END = "FETCH_END";
 const FETCH_START = "FETCH_START";
+const ERROR_SERVICE_INFO = "ERROR_SERVICE_INFO"
 
 const initialState = {
   isFetching: false,
   services: [],
+  errors: null
 };
 
 export const serviceReducer = (state = initialState, action) => {
@@ -14,7 +16,7 @@ export const serviceReducer = (state = initialState, action) => {
     case GET_SERVICES:
       return {
         ...state,
-        isFetching: true,
+        isFetching: false,
         services: [...action.payload],
       };
     case FILTER_SERVICE:
@@ -30,8 +32,8 @@ export const serviceReducer = (state = initialState, action) => {
       cloneStore.services.push(action.payload);
       return {
         ...state,
-        isFetching: true,
-        services: { ...cloneStore.services },
+        isFetching: false,
+        services: [...cloneStore.services] ,
       };
     case FETCH_START:
       return {
@@ -43,6 +45,12 @@ export const serviceReducer = (state = initialState, action) => {
         ...state,
         isFetching: false,
       };
+      case ERROR_SERVICE_INFO: 
+      return {
+        ...state,
+        errors: action.payload,
+        isFetching: false
+      }
 
     default:
       return state;
@@ -53,4 +61,5 @@ export const getServices = (payload) => ({ type: GET_SERVICES, payload });
 export const filterServices = (payload) => ({ type: FILTER_SERVICE, payload });
 export const addService = (payload) => ({ type: ADD_SERVICE, payload });
 export const fetchComplited = (payload) => ({ type: FETCH_END, payload });
-export const fetchStart = (payload) => ({ type: FETCH_START, payload });
+export const fetchStart = () => ({ type: FETCH_START });
+export const showError = (payload) => ({ type: ERROR_SERVICE_INFO, payload})

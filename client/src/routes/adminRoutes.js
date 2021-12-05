@@ -2,19 +2,20 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { RecordEdit } from "../components/Tickets/RecordEdit/RecordEdit";
 import { Record } from "../components/Tickets/newRecord/Record";
-import { List } from "../pages/admin/Services/List";
+
 import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
-import { ServiceDetailPage } from "../pages/admin/Services/ServiceDetailPage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
-import { Services } from "../pages/visitors/Services";
+
 import { Staff } from "../pages/visitors/Staff";
 import { Main } from "../Main";
 import { UsersList } from "../components/Users/UsersList";
-import { Categories } from "../pages/admin/Categories/Categories";
-import { CategoryCreate } from "../pages/admin/Categories/CategoryCreate";
-import { CategoryEdit } from "../pages/admin/Categories/CategoryEdit";
+import { CategoriesList } from "../components/Category/CategoriesList";
+import { CreateCategory } from "../components/Category/CreateCategory";
+import { EditCategory } from "../components/Category/EditCategory";
+import { ServicesList } from "../components/Service/ServicesList";
+import { EditService } from "../components/Service/EditService";
 
 export const AdminRoutes = () => {
   //const link = JSON.parse(localStorage.getItem("link"));
@@ -27,27 +28,23 @@ export const AdminRoutes = () => {
 
     {
       path: "/allservices",
-      component: List,
+      component: ServicesList,
     },
     {
       path: "/categories",
-      component: Categories,
+      component: CategoriesList,
     },
     {
       path: "/categories/create",
-      component: CategoryCreate,
+      component: CreateCategory,
     },
     {
-      path: "/categories/edit",
-      component: CategoryEdit,
+      path: "/categories/edit/:id",
+      component: EditCategory,
     },
     {
-      path: "/services",
-      component: Services,
-    },
-    {
-      path: "/service/detail/:id",
-      component: ServiceDetailPage,
+      path: "/service/edit/:id",
+      component: EditService,
     },
     {
       path: "/services/create",

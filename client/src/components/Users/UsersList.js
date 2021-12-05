@@ -1,29 +1,27 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import api from "../../http";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {ButtonCreate} from '../../UI/Buttons/ButtonCreate'
+import {ButtonEdit} from '../../UI/Buttons/ButtonEdit'
 import styles from "./users.module.css";
 
 import { Loader } from "../Loader";
+import { deleteUser } from "../../store/actions/users";
 
 export const UsersList = () => {
   localStorage.setItem("link", JSON.stringify(useLocation()));
-  const history = useHistory();
+  const dispatch = useDispatch()
   const message = useMessage();
   const { users } = useSelector((state) => state.users);
   const [loading, setLoading] = useState(false);
 
-  const editHandler = (id) => {
-    history.push(`/users/detail/${id}`);
-  };
 
-  const createHandler = () => {
-    history.push("/users/create");
-  };
-
-  const deleteHandler = async (id) => {
+  const deleteHandler =  (id) => {
+    dispatch(deleteUser(id))
+/* 
     setLoading(true);
     try {
       const response = await api.delete(`/users/${id}`);
@@ -34,7 +32,7 @@ export const UsersList = () => {
       console.log(error.response);
     } finally {
       setLoading(false);
-    }
+    } */
   };
 
   if (loading) {
@@ -45,14 +43,10 @@ export const UsersList = () => {
     <div className={styles.MainContainer}>
       <div className="row col-s12">
         <h4> Список сотрудников</h4>
-        <a
-          className="btn-floating btn-large waves-effect waves-light red"
-          title="Добавить"
-          style={{ float: "right" }}
-          onClick={createHandler}
-        >
-          <i className="material-icons">add</i>
-        </a>
+        <Link to="/users/create">
+          <ButtonCreate/>
+        </Link>
+
 
         {users.length > 0 ? (
           <div
@@ -80,16 +74,10 @@ export const UsersList = () => {
                       <td>{item.name}</td>
 
                       <td>
-                        {" "}
-                        <a
-                          className="btn-floating btn-small waves-effect blue darken-2"
-                          title="Редактировать"
-                          target="_blank"
-                          style={{ float: "right" }}
-                          onClick={() => editHandler(item._id)}
-                        >
-                          <i className="material-icons">settings</i>
-                        </a>
+                        <Link to={`/users/detail/${item._id}`}>
+                          <ButtonEdit />
+                        </Link>
+ 
                       </td>
                       <td>
                         {" "}

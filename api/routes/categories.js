@@ -61,15 +61,13 @@ router.get("/:id", auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/:id", auth, async (req, res) => {
+ 
+  console.log(req.body)
   try {
-    const filter = { _id: req.params.id };
-    const update = { title: req.body.title };
+    await Category.updateOne({_id: req.params.id}, {$set: {title: req.body.title}});
+    const data = await Category.findOne({_id: req.params.id})
 
-    const data = await Category.findOneAndUpdate(filter, update);
-
-    res.status(200).json({
-      message: "Данные обновлены",
-    });
+    res.status(200).json(data);
   } catch (e) {
     res.status(500).json({
       message: "Не удалось обновить",

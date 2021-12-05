@@ -14,7 +14,7 @@ const User = require("../models/users");
 const ApiError = require("../exceptions/api-error");
 const { v4: uuidv4 } = require("uuid");
 
-//Закрываем регистрацию пользователей
+//Регистрация пользователя
 
 router.post(
   "/register",

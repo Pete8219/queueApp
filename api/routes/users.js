@@ -24,8 +24,9 @@ router.get("/", auth, async (req, res) => {
 });
 
 //Сохранения нового пользователя в базе
-//Здесь нужно сделать проверку авторизации!!!!
+
 router.post("/create", auth, async (req, res) => {
+  console.log(req.body)
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     req.body.password = hashedPassword;
@@ -35,10 +36,11 @@ router.post("/create", auth, async (req, res) => {
       //пробегаемся по всем значениям объекта и формируем новый объект
       createOps[key] = req.body[key];
     }
-    const user = await new User({ ...createOps });
+    const user =  new User({ ...createOps });
     await user.save();
 
     res.status(201).json({
+      user,
       message: "Пользователь успешно создан",
     });
   } catch (e) {

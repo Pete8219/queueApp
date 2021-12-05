@@ -5,10 +5,8 @@ const mongoose = require("mongoose");
 const auth = require("../middleware/auth.middleware");
 const Service = require("../models/services");
 const User = require("../models/users");
-const { check, validationResult } = require("express-validator");
-const {
-  default: strictTransportSecurity,
-} = require("helmet/dist/middlewares/strict-transport-security");
+const {  body,  validationResult } = require("express-validator");
+
 
 //Получение списка услуг
 router.get("/", auth, async (req, res) => {
@@ -25,40 +23,39 @@ router.get("/", auth, async (req, res) => {
 //Запись услуги в базу данных
 //Здесь нужно сделать проверку авторизации!!!!
 router.post(
-  "/",
-  auth,
-  [
-    check("title", "Поле не должно быть пустым")
-      .not()
-      .isEmpty()
-      .trim()
-      .escape(),
-    check("user", "Выберите ответственного сотрудника").not().isEmpty(),
-  ],
+  "/create",
+  auth, 
+  body("title").not().isEmpty().trim().withMessage('Вы не заполнили название услуги'),
+  body("user").not().isEmpty().withMessage('Выберите пользователя/-лей'),
+  body("category").not().isEmpty().withMessage('Укажите категорию')
+  ,
+  
   async (req, res) => {
+    
     try {
       const errors = validationResult(req);
 
-      if (!errors.isEmpty) {
+      if (!errors.isEmpty()) {
+        
         return res.status(400).json({
           errors: errors.array(),
-          message: "Проверьте введенные данные",
         });
       }
 
       const { title, user } = req.body;
 
-      console.log(user);
 
       const isExist = await Service.findOne({ $and: [{ title }, { user }] });
 
       if (isExist) {
+        
         return res.status(400).json({
-          message: "Такая услуга уже есть в базе",
+          
+          errors: [{msg: "Такая услуга уже есть в базе"}],
         });
       }
 
-      const service = await new Service({
+      const service =  new Service({
         title: req.body.title,
         time: req.body.time,
         user: req.body.user,

@@ -1,22 +1,18 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
-import api from "../../http";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
-import { filterServices, serviceReducer } from "../../store/serviceReducer";
-import { getAllServices } from "../../store/asyncActions";
+import { ButtonEdit } from "../../UI/Buttons/ButtonEdit";
+import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
+import { deleteService } from "../../store/actions/services";
 
 export const ServicesList = () => {
-  useEffect(() => {
-    dispatch(getAllServices());
-  }, []);
+  const { services, isFetching } = useSelector((state) => state.services);
 
-  const { services } = useSelector((state) => state.services);
-
-  const dispatch = useDispatch(serviceReducer);
+  const dispatch = useDispatch();
   function sortServiceByFieldTitle(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
   }
@@ -26,45 +22,23 @@ export const ServicesList = () => {
   const history = useHistory();
   const message = useMessage();
 
-  const [serviceList, setServiceList] = useState(services);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setServiceList(services);
-  }, [services]);
-
-  const createHandler = () => {
-    history.push("/services/create");
-  };
-
-  const editHandler = (id) => {
-    history.push(`/service/detail/${id}`);
-  };
   const deleteHandler = async (id) => {
-    dispatch(filterServices(id));
-    setLoading(true);
-    try {
-      const response = await api.delete(`/services/${id}`);
-      message(response.data.message);
-    } catch (error) {
-      console.log(error.response);
-    } finally {
-      setLoading(false);
+    
+    dispatch(deleteService(id));
+    if(!isFetching) {
+      message('Услуга удалена')
     }
+
   };
 
   return (
     <div className={styles.MainContainer}>
       <div className="row col-s12">
         <h4>Список услуг управления</h4>
-        <a
-          className="btn-floating btn-large waves-effect waves-light red"
-          title="Добавить"
-          style={{ float: "right" }}
-          onClick={createHandler}
-        >
-          <i className="material-icons">add</i>
-        </a>
+        <Link to="/services/create">
+          <ButtonCreate />
+        </Link>
+
         <div className="card table-service padding-10">
           <table className="striped">
             <thead>
@@ -77,21 +51,17 @@ export const ServicesList = () => {
             </thead>
 
             <tbody>
-              {serviceList.map((item, i = 0) => {
+              {services.map((item, i = 0) => {
                 return (
                   <tr key={item._id}>
                     <td>{i + 1}</td>
                     <td>{item.title}</td>
                     <td>
                       {" "}
-                      <a
-                        className="btn-floating btn-small waves-effect blue darken-2"
-                        title="Редактировать"
-                        target="_blank"
-                        onClick={() => editHandler(item._id)}
-                      >
-                        <i className="material-icons">settings</i>
-                      </a>
+                      <Link to={`/service/edit/${item._id}`}>
+                      <ButtonEdit />
+                      </Link>
+ 
                     </td>
                     <td>
                       {" "}

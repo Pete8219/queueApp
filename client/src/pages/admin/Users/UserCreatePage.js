@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useContext} from 'react'
+import React, { useState, useEffect} from 'react'
 import { useHttp } from '../../../hooks/http.hook'
 import {Create} from '../../../components/Users/Create'
 import { useMessage} from '../../../hooks/message.hook'
 import { useHistory } from 'react-router-dom'
-import { AuthContext } from '../../../context/AuthContext'
+import { useDispatch, useSelector} from 'react-redux'
+
+import { newUser } from '../../../store/actions/users'
 
 
 export const UserCreatePage = () => {
-    const { token } = useContext(AuthContext)
+   const dispatch = useDispatch()  
+   const { loading } =  useSelector(state => state.users)  
 
     const [form, setForm] = useState({
         name: '',
@@ -20,11 +23,8 @@ export const UserCreatePage = () => {
         online: false
         
     })
-    const {loading, request, error, clearError} = useHttp()
+    
 
-   /*  if( loading ) {
-        <Loader />
-    } */
     const message = useMessage()
     const history = useHistory()
 
@@ -48,21 +48,17 @@ export const UserCreatePage = () => {
 
 
 
-    const createHandler =  async() => {
-        try {
-            const data = await request('/users/create', "POST", {...form}, {
-                Authorization: `Bearer ${token}`
-            })
-            message(data.message)
-            history.push("/users")
-
-        } catch (e) {}
+    const createHandler =  () => {
+        dispatch(newUser({...form}))
+        if(!loading) {
+            message('Пользователь создан')
+            setTimeout(() => {
+                history.push("/users")
+            },1500)
+            
+        }
     }
 
-    useEffect ( ()=> {
-        message(error)
-        clearError()
-    },[message, error, clearError])
 
 
     return (

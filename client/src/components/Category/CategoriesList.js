@@ -51,7 +51,7 @@ export const CategoriesList = () => {
                     <td>{index + 1}</td>
                     <td>{item.title}</td>
                     <td>
-                      <Link to="/categories/edit/">
+                      <Link to={`/categories/edit/${item._id}`}>
                         <ButtonEdit />
                       </Link>
                     </td>

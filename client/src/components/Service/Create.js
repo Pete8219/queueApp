@@ -1,25 +1,20 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import M from "materialize-css/dist/js/materialize.min.js";
 import { CategoryDropdown } from "../Category/CategoryDropdown";
 import { UsersDropdown } from "../Users/UsersDropdown";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
-import api from "../../http";
-import {
-  addService,
-  fetchComplited,
-  fetchStart,
-  serviceReducer,
-} from "../../store/serviceReducer";
-import { getAllServices } from "../../store/asyncActions";
+import { createService } from "../../store/actions/services";
+
 
 export const CreateService = () => {
   const { users } = useSelector((state) => state.users);
   const { categories } = useSelector((state) => state.categories);
+  const { errors } = useSelector(state => state.services)
+  const dispatch = useDispatch()
 
   const [form, setForm] = useState({
     title: "",
@@ -42,6 +37,14 @@ export const CreateService = () => {
   useEffect(() => {
     window.M.updateTextFields();
   }, []);
+
+  useEffect(() => {
+    if(!errors) {
+      return
+    }
+    console.log(errors)
+    errors.map(error => message(error.msg))
+  },[errors])
 
   useEffect(() => {
     const filteredCats = form.category.map(JSON.stringify);
@@ -113,15 +116,9 @@ export const CreateService = () => {
   };
 
   const createHandler = async () => {
-    try {
-      const response = await api.post("/services", { ...form });
 
-      message(response.data.message);
-      history.push("/allservices");
-    } catch (error) {
-      console.log(error.response);
-    } finally {
-    }
+    dispatch(createService(form))
+  
   };
 
   return (

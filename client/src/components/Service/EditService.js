@@ -1,17 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import { useHttp } from "../../hooks/http.hook";
-import { useMessage } from "../../hooks/message.hook";
-import M from "materialize-css/dist/js/materialize.min.js";
+import React, { useState, useEffect} from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { CategoryDropdown } from "../Category/CategoryDropdown";
 import { UsersDropdown } from "../Users/UsersDropdown";
-import { AuthContext } from "../../context/AuthContext";
+import { useMessage } from "../../hooks/message.hook";
+import M from "materialize-css/dist/js/materialize.min.js";
 import { useSelector } from "react-redux";
 import styles from "./service.module.css";
 import api from "../../http";
 
-export const Detail = ({ id }) => {
+export const EditService = () => {
+  const { id } = useParams()
   const { users } = useSelector((state) => state.users);
   const { services } = useSelector((state) => state.services);
   const { categories } = useSelector((state) => state.categories);
@@ -36,7 +35,7 @@ export const Detail = ({ id }) => {
     user: selectedUsers,
   });
 
-  console.log("form=>", form);
+  
 
   const [unSelectedCategories, setUnSelectedCategories] = useState(categories); //state который хранит не выделенные категории услуг
   const [unSelectedUsers, setUnSelectedUsers] = useState(users); // хранит невыбранных пользователей в списке всех сотрудников

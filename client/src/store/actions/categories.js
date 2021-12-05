@@ -5,6 +5,7 @@ import {
   startLoading,
   createCategory,
   endLoading,
+  editCategory,
 } from "../categoriesReducer";
 
 export const getCategoriesFromApi = () => {
@@ -22,14 +23,13 @@ export const getCategoriesFromApi = () => {
 };
 
 export const addCategory = (data) => {
-  console.log(data);
+  
   return (dispatch) => {
     dispatch(startLoading());
     api
       .post("/categories/create", { data })
       .then((response) => {
-        console.log(response);
-        dispatch(createCategory(response.data));
+         dispatch(createCategory(response.data));
       })
       .then(() => dispatch(endLoading()))
       .catch((error) => {
@@ -37,6 +37,21 @@ export const addCategory = (data) => {
       });
   };
 };
+
+export const updateCategory = (data) => {
+  
+  const {id, title} = data
+  return (dispatch) => {
+    dispatch(startLoading())
+    api.patch(`/categories/${id}`, {title})
+    .then( (response) => {
+      dispatch(editCategory(response.data))
+    })
+    .catch( error => {
+      console.log(error.response)
+    })
+  }
+}
 
 export const deleteCategory = (id) => {
   return (dispatch) => {

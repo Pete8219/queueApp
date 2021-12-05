@@ -1,5 +1,6 @@
 const GET_CATEGORIES = "GET_CATEGORIES";
 const CREATE_CATEGORY = "CREATE_CATEGORY";
+const EDIT_CATEGORY = "EDIT_CATEGORY"
 const FILTER_CATEGORIES = "FILTER_CATEGORIES";
 const START_LOAD = "START_LOAD";
 const END_LOAD = "END_LOAD";
@@ -31,6 +32,19 @@ export const categoriesReducer = (state = initialState, action) => {
         categories: [...temp.categories],
         loading: true,
       };
+      case EDIT_CATEGORY:
+        const newState = { ...state}
+        newState.categories.forEach((item) => {
+          if(item._id === action.payload._id) {
+            item.title = action.payload.title
+          }
+        })
+
+        return {
+          ...state,
+          categories: [...newState.categories],
+          loading: false
+        }
     case FILTER_CATEGORIES: {
       const filterCat = state.categories.filter(
         (category) => category._id !== action.payload
@@ -53,6 +67,7 @@ export const categoriesReducer = (state = initialState, action) => {
 
 export const getCategories = (payload) => ({ type: GET_CATEGORIES, payload });
 export const createCategory = (payload) => ({ type: CREATE_CATEGORY, payload });
+export const editCategory = (payload) => ({ type: EDIT_CATEGORY, payload })
 export const startLoading = () => ({ type: START_LOAD });
 export const endLoading = () => ({ type: END_LOAD });
 export const filterCategories = (payload) => ({

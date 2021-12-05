@@ -7,7 +7,7 @@ import { useHistory } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import styles from "./category.module.css";
 
-export const Create = ({ cancel }) => {
+export const CreateCategory = ({ cancel }) => {
   const message = useMessage();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -23,7 +23,10 @@ export const Create = ({ cancel }) => {
     dispatch(addCategory(title));
     if (!loading) {
       message("Категория создана");
-      history.push("/categories");
+      setTimeout(() => {
+        history.push("/categories");
+      },1500)
+      
     }
   };
 

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ registerLocale("ru", ru);
 
 export const Detail = ({ user }) => {
   setDefaultLocale("ru");
+  const { id } = useParams()
 
   const { users } = useSelector((state) => state.users);
   const userData = user.data;
@@ -33,7 +34,7 @@ export const Detail = ({ user }) => {
   const { error, clearError } = useHttp();
 
   const [form, setForm] = useState({
-    userId: userData._id,
+    userId: id,
     name: userData.name,
     start: userData.start,
     end: userData.end,
@@ -67,6 +68,7 @@ export const Detail = ({ user }) => {
     setForm({ ...form, [event.target.name]: event.target.value });
   };
 
+  //нужно переделать на Redux
   const updateHandler = async (id) => {
     try {
       const response = await api.patch(`/users/${id}`, { ...form });
