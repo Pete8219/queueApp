@@ -1,66 +1,66 @@
 import React, { useState, useEffect } from "react";
-import { useHttp } from "../../../hooks/http.hook";
 import { ListItem } from "./ListItem";
-import { formatDate } from "../../../utils/formatDate";
 import { Loader } from "../../Loader";
 import M from "materialize-css";
 import { RecordEdit } from "../RecordEdit/RecordEdit";
 import { RecordOverwrite } from "../RecordOverwrite/RecordOverwrite";
-import { useSelector } from "react-redux";
-import api from "../../../http";
+import { useSelector, useDispatch } from "react-redux";
+import { useMessage } from "../../../hooks/message.hook";
+
+import { updateTicketStatus } from "../../../store/actions/tickets";
 
 export const List = ({ props }) => {
-  const { userId, date, name } = props;
-  const { request } = useHttp();
-  const [ticketList, setTicketList] = useState([]);
-  //const [services, setServices] = useState([]);
+  const { date, name } = props;
+  const message = useMessage();
+
   const [isActive, setIsActive] = useState(false);
   const [isActiveRewrite, setIsActiveRewrite] = useState(false);
-  const [reloadList] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { token } = useSelector((state) => state.userRole);
+
   const { services } = useSelector((state) => state.services);
+  const { tickets, loading } = useSelector((state) => state.tickets);
+  const [ticketList, setTicketList] = useState([]);
+  const [clientName, setClientName] = useState("");
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     M.AutoInit();
   }, []);
 
   useEffect(() => {
-    if (!name) {
-      return;
-    }
-    const getTickets = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get("/tickets/find", { params: { name } });
-        setTicketList(response.data);
-      } catch (error) {
-        console.log(error.response);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getTickets();
+    setClientName(name);
   }, [name]);
 
   useEffect(() => {
-    setLoading(true);
-    const getTickets = async () => {
-      try {
-        const response = await api.get("/tickets/ticketlist", {
-          params: { userId, date: formatDate(date) },
-        });
+    if (!clientName) {
+      return;
+    }
 
-        setTicketList(response.data);
-      } catch (e) {
-      } finally {
-        setLoading(false);
+    const ticketsByName = [];
+    tickets.forEach((ticket) => {
+      if (ticket.firstname === name) {
+        ticketsByName.push(ticket);
       }
-    };
+    });
 
-    getTickets();
-  }, [date, userId, reloadList]);
+    setTicketList(ticketsByName);
+  }, [clientName]);
+
+  useEffect(() => {
+    const selectedDate = new Date(date);
+    const ticketsByDate = [];
+    tickets.forEach((ticket) => {
+      const ticketDate = new Date(ticket.date);
+
+      if (
+        ticketDate.toLocaleDateString() === selectedDate.toLocaleDateString()
+      ) {
+        ticketsByDate.push(ticket);
+      }
+    });
+
+    setTicketList(ticketsByDate);
+  }, [date]);
 
   const filterData = (ticketId) => {
     const clientData = ticketList.filter((item) => item._id === ticketId);
@@ -82,11 +82,10 @@ export const List = ({ props }) => {
   };
 
   const editTicketStatus = (_id, status) => {
-    ticketList.map((ticket) => {
-      if (ticket._id === _id) {
-        ticket.status = status;
-      }
-    });
+    dispatch(updateTicketStatus({ _id, status }));
+    if (!loading) {
+      message("Статус изменен");
+    }
   };
 
   const openRewriteForm = (id) => {

@@ -7,6 +7,7 @@ import { timeline } from "../../utils/timeline";
 import styles from "./timetable.module.css";
 import { CircleLoader } from "../CircleLoader";
 import { getReadyToSubmission } from "../../utils/getReadyToSubmission";
+import api from "../../http";
 
 export const TimeTable = ({ props }) => {
   const { preHoliday } = YearCalendar(); //импортируем из годового календаря массив предпраздничных дней
@@ -39,18 +40,15 @@ export const TimeTable = ({ props }) => {
 
     const fetchTickets = async () => {
       try {
-        const data = await request(
-          `/tickets/${employeeId}/${formatDate(date)}`,
-          "GET",
-          null,
-          {}
+        const data = await api.get(
+          `/tickets/${employeeId}/${formatDate(date)}`
         );
         setTickets(data);
         setIsFree(null);
       } catch (error) {}
     };
     fetchTickets();
-  }, [date, request, employeeId]);
+  }, [date, employeeId]);
 
   useEffect(() => {
     setReady(false);
@@ -73,11 +71,8 @@ export const TimeTable = ({ props }) => {
       // отправка запроса с проверкой свободно выбранное время или нет
 
       try {
-        const checking = await request(
-          `/tickets/checkTime/${employeeId}/${selectedTime}`,
-          "GET",
-          null,
-          {}
+        const checking = await api.get(
+          `/tickets/checkTime/${employeeId}/${selectedTime}`
         );
 
         if (checking.length) {

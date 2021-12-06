@@ -39,7 +39,6 @@ export const RecordForm = ({ props }) => {
     };
   }
 
-  const { request } = useHttp();
   //const { token } = useSelector((state) => state.userRole);
   const message = useMessage();
 
@@ -77,12 +76,7 @@ export const RecordForm = ({ props }) => {
         const response = await api.get("/client/users/", {
           params: { userId, date: formatDate(date) },
         });
-        /*         const data = await request(
-          `/client/users/${userId}/${formatDate(date)}`,
-          "GET",
-          null,
-          {}
-        ); */
+
         setEmployee(response.data);
         setEmployeeId(response.data._id);
       } catch (error) {}
@@ -101,7 +95,6 @@ export const RecordForm = ({ props }) => {
   };
 
   const onWrite = async () => {
-    console.log("Saving data to dataBase");
     const date = JSON.parse(localStorage.getItem("date"));
 
     const { firstname, surname, lastname, email, phone } = form;

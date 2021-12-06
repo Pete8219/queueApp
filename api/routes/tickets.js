@@ -228,6 +228,19 @@ router.get("/find/", auth, async (req, res) => {
   }
 });
 
+//Выборка всех тикетов принадлежащих сотруднику
+
+router.get("/:userId", auth, async (req, res) => {
+  try {
+    const tickets = await Ticket.find({ user: req.params.userId });
+    res.status(200).json(tickets);
+  } catch (error) {
+    res.status(500).json({
+      message: "Ошибка выполнения запроса",
+    });
+  }
+});
+
 //Поиск тикетов по ID сотрудника и дате
 router.get("/:employeeId/:date", auth, async (req, res) => {
   const startDate = new Date(req.params.date);
@@ -412,11 +425,11 @@ router.patch("/:id", auth, async (req, res) => {
 //Обновление информации о записи
 //Здесь нужно сделать проверку авторизации!!!!
 
-router.patch("/status/:ticketId", auth, async (req, res) => {
+router.patch("/status/update", auth, async (req, res) => {
   console.log(req.body);
 
   try {
-    const id = req.params.ticketId;
+    const id = req.body._id;
 
     const updateOps = {};
 
@@ -431,10 +444,9 @@ router.patch("/status/:ticketId", auth, async (req, res) => {
     }
 
     await Ticket.updateOne({ _id: id }, { $set: updateOps });
+    const ticket = await Ticket.findOne({ _id: id });
 
-    res.status(200).json({
-      message: `Статус заявления изменен на: "${req.body.status}"`,
-    });
+    res.status(200).json(ticket);
   } catch (e) {
     res.status(500).json({
       message: "Произошла ошибка. Обратитесь к разработчику",

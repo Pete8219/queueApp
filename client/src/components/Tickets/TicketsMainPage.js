@@ -1,19 +1,13 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import { List } from "./List/List";
-import { AuthContext } from "../../context/AuthContext";
 import { useSelector } from "react-redux";
-import { Loader } from "../Loader";
-import { useHttp } from "../../hooks/http.hook";
 import { SearchForm } from "../../UI/SearchForm/SearchForm";
 import { Input } from "../../UI/Input/Input";
 import { Calendar } from "../../UI/Calendar/Calendar";
 import styles from "./mainPage.module.css";
 
 export const TicketsMainPage = () => {
-  const { ready } = useContext(AuthContext);
-  const { loading } = useHttp();
-
-  const { role, userId, token } = useSelector((state) => state.userRole);
+  const { userId } = useSelector((state) => state.userRole);
 
   const [date, setDate] = useState(new Date());
   const [name, setName] = useState("");
@@ -35,14 +29,7 @@ export const TicketsMainPage = () => {
       setVisitor("");
     }
   };
-  /* 
-  if (!ready) {
-    <Loader />;
-  } */
-  /* 
-  if (loading) {
-    <Loader />;
-  } */
+
   return (
     <div className={styles.MainContainer}>
       <div className={styles.Header}>
@@ -65,9 +52,7 @@ export const TicketsMainPage = () => {
         </div>
       </div>
 
-      <div>
-        <List props={{ userId, token, date, name }} />
-      </div>
+      <div>{<List props={{ userId, date, name }} />}</div>
     </div>
   );
 };

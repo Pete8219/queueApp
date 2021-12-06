@@ -1,4 +1,5 @@
 import api from "../http";
+import { getUserTicketsFromAPI } from "./actions/tickets";
 import { getCategories } from "./categoriesReducer";
 import {
   closeFetchData,
@@ -23,8 +24,8 @@ export const fetchUser = (login) => {
           "access_token",
           JSON.stringify(response.data.token)
         );
-
-        dispatch(getUserData(response.data));
+        dispatch(getUserData(response.data)); //  далее нужно подключить dispatch из tickets,чтобы загрузить все заявки выбранного пользователя
+        dispatch(getUserTicketsFromAPI(response.data.userId));
       })
       .catch(function (error) {
         dispatch(readyToLogin());

@@ -13,12 +13,15 @@ import api from "./http";
 import { getServices } from "./store/serviceReducer";
 import { getUsers } from "./store/userReducer";
 import { getCategoriesFromApi } from "./store/actions/categories";
+import { getUserTicketsFromAPI } from "./store/actions/tickets";
 
 export const Main = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated, isFetching } = useSelector(
+  const { isAuthenticated, isFetching, userId } = useSelector(
     (state) => state.userRole
   );
+
+  console.log(userId);
 
   const [loading, setLoading] = useState(false);
 
@@ -77,6 +80,13 @@ export const Main = () => {
     };
     fetchUsers();
   }, [isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    dispatch(getUserTicketsFromAPI(userId));
+  }, [isAuthenticated, userId, dispatch]);
 
   const routes = useRoutes();
 
