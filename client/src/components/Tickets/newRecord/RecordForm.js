@@ -7,11 +7,10 @@ import styles from "./record.module.css";
 import { ClientForm } from "../../../components/ClientForm/ClientForm";
 import { FormFooter } from "../../../components/FormFooter/FormFooter";
 import { formatDate } from "../../../utils/formatDate";
-import { useHttp } from "../../../hooks/http.hook";
+
 import { TimeTable } from "../../../components/TimeTable/TimeTable";
 import { RadioSelect } from "../../../UI/RadioSelect/RadioSelect";
-import { AuthContext } from "../../../context/AuthContext";
-//import { useAuth } from "../../../hooks/auth.hook";
+
 import { useMessage } from "../../../hooks/message.hook";
 import { useSelector } from "react-redux";
 import api from "../../../http";

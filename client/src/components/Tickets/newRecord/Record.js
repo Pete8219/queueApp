@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useHttp } from "../../../hooks/http.hook";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { RecordForm } from "./RecordForm";
@@ -7,7 +6,6 @@ import { CircleLoader } from "../../../components/CircleLoader";
 import styles from "./record.module.css";
 
 export const Record = () => {
-  const { loading, request } = useHttp();
   const history = useHistory();
   const { services } = useSelector((state) => state.services);
 
@@ -33,14 +31,14 @@ export const Record = () => {
     history.push("/");
   };
 
-  if (loading) {
+  /*   if (loading) {
     <CircleLoader />;
-  }
+  } */
 
   return (
     <div className={styles.MainContainer}>
       <div className={styles.recordContent}>
-        {!loading && serviceList && (
+        {serviceList && (
           <RecordForm
             props={{
               serviceList,

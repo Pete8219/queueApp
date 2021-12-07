@@ -1,11 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React, { useState } from "react";
-import { AuthContext } from "../../../context/AuthContext";
-import { useAuth } from "../../../hooks/auth.hook";
-import { useHttp } from "../../../hooks/http.hook";
-import { useMessage } from "../../../hooks/message.hook";
-import { useSelector } from "react-redux";
+
 import styles from "./list.module.css";
 
 export const ListItem = ({ ticket, i, handler, rewrite, statusHandler }) => {

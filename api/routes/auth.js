@@ -82,7 +82,9 @@ router.post(
 router.post(
   "/login",
   [
-    check("login", "Логин должен быть ваш email").isEmail().normalizeEmail(),
+    check("login", "Логин должен быть ваш email").normalizeEmail({
+      gmail_remove_dots: false,
+    }),
     check("password", "Пароль не может быть пустым")
       .exists()
       .isLength({ min: 8 }),
@@ -101,6 +103,8 @@ router.post(
 
       const { login, password } = req.body;
 
+      console.log(login);
+
       const user = await User.findOne({ login });
 
       if (!user) {
@@ -118,7 +122,7 @@ router.post(
       }
 
       const token = jwt.sign(
-        { userId: user._id, userType: user.userType },
+        { userId: user._id, userType: user.userType, name: user.name },
         process.env.SECRET,
         {
           expiresIn: "1h",
@@ -129,6 +133,7 @@ router.post(
         token,
         userType: user.userType,
         userId: user._id,
+        name: user.name,
       });
     } catch (e) {
       res.status(500).json({

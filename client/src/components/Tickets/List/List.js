@@ -38,7 +38,7 @@ export const List = ({ props }) => {
 
     const ticketsByName = [];
     tickets.forEach((ticket) => {
-      if (ticket.firstname === name) {
+      if (ticket.firstname.includes(name)) {
         ticketsByName.push(ticket);
       }
     });
@@ -60,7 +60,7 @@ export const List = ({ props }) => {
     });
 
     setTicketList(ticketsByDate);
-  }, [date]);
+  }, [date, tickets]);
 
   const filterData = (ticketId) => {
     const clientData = ticketList.filter((item) => item._id === ticketId);
@@ -103,6 +103,10 @@ export const List = ({ props }) => {
 
   if (loading) {
     <Loader />;
+  }
+
+  if (!tickets.length) {
+    return <Loader />;
   }
 
   if (!ticketList.length) {

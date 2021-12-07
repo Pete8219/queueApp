@@ -7,8 +7,6 @@ import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
-
-import { Staff } from "../pages/visitors/Staff";
 import { Main } from "../Main";
 import { UsersList } from "../components/Users/UsersList";
 import { CategoriesList } from "../components/Category/CategoriesList";
@@ -62,10 +60,7 @@ export const AdminRoutes = () => {
       path: "/users/create",
       component: UserCreatePage,
     },
-    {
-      path: "/staff",
-      component: Staff,
-    },
+
     {
       path: "/tickets",
       component: TicketsPage,

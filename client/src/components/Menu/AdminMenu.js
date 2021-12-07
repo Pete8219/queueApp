@@ -1,10 +1,14 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, roleReducer } from "../../store/roleReducer";
+import { Icon } from "../../UI/accountIcon/Icon";
 
 export const AdminMenu = () => {
   const dispatch = useDispatch(roleReducer);
+  const { userId } = useSelector((state) => state.userRole);
+  const { users } = useSelector((state) => state.users);
+  const currentUser = users.filter((user) => user._id === userId);
 
   const logoutHandler = () => {
     localStorage.removeItem("access_token");
@@ -51,6 +55,11 @@ export const AdminMenu = () => {
             <a href="/logout" onClick={logoutHandler}>
               Выйти
             </a>
+          </li>
+          <li>
+            {currentUser.length ? (
+              <Icon props={currentUser[0].name[0]} />
+            ) : null}
           </li>
         </ul>
       </div>

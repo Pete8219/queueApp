@@ -15,6 +15,8 @@ export const TicketsMainPage = () => {
 
   const updateDate = (d) => {
     setDate(d);
+    setName("");
+    setVisitor("");
   };
 
   const handleChange = (e) => {
@@ -23,6 +25,7 @@ export const TicketsMainPage = () => {
 
   //Обработчик нажатия кнопки Enter в  поле поиска зявителя
   const pressHandler = async (e) => {
+    setName("");
     if (e.key === "Enter") {
       setName(visitor);
       e.preventDefault();

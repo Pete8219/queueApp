@@ -21,8 +21,6 @@ export const Main = () => {
     (state) => state.userRole
   );
 
-  console.log(userId);
-
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -100,7 +98,9 @@ export const Main = () => {
 
   return (
     <Router>
-      {isAuthenticated && <Navbar />} <div>{routes}</div>
+      {isAuthenticated && <Navbar />}
+
+      <div>{routes}</div>
     </Router>
   );
 };

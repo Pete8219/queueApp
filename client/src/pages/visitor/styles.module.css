@@ -1,0 +1,13 @@
+.MainContainer {
+  width: 80%;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.alertMessage {
+  padding: 15px;
+  background-color: rgb(235, 131, 131);
+  color: #fff;
+  border: 2px solid rgb(235, 111, 52);
+  border-radius: 10px;
+}

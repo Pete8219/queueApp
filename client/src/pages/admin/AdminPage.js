@@ -1,6 +1,4 @@
 import React from "react";
-
-import { StaffProfile } from "../../components/Staff/StaffProfile";
 import { TicketsMainPage } from "../../components/Tickets/TicketsMainPage";
 import { useSelector } from "react-redux";
 import { Loader } from "../../components/Loader";
@@ -13,7 +11,6 @@ export const AdminPage = () => {
   }
   return (
     <div>
-      {users && <StaffProfile />}
       <TicketsMainPage />
     </div>
   );

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useHttp } from "../../hooks/http.hook";
 
 import { formatDate } from "../../utils/formatDate";
 import { YearCalendar } from "../Calendar/YearCalendar";
@@ -13,7 +12,7 @@ export const TimeTable = ({ props }) => {
   const { preHoliday } = YearCalendar(); //импортируем из годового календаря массив предпраздничных дней
 
   const { date, employeeId, serviceId, serviceType } = props;
-  const { loading, request } = useHttp();
+
   const [tickets, setTickets] = useState([]); // список выданных тикетов на этот день
   const [selectedTime, setSelectedTime] = useState(null);
   const [isFree, setIsFree] = useState(null);
@@ -89,14 +88,14 @@ export const TimeTable = ({ props }) => {
     }, 1000);
 
     checkTime();
-  }, [employeeId, selectedTime, request]);
+  }, [employeeId, selectedTime]);
 
   useEffect(() => {
     setIsFree(null);
   }, [serviceId]);
 
   //Если пришел массив тикетов, то для каждого элемента запускаем функцию проверки записи
-  if (!loading && tickets.length > 0) {
+  if (tickets.length > 0) {
     tickets.map((ticket) => {
       let ticketTime = new Date(ticket.date).toLocaleTimeString().slice(0, 5);
       let type = ticket.serviceType;
@@ -131,9 +130,9 @@ export const TimeTable = ({ props }) => {
     setSelectedTime(time);
   };
 
-  if (loading || !ready) {
+  /*   if (loading || !ready) {
     return <CircleLoader />;
-  }
+  } */
 
   let filteredData = [];
   if (type === "consultation") {

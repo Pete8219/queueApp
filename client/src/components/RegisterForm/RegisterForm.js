@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import M from "materialize-css";
 import styles from "./register.module.css";
-import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { useHistory } from "react-router";
+import api from "../../http";
 
 export const RegisterForm = () => {
   useEffect(() => {
     M.AutoInit();
     M.updateTextFields();
   }, []);
-
-  const { loading, request } = useHttp();
 
   const message = useMessage();
   const history = useHistory();
@@ -27,17 +25,17 @@ export const RegisterForm = () => {
 
   const registerHandler = async () => {
     try {
-      const register = await request(`/auth/register`, "POST", {
+      const response = await api.post(`/auth/register`, {
         email,
         password,
       });
-      if (register.status === "200") {
-        message(register.message);
+      if (response.status === "200") {
+        message(response.data.message);
         history.push("/success_registration");
       }
 
-      if (register.errors.length) {
-        return register.errors.map((err) => message(err.msg));
+      if (response.errors.length) {
+        return response.errors.map((err) => message(err.msg));
       }
     } catch (error) {}
   };
@@ -138,7 +136,7 @@ export const RegisterForm = () => {
                   className="btn-large  waves-light blue lighten-1 login"
                   style={{ borderRadius: "10px" }}
                   onClick={registerHandler}
-                  disabled={loading}
+                  /* disabled={loading} */
                 >
                   Зарегистрироваться
                 </button>

@@ -1,0 +1,31 @@
+.Container {
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgb(226, 127, 14);
+  overflow: hidden;
+  color: #fff;
+  font-size: 1.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.largeCircle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: rgb(226, 127, 14);
+  overflow: hidden;
+  color: #fff;
+  font-size: 2.5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

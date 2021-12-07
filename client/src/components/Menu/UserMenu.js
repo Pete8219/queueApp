@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout, roleReducer } from "../../store/roleReducer";
+import { Icon } from "../../UI/accountIcon/Icon";
+import { UserAccount } from "../Account/UserAccount";
 
 export const UserMenu = () => {
   const dispatch = useDispatch(roleReducer);
+  const { userId } = useSelector((state) => state.userRole);
+  const { users } = useSelector((state) => state.users);
+  const currentUser = users.filter((user) => user._id === userId);
+
+  const [open, setOpen] = useState(false);
 
   const logoutHandler = () => {
     localStorage.removeItem("access_token");
@@ -40,7 +47,17 @@ export const UserMenu = () => {
               Выйти
             </a>
           </li>
+          <li>
+            {currentUser.length ? (
+              <a onClick={() => setOpen((prev) => !prev)}>
+                <Icon props={currentUser} />
+              </a>
+            ) : null}
+          </li>
         </ul>
+      </div>
+      <div>
+        <UserAccount isOpen={open} isClose={() => setOpen(false)} />
       </div>
     </nav>
   );

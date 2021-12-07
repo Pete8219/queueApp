@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useHttp } from "../../hooks/http.hook";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector } from "react-redux";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -15,7 +14,7 @@ registerLocale("ru", ru);
 
 export const Detail = ({ user }) => {
   setDefaultLocale("ru");
-  const { id } = useParams()
+  const { id } = useParams();
 
   const { users } = useSelector((state) => state.users);
   const userData = user.data;
@@ -31,7 +30,6 @@ export const Detail = ({ user }) => {
 
   const history = useHistory();
   const message = useMessage();
-  const { error, clearError } = useHttp();
 
   const [form, setForm] = useState({
     userId: id,
@@ -110,10 +108,10 @@ export const Detail = ({ user }) => {
     window.M.updateTextFields();
   }, []);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     message(error);
     clearError();
-  }, [message, error, clearError]);
+  }, [message, error, clearError]); */
 
   return (
     <div className={styles.MainContainer}>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useHttp } from "../../hooks/http.hook";
+
 import { useMessage } from "../../hooks/message.hook";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,6 @@ export const AuthPage = () => {
   const error = useSelector((state) => state.error);
 
   const message = useMessage();
-  const { loading, clearError } = useHttp();
 
   const [form, setForm] = useState({
     login: "",
@@ -21,9 +20,7 @@ export const AuthPage = () => {
 
   useEffect(() => {
     message(error);
-
-    clearError();
-  }, [error, message, clearError]);
+  }, [error, message]);
 
   useEffect(() => {
     window.M.updateTextFields();
@@ -109,7 +106,7 @@ export const AuthPage = () => {
                 className="btn-large  blue lighten-1 login"
                 style={{ borderRadius: "10px" }}
                 onClick={loginHandler}
-                disabled={loading}
+                /* disabled={loading} */
               >
                 Войти
               </button>

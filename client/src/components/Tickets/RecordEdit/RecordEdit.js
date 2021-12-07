@@ -1,8 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { ClientForm } from "../../ClientForm/ClientForm";
-import { useHttp } from "../../../hooks/http.hook";
+
 import { useMessage } from "../../../hooks/message.hook";
-import { AuthContext } from "../../../context/AuthContext";
+
 import styles from "./recordEdit.module.css";
 import { FormFooter } from "../../FormFooter/FormFooter";
 import { useSelector } from "react-redux";
@@ -13,7 +13,6 @@ export const RecordEdit = ({ props }) => {
   const { services } = useSelector((state) => state.services);
   const clientData = JSON.parse(localStorage.getItem("clientData"));
   const { onClose, editTicketList } = props;
-  const { request } = useHttp();
 
   const message = useMessage();
 

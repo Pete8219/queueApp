@@ -1,13 +1,9 @@
-import { useState, useCallback, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useMessage } from "./message.hook";
+import { useState, useCallback } from "react";
 
 export const useHttp = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   //const message = useMessage();
-
-  const auth = useContext(AuthContext);
 
   const request = useCallback(
     async (url, method = "GET", body = null, headers = {}) => {
@@ -25,7 +21,7 @@ export const useHttp = () => {
 
         if (!response.ok) {
           if (response.status === 401) {
-            auth.logout();
+            /* auth.logout(); */
           }
 
           //throw new Error(response.status || "Что то пошло не так123123!!!");
@@ -40,7 +36,7 @@ export const useHttp = () => {
         throw e;
       }
     },
-    [auth]
+    []
   );
 
   const clearError = useCallback(() => setError(null), []);

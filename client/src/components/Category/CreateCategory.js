@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { ButtonSave } from "../ButtonSave";
-import { ButtonCancel } from "../ButtonCancel";
+import { ButtonSave } from "../../UI/Buttons/ButtonSave";
+import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory } from "../../store/actions/categories";
 import { useHistory } from "react-router-dom";
@@ -25,8 +25,7 @@ export const CreateCategory = ({ cancel }) => {
       message("Категория создана");
       setTimeout(() => {
         history.push("/categories");
-      },1500)
-      
+      }, 1500);
     }
   };
 
