@@ -42,11 +42,7 @@ export const UserMenu = () => {
               </li>
             );
           })}
-          <li>
-            <a href="/" onClick={logoutHandler}>
-              Выйти
-            </a>
-          </li>
+
           <li>
             {currentUser.length ? (
               <a onClick={() => setOpen((prev) => !prev)}>

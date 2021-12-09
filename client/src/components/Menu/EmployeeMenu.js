@@ -1,22 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, roleReducer } from "../../store/roleReducer";
+import { useSelector } from "react-redux";
 import { Icon } from "../../UI/accountIcon/Icon";
+import { UserAccount } from "../Account/UserAccount";
 
 export const EmployeeMenu = () => {
-  const dispatch = useDispatch(roleReducer);
   const { userId } = useSelector((state) => state.userRole);
   const { users } = useSelector((state) => state.users);
-  console.log(users);
 
   const currentUser = users.filter((user) => user._id === userId);
-  console.log(currentUser);
 
-  const logoutHandler = () => {
-    localStorage.removeItem("access_token");
-    dispatch(logout());
-  };
+  const [open, setOpen] = useState(false);
 
   const links = [
     {
@@ -42,17 +36,18 @@ export const EmployeeMenu = () => {
               </li>
             );
           })}
-          <li>
-            <a href="/logout" onClick={logoutHandler}>
-              Выйти
-            </a>
-          </li>
+
           <li>
             {currentUser.length ? (
-              <Icon props={currentUser[0].name[0]} />
+              <a onClick={() => setOpen((prev) => !prev)}>
+                <Icon props={currentUser} />
+              </a>
             ) : null}
           </li>
         </ul>
+      </div>
+      <div>
+        <UserAccount isOpen={open} isClose={() => setOpen(false)} />
       </div>
     </nav>
   );

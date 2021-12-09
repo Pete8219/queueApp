@@ -1,6 +1,7 @@
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import { Record } from "../components/Tickets/newRecord/Record";
+import { UserProfile } from "../components/UserProfile/UserProfile";
 import { HomePage } from "../pages/visitor/HomePage";
 
 export const UserRoutes = () => {
@@ -12,6 +13,10 @@ export const UserRoutes = () => {
     {
       path: "/record/new",
       component: Record,
+    },
+    {
+      path: "/profile",
+      component: UserProfile,
     },
   ];
   return (

@@ -3,6 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { AdminPage } from "../pages/admin/AdminPage";
 import { Record } from "../components/Tickets/newRecord/Record";
 import { TicketsPage } from "../pages/admin/TicketsPage";
+import { UserProfile } from "../components/UserProfile/UserProfile";
 
 export const EmployeeRoutes = () => {
   const routes = [
@@ -17,6 +18,10 @@ export const EmployeeRoutes = () => {
     {
       path: "/tickets",
       component: TicketsPage,
+    },
+    {
+      path: "/profile",
+      component: UserProfile,
     },
   ];
   return (

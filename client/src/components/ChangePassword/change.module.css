@@ -1,0 +1,38 @@
+.rootContainer {
+  width: 100%;
+  min-height: 100vh;
+  background-color: rgba(10, 10, 10, 0.8);
+
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.changeContainer {
+  padding: 20px;
+  width: 40%;
+  height: 50vh;
+  margin: 0 auto;
+  display: block;
+  background: rgb(255, 255, 255);
+  color: #000;
+  border-radius: 5px;
+}
+
+.passwordFields {
+  margin-top: 2em;
+  width: 70%;
+  height: 90%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /*border: 2px solid #f5f5f5;*/
+}
+
+.passwordFields > form {
+  width: 100%;
+}

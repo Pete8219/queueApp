@@ -56,7 +56,6 @@ export const RecordEdit = ({ props }) => {
   }, []);
 
   const onWrite = async () => {
-    console.log(note);
     try {
       const response = await api.patch(`/tickets/notes/update/${_id}`, {
         note,

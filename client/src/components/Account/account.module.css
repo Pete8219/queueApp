@@ -1,7 +1,7 @@
 .modal {
   position: absolute;
   width: 350px;
-  height: 500px;
+  height: 400px;
   padding: 20px;
   right: 2.5em;
   top: 4.2em;
@@ -30,8 +30,40 @@
   line-height: 5px;
 }
 
+.iconPhoto {
+  width: 35px;
+  height: 35px;
+  position: relative;
+  bottom: 15px;
+  right: -52%;
+  color: #737374;
+  background-color: #ffffff;
+  border-radius: 50%;
+  border: 1px solid #bfbbbb;
+  text-align: center;
+  padding-top: 4px;
+}
+
+.iconPhoto:hover {
+  color: blue;
+}
+
+.editProfileButton {
+  padding: 2px 35px;
+  border-radius: 20px;
+  line-height: 25px;
+  border: 2px solid #a3a2a2;
+  background-color: #fff;
+  margin-top: 20px;
+}
+
+.editProfileButton:hover {
+  background-color: rgb(233, 231, 231);
+}
+
 .footer {
-  height: 60px;
+  margin-top: 20px;
+  height: 40px;
   display: flex;
   justify-content: center;
 }

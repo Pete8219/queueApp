@@ -265,19 +265,24 @@
 }
 
 .unselectedCats {
-  width:90%;
-  height:150px;
+  width: 90%;
+  height: 150px;
   overflow: auto;
   border: 2px solid;
   border-color: gainsboro;
   padding: 10px;
-  padding-left:10px !important;
+  padding-left: 10px !important;
   border-radius: 15px;
-
 }
 
 .unselectedCats li:hover {
-  padding-left:5px;
-  color:#fff;
+  padding-left: 5px;
+  color: #fff;
   background-color: #26a69a;
+}
+
+.MainContainer {
+  width: 80%;
+  min-height: 100vh;
+  margin: 0 auto;
 }
