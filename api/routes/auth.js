@@ -134,6 +134,9 @@ router.post(
         userType: user.userType,
         userId: user._id,
         name: user.name,
+        login: user.login,
+        email: user.email,
+        phone: user.phone,
       });
     } catch (e) {
       res.status(500).json({

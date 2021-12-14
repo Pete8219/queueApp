@@ -14,6 +14,7 @@ import { getServices } from "./store/serviceReducer";
 import { getUsers } from "./store/userReducer";
 import { getCategoriesFromApi } from "./store/actions/categories";
 import { getUserTicketsFromAPI } from "./store/actions/tickets";
+import { getUserProfile } from "./store/actions/users";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,15 @@ export const Main = () => {
     }
     dispatch(checkToken(token));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    console.log(userId);
+
+    dispatch(getUserProfile(userId));
+  }, [isAuthenticated, dispatch, userId]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -68,7 +78,8 @@ export const Main = () => {
     setLoading(true);
     const fetchUsers = async () => {
       try {
-        const response = await api("/users");
+        const response = await api("/users/managers/list");
+        console.log(response.data);
         dispatch(getUsers(response.data));
       } catch (error) {
         console.log(error.response);

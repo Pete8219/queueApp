@@ -6,7 +6,8 @@ const auth = require("../middleware/auth.middleware");
 const role = require("../middleware/role.middleware");
 
 const User = require("../models/users");
-
+const UserDto = require("../dto/userDto");
+const ManagerDto = require("../dto/managerDto");
 //Получение списка всех пользователей
 //Здесь нужно сделать проверку авторизации!!!!
 router.get("/", auth, async (req, res) => {
@@ -23,10 +24,33 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+router.get("/managers/list", auth, async (req, res) => {
+  try {
+    const users = await User.find({ userType: "manager" });
+    console.log(users);
+    /*     if (!manager) {
+      res.status(400).json({
+        message: "Данные не найдены",
+      });
+    } */
+
+    const managers = users.map((user) => {
+      const managerDto = new ManagerDto(user);
+      return managerDto;
+    });
+
+    res.status(200).json(managers);
+  } catch (error) {
+    res.status(500).json({
+      message: "Внутренняя ошибка сервера",
+    });
+  }
+});
+
 //Сохранения нового пользователя в базе
 
 router.post("/create", auth, async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     req.body.password = hashedPassword;
@@ -36,7 +60,7 @@ router.post("/create", auth, async (req, res) => {
       //пробегаемся по всем значениям объекта и формируем новый объект
       createOps[key] = req.body[key];
     }
-    const user =  new User({ ...createOps });
+    const user = new User({ ...createOps });
     await user.save();
 
     res.status(201).json({
@@ -65,6 +89,24 @@ router.get("/:id", auth, async (req, res) => {
   } catch (e) {
     res.status(400).json({
       message: "Пользователь не найден",
+    });
+  }
+});
+
+router.get("/profile/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id });
+    if (!user) {
+      res.status(400).json({
+        message: "Нет такого пользователя",
+      });
+    }
+
+    const userDto = new UserDto(user);
+    res.status(200).json({ ...userDto });
+  } catch (error) {
+    res.status(500).json({
+      message: "Внутренняя ошибка сервера",
     });
   }
 });

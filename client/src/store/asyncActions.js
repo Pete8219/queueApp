@@ -24,6 +24,7 @@ export const fetchUser = (login) => {
           "access_token",
           JSON.stringify(response.data.token)
         );
+
         dispatch(getUserData(response.data)); //  далее нужно подключить dispatch из tickets,чтобы загрузить все заявки выбранного пользователя
         dispatch(getUserTicketsFromAPI(response.data.userId));
       })
@@ -44,6 +45,7 @@ export const checkToken = (token) => {
     axios
       .post("/auth/checkToken", { token })
       .then(function (response) {
+        console.log(response.data);
         localStorage.setItem(
           "access_token",
           JSON.stringify(response.data.token)

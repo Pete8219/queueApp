@@ -7,9 +7,12 @@ import { UserAccount } from "../Account/UserAccount";
 
 export const UserMenu = () => {
   const dispatch = useDispatch(roleReducer);
-  const { userId } = useSelector((state) => state.userRole);
+  const {
+    userId,
+    user: { name },
+  } = useSelector((state) => state.userRole);
   const { users } = useSelector((state) => state.users);
-  const currentUser = users.filter((user) => user._id === userId);
+  // const currentUser = users.filter((user) => user._id === userId);
 
   const [open, setOpen] = useState(false);
 
@@ -44,9 +47,9 @@ export const UserMenu = () => {
           })}
 
           <li>
-            {currentUser.length ? (
+            {name ? (
               <a onClick={() => setOpen((prev) => !prev)}>
-                <Icon props={currentUser} />
+                <Icon props={name} />
               </a>
             ) : null}
           </li>

@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import api from "../../http";
 import { useLocation, Link } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector, useDispatch } from "react-redux";
-import {ButtonCreate} from '../../UI/Buttons/ButtonCreate'
-import {ButtonEdit} from '../../UI/Buttons/ButtonEdit'
+import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
+import { ButtonEdit } from "../../UI/Buttons/ButtonEdit";
 import styles from "./users.module.css";
 
 import { Loader } from "../Loader";
@@ -13,26 +13,14 @@ import { deleteUser } from "../../store/actions/users";
 
 export const UsersList = () => {
   localStorage.setItem("link", JSON.stringify(useLocation()));
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const message = useMessage();
   const { users } = useSelector((state) => state.users);
   const [loading, setLoading] = useState(false);
 
-
-  const deleteHandler =  (id) => {
-    dispatch(deleteUser(id))
-/* 
-    setLoading(true);
-    try {
-      const response = await api.delete(`/users/${id}`);
-      message(response.data.message);
-      users.filter(({ _id }) => id !== _id);
-      setLoading(false);
-    } catch (error) {
-      console.log(error.response);
-    } finally {
-      setLoading(false);
-    } */
+  console.log(users);
+  const deleteHandler = (id) => {
+    dispatch(deleteUser(id));
   };
 
   if (loading) {
@@ -44,9 +32,8 @@ export const UsersList = () => {
       <div className="row col-s12">
         <h4> Список сотрудников</h4>
         <Link to="/users/create">
-          <ButtonCreate/>
+          <ButtonCreate />
         </Link>
-
 
         {users.length > 0 ? (
           <div
@@ -77,7 +64,6 @@ export const UsersList = () => {
                         <Link to={`/users/detail/${item._id}`}>
                           <ButtonEdit />
                         </Link>
- 
                       </td>
                       <td>
                         {" "}

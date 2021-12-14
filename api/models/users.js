@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
   cabinet: Number,
   start: String,
   end: String,
+  email: String,
   userType: {
     type: String,
     enum: ["superAdmin", "admin", "user"],
