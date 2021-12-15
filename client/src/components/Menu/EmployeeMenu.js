@@ -5,10 +5,9 @@ import { Icon } from "../../UI/accountIcon/Icon";
 import { UserAccount } from "../Account/UserAccount";
 
 export const EmployeeMenu = () => {
-  const { userId } = useSelector((state) => state.userRole);
-  const { users } = useSelector((state) => state.users);
-
-  const currentUser = users.filter((user) => user._id === userId);
+  const {
+    user: { name },
+  } = useSelector((state) => state.userRole);
 
   const [open, setOpen] = useState(false);
 
@@ -38,10 +37,17 @@ export const EmployeeMenu = () => {
           })}
 
           <li>
-            {currentUser.length ? (
-              <a onClick={() => setOpen((prev) => !prev)}>
-                <Icon props={currentUser} />
-              </a>
+            {name ? (
+              <button
+                style={{
+                  border: "0",
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
+                }}
+                onClick={() => setOpen((prev) => !prev)}
+              >
+                <Icon props={name} />
+              </button>
             ) : null}
           </li>
         </ul>

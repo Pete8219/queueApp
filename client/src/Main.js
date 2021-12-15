@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+
 import { useSelector, useDispatch } from "react-redux";
 import { useRoutes } from "./routes";
 
@@ -18,12 +19,14 @@ import { getUserProfile } from "./store/actions/users";
 
 export const Main = () => {
   const dispatch = useDispatch();
+
   const { isAuthenticated, isFetching, userId } = useSelector(
     (state) => state.userRole
   );
 
   const [loading, setLoading] = useState(false);
 
+  // обновляем информацию о токене
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("access_token"));
 
@@ -31,21 +34,23 @@ export const Main = () => {
       return;
     }
     if (token === "undefined") {
+      //если нет токена, удаляем все из хранилища и делаем Выход из системы
       localStorage.removeItem("access_token");
       return dispatch(logout());
     }
     dispatch(checkToken(token));
   }, [dispatch]);
 
+  //Получаем профиль пользовтеля
   useEffect(() => {
     if (!isAuthenticated) {
       return;
     }
-    console.log(userId);
 
     dispatch(getUserProfile(userId));
   }, [isAuthenticated, dispatch, userId]);
 
+  //загружаем все сервисы
   useEffect(() => {
     if (!isAuthenticated) {
       return;
@@ -64,6 +69,7 @@ export const Main = () => {
     getService();
   }, [isAuthenticated, dispatch]);
 
+  //загружаем все категории услуг
   useEffect(() => {
     if (!isAuthenticated) {
       return;
@@ -71,6 +77,7 @@ export const Main = () => {
     dispatch(getCategoriesFromApi());
   }, [isAuthenticated, dispatch]);
 
+  //получаем список пользователей
   useEffect(() => {
     if (!isAuthenticated) {
       return;
@@ -78,8 +85,8 @@ export const Main = () => {
     setLoading(true);
     const fetchUsers = async () => {
       try {
-        const response = await api("/users/managers/list");
-        console.log(response.data);
+        const response = await api("/users");
+
         dispatch(getUsers(response.data));
       } catch (error) {
         console.log(error.response);
@@ -90,12 +97,17 @@ export const Main = () => {
     fetchUsers();
   }, [isAuthenticated, dispatch]);
 
+  //получаем список тикетов созданных текущим залогиненным пользователем
   useEffect(() => {
     if (!isAuthenticated) {
       return;
     }
     dispatch(getUserTicketsFromAPI(userId));
   }, [isAuthenticated, userId, dispatch]);
+
+  /*   useEffect(() => {
+    history.push(`${pathname}`);
+  }, [pathname, history]); */
 
   const routes = useRoutes();
 

@@ -88,7 +88,7 @@ export const TimeTable = ({ props }) => {
     }, 1000);
 
     checkTime();
-  }, [employeeId, selectedTime]);
+  }, [employeeId, selectedTime, date]);
 
   useEffect(() => {
     setIsFree(null);
@@ -99,7 +99,7 @@ export const TimeTable = ({ props }) => {
     tickets.map((ticket) => {
       let ticketTime = new Date(ticket.date).toLocaleTimeString().slice(0, 5);
       let type = ticket.serviceType;
-      checkRecords(ticketTime, type);
+      return checkRecords(ticketTime, type);
     });
   }
 
@@ -107,7 +107,9 @@ export const TimeTable = ({ props }) => {
   function checkRecords(ticketTime, type) {
     records.map((record, index) => {
       if (record.time === ticketTime) {
-        getMarkTicket(index, type);
+        return getMarkTicket(index, type);
+      } else {
+        return false;
       }
     });
   }
@@ -140,7 +142,7 @@ export const TimeTable = ({ props }) => {
   }
   if (type === "submission") {
     records.map((record, index) => {
-      getReadyToSubmission(records, index, record, type);
+      return getReadyToSubmission(records, index, record, type);
     });
     filteredData = records.filter((record) => record.access === true);
   }

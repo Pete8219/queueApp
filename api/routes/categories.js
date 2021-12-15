@@ -61,11 +61,12 @@ router.get("/:id", auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/:id", auth, async (req, res) => {
- 
-  console.log(req.body)
   try {
-    await Category.updateOne({_id: req.params.id}, {$set: {title: req.body.title}});
-    const data = await Category.findOne({_id: req.params.id})
+    await Category.updateOne(
+      { _id: req.params.id },
+      { $set: { title: req.body.title } }
+    );
+    const data = await Category.findOne({ _id: req.params.id });
 
     res.status(200).json(data);
   } catch (e) {

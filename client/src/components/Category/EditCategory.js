@@ -23,7 +23,7 @@ export const EditCategory = () => {
       (category) => category._id === id
     );
     setTitle(currentCategory[0].title);
-  }, []);
+  }, [categories, id]);
 
   const changeTitle = (e) => {
     setTitle(e.target.value);

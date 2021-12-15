@@ -31,6 +31,7 @@ export const roleReducer = (state = defaultState, action) => {
         token: action.payload.token,
         role: action.payload.userType,
         userId: action.payload.userId,
+        user: action.payload,
         isAuthenticated: true,
         isFetching: false,
         error: null,

@@ -4,7 +4,7 @@ import { Request } from "../../components/VisitorRequest/Request";
 import styles from "./styles.module.css";
 
 export const HomePage = () => {
-  const { userId, name } = useSelector((state) => state.userRole);
+  const { name } = useSelector((state) => state.userRole);
 
   return (
     <div className={styles.MainContainer}>

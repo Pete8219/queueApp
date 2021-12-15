@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useSelector } from "react-redux";
 import { RecordForm } from "./RecordForm";
-import { CircleLoader } from "../../../components/CircleLoader";
+//import { CircleLoader } from "../../../components/CircleLoader";
 import styles from "./record.module.css";
 
 export const Record = () => {
   const history = useHistory();
   const { services } = useSelector((state) => state.services);
 
-  const [serviceList, setServiceList] = useState(services);
+  const [serviceList] = useState(services);
   const [serviceId, setServiceId] = useState(null);
   const [ticketsList] = useState([]);
   const [date, setDate] = useState(new Date());

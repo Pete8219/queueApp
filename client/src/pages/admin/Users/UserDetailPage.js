@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Detail } from "../../../components/Users/Detail";
 
-import { useSelector } from "react-redux";
 import api from "../../../http";
 
 export const UserDetailPage = () => {
   const userId = useParams().id;
-  const { users } = useSelector((state) => state.users);
+  //const { users } = useSelector((state) => state.users);
 
   const [user, setUser] = useState("");
   const [loading, setLoading] = useState(false);

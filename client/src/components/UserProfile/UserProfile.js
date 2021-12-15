@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useLocation, useHistory } from "react-router-dom";
 import styles from "./profile.module.css";
 import M from "materialize-css";
 import { ChangePassword } from "../ChangePassword/ChangePassword";
+import { ButtonSave } from "../../UI/Buttons/ButtonSave";
+import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
+import { updateProfile } from "../../store/userReducer";
+import { updateUserProfile } from "../../store/actions/users";
 
 export const UserProfile = () => {
+  const location = useLocation();
+  localStorage.setItem("url", JSON.stringify(location));
+  const history = useHistory();
+  const dispatch = useDispatch();
   useEffect(() => {
     M.AutoInit();
   });
@@ -13,7 +22,7 @@ export const UserProfile = () => {
     M.updateTextFields();
   });
 
-  const { userId, user } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.userRole);
 
   const person = user.name.split(" ");
 
@@ -21,7 +30,7 @@ export const UserProfile = () => {
   const [firstname, setFirstname] = useState(person[1] || "");
   const [patronimic, setPatronimic] = useState(person[2] || "");
   const [email, setEmail] = useState(user.login);
-  const [phone, setPhone] = useState(user.phone);
+  const [phone, setPhone] = useState(user.phone || "");
   const [login] = useState(user.login);
 
   const [open, setOpen] = useState(false);
@@ -31,11 +40,28 @@ export const UserProfile = () => {
     setOpen(true);
   };
 
+  //Обработчик кнопки сохранения профайла пользователя
+  const saveProfile = () => {
+    const { _id } = user;
+    const name = [lastname, firstname, patronimic].join(" ");
+    const userData = {
+      name,
+      email,
+      phone,
+    };
+    dispatch(updateUserProfile({ _id, userData }));
+  };
+
+  // Выход из формы редактирования на главную страницу
+
+  const cancelProfile = () => {
+    history.push("/");
+  };
+
   return (
     <>
       <div className={styles.MainProfile}>
         <h3 style={{ marginBottom: "1em" }}>Профиль пользователя</h3>
-
         <div className={styles.profileData}>
           <h5>Основная информация</h5>
           <div className={styles.fullName}>
@@ -132,6 +158,13 @@ export const UserProfile = () => {
               </div>
             </form>
           </div>
+        </div>
+        <div
+          className="row"
+          style={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <ButtonSave action={saveProfile} />{" "}
+          <ButtonCancel action={cancelProfile} />
         </div>
       </div>
       <div>

@@ -9,12 +9,11 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
 import { createService } from "../../store/actions/services";
 
-
 export const CreateService = () => {
   const { users } = useSelector((state) => state.users);
   const { categories } = useSelector((state) => state.categories);
-  const { errors } = useSelector(state => state.services)
-  const dispatch = useDispatch()
+  const { errors } = useSelector((state) => state.services);
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     title: "",
@@ -39,12 +38,12 @@ export const CreateService = () => {
   }, []);
 
   useEffect(() => {
-    if(!errors) {
-      return
+    if (!errors) {
+      return;
     }
-    console.log(errors)
-    errors.map(error => message(error.msg))
-  },[errors])
+    console.log(errors);
+    errors.map((error) => message(error.msg));
+  }, [errors, message]);
 
   useEffect(() => {
     const filteredCats = form.category.map(JSON.stringify);
@@ -116,9 +115,7 @@ export const CreateService = () => {
   };
 
   const createHandler = async () => {
-
-    dispatch(createService(form))
-  
+    dispatch(createService(form));
   };
 
   return (

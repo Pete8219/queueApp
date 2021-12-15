@@ -1,34 +1,25 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, roleReducer } from "../../store/roleReducer";
+import { useSelector } from "react-redux";
+//import { roleReducer } from "../../store/roleReducer";
 import { Icon } from "../../UI/accountIcon/Icon";
 import { UserAccount } from "../Account/UserAccount";
 
 export const UserMenu = () => {
-  const dispatch = useDispatch(roleReducer);
   const {
-    userId,
     user: { name },
   } = useSelector((state) => state.userRole);
-  const { users } = useSelector((state) => state.users);
-  // const currentUser = users.filter((user) => user._id === userId);
 
   const [open, setOpen] = useState(false);
 
-  const logoutHandler = () => {
-    localStorage.removeItem("access_token");
-    dispatch(logout());
-  };
-
   const links = [
     {
-      title: "Создать запись",
-      path: "/record/new",
+      title: "Главная",
+      path: "/",
     },
     {
-      title: "Профиль",
-      path: "/profile",
+      title: "Создать запись",
+      path: "/request/new",
     },
   ];
 
@@ -48,9 +39,16 @@ export const UserMenu = () => {
 
           <li>
             {name ? (
-              <a onClick={() => setOpen((prev) => !prev)}>
+              <button
+                style={{
+                  border: "0",
+                  backgroundColor: "transparent",
+                  cursor: "pointer",
+                }}
+                onClick={() => setOpen((prev) => !prev)}
+              >
                 <Icon props={name} />
-              </a>
+              </button>
             ) : null}
           </li>
         </ul>

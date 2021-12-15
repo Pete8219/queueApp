@@ -11,38 +11,30 @@ const ManagerDto = require("../dto/managerDto");
 //Получение списка всех пользователей
 //Здесь нужно сделать проверку авторизации!!!!
 router.get("/", auth, async (req, res) => {
-  try {
-    const users = await User.find({}).select({
-      password: 0,
-      userType: 0,
-    });
-    res.status(200).json(users);
-  } catch (e) {
-    res.status(500).json({
-      message: "Что то пошло не так как надо",
-    });
-  }
-});
+  const {
+    user: { userType },
+  } = req;
 
-router.get("/managers/list", auth, async (req, res) => {
   try {
-    const users = await User.find({ userType: "manager" });
-    console.log(users);
-    /*     if (!manager) {
-      res.status(400).json({
-        message: "Данные не найдены",
-      });
-    } */
+    const users = await User.find({});
 
-    const managers = users.map((user) => {
+    if (userType === "superAdmin") {
+      return res.status(200).json(users);
+    }
+
+    const usersWithRoleManager = users.filter(
+      (user) => user.userType === "manager"
+    );
+
+    const managers = usersWithRoleManager.map((user) => {
       const managerDto = new ManagerDto(user);
       return managerDto;
     });
 
     res.status(200).json(managers);
-  } catch (error) {
+  } catch (e) {
     res.status(500).json({
-      message: "Внутренняя ошибка сервера",
+      message: "Внутренняя ошибка сервера. Попробуйте повторить запрос",
     });
   }
 });
@@ -50,7 +42,6 @@ router.get("/managers/list", auth, async (req, res) => {
 //Сохранения нового пользователя в базе
 
 router.post("/create", auth, async (req, res) => {
-  console.log(req.body);
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
     req.body.password = hashedPassword;
@@ -111,23 +102,6 @@ router.get("/profile/:id", auth, async (req, res) => {
   }
 });
 
-//Получение имени пользователя для отображения на странице приветствия
-//Здесь нужно сделать проверку авторизации!!!!
-
-router.get("/welcome/:id", auth, async (req, res) => {
-  try {
-    const username = await User.findOne({ _id: req.params.id }).select([
-      "name",
-      "cabinet",
-    ]);
-    res.status(201).json(username);
-  } catch (e) {
-    res.status(500).json({
-      message: "Ошибка запроса, попробуйте позже",
-    });
-  }
-});
-
 router.get("/substitute/:userId/:date", auth, async (req, res) => {
   currentDate = new Date(req.params.date).toISOString();
 
@@ -155,6 +129,55 @@ router.get("/substitute/:userId/:date", auth, async (req, res) => {
   } catch (e) {
     res.status(500).json({
       message: "Что то пошло не так",
+    });
+  }
+});
+
+//Обновление информации о профиле пользователя
+
+router.patch("/profile/:id", auth, async (req, res) => {
+  console.log(req.body);
+  const { name, email, phone } = req.body;
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { name, email, phone } },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Пользователь не найден",
+      });
+    }
+
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({
+      message: "Внутрення ошибка сервера. Повторите запрос",
+    });
+  }
+});
+
+router.patch("/:id/password/change", auth, async (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+  //console.log(password, id);
+  try {
+    const hashedPassword = await bcrypt.hash(password, 12);
+
+    console.log(password);
+    await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { password: hashedPassword } }
+    );
+
+    return res.status(200).json({
+      message: "Пароль успешно изменен",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Внутренняя ошибка сервера. Повторите запрос",
     });
   }
 });

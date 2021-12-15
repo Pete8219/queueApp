@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import api from "../../http";
+//import api from "../../http";
 import { useLocation, Link } from "react-router-dom";
-import { useMessage } from "../../hooks/message.hook";
+//import { useMessage } from "../../hooks/message.hook";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
 import { ButtonEdit } from "../../UI/Buttons/ButtonEdit";
@@ -14,9 +14,9 @@ import { deleteUser } from "../../store/actions/users";
 export const UsersList = () => {
   localStorage.setItem("link", JSON.stringify(useLocation()));
   const dispatch = useDispatch();
-  const message = useMessage();
+  //const message = useMessage();
   const { users } = useSelector((state) => state.users);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   console.log(users);
   const deleteHandler = (id) => {

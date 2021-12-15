@@ -1,4 +1,5 @@
 module.exports = class UserDto {
+  _id;
   name;
   login;
   userType;
@@ -6,6 +7,7 @@ module.exports = class UserDto {
   email;
 
   constructor(model) {
+    this._id = model._id;
     this.name = model.name;
     this.login = model.login;
     this.userType = model.userType;

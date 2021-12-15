@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { ClientForm } from "../../ClientForm/ClientForm";
 
 import { useMessage } from "../../../hooks/message.hook";
@@ -9,7 +9,7 @@ import { useSelector } from "react-redux";
 import api from "../../../http";
 
 export const RecordEdit = ({ props }) => {
-  const { token } = useSelector((state) => state.userRole);
+  //const { token } = useSelector((state) => state.userRole);
   const { services } = useSelector((state) => state.services);
   const clientData = JSON.parse(localStorage.getItem("clientData"));
   const { onClose, editTicketList } = props;
@@ -53,7 +53,7 @@ export const RecordEdit = ({ props }) => {
   useEffect(() => {
     const current = services.filter((item) => item._id === service);
     setServiceTitle(current[0].title);
-  }, []);
+  }, [services, service]);
 
   const onWrite = async () => {
     try {

@@ -13,12 +13,12 @@ import { fetchComplited, getServices } from "./serviceReducer";
 const axios = require("axios").default;
 
 export const fetchUser = (login) => {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(fetchData());
 
     axios
       .post("/auth/login", { ...login })
-      .then(function (response) {
+      .then((response) => {
         dispatch(readyToLogin());
         localStorage.setItem(
           "access_token",
@@ -28,7 +28,7 @@ export const fetchUser = (login) => {
         dispatch(getUserData(response.data)); //  далее нужно подключить dispatch из tickets,чтобы загрузить все заявки выбранного пользователя
         dispatch(getUserTicketsFromAPI(response.data.userId));
       })
-      .catch(function (error) {
+      .catch((error) => {
         dispatch(readyToLogin());
         if (error.response) {
           dispatch(errorData(error.response.data));
@@ -39,27 +39,25 @@ export const fetchUser = (login) => {
 };
 
 export const checkToken = (token) => {
-  return function (dispatch) {
+  return (dispatch) => {
     dispatch(fetchData());
 
     axios
       .post("/auth/checkToken", { token })
-      .then(function (response) {
-        console.log(response.data);
+      .then((response) => {
         localStorage.setItem(
           "access_token",
           JSON.stringify(response.data.token)
         );
 
         dispatch(getUserData(response.data));
-        /* dispatch(closeFetchData()); */
       })
-      .catch(function (error) {
+      .catch((error) => {
         if (error.response) {
           console.log(error.toJSON());
         }
       })
-      .finally(function () {
+      .finally(() => {
         dispatch(closeFetchData());
       });
   };
@@ -69,12 +67,11 @@ export const getAllUsers = () => {
   return (dispatch) => {
     api
       .get("/users")
-      .then(function (response) {
-        console.log(response.data);
+      .then((response) => {
         dispatch(getUserData(response.data));
       })
 
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error.response);
       });
   };
@@ -84,10 +81,10 @@ export const getAllServices = () => {
   return (dispatch) => {
     api
       .get("/services")
-      .then(function (response) {
+      .then((response) => {
         dispatch(getServices(response.data));
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error.response);
         dispatch(fetchComplited());
       });
@@ -98,10 +95,10 @@ export const getAllCategories = () => {
   return (dispatch) => {
     api
       .get("/categories")
-      .then(function (response) {
+      .then((response) => {
         dispatch(getCategories(response.data));
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error.response);
       });
   };

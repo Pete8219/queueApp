@@ -34,7 +34,6 @@ export const ticketsReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case FILTER_BY_DATE:
-      const date = state;
       const filterByDate = state.tickets.filter(
         (ticket) => ticket.date === action.payload
       );

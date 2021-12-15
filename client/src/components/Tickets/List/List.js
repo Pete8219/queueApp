@@ -44,7 +44,7 @@ export const List = ({ props }) => {
     });
 
     setTicketList(ticketsByName);
-  }, [clientName]);
+  }, [clientName, name, tickets]);
 
   useEffect(() => {
     const selectedDate = new Date(date);
@@ -76,7 +76,9 @@ export const List = ({ props }) => {
   const editTicketList = (_id, note) => {
     ticketList.map((ticket) => {
       if (ticket._id === _id) {
-        ticket.note = note;
+        return (ticket.note = note);
+      } else {
+        return false;
       }
     });
   };

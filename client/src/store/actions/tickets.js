@@ -1,10 +1,5 @@
 import api from "../../http";
-import {
-  filterByDate,
-  getTickets,
-  loading,
-  updateTicket,
-} from "../ticketsReducer";
+import { getTickets, loading, updateTicket } from "../ticketsReducer";
 
 export const getUserTicketsFromAPI = (userId) => {
   return (dispatch) => {
@@ -12,7 +7,6 @@ export const getUserTicketsFromAPI = (userId) => {
     api
       .get(`/tickets/${userId}`)
       .then((response) => {
-        console.log(response);
         dispatch(getTickets(response.data));
       })
       .catch((error) => {
@@ -28,7 +22,6 @@ export const updateTicketStatus = (data) => {
     api
       .patch(`/tickets/status/update`, { ...data })
       .then((response) => {
-        console.log(response);
         dispatch(updateTicket(response.data));
       })
       .catch((error) => {

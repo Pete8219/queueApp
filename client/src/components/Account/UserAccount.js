@@ -7,14 +7,13 @@ import { Icon } from "../../UI/accountIcon/Icon";
 import styles from "./account.module.css";
 
 export const UserAccount = ({ isOpen, isClose }) => {
-  const { userId } = useSelector((state) => state.userRole);
+  const {
+    user: { name, login },
+  } = useSelector((state) => state.userRole);
 
   const dispatch = useDispatch();
 
-  const { users } = useSelector((state) => state.users);
   if (!isOpen) return null;
-
-  const currentUser = users.filter((user) => user._id === userId);
 
   document.addEventListener("keydown", function (event) {
     if (event.code === "Escape") {
@@ -23,6 +22,7 @@ export const UserAccount = ({ isOpen, isClose }) => {
   });
   const onLogout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem("url");
     dispatch(logout());
   };
 
@@ -36,8 +36,8 @@ export const UserAccount = ({ isOpen, isClose }) => {
           </i>
         </div>
         <div className={styles.userInfo}>
-          <p>{currentUser.length ? currentUser[0].name : null}</p>
-          <p>{currentUser.length ? currentUser[0].login : null}</p>
+          <p>{name ? name : null}</p>
+          <p>{name ? login : null}</p>
           <Link to="/profile">
             <button
               className={styles.editProfileButton}

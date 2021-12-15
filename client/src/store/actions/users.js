@@ -5,15 +5,14 @@ import {
   endLoading,
   filterUsers,
   startLoading,
+  updateProfile,
 } from "../userReducer";
 
 export const getUserProfile = (id) => {
-  console.log(id);
   return (dispatch) => {
     api
       .get(`/users/profile/${id}`)
       .then((response) => {
-        console.log(response.data);
         dispatch(setUserProfile(response.data));
       })
       .catch((error) => {
@@ -45,6 +44,23 @@ export const newUser = (data) => {
         dispatch(createUser(response.data));
       })
 
+      .catch((error) => {
+        console.log(error.response);
+        dispatch(endLoading());
+      });
+  };
+};
+
+export const updateUserProfile = (data) => {
+  console.log(data);
+  return (dispatch) => {
+    dispatch(startLoading());
+    api
+      .patch(`/users/profile/${data._id}`, { ...data.userData })
+      .then((response) => {
+        console.log(response.data);
+        dispatch(updateProfile(response.data));
+      })
       .catch((error) => {
         console.log(error.response);
         dispatch(endLoading());

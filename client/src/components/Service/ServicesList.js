@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
@@ -19,16 +19,13 @@ export const ServicesList = () => {
 
   services.sort(sortServiceByFieldTitle("title"));
 
-  const history = useHistory();
   const message = useMessage();
 
   const deleteHandler = async (id) => {
-    
     dispatch(deleteService(id));
-    if(!isFetching) {
-      message('Услуга удалена')
+    if (!isFetching) {
+      message("Услуга удалена");
     }
-
   };
 
   return (
@@ -59,9 +56,8 @@ export const ServicesList = () => {
                     <td>
                       {" "}
                       <Link to={`/service/edit/${item._id}`}>
-                      <ButtonEdit />
+                        <ButtonEdit />
                       </Link>
- 
                     </td>
                     <td>
                       {" "}

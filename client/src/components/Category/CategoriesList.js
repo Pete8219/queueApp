@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
 import styles from "./category.module.css";

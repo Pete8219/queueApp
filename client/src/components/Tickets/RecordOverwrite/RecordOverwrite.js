@@ -37,10 +37,10 @@ export const RecordOverwrite = ({ props }) => {
     email,
     phone,
     note: ticketNote,
-    _id,
+    /*     _id,
     user,
     service,
-    status,
+    status, */
   } = clientData[0];
 
   const [form] = useState({
