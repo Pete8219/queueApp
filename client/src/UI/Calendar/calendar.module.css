@@ -1,9 +1,13 @@
 .calendarBody {
-    margin-top: 15px;
+  margin-top: 0.5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .calendarBody::before {
-    content: "Дата:";
-    padding: 30px;
-    font-size: 1.4em;
+  /* content: "Дата:"; */
+  /*padding: 15px;*/
+  font-size: 1.4em;
 }
