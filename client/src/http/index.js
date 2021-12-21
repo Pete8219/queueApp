@@ -1,4 +1,5 @@
 const axios = require("axios").default;
+
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -13,5 +14,18 @@ api.interceptors.request.use((config) => {
   )}`;
   return config;
 });
+
+api.interceptors.response.use(
+  (config) => {
+    return config;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      alert(error.response.data.message);
+
+      window.location.href = "/login";
+    }
+  }
+);
 
 export default api;

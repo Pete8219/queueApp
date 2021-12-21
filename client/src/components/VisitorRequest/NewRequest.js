@@ -6,12 +6,15 @@ import M from "materialize-css";
 import { DateCalendar } from "./DateCalendar";
 import { Calendar } from "../../UI/Calendar/Calendar";
 import { TimeTable } from "../TimeTable/TimeTable";
+import { ButtonSave } from "../../UI/Buttons/ButtonSave";
+import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
 
 export const NewRequest = () => {
   const location = useLocation();
   localStorage.setItem("url", JSON.stringify(location));
 
   const { user } = useSelector((state) => state.userRole);
+  const { users } = useSelector((state) => state.users);
   const { services } = useSelector((state) => state.services);
   const [selectedOption, setSelectedOption] = useState("Выберите услугу");
   const [selectedService, setSelectedService] = useState([]);
@@ -20,8 +23,7 @@ export const NewRequest = () => {
   const [showType, setShowType] = useState(false);
   const [serviceType, setServiceType] = useState(null);
   const [showTime, setShowTime] = useState(false);
-  const [managers, setManagers] = useState([]);
-  const [managerId, setManagerId] = useState(null);
+  const [manager, setManager] = useState([]);
   const [serviceId, setServiceId] = useState(null);
 
   useEffect(() => {
@@ -40,9 +42,18 @@ export const NewRequest = () => {
       (service) => service.title === e.target.value
     );
 
-    const { user, _id } = getService[0];
     setSelectedService(getService);
-    setManagers(getService[0].user);
+
+    const serviceManager = getService[0].user.filter((item) => {
+      const currentManager = users.map((u) => u._id);
+      if (currentManager.includes(item)) {
+        return item;
+      }
+    });
+
+    const [managerId] = serviceManager;
+
+    setManager(managerId);
     setServiceId(getService[0]._id);
 
     setShowType(true);
@@ -90,6 +101,8 @@ export const NewRequest = () => {
           </label>
         </div>
 
+        {/* //Здесь нужно выводить пользователя, который оказывает услугу. Если их несколько выводить всех в отдельном компоненте  */}
+
         {showType ? (
           <form action="#">
             <p>
@@ -122,7 +135,12 @@ export const NewRequest = () => {
           <Calendar props={{ date, updateDate, filterDay, minDate }} />
         ) : null}
         {showTime && selectedService ? (
-          <TimeTable props={{ date, selectedService }} />
+          <TimeTable props={{ date, selectedService, serviceType, manager }} />
+        ) : null}
+        {showTime ? (
+          <div className="row">
+            <ButtonSave props={{ color: "red" }} /> <ButtonCancel />
+          </div>
         ) : null}
       </div>
     </div>

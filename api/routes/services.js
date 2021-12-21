@@ -5,13 +5,13 @@ const mongoose = require("mongoose");
 const auth = require("../middleware/auth.middleware");
 const Service = require("../models/services");
 const User = require("../models/users");
-const {  body,  validationResult } = require("express-validator");
-
+const { body, validationResult } = require("express-validator");
 
 //Получение списка услуг
 router.get("/", auth, async (req, res) => {
   try {
     const services = await Service.find({});
+
     res.status(200).json(services);
   } catch (e) {
     res.status(500).json({
@@ -24,19 +24,19 @@ router.get("/", auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 router.post(
   "/create",
-  auth, 
-  body("title").not().isEmpty().trim().withMessage('Вы не заполнили название услуги'),
-  body("user").not().isEmpty().withMessage('Выберите пользователя/-лей'),
-  body("category").not().isEmpty().withMessage('Укажите категорию')
-  ,
-  
+  auth,
+  body("title")
+    .not()
+    .isEmpty()
+    .trim()
+    .withMessage("Вы не заполнили название услуги"),
+  body("user").not().isEmpty().withMessage("Выберите пользователя/-лей"),
+  body("category").not().isEmpty().withMessage("Укажите категорию"),
   async (req, res) => {
-    
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        
         return res.status(400).json({
           errors: errors.array(),
         });
@@ -44,18 +44,15 @@ router.post(
 
       const { title, user } = req.body;
 
-
       const isExist = await Service.findOne({ $and: [{ title }, { user }] });
 
       if (isExist) {
-        
         return res.status(400).json({
-          
-          errors: [{msg: "Такая услуга уже есть в базе"}],
+          errors: [{ msg: "Такая услуга уже есть в базе" }],
         });
       }
 
-      const service =  new Service({
+      const service = new Service({
         title: req.body.title,
         time: req.body.time,
         user: req.body.user,

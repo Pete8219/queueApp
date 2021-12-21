@@ -243,6 +243,8 @@ router.get("/:userId", auth, async (req, res) => {
 
 //Поиск тикетов по ID сотрудника и дате
 router.get("/:employeeId/:date", auth, async (req, res) => {
+  console.log(req.params.date);
+
   const startDate = new Date(req.params.date);
   const endDate = new Date(req.params.date);
   endDate.setHours(23, 59, 0, 0);

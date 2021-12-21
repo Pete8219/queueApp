@@ -14,6 +14,7 @@ import { CreateCategory } from "../components/Category/CreateCategory";
 import { EditCategory } from "../components/Category/EditCategory";
 import { ServicesList } from "../components/Service/ServicesList";
 import { EditService } from "../components/Service/EditService";
+import { AppSettings } from "../components/Settings/AppSettings";
 
 export const AdminRoutes = () => {
   //const link = JSON.parse(localStorage.getItem("link"));
@@ -72,6 +73,10 @@ export const AdminRoutes = () => {
     {
       path: "/record/edit",
       component: RecordEdit,
+    },
+    {
+      path: "/settings",
+      component: AppSettings,
     },
   ];
 

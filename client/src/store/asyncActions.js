@@ -19,6 +19,7 @@ export const fetchUser = (login) => {
     axios
       .post("/auth/login", { ...login })
       .then((response) => {
+        localStorage.removeItem("url");
         dispatch(readyToLogin());
         localStorage.setItem(
           "access_token",

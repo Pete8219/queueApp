@@ -11,7 +11,7 @@ import api from "../../http";
 export const TimeTable = ({ props }) => {
   const { preHoliday } = YearCalendar(); //импортируем из годового календаря массив предпраздничных дней
 
-  const { date, employeeId, serviceId, serviceType } = props;
+  const { date, manager, serviceId, serviceType } = props;
 
   const [tickets, setTickets] = useState([]); // список выданных тикетов на этот день
   const [selectedTime, setSelectedTime] = useState(null);
@@ -40,14 +40,14 @@ export const TimeTable = ({ props }) => {
     const fetchTickets = async () => {
       try {
         const data = await api.get(
-          `/tickets/${employeeId}/${formatDate(date)}`
+          `/tickets/${manager}/${new Date(date).toDateString()}`
         );
         setTickets(data);
         setIsFree(null);
       } catch (error) {}
     };
     fetchTickets();
-  }, [date, employeeId]);
+  }, [date, manager]);
 
   useEffect(() => {
     setReady(false);
@@ -71,7 +71,7 @@ export const TimeTable = ({ props }) => {
 
       try {
         const checking = await api.get(
-          `/tickets/checkTime/${employeeId}/${selectedTime}`
+          `/tickets/checkTime/${manager}/${selectedTime}`
         );
 
         if (checking.length) {
@@ -88,7 +88,7 @@ export const TimeTable = ({ props }) => {
     }, 1000);
 
     checkTime();
-  }, [employeeId, selectedTime, date]);
+  }, [manager, selectedTime, date]);
 
   useEffect(() => {
     setIsFree(null);

@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   phone: String,
   userType: {
     type: String,
-    enum: ["superAdmin", "admin", "user"],
+    enum: ["superAdmin", "admin", "manager", "user"],
     default: "user",
   },
   vacationFrom: {

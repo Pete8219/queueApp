@@ -36,6 +36,10 @@ export const AdminMenu = () => {
       title: "Тикеты",
       path: "/tickets",
     },
+    {
+      title: "Настройки",
+      path: "/settings",
+    },
   ];
 
   return (

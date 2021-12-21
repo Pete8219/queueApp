@@ -16,17 +16,14 @@ router.get("/", auth, async (req, res) => {
   } = req;
 
   try {
-    const users = await User.find({});
-
-    if (userType === "superAdmin") {
+    if (userType === "superAdmin" || userType === " admin") {
+      const users = await User.find({});
       return res.status(200).json(users);
     }
 
-    const usersWithRoleManager = users.filter(
-      (user) => user.userType === "manager"
-    );
+    const users = await User.find({ userType: "manager", online: "true" });
 
-    const managers = usersWithRoleManager.map((user) => {
+    const managers = users.map((user) => {
       const managerDto = new ManagerDto(user);
       return managerDto;
     });
