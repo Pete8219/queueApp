@@ -16,6 +16,9 @@ import { getUsers } from "./store/userReducer";
 import { getCategoriesFromApi } from "./store/actions/categories";
 import { getUserTicketsFromAPI } from "./store/actions/tickets";
 import { getUserProfile } from "./store/actions/users";
+import { getTypesFromApi } from "./store/actions/serviceTypes";
+import { getAllSettingsFromApi } from "./store/actions/settings";
+import { getAllStatusesFromApi } from "./store/actions/statuses";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -105,9 +108,14 @@ export const Main = () => {
     dispatch(getUserTicketsFromAPI(userId));
   }, [isAuthenticated, userId, dispatch]);
 
-  /*   useEffect(() => {
-    history.push(`${pathname}`);
-  }, [pathname, history]); */
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+    dispatch(getTypesFromApi());
+    dispatch(getAllSettingsFromApi());
+    dispatch(getAllStatusesFromApi());
+  }, [isAuthenticated]);
 
   const routes = useRoutes();
 

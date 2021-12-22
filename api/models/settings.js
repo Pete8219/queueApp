@@ -1,15 +1,25 @@
 const mongoose = require("mongoose");
+const ServiceTypes = require("./serviceTypes");
+const StatementStatuses = require("./statementStatus");
 
 const settingSchema = new mongoose.Schema({
-  startOfReception: {
-    type: String,
-    required: true,
+  shedule: {
+    type: Map,
+    of: String,
   },
-  endOfReception: {
-    type: String,
-    required: true,
-  },
-  typeOfService: [{ title: String, duration: String }],
+  serviceTypes: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ServiceTypes",
+    },
+  ],
+  receptionDays: [],
+  statementStatuses: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "StatementStatuses",
+    },
+  ],
 });
 
 module.exports = mongoose.model("Setting", settingSchema);

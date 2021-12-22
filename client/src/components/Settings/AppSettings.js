@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./settings.module.css";
 import M from "materialize-css";
+import { Types } from "./Sections/serviceTypes/Types";
+import { Shedule } from "./Sections/Shedule/Shedule";
+import { ButtonSave } from "../../UI/Buttons/ButtonSave";
+import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
+import { ReceptionDays } from "./Sections/ReceptionDays";
+import { saveAllSettings } from "../../store/actions/settings";
+import { StatementStatuses } from "./Sections/StatementStatuses";
+import { useHistory } from "react-router-dom";
 
 export const AppSettings = () => {
   useEffect(() => {
@@ -8,72 +17,93 @@ export const AppSettings = () => {
     M.AutoInit();
   });
 
-  const [types, setTypes] = useState([
-    { _id: "1111", title: "консультация", duration: "15" },
-    { _id: "1112", title: "подача документов", duration: "60" },
-  ]);
+  const history = useHistory();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const { types } = useSelector((state) => state.types);
+  const { statuses } = useSelector((state) => state.statuses);
+  const { settings } = useSelector((state) => state.settings);
+  const { shedule: time, receptionDays: recDays } = settings[0];
+
+  const dispatch = useDispatch();
+  const serviceTypes = types.map((type) => type._id);
+  const statementStatuses = statuses.map((status) => status._id);
+
+  /* const [isOpen, setIsOpen] = useState(false); */
+
+  const [shedule, setShedule] = useState({
+    start: time.start || "",
+    end: time.end || "",
+  });
+  const [receptionDays, setReceptionDays] = useState(recDays || []);
+
+  const days = ["Вс", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+
+  const timeHandler = (e) => {
+    setShedule({ ...shedule, [e.target.name]: e.target.value });
+  };
+  const daysHandler = (e) => {
+    if (e.target.checked === true) {
+      const arrayDays = [...receptionDays];
+      arrayDays.push(e.target.value);
+
+      setReceptionDays(arrayDays);
+    } else {
+      const arrayDays = receptionDays.filter((item) => item !== e.target.value);
+
+      setReceptionDays(arrayDays);
+    }
+  };
+
+  const saveHandler = () => {
+    console.log(shedule, serviceTypes, receptionDays);
+    dispatch(
+      saveAllSettings({
+        shedule,
+        serviceTypes,
+        receptionDays,
+        statementStatuses,
+      })
+    );
+
+    setTimeout(() => {
+      history.push("/");
+    }, 1500);
+  };
+
+  const cancelHandler = () => {
+    history.push("/");
+  };
 
   return (
     <>
       <div className={styles.MainContainer}>
         <h3>Настройки приложения</h3>
         <div className={styles.content}>
-          <div className="row">
-            <h5>Настройка времени приема</h5>
-            <div className={styles.timeReceipt}>
-              <form className="col s12">
-                <div className="row">
-                  <div className="input-field col s2">
-                    <input type="text" id="start" />
-                    <label htmlFor="start">Начало приема, ч</label>
-                  </div>
-                  <div className="input-field col s2">
-                    <input type="text" id="end" />
-                    <label htmlFor="end">Окончание приема, ч</label>
-                  </div>
-                </div>
-              </form>
-            </div>
-            {/* Описание настройки тивоп услуг*/}
+          <Shedule props={{ shedule, timeHandler }} />
+          <div class="row">
+            <hr className={styles.separator} />
+          </div>
+          <Types />
+          <div class="row">
+            <hr className={styles.separator} />
+          </div>
+          <StatementStatuses />
+          <div class="row">
+            <hr className={styles.separator} />
+          </div>
 
-            <div className="row col s6" style={{ padding: "0" }}>
-              <h5>Типы услуг</h5>
-              <div className="row">
-                <button
-                  class="btn-floating btn-large  red darken-1 offset-6 right"
-                  onClick={() => setIsOpen(true)}
-                >
-                  <i class="material-icons">add</i>
-                </button>
-              </div>
-              <div className={styles.timeReceipt}>
-                <table className="col s12">
-                  <thead>
-                    <tr>
-                      <th>Тип</th>
-                      <th>Продолжительность, мин</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {types.map((type) => {
-                      return (
-                        <tr key={type._id}>
-                          <td>{type.title}</td>
-                          <td>{type.duration}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          <ReceptionDays props={{ days, receptionDays, daysHandler }} />
+          <div class="row">
+            <hr className={styles.separator} />
+          </div>
+          <div className="row right">
+            <ButtonSave action={saveHandler} />
+            <ButtonCancel action={cancelHandler} />
           </div>
         </div>
       </div>
-      {isOpen ? (
+
+      {/*  {isOpen ? (
         <div className={styles.modal}>
           <div className={styles.modalContainer}>
             <div className={styles.modalContent}>
@@ -102,7 +132,7 @@ export const AppSettings = () => {
             </div>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
     </>
   );
 };

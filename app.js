@@ -44,6 +44,8 @@ app.use("/categories", require("./api/routes/categories"));
 app.use("/users", require("./api/routes/users"));
 app.use("/tickets", require("./api/routes/tickets"));
 app.use("/settings", require("./api/routes/settings"));
+app.use("/servicetypes", require("./api/routes/serviceTypes"));
+app.use("/statementstatuses", require("./api/routes/statementstatuses"));
 app.use("/client/users", require("./api/routes/client/users"));
 app.use(errorMiddleware);
 

@@ -18,18 +18,20 @@ export const getCategoriesFromApi = () => {
       })
       .catch((error) => {
         console.log(error.response);
+      })
+      .finally(() => {
+        dispatch(endLoading());
       });
   };
 };
 
 export const addCategory = (data) => {
-  
   return (dispatch) => {
     dispatch(startLoading());
     api
       .post("/categories/create", { data })
       .then((response) => {
-         dispatch(createCategory(response.data));
+        dispatch(createCategory(response.data));
       })
       .then(() => dispatch(endLoading()))
       .catch((error) => {
@@ -39,19 +41,19 @@ export const addCategory = (data) => {
 };
 
 export const updateCategory = (data) => {
-  
-  const {id, title} = data
+  const { id, title } = data;
   return (dispatch) => {
-    dispatch(startLoading())
-    api.patch(`/categories/${id}`, {title})
-    .then( (response) => {
-      dispatch(editCategory(response.data))
-    })
-    .catch( error => {
-      console.log(error.response)
-    })
-  }
-}
+    dispatch(startLoading());
+    api
+      .patch(`/categories/${id}`, { title })
+      .then((response) => {
+        dispatch(editCategory(response.data));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+  };
+};
 
 export const deleteCategory = (id) => {
   return (dispatch) => {

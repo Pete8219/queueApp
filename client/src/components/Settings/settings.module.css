@@ -38,3 +38,11 @@
   background-color: rgba(255, 255, 255, 1);
   border-radius: 5px;
 }
+
+.separator {
+  border: none;
+  box-sizing: content-box;
+  height: 4px;
+  overflow: visible;
+  background-color: antiquewhite;
+}
