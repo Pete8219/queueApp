@@ -6,14 +6,10 @@ export const ReceptionDays = ({ props }) => {
   return (
     <div className="row">
       <h5>Дни приема </h5>
-      <form
-        action="#"
-        className="col s12"
-        style={{ display: "flex", flexDirection: "row" }}
-      >
+      <form action="#" className="col s12 ">
         {days.map((day, index) => {
           return (
-            <p key={index} style={{ marginRight: "2em" }}>
+            <p key={index} className="col s4 m2 l2 xl1">
               <label>
                 <input
                   type="checkbox"

@@ -18,7 +18,7 @@ export const Types = () => {
     <div className="row">
       <h5>Типы услуг</h5>
       <div className="row">
-        <div className="input-field col s2">
+        <div className="input-field col s12 m12 l6 xl2">
           <input
             type="text"
             id="type"
@@ -28,7 +28,7 @@ export const Types = () => {
           />
           <label htmlFor="type">Тип услуги</label>
         </div>
-        <div className="input-field col s2">
+        <div className="input-field col s12 m12 l6 xl2">
           <input
             type="text"
             id="duration"
@@ -41,7 +41,7 @@ export const Types = () => {
           <label htmlFor="duration">Продолжительность, мин</label>
         </div>
         <div
-          className="input-field col s2"
+          className="input-field col s12 m12 l6 xl2"
           style={{ display: "flex", justifyContent: "center" }}
         >
           <button
@@ -54,7 +54,7 @@ export const Types = () => {
         </div>
       </div>
       <div className="row">
-        <table className="col s6">
+        <table className="col s12 m12 l12 xl6">
           <thead>
             <tr>
               <th>Тип</th>

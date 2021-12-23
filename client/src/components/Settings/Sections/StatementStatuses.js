@@ -16,7 +16,7 @@ export const StatementStatuses = () => {
     <div className="row">
       <h5>Статусы заявок</h5>
       <div className="row">
-        <div className="input-field col s4">
+        <div className="input-field col s12 m4 l4 xl4">
           <input
             type="text"
             id="status"
@@ -30,7 +30,7 @@ export const StatementStatuses = () => {
         </div>
 
         <div
-          className="input-field col s2"
+          className="input-field col s12 m4 l4 xl2"
           style={{ display: "flex", justifyContent: "center" }}
         >
           <button
@@ -43,7 +43,7 @@ export const StatementStatuses = () => {
         </div>
       </div>
       <div className="row">
-        <table className="col s6">
+        <table className="col s12 m12 l12 xl6">
           <thead>
             <tr>
               <th>Статусы</th>

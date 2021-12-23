@@ -35,7 +35,7 @@ export const CreateCategory = ({ cancel }) => {
 
   return (
     <div className={styles.MainContainer}>
-      <h4>Создание категории</h4>
+      <h4>Новая категория</h4>
 
       <form className="col s12">
         <div className="row">

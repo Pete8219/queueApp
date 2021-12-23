@@ -1,26 +1,64 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
-//import api from "../../http";
-import { useLocation, Link } from "react-router-dom";
-//import { useMessage } from "../../hooks/message.hook";
+import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
-import { ButtonEdit } from "../../UI/Buttons/ButtonEdit";
-import styles from "./users.module.css";
 
+import styles from "./users.module.css";
+import M from "materialize-css";
 import { Loader } from "../Loader";
 import { deleteUser } from "../../store/actions/users";
+import { Pagination } from "../../UI/Pagination";
 
 export const UsersList = () => {
-  localStorage.setItem("link", JSON.stringify(useLocation()));
   const dispatch = useDispatch();
-  //const message = useMessage();
+
+  useEffect(() => {
+    M.AutoInit();
+    M.updateTextFields();
+  });
+
   const { users } = useSelector((state) => state.users);
   const [loading] = useState(false);
-
-  console.log(users);
   const deleteHandler = (id) => {
     dispatch(deleteUser(id));
+  };
+  const [userName, setUserName] = useState("");
+  const [filterUsers, setFilterUsers] = useState(users || []);
+  const [showPagination, setShowPagination] = useState(true);
+
+  const userNameRef = useRef(null);
+
+  const pressHandler = (e) => {
+    if (e.code === "Enter" && e.target.value !== "") {
+      searchHandler(e);
+    } else {
+      setFilterUsers(users);
+      setShowPagination(true);
+    }
+  };
+
+  const searchHandler = () => {
+    const searchValue = userNameRef.current.value;
+    if (!searchValue) {
+      setShowPagination(true);
+      setFilterUsers(users);
+      return;
+    }
+    const filteredUser = users.filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.login.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilterUsers(filteredUser);
+    setUserName("");
+    setShowPagination(false);
+  };
+
+  const paginationHandler = (cPage, pLimit) => {
+    const visibleRecords = users.slice((cPage - 1) * pLimit, pLimit * cPage);
+
+    setFilterUsers(visibleRecords);
   };
 
   if (loading) {
@@ -29,53 +67,81 @@ export const UsersList = () => {
 
   return (
     <div className={styles.MainContainer}>
-      <div className="row col-s12">
-        <h4> Список сотрудников</h4>
-        <Link to="/users/create">
-          <ButtonCreate />
-        </Link>
+      <div className="row">
+        <h4>Пользователи</h4>
+        <div className="row col s12 m12 l12 x12">
+          <div className="input-field col s10 m10 l10 xl6">
+            <input
+              placeholder="Введите фамилию или логин"
+              type="text"
+              id="user"
+              name="user"
+              value={userName}
+              ref={userNameRef}
+              onChange={(e) => setUserName(e.target.value)}
+              onKeyPress={pressHandler}
+            />
+            <label htmlFor="user">Поиск пользователя</label>
+          </div>
+          <div className="col s2 m2 l2 xl1">
+            <button
+              className="btn waves-effect blue lighten-1"
+              onClick={searchHandler}
+              style={{ marginTop: "1.5em" }}
+            >
+              <i className="material-icons">search</i>
+            </button>
+          </div>
+        </div>
+        <div className="row col s12 m12 l12 xl12">
+          <div className="col s12 m10 l10 xl10 center">
+            {showPagination ? (
+              <Pagination props={{ paginationHandler }} />
+            ) : null}
+          </div>
+          <div className="col s12 m2 l2 xl2">
+            <Link to="/users/create">
+              <ButtonCreate />
+            </Link>
+          </div>
+        </div>
 
-        {users.length > 0 ? (
-          <div
-            className="card table-service padding-10"
-            style={{ padding: "20px" }}
-          >
-            <table className="striped">
+        {filterUsers.length > 0 ? (
+          <div className="row">
+            <table className="highlight">
               <thead>
                 <tr>
-                  <th>№</th>
                   <th>Логин</th>
                   <th>Сотрудник</th>
 
-                  <th></th>
+                  <th>Права</th>
                   <th></th>
                 </tr>
               </thead>
 
               <tbody>
-                {users.map((item, index) => {
+                {filterUsers.map((item) => {
                   return (
                     <tr key={item._id}>
-                      <td>{index + 1}</td>
-                      <td>{item.login}</td>
-                      <td>{item.name}</td>
-
                       <td>
                         <Link to={`/users/detail/${item._id}`}>
-                          <ButtonEdit />
+                          {item.login}
                         </Link>
                       </td>
+                      <td>{item.name}</td>
+
+                      <td>{item.userType}</td>
                       <td>
                         {" "}
-                        <a
-                          className="btn-floating btn-small waves-effect blue darken-2"
+                        <button
+                          className="btn blue lighten-1 right"
                           title="Удалить"
                           target="_blank"
                           style={{ float: "right" }}
                           onClick={() => deleteHandler(item._id)}
                         >
                           <i className="material-icons">delete_forever</i>
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   );

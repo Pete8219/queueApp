@@ -67,7 +67,7 @@ export const UserProfile = () => {
           <div className={styles.fullName}>
             <form className="col s12">
               <div className="row">
-                <div className="input-field col s4">
+                <div className="input-field col s12 m12 l4 xl4">
                   <input
                     id="lastname"
                     type="text"
@@ -77,7 +77,7 @@ export const UserProfile = () => {
                   />
                   <label htmlFor="lastname">Фамилия</label>
                 </div>
-                <div className="input-field col s4">
+                <div className="input-field col s12 m12 l4 xl4">
                   <input
                     id="firstname"
                     type="text"
@@ -87,7 +87,7 @@ export const UserProfile = () => {
                   />
                   <label htmlFor="firstname">Имя</label>
                 </div>
-                <div className="input-field col s4">
+                <div className="input-field col s12 m12 l4 xl4">
                   <input
                     id="patronimic"
                     type="text"
@@ -106,7 +106,7 @@ export const UserProfile = () => {
           <div className={styles.fullName}>
             <form className="col s12">
               <div className="row">
-                <div className="input-field col s4">
+                <div className="input-field col s12 m6 l6 xl6">
                   <input
                     id="phone"
                     type="text"
@@ -116,7 +116,7 @@ export const UserProfile = () => {
                   />
                   <label htmlFor="phone">Контактный телефон</label>
                 </div>
-                <div className="input-field col s4">
+                <div className="input-field col s12 m6 l6 xl6">
                   <input
                     id="email"
                     type="email"
@@ -135,7 +135,7 @@ export const UserProfile = () => {
           <div className={styles.fullName}>
             <form className="col s12">
               <div className="row">
-                <div className="input-field col s4">
+                <div className="input-field col s12 m6 l4 xl2">
                   <input
                     id="login"
                     type="text"
@@ -146,7 +146,7 @@ export const UserProfile = () => {
                   <label htmlFor="login">Логин</label>
                 </div>
 
-                <div className="input-field col s4">
+                <div className="input-field col s6 offset-s3 m4 offset-m1 l4 xl2">
                   <button
                     className="btn-small blue darken-1"
                     style={{ marginTop: "10px" }}
@@ -159,10 +159,7 @@ export const UserProfile = () => {
             </form>
           </div>
         </div>
-        <div
-          className="row"
-          style={{ display: "flex", justifyContent: "flex-end" }}
-        >
+        <div className="row right">
           <ButtonSave action={saveProfile} />{" "}
           <ButtonCancel action={cancelProfile} />
         </div>

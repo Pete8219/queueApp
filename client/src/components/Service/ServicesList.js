@@ -36,8 +36,8 @@ export const ServicesList = () => {
           <ButtonCreate />
         </Link>
 
-        <div className="card table-service padding-10">
-          <table className="striped">
+        <div className=/* "/* card table-service padding-10 */ "row">
+          <table className="highlight">
             <thead>
               <tr>
                 <th>№</th>
@@ -61,14 +61,14 @@ export const ServicesList = () => {
                     </td>
                     <td>
                       {" "}
-                      <a
-                        className="btn-floating btn-small waves-effect blue darken-2"
+                      <button
+                        className="btn blue lighten-1 right"
                         title="Удалить"
                         target="_blank"
                         onClick={() => deleteHandler(item._id)}
                       >
                         <i className="material-icons">delete_forever</i>
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 );

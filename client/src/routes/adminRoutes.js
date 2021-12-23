@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { RecordEdit } from "../components/Tickets/RecordEdit/RecordEdit";
 import { Record } from "../components/Tickets/newRecord/Record";
-
 import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
@@ -15,10 +14,9 @@ import { EditCategory } from "../components/Category/EditCategory";
 import { ServicesList } from "../components/Service/ServicesList";
 import { EditService } from "../components/Service/EditService";
 import { AppSettings } from "../components/Settings/AppSettings";
+import { UserProfile } from "../components/UserProfile/UserProfile";
 
 export const AdminRoutes = () => {
-  //const link = JSON.parse(localStorage.getItem("link"));
-
   const routes = [
     {
       path: "/main",
@@ -53,6 +51,7 @@ export const AdminRoutes = () => {
       path: "/users",
       component: UsersList,
     },
+
     {
       path: "/users/detail/:id",
       component: UserDetailPage,
@@ -77,6 +76,10 @@ export const AdminRoutes = () => {
     {
       path: "/settings",
       component: AppSettings,
+    },
+    {
+      path: "/profile",
+      component: UserProfile,
     },
   ];
 

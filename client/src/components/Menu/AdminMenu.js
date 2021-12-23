@@ -1,25 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { logout, roleReducer } from "../../store/roleReducer";
+import { useSelector } from "react-redux";
 import { Icon } from "../../UI/accountIcon/Icon";
+import { UserAccount } from "../Account/UserAccount";
+import M from "materialize-css";
 
 export const AdminMenu = () => {
-  const dispatch = useDispatch(roleReducer);
-  const { userId } = useSelector((state) => state.userRole);
-  const { users } = useSelector((state) => state.users);
-  const currentUser = users.filter((user) => user._id === userId);
+  useEffect(() => {
+    M.AutoInit();
+  });
 
-  const logoutHandler = () => {
-    localStorage.removeItem("access_token");
-    dispatch(logout());
-  };
+  const {
+    user: { name },
+  } = useSelector((state) => state.userRole);
+
+  const [open, setOpen] = useState(false);
 
   const links = [
-    {
-      title: "Создать запись",
-      path: "/record/new",
-    },
     {
       title: "Пользователи",
       path: "/users",
@@ -33,7 +30,7 @@ export const AdminMenu = () => {
       path: "/categories",
     },
     {
-      title: "Тикеты",
+      title: "Записи",
       path: "/tickets",
     },
     {
@@ -42,31 +39,73 @@ export const AdminMenu = () => {
     },
   ];
 
-  return (
-    <nav>
-      <div className="nav-wrapper blue darken-2">
-        <span className="brand-logo">Электронная очередь</span>
+  document.addEventListener("DOMContentLoaded", function () {
+    let elem = document.querySelector(".sidenav");
+    let inctance = M.Sidenav.init(elem);
+  });
 
-        <ul id="nav-mobile" className="right hide-on-med-and-down">
-          {links.map((link, i) => {
-            return (
-              <li key={i}>
-                <NavLink to={link.path}>{link.title}</NavLink>
-              </li>
-            );
-          })}
-          <li>
-            <a href="/logout" onClick={logoutHandler}>
-              Выйти
-            </a>
-          </li>
-          <li>
-            {currentUser.length ? (
-              <Icon props={currentUser[0].name[0]} />
-            ) : null}
-          </li>
-        </ul>
-      </div>
-    </nav>
+  return (
+    <>
+      <nav>
+        <div className="nav-wrapper blue darken-2">
+          <span className="brand-logo" style={{ fontSize: "2em" }}>
+            Электронная очередь
+          </span>
+          <a href="#" data-target="mobile-demo" className="sidenav-trigger">
+            <i className="material-icons">menu</i>
+          </a>
+
+          <ul className="right hide-on-med-and-down">
+            {links.map((link, i) => {
+              return (
+                <li key={i}>
+                  <NavLink to={link.path}>{link.title}</NavLink>
+                </li>
+              );
+            })}
+            <li>
+              {name ? (
+                <button
+                  style={{
+                    border: "0",
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => setOpen((prev) => !prev)}
+                >
+                  <Icon props={name} />
+                </button>
+              ) : null}
+            </li>
+          </ul>
+        </div>
+        <div>
+          <UserAccount isOpen={open} isClose={() => setOpen(false)} />
+        </div>
+      </nav>
+      <ul className="sidenav" id="mobile-demo">
+        {links.map((link, i) => {
+          return (
+            <li key={i}>
+              <NavLink to={link.path}>{link.title}</NavLink>
+            </li>
+          );
+        })}
+        <li>
+          {name ? (
+            <button
+              style={{
+                border: "0",
+                backgroundColor: "transparent",
+                cursor: "pointer",
+              }}
+              onClick={() => setOpen((prev) => !prev)}
+            >
+              <Icon props={name} />
+            </button>
+          ) : null}
+        </li>
+      </ul>
+    </>
   );
 };

@@ -11,9 +11,9 @@ export const Shedule = ({ props }) => {
 
   return (
     <div className="row">
-      <h5>Настройка времени приема</h5>
+      <h5>Время приема</h5>
       <div className="row">
-        <div className="input-field col s2">
+        <div className="input-field col s12 m6 l6 xl2">
           <input
             type="text"
             id="start"
@@ -23,7 +23,7 @@ export const Shedule = ({ props }) => {
           />
           <label htmlFor="start">Начало приема, ч</label>
         </div>
-        <div className="input-field col s2">
+        <div className="input-field col s12 m6 l6 xl2">
           <input
             type="text"
             id="end"

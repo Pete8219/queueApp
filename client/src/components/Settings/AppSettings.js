@@ -96,9 +96,13 @@ export const AppSettings = () => {
           <div class="row">
             <hr className={styles.separator} />
           </div>
-          <div className="row right">
-            <ButtonSave action={saveHandler} />
-            <ButtonCancel action={cancelHandler} />
+          <div className="row right col s12">
+            <div className="col s6">
+              <ButtonSave action={saveHandler} />
+            </div>
+            <div className="col s6">
+              <ButtonCancel action={cancelHandler} />
+            </div>
           </div>
         </div>
       </div>

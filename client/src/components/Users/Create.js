@@ -21,7 +21,7 @@ export const Create = ({
   return (
     <div className={styles.MainContainer}>
       <div className="row">
-        <h4>Создание нового пользователя</h4>
+        <h4>Новый пользователь</h4>
         <form className="col s12">
           <div className="row">
             <div className="input-field col s12">

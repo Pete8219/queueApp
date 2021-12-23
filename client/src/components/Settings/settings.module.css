@@ -42,7 +42,8 @@
 .separator {
   border: none;
   box-sizing: content-box;
-  height: 4px;
+  height: 3px;
   overflow: visible;
-  background-color: antiquewhite;
+  background-color: #1976d21f;
+  /* opacity: 0.7; */
 }

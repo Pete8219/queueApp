@@ -1,7 +1,7 @@
 export const ButtonEdit = () => {
   return (
     <button
-      className="btn-floating btn-small waves-effect blue darken-2"
+      className="btn blue lighten-1 right"
       title="Редактировать"
       target="_blank"
     >
