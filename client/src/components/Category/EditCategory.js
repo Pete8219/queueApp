@@ -60,9 +60,13 @@ export const EditCategory = () => {
             />
           </div>
         </div>
-        <div className="row" style={{ float: "right" }}>
-          <ButtonSave action={saveHandler} />
-          <ButtonCancel action={cancelHandler} />
+        <div className="row right col s12 m12 l12 xl12">
+          <div className="col s6 m6 l6 xl6">
+            <ButtonSave action={saveHandler} />
+          </div>
+          <div className="col s6 m6 l6 xl6">
+            <ButtonCancel action={cancelHandler} />
+          </div>
         </div>
       </form>
     </div>

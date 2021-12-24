@@ -30,8 +30,9 @@ router.post(
     .trim()
     .withMessage("Вы не заполнили название услуги"),
   body("user").not().isEmpty().withMessage("Выберите пользователя/-лей"),
-  body("category").not().isEmpty().withMessage("Укажите категорию"),
+
   async (req, res) => {
+    console.log(req.body);
     try {
       const errors = validationResult(req);
 
@@ -53,16 +54,14 @@ router.post(
 
       const service = new Service({
         title: req.body.title,
-        time: req.body.time,
         user: req.body.user,
-        category: req.body.category,
       });
 
       await service.save();
 
       res.status(201).json({
-        message: "Услуга создана",
         service,
+        message: "Данные успешно добавлены",
       });
     } catch (e) {
       res.status(500).json({

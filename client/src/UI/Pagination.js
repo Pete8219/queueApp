@@ -37,7 +37,7 @@ export const Pagination = ({ props }) => {
       return;
     }
 
-    setCurrentPage(currentPage + 1);
+    setCurrentPage(+currentPage + 1);
   };
 
   useEffect(() => {
@@ -72,7 +72,7 @@ export const Pagination = ({ props }) => {
           className={currentPage == totalPages ? "disabled" : ""}
           onClick={incrementCurrentPage}
         >
-          <a href="#!">
+          <a href="#!" onClick={incrementCurrentPage}>
             <i className="material-icons">chevron_right</i>
           </a>
         </li>

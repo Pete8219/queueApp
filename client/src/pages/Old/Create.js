@@ -9,11 +9,13 @@ import { useSelector, useDispatch } from "react-redux";
 import styles from "./service.module.css";
 import { createService } from "../../store/actions/services";
 
-export const CreateService = () => {
+export const Create = () => {
   const { users } = useSelector((state) => state.users);
   const { categories } = useSelector((state) => state.categories);
   const { errors } = useSelector((state) => state.services);
   const dispatch = useDispatch();
+
+  const managers = users.filter((item) => item.userType !== "user");
 
   const [form, setForm] = useState({
     title: "",
@@ -23,7 +25,7 @@ export const CreateService = () => {
   });
 
   const [unSelectedCategories, setUnSelectedCategories] = useState(categories);
-  const [unSelectedUsers, setUnSelectedUsers] = useState(users);
+  const [unSelectedUsers, setUnSelectedUsers] = useState(managers);
 
   const history = useHistory();
 
@@ -121,7 +123,7 @@ export const CreateService = () => {
   return (
     <div className={styles.MainContainer}>
       <div className="row">
-        <h4>Создаем новую услугу</h4>
+        <h4>Новая услуга</h4>
         <form className="col s12">
           <div className="row">
             <div className="input-field col s12">
@@ -140,17 +142,7 @@ export const CreateService = () => {
               handler={addHandler}
               deleteHandler={deleteHandler}
             />
-            <div className="input-field col s4">
-              <input
-                placeholder="Время,мин"
-                id="time"
-                type="text"
-                name="time"
-                className="validate"
-                onChange={changeHandler}
-              />
-              <label htmlFor="time">Время оказания</label>
-            </div>
+
             <UsersDropdown
               users={unSelectedUsers}
               user={form.user}

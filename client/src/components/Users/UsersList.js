@@ -66,9 +66,14 @@ export const UsersList = () => {
   }
 
   return (
-    <div className={styles.MainContainer}>
-      <div className="row">
-        <h4>Пользователи</h4>
+    <div className="row">
+      <div className="col s12 m12 l10 offset-l1 xl10 offset-xl1">
+        <div className="row">
+          <div className="col s12 m12 l12  xl12">
+            <h4>Пользователи</h4>
+          </div>
+        </div>
+
         <div className="row col s12 m12 l12 x12">
           <div className="input-field col s10 m10 l10 xl6">
             <input
@@ -108,46 +113,48 @@ export const UsersList = () => {
 
         {filterUsers.length > 0 ? (
           <div className="row">
-            <table className="highlight">
-              <thead>
-                <tr>
-                  <th>Логин</th>
-                  <th>Сотрудник</th>
+            <div className="col s12 m12 l12 xl12">
+              <table className="highlight">
+                <thead>
+                  <tr>
+                    <th>Логин</th>
+                    <th>Сотрудник</th>
 
-                  <th>Права</th>
-                  <th></th>
-                </tr>
-              </thead>
+                    <th>Права</th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-              <tbody>
-                {filterUsers.map((item) => {
-                  return (
-                    <tr key={item._id}>
-                      <td>
-                        <Link to={`/users/detail/${item._id}`}>
-                          {item.login}
-                        </Link>
-                      </td>
-                      <td>{item.name}</td>
+                <tbody>
+                  {filterUsers.map((item) => {
+                    return (
+                      <tr key={item._id}>
+                        <td>
+                          <Link to={`/users/detail/${item._id}`}>
+                            {item.login}
+                          </Link>
+                        </td>
+                        <td>{item.name}</td>
 
-                      <td>{item.userType}</td>
-                      <td>
-                        {" "}
-                        <button
-                          className="btn blue lighten-1 right"
-                          title="Удалить"
-                          target="_blank"
-                          style={{ float: "right" }}
-                          onClick={() => deleteHandler(item._id)}
-                        >
-                          <i className="material-icons">delete_forever</i>
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                        <td>{item.userType}</td>
+                        <td>
+                          {" "}
+                          <button
+                            className="btn blue lighten-1 right"
+                            title="Удалить"
+                            target="_blank"
+                            style={{ float: "right" }}
+                            onClick={() => deleteHandler(item._id)}
+                          >
+                            <i className="material-icons">delete_forever</i>
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
         ) : (
           <div>

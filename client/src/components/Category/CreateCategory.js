@@ -49,9 +49,13 @@ export const CreateCategory = ({ cancel }) => {
             />
           </div>
         </div>
-        <div className="row">
-          <ButtonSave action={saveCategory} />
-          <ButtonCancel action={onCancel} />
+        <div className="row right col s12 m12 l12 xl12">
+          <div className="col s6 m6 l6 xl6">
+            <ButtonSave action={saveCategory} />
+          </div>
+          <div className="col s6 m6 l6 xl6">
+            <ButtonCancel action={onCancel} />
+          </div>
         </div>
       </form>
     </div>

@@ -41,105 +41,116 @@ export const RegisterForm = () => {
   };
 
   return (
-    <div>
-      <div className={styles.MainContainer}>
-        <div className="row valign-wrapper">
-          <div className="col s6 offset-s3">
+    <div className={styles.MainContainer}>
+      <div className="row">
+        <div className="row">
+          <div className="col s12 m12 l12 xl12">
             <h1 className="center-align">Электронная очередь</h1>
-            <div className={["card blue-grey ", styles.Card].join(" ")}>
-              <div className="card-content">
-                <span className="card-title ">Регистрация</span>
-                <div>
-                  <div className="row">
-                    <div className="input-field col s12">
-                      <i className="material-icons prefix">account_circle</i>
-                      <input
-                        placeholder="Введите свой Email"
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={email}
-                        className={styles.MyInput}
-                        onChange={(e) => setEmail(e.target.value)}
-                        onKeyPress={pressHandler}
-                        style={{ color: "#fff !important" }}
-                      />
-                      <label htmlFor="email"></label>
+            <div className="row">
+              <div
+                className={[
+                  "card blue-grey col s12 m10 offset-m1 l4 xl4 offset-xl4",
+                  styles.Card,
+                ].join(" ")}
+              >
+                <div className="card-content">
+                  <span className="card-title ">Регистрация</span>
+                  <div>
+                    <div className="row">
+                      <div className="input-field col s12">
+                        <i className="material-icons prefix">account_circle</i>
+                        <input
+                          placeholder="Введите свой Email"
+                          id="email"
+                          name="email"
+                          type="email"
+                          value={email}
+                          className={styles.MyInput}
+                          onChange={(e) => setEmail(e.target.value)}
+                          onKeyPress={pressHandler}
+                          style={{ color: "#fff !important" }}
+                        />
+                        <label htmlFor="email"></label>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="input-field col s12">
+                        <i className="material-icons prefix">https</i>
+                        <input
+                          placeholder="Введите пароль"
+                          id="password"
+                          name="password"
+                          type="password"
+                          value={password}
+                          className={styles.MyInput}
+                          onChange={(e) => setPassword(e.target.value)}
+                          onKeyPress={pressHandler}
+                          style={{ color: "#fff !important" }}
+                        />
+                        <p
+                          style={{
+                            color: "white",
+                            margin: "0 auto",
+                            textAlign: "center",
+                          }}
+                        >
+                          <small>
+                            Пароль должен быть не менее 8 символов, содержать
+                            хотя бы одну цифру и заглавную букву.
+                          </small>
+
+                          <br />
+                          <small>Например: Yhgtnhd1</small>
+                        </p>
+                        <label htmlFor="email"></label>
+                      </div>
                     </div>
                   </div>
                   <div className="row">
-                    <div className="input-field col s12">
-                      <i className="material-icons prefix">https</i>
-                      <input
-                        placeholder="Введите пароль"
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={password}
-                        className={styles.MyInput}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onKeyPress={pressHandler}
-                        style={{ color: "#fff !important" }}
-                      />
-                      <p
-                        style={{
-                          color: "white",
-                          margin: "0 auto",
-                          textAlign: "center",
-                        }}
-                      >
-                        <small>
-                          Пароль должен быть не менее 8 символов, содержать хотя
-                          бы одну цифру и заглавную букву.
-                        </small>
-
-                        <br />
-                        <small>Например: Yhgtnhd1</small>
-                      </p>
-                      <label htmlFor="email"></label>
-                    </div>
+                    <p className={styles.description}>
+                      После регистрации на ваш адрес поступит письмо с паролем и
+                      ссылкой на активацию учетной записи
+                    </p>
                   </div>
                 </div>
                 <div className="row">
-                  <p className={styles.description}>
-                    После регистрации на ваш адрес поступит письмо с паролем и
-                    ссылкой на активацию учетной записи
+                  <p
+                    style={{
+                      width: "100%",
+                      margin: "0 auto",
+                      textAlign: "center",
+                      color: "white",
+                    }}
+                  >
+                    Есть логин и пароль?{" "}
+                    <a href="/login">
+                      <span
+                        style={{
+                          color: "#ede70d",
+                          textDecoration: "underline",
+                        }}
+                      >
+                        Авторизуйтесь
+                      </span>
+                    </a>
                   </p>
                 </div>
-              </div>
-              <div className="row">
-                <p
-                  style={{
-                    width: "100%",
-                    margin: "0 auto",
-                    textAlign: "center",
-                    color: "white",
-                  }}
-                >
-                  Есть логин и пароль?{" "}
-                  <a href="/login">
-                    <span
-                      style={{ color: "#ede70d", textDecoration: "underline" }}
-                    >
-                      Авторизуйтесь
-                    </span>
-                  </a>
-                </p>
-              </div>
 
-              <div
-                className={["card-action center-align", styles.CardAction].join(
-                  " "
-                )}
-              >
-                <button
-                  className="btn-large  waves-light blue lighten-1 login"
-                  style={{ borderRadius: "10px" }}
-                  onClick={registerHandler}
-                  /* disabled={loading} */
+                <div
+                  className={[
+                    "card-action center-align",
+                    styles.CardAction,
+                  ].join(" ")}
                 >
-                  Зарегистрироваться
-                </button>
+                  <button
+                    className="btn-large  waves-light blue lighten-1 login"
+                    style={{ borderRadius: "10px" }}
+                    onClick={registerHandler}
+                    /* disabled={loading} */
+                  >
+                    Зарегистрироваться
+                  </button>
+                </div>
               </div>
             </div>
           </div>

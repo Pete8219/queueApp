@@ -5,13 +5,11 @@ import { Create } from "../../components/Category/Create";
 import { Detail } from "../../components/Category/Detail";
 import { useMessage } from "../../hooks/message.hook";
 import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+
 import api from "../../http";
 
 export const CategoryPage = () => {
   const history = useHistory();
-  /*   const { categories } = useSelector((state) => state.categories);
-  const dispatch = useDispatch(); */
 
   const [active, setActive] = useState("List");
   const [title, setTitle] = useState("");
@@ -19,18 +17,6 @@ export const CategoryPage = () => {
 
   const { loading } = useHttp();
   const message = useMessage();
-
-  /*   const editHandler = async (id, status) => {
-    setActive(status);
-    const response = await api.get(`/categories/${id}`);
-    message(response.data.message);
-    setCategory(response.data);
-    setTitle(response.data.title);
-  }; */
-
-  /*   const statusHandler = (status) => {
-    setActive(status);
-  }; */
 
   const saveCategoryHandler = async () => {
     try {

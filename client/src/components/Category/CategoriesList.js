@@ -26,50 +26,64 @@ export const CategoriesList = () => {
   }
 
   return (
-    <div className={styles.MainContainer}>
-      <div className="row col-s12">
-        <h4>Категории услуг</h4>
-        <Link to="/categories/create">
-          <ButtonCreate />
-        </Link>
+    <div className="row">
+      <div className="col s12 m12 l10 offset-l1 xl10 offset-xl1">
+        <div className="row">
+          <div className="col s12 m12 l12  xl12">
+            <h4>Категории услуг</h4>
+          </div>
+        </div>
 
         <div className="row">
-          <table className="highlight">
-            <thead>
-              <tr>
-                <th>№</th>
-                <th>Наименование</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
+          <div className="col s12 m12 l12  xl12 ">
+            <Link to="/categories/create">
+              <ButtonCreate />
+            </Link>
+          </div>
+        </div>
 
-            <tbody>
-              {categories.map((item, index) => {
-                return (
-                  <tr key={item._id}>
-                    <td>{index + 1}</td>
-                    <td>{item.title}</td>
-                    <td>
-                      <Link to={`/categories/edit/${item._id}`}>
-                        <ButtonEdit />
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn blue lighten-1 right"
-                        title="Удалить"
-                        target="_blank"
-                        onClick={() => onDelete(item._id)}
-                      >
-                        <i className="material-icons">delete_forever</i>
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+        <div className="row">
+          <div className="col s12 m12 l12  xl12">
+            <table className="highlight">
+              <thead>
+                <tr>
+                  <th>Наименование</th>
+
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {categories.map((item, index) => {
+                  return (
+                    <tr key={item._id}>
+                      <td>{item.title}</td>
+                      <td>
+                        <Link to={`/categories/edit/${item._id}`}>
+                          <button
+                            className="btn blue lighten-1 right"
+                            title="Изменить"
+                          >
+                            <i className="material-icons">delete_forever</i>
+                          </button>
+                        </Link>
+                      </td>
+                      <td>
+                        <button
+                          className="btn blue lighten-1 right"
+                          title="Удалить"
+                          target="_blank"
+                          onClick={() => onDelete(item._id)}
+                        >
+                          <i className="material-icons">delete_forever</i>
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

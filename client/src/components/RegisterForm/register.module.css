@@ -8,16 +8,3 @@
 .MyInput {
   color: white !important;
 }
-
-.Card {
-  background-color: #4c5b66 !important;
-  box-shadow: 10px 5px 20px 10px #d1cccb;
-  border-radius: 10px;
-  width: 60% !important;
-  margin: 0 auto;
-}
-
-.CardAction {
-  background-color: transparent !important;
-  border-top: none;
-}

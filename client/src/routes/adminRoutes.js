@@ -2,7 +2,6 @@ import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { RecordEdit } from "../components/Tickets/RecordEdit/RecordEdit";
 import { Record } from "../components/Tickets/newRecord/Record";
-import { ServiceCreatePage } from "../pages/admin/Services/ServiceCreatePage";
 import { TicketsPage } from "../pages/admin/TicketsPage";
 import { UserCreatePage } from "../pages/admin/Users/UserCreatePage";
 import { UserDetailPage } from "../pages/admin/Users/UserDetailPage";
@@ -15,6 +14,7 @@ import { ServicesList } from "../components/Service/ServicesList";
 import { EditService } from "../components/Service/EditService";
 import { AppSettings } from "../components/Settings/AppSettings";
 import { UserProfile } from "../components/UserProfile/UserProfile";
+import { CreateService } from "../components/Service/CreateService";
 
 export const AdminRoutes = () => {
   const routes = [
@@ -40,12 +40,12 @@ export const AdminRoutes = () => {
       component: EditCategory,
     },
     {
-      path: "/service/edit/:id",
+      path: "/service/edit",
       component: EditService,
     },
     {
       path: "/services/create",
-      component: ServiceCreatePage,
+      component: CreateService,
     },
     {
       path: "/users",

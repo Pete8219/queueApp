@@ -12,7 +12,6 @@ export const getAllSettingsFromApi = () => {
     api
       .get("/settings")
       .then((response) => {
-        console.log(response);
         dispatch(getSettings(response.data));
       })
       .catch((error) => {
@@ -31,7 +30,6 @@ export const saveAllSettings = (data) => {
     api
       .post("/settings/create", { ...data })
       .then((response) => {
-        //console.log(response.data);
         dispatch(saveSettings(response.data));
       })
       .catch((error) => {
