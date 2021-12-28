@@ -118,7 +118,7 @@ export const Main = () => {
     dispatch(getTypesFromApi());
     dispatch(getAllSettingsFromApi());
     dispatch(getAllStatusesFromApi());
-  }, [isAuthenticated]);
+  }, [isAuthenticated, dispatch]);
 
   const routes = useRoutes();
 
