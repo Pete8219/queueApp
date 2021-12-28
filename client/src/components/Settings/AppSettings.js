@@ -80,20 +80,20 @@ export const AppSettings = () => {
         <h4>Настройки приложения</h4>
         <div className={styles.content}>
           <Shedule props={{ shedule, timeHandler }} />
-          <div class="row">
+          <div className="row">
             <hr className={styles.separator} />
           </div>
           <Types />
-          <div class="row">
+          <div className="row">
             <hr className={styles.separator} />
           </div>
           <StatementStatuses />
-          <div class="row">
+          <div className="row">
             <hr className={styles.separator} />
           </div>
 
           <ReceptionDays props={{ days, receptionDays, daysHandler }} />
-          <div class="row">
+          <div className="row">
             <hr className={styles.separator} />
           </div>
           <div className="row right col s12">
