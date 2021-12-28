@@ -5,6 +5,7 @@ import {
   getTypes,
   loading,
   loading_end,
+  setCurrentType,
 } from "../serviceTypesReducer";
 
 export const getTypesFromApi = () => {
@@ -39,6 +40,12 @@ export const createNewType = (data) => {
       .finally(() => {
         dispatch(loading_end());
       });
+  };
+};
+
+export const getCurrentType = (id) => {
+  return (dispatch) => {
+    dispatch(setCurrentType(id));
   };
 };
 

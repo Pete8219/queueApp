@@ -64,7 +64,7 @@ export const CategoriesList = () => {
                             className="btn blue lighten-1 right"
                             title="Изменить"
                           >
-                            <i className="material-icons">delete_forever</i>
+                            <i className="material-icons">edit</i>
                           </button>
                         </Link>
                       </td>

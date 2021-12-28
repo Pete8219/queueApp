@@ -4,26 +4,22 @@ import M from "materialize-css";
 export const DateCalendar = () => {
   useEffect(() => {
     M.AutoInit();
+    M.updateTextFields();
   });
-  let datePicker = document.querySelector(".datepicker");
-  console.log(datePicker);
-  const options = {
-    autoClose: true,
-    format: "dd mmm, yyyy",
-  };
-  let instanceDate = M.Datepicker.init(datePicker, options);
+  document.addEventListener("DOMContentLoaded", () => {
+    let elem = document.querySelector(".datepicker");
+    let instance = M.Datepicker.init(elem, { autoClose: true });
+  });
 
-  console.log(instanceDate);
+  //const [date, setDate] = useState("");
 
-  const [date, setDate] = useState("");
-
-  const changeDate = (e) => {};
+  //const changeDate = (e) => {};
   return (
     <>
-      <div className="row col s4">
-        <div className="col s4" style={{ padding: "0px" }}>
+      <div className="row">
+        <div className="col s12 m6 l4 xl4">
           <label>Выберите дату записи</label>
-          <input type="text" className="datepicker" onChange={changeDate} />
+          <input type="text" className="datepicker" />
         </div>
       </div>
     </>

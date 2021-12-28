@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { Record } from "../components/Tickets/newRecord/Record";
 import { UserProfile } from "../components/UserProfile/UserProfile";
-import { NewRequest } from "../components/VisitorRequest/NewRequest";
+import { CreateRequest } from "../components/VisitorRequest/CreateRequest";
+//import { NewRequest } from "../components/VisitorRequest/NewRequest";
 import { HomePage } from "../pages/visitor/HomePage";
 
 export const UserRoutes = () => {
@@ -31,7 +32,7 @@ export const UserRoutes = () => {
     },
     {
       path: "/request/new",
-      component: NewRequest,
+      component: CreateRequest,
     },
   ];
   return (

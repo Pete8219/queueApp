@@ -6,7 +6,7 @@ const userRights = require("../middleware/userRights.middleware");
 const Settings = require("../models/settings");
 
 //Получение всех настроек приложения
-router.get("/", auth, userRights, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const settings = await Settings.find({});
     return res.status(200).json(settings);

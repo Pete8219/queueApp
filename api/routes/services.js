@@ -148,19 +148,23 @@ router.get("/:id", auth, async (req, res) => {
 //Здесь нужно сделать проверку авторизации!!!!
 
 router.patch("/:id", auth, async (req, res) => {
+  const { title, user } = req.body;
   try {
     const updateOps = {};
     for (key in req.body) {
       updateOps[key] = req.body[key];
     }
 
-    await Service.updateOne({ _id: req.params.id }, { $set: updateOps });
+    const result = await Service.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: { title, user } }
+    );
     res.status(200).json({
       message: "Данные успешно обновлены",
     });
-  } catch (e) {
+  } catch (error) {
     res.status(500).json({
-      message: "Что то пошло не так",
+      message: error.message,
     });
   }
 });

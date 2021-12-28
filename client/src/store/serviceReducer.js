@@ -48,6 +48,22 @@ export const serviceReducer = (state = initialState, action) => {
         ...state,
         service: [...currentService],
       };
+    case UPDATE_SERVICE:
+      const updState = { ...state };
+      updState.services.forEach((item) => {
+        if (item._id === action.payload._id) {
+          item.title = action.payload.title;
+          item.user = [...action.payload.user];
+        }
+      });
+
+      return {
+        ...state,
+        isFetching: false,
+        services: [...updState.services],
+        service: null,
+        message: action.payload.message,
+      };
     case FETCH_START:
       return {
         ...state,
@@ -75,6 +91,6 @@ export const filterServices = (payload) => ({ type: FILTER_SERVICE, payload });
 export const addService = (payload) => ({ type: ADD_SERVICE, payload });
 export const currentService = (payload) => ({ type: CURRENT_SERVICE, payload });
 export const updateService = (payload) => ({ type: UPDATE_SERVICE, payload });
-export const fetchComplited = (payload) => ({ type: FETCH_END, payload });
+export const fetchComplited = () => ({ type: FETCH_END });
 export const fetchStart = () => ({ type: FETCH_START });
 export const showError = (payload) => ({ type: ERROR_SERVICE_INFO, payload });

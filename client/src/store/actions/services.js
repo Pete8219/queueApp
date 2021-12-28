@@ -7,6 +7,7 @@ import {
   addService,
   showError,
   currentService,
+  updateService,
 } from "../serviceReducer";
 
 export const getServicesFromApi = () => {
@@ -37,6 +38,9 @@ export const createService = (data) => {
       .catch((error) => {
         console.log(error.response);
         dispatch(showError(error.response.data.errors));
+      })
+      .finally(() => {
+        dispatch(fetchComplited());
       });
   };
 };
@@ -44,6 +48,25 @@ export const createService = (data) => {
 export const editService = (id) => {
   return (dispatch) => {
     dispatch(currentService(id));
+  };
+};
+
+export const patchService = (data) => {
+  return (dispatch) => {
+    dispatch(fetchStart);
+    api
+      .patch(`/services/${data._id}`, { ...data })
+      .then((response) => {
+        data.message = response.data.message;
+        console.log(data);
+        dispatch(updateService(data));
+      })
+      .catch((error) => {
+        console.log(error.response);
+      })
+      .finally(() => {
+        dispatch(fetchComplited);
+      });
   };
 };
 
@@ -57,6 +80,9 @@ export const deleteService = (id) => {
       })
       .catch((error) => {
         console.log(error.response);
+      })
+      .finally(() => {
+        dispatch(fetchComplited());
       });
   };
 };

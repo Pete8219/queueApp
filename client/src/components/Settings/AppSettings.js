@@ -77,7 +77,7 @@ export const AppSettings = () => {
   return (
     <>
       <div className={styles.MainContainer}>
-        <h3>Настройки приложения</h3>
+        <h4>Настройки приложения</h4>
         <div className={styles.content}>
           <Shedule props={{ shedule, timeHandler }} />
           <div class="row">

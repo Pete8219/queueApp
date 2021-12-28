@@ -8,6 +8,7 @@ import { Employees } from "./Employees";
 import { SelectedEmployees } from "./SelectedEmployees";
 import { ButtonSave } from "../../UI/Buttons/ButtonSave";
 import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
+import { createService, patchService } from "../../store/actions/services";
 
 export const EditService = () => {
   useEffect(() => {
@@ -22,10 +23,12 @@ export const EditService = () => {
   const { _id, title: t, time, user } = service[0];
 
   const managers = users.filter((item) => item.userType === "manager");
-  const selected = users.filter((elem) => user.includes(elem._id));
+
+  const selected = managers.filter((manager) => user.includes(manager._id));
+  const unselected = managers.filter((manager) => !user.includes(manager._id));
 
   const [title, setTitle] = useState(t || "");
-  const [employees, setEmployees] = useState(managers || []);
+  const [employees, setEmployees] = useState(unselected || []);
   const [selectedEmp, setSelectedEmp] = useState(selected || []);
 
   const addToSelectedEmp = (id) => {
@@ -43,7 +46,10 @@ export const EditService = () => {
   };
 
   const saveHandler = () => {
-    console.log(title);
+    const user = selectedEmp.map((emp) => emp._id);
+    dispatch(patchService({ _id, title, user }));
+    message(status);
+    history.push("/allservices");
   };
   // Обработчик кнопки отмена
   const cancelHandler = () => {

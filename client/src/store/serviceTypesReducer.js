@@ -2,6 +2,7 @@ const GET_TYPES = "GET_TYPES";
 const FILTER_TYPES = "FILTER_TYPES";
 const CREATE_TYPE = "CREATE_TYPE";
 const UPDATE_TYPE = "UPDATE_TYPE";
+const CURRENT_TYPE = "CURRENT_TYPE";
 const DELETE_TYPE = "DELETE_TYPE";
 const LOADING = "LOADING";
 const LOADING_END = "LOADING_END";
@@ -9,6 +10,7 @@ const LOADING_END = "LOADING_END";
 const initialState = {
   isLoading: false,
   types: [],
+  current: [],
   errors: null,
 };
 
@@ -29,6 +31,14 @@ export const serviceTypesReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         types: [...filterTypes],
+      };
+    case CURRENT_TYPE:
+      const currentType = state.types.filter(
+        (type) => type._id === action.payload
+      );
+      return {
+        ...state,
+        current: [...currentType],
       };
 
     case CREATE_TYPE:
@@ -77,6 +87,7 @@ export const serviceTypesReducer = (state = initialState, action) => {
 
 export const getTypes = (payload) => ({ type: GET_TYPES, payload });
 export const filterTypes = (payload) => ({ type: FILTER_TYPES, payload });
+export const setCurrentType = (payload) => ({ type: CURRENT_TYPE, payload });
 export const createType = (payload) => ({ type: CREATE_TYPE, payload });
 export const updateType = (payload) => ({ type: UPDATE_TYPE, payload });
 export const deleteType = (payload) => ({ type: DELETE_TYPE, payload });

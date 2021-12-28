@@ -53,6 +53,9 @@ export const Main = () => {
     dispatch(getUserProfile(userId));
   }, [isAuthenticated, dispatch, userId]);
 
+  //Наверное здесь нужно сделать обращение к одному единственному редюсеру в store, который будет загружать все данные через api  (i.e. AppDataFromAPI)
+  // а дальше будет последовательно вызывать через .then dispatch в каждом редюсере и устанавливать необходимые значения
+
   //загружаем все сервисы
   useEffect(() => {
     if (!isAuthenticated) {
@@ -61,7 +64,7 @@ export const Main = () => {
     setLoading(true);
     const getService = async () => {
       try {
-        const response = await api("/services");
+        const response = await api("/services"); //переделать этот кусок , убрать все в redux
         dispatch(getServices(response.data));
       } catch (error) {
         console.log(error.response);
@@ -88,7 +91,7 @@ export const Main = () => {
     setLoading(true);
     const fetchUsers = async () => {
       try {
-        const response = await api("/users");
+        const response = await api("/users"); // переделать этот кусок , убрать все в redux
 
         dispatch(getUsers(response.data));
       } catch (error) {
