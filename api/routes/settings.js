@@ -9,9 +9,9 @@ const Settings = require("../models/settings");
 router.get("/", auth, async (req, res) => {
   try {
     const settings = await Settings.find({});
-    return res.status(200).json(settings);
+    res.status(200).json(settings);
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       message: "Внутренняя ошибка сервера",
     });
   }
@@ -26,7 +26,7 @@ router.post("/create", auth, userRights, async (req, res) => {
     if (!setting.length) {
       // Если в базе еще нет настроек приложения создаем их
       const result = await Settings.create({ ...req.body });
-      return res.status(201).json(result);
+      res.status(201).json(result);
     }
 
     // если есть , то просто обновляем их
@@ -40,7 +40,7 @@ router.post("/create", auth, userRights, async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json([result]);
+    res.status(200).json([result]);
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -51,12 +51,12 @@ router.post("/create", auth, userRights, async (req, res) => {
 //Сброс всех настроек приложения
 router.delete("/clear", auth, userRights, async (req, res) => {
   try {
-    const result = await Settings.remove({});
-    return res.status(200).json({
+    await Settings.remove({});
+    res.status(200).json({
       message: "Настройки сброшены",
     });
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       message: "Внутренняя ошибка сервера",
     });
   }
