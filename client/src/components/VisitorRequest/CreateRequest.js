@@ -27,12 +27,7 @@ export const CreateRequest = () => {
           <h4>Запись на прием</h4>
         </div>
         <SelectService />
-        {/*         <Router>
-          <Switch>
-            <Route path="/types" component={ServiceTypes} />
-            <Route path="/date" component={SelectDate} />
-          </Switch>
-        </Router> */}
+
         {service !== null ? <ServiceTypes /> : null}
         {current.length > 0 ? <SelectDate /> : null}
       </div>

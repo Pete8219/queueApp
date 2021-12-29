@@ -19,6 +19,7 @@ import { getUserProfile } from "./store/actions/users";
 import { getTypesFromApi } from "./store/actions/serviceTypes";
 import { getAllSettingsFromApi } from "./store/actions/settings";
 import { getAllStatusesFromApi } from "./store/actions/statuses";
+import { getServicesFromApi } from "./store/actions/services";
 
 export const Main = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export const Main = () => {
     const token = JSON.parse(localStorage.getItem("access_token"));
 
     if (!token) {
-      return;
+      return dispatch(logout());
     }
     if (token === "undefined") {
       //если нет токена, удаляем все из хранилища и делаем Выход из системы
@@ -62,7 +63,8 @@ export const Main = () => {
       return;
     }
     setLoading(true);
-    const getService = async () => {
+    dispatch(getServicesFromApi());
+    /* const getService = async () => {
       try {
         const response = await api("/services"); //переделать этот кусок , убрать все в redux
         dispatch(getServices(response.data));
@@ -70,9 +72,7 @@ export const Main = () => {
         console.log(error.response);
       } finally {
         setLoading(false);
-      }
-    };
-    getService();
+      } */
   }, [isAuthenticated, dispatch]);
 
   //загружаем все категории услуг
