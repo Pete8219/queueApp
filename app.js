@@ -34,9 +34,12 @@ app.use(function (req, res, next) {
   res.header("X-powered-by", "Electron App v.1");
   next();
 });
+const corsOptions = {
+  origin: process.env.SITE_URL,
+};
 
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use("/auth", require("./api/routes/auth"));
 app.use("/services", require("./api/routes/services"));

@@ -7,8 +7,10 @@ const Settings = require("../models/settings");
 
 //Получение всех настроек приложения
 router.get("/", auth, async (req, res) => {
+  console.log(req.user);
   try {
     const settings = await Settings.find({});
+    console.log(settings);
     res.status(200).json(settings);
   } catch (error) {
     res.status(500).json({
