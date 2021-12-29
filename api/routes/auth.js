@@ -146,7 +146,7 @@ router.post(
   }
 );
 
-router.get(
+router.post(
   "/activate/:uuid",
   param("uuid").not().isEmpty().trim().escape(),
   async (req, res) => {
