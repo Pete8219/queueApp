@@ -1,6 +1,5 @@
-import api from "../http";
 import { getUserTicketsFromAPI } from "./actions/tickets";
-import { getCategories } from "./categoriesReducer";
+
 import {
   closeFetchData,
   errorData,
@@ -8,7 +7,6 @@ import {
   getUserData,
   readyToLogin,
 } from "./roleReducer";
-import { fetchComplited, getServices } from "./serviceReducer";
 
 const axios = require("axios").default;
 
@@ -60,47 +58,6 @@ export const checkToken = (token) => {
       })
       .finally(() => {
         dispatch(closeFetchData());
-      });
-  };
-};
-
-export const getAllUsers = () => {
-  return (dispatch) => {
-    api
-      .get("/users")
-      .then((response) => {
-        dispatch(getUserData(response.data));
-      })
-
-      .catch((error) => {
-        console.log(error.response);
-      });
-  };
-};
-
-export const getAllServices = () => {
-  return (dispatch) => {
-    api
-      .get("/services")
-      .then((response) => {
-        dispatch(getServices(response.data));
-      })
-      .catch((error) => {
-        console.log(error.response);
-        dispatch(fetchComplited());
-      });
-  };
-};
-
-export const getAllCategories = () => {
-  return (dispatch) => {
-    api
-      .get("/categories")
-      .then((response) => {
-        dispatch(getCategories(response.data));
-      })
-      .catch((error) => {
-        console.log(error.response);
       });
   };
 };

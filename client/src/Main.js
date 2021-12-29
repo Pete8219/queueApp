@@ -15,7 +15,7 @@ import { getServices } from "./store/serviceReducer";
 import { getUsers } from "./store/userReducer";
 import { getCategoriesFromApi } from "./store/actions/categories";
 import { getUserTicketsFromAPI } from "./store/actions/tickets";
-import { getUserProfile } from "./store/actions/users";
+import { getUserProfile, getUsersFromApi } from "./store/actions/users";
 import { getTypesFromApi } from "./store/actions/serviceTypes";
 import { getAllSettingsFromApi } from "./store/actions/settings";
 import { getAllStatusesFromApi } from "./store/actions/statuses";
@@ -62,17 +62,8 @@ export const Main = () => {
     if (!isAuthenticated) {
       return;
     }
-    setLoading(true);
+
     dispatch(getServicesFromApi());
-    /* const getService = async () => {
-      try {
-        const response = await api("/services"); //переделать этот кусок , убрать все в redux
-        dispatch(getServices(response.data));
-      } catch (error) {
-        console.log(error.response);
-      } finally {
-        setLoading(false);
-      } */
   }, [isAuthenticated, dispatch]);
 
   //загружаем все категории услуг
@@ -88,8 +79,9 @@ export const Main = () => {
     if (!isAuthenticated) {
       return;
     }
-    setLoading(true);
-    const fetchUsers = async () => {
+
+    dispatch(getUsersFromApi());
+    /* const fetchUsers = async () => {
       try {
         const response = await api("/users"); // переделать этот кусок , убрать все в redux
 
@@ -100,7 +92,7 @@ export const Main = () => {
         setLoading(false);
       }
     };
-    fetchUsers();
+    fetchUsers(); */
   }, [isAuthenticated, dispatch]);
 
   //получаем список тикетов созданных текущим залогиненным пользователем
@@ -116,7 +108,20 @@ export const Main = () => {
       return;
     }
     dispatch(getTypesFromApi());
+  }, [isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
     dispatch(getAllSettingsFromApi());
+  }, [isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
     dispatch(getAllStatusesFromApi());
   }, [isAuthenticated, dispatch]);
 

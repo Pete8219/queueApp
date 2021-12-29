@@ -4,10 +4,28 @@ import {
   createUser,
   endLoading,
   filterUsers,
+  getUsers,
   startLoading,
   updateProfile,
 } from "../userReducer";
 
+export const getUsersFromApi = () => {
+  return (dispatch) => {
+    dispatch(startLoading());
+    api
+      .get("/users")
+      .then((response) => {
+        dispatch(getUsers(response.data));
+      })
+      .catch((error) => {
+        console.log(error.response);
+        dispatch(endLoading());
+      })
+      .finally(() => {
+        dispatch(endLoading());
+      });
+  };
+};
 export const getUserProfile = (id) => {
   return (dispatch) => {
     api
