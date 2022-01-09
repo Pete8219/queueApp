@@ -5,6 +5,7 @@ import { Register } from "../pages/Register";
 import { SuccessActivation } from "../components/SuccessActivation/SuccessActivation";
 import { SuccessRegistration } from "../components/SuccessRegistration/SuccessRegistration";
 import { NotFound } from "../components/404/NotFound";
+import { Activate } from "../components/Account/Activate";
 
 export const UnAuthorizeRoutes = () => {
   const routes = [
@@ -28,6 +29,10 @@ export const UnAuthorizeRoutes = () => {
       path: "/not_found",
       component: NotFound,
     },
+    {
+      path: "/auth/activate/:code",
+      component: Activate
+    }
   ];
   return (
     <Switch>

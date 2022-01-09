@@ -32,6 +32,8 @@ router.post(
     .matches(/([A-Z])/)
     .withMessage("Пароль должен содержать хотя бы одну заглавную букву"),
   async (req, res) => {
+    console.log(req.body)
+
     try {
       const errors = validationResult(req);
 
@@ -64,7 +66,7 @@ router.post(
       await mailService.sendActivationLink(
         email,
         password,
-        `${process.env.API_SERVER}/auth/activate/${activationLink}`
+        `${process.env.CLIENT_SERVER}/auth/activate/${activationLink}`
       );
 
       res.status(200).json({
@@ -146,7 +148,7 @@ router.post(
   }
 );
 
-router.post(
+router.get(
   "/activate/:uuid",
   param("uuid").not().isEmpty().trim().escape(),
   async (req, res) => {

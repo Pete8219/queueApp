@@ -29,7 +29,8 @@ export const RegisterForm = () => {
         email,
         password,
       });
-      if (response.status === "200") {
+      console.log(response)
+      if (response.data.status === "200") {
         message(response.data.message);
         history.push("/success_registration");
       }

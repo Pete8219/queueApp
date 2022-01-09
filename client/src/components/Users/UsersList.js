@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
-
-import styles from "./users.module.css";
 import M from "materialize-css";
 import { Loader } from "../Loader";
 import { deleteUser } from "../../store/actions/users";
@@ -20,15 +18,14 @@ export const UsersList = () => {
 
   const { users } = useSelector((state) => state.users);
   const [loading] = useState(false);
-  const deleteHandler = (id) => {
-    dispatch(deleteUser(id));
-  };
   const [userName, setUserName] = useState("");
   const [filterUsers, setFilterUsers] = useState(users || []);
   const [showPagination, setShowPagination] = useState(true);
 
   const userNameRef = useRef(null);
-
+  const deleteHandler = (id) => {
+    dispatch(deleteUser(id));
+  };
   const pressHandler = (e) => {
     if (e.code === "Enter" && e.target.value !== "") {
       searchHandler(e);
@@ -40,16 +37,29 @@ export const UsersList = () => {
 
   const searchHandler = () => {
     const searchValue = userNameRef.current.value;
+    
     if (!searchValue) {
       setShowPagination(true);
       setFilterUsers(users);
       return;
     }
     const filteredUser = users.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
-        user.login.toLowerCase().includes(searchValue.toLowerCase())
-    );
+      (user) => {
+      if (user.name === "") {
+        return (
+        (user.name).includes(searchValue.toLowerCase()) ||
+        (user.login).includes(searchValue.toLowerCase())
+        )
+      } else {
+        return (
+        (user.name).toLowerCase().includes(searchValue.toLowerCase()) ||
+        (user.login).toLowerCase().includes(searchValue.toLowerCase())
+        )
+      }
+       
+}
+    )
+
     setFilterUsers(filteredUser);
     setUserName("");
     setShowPagination(false);
