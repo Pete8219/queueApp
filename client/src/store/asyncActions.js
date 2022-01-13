@@ -18,6 +18,7 @@ export const fetchUser = (login) => {
       .post("/auth/login", { ...login })
       .then((response) => {
         localStorage.removeItem("url");
+        console.log(response.message);
         dispatch(readyToLogin());
         localStorage.setItem(
           "access_token",
@@ -28,6 +29,7 @@ export const fetchUser = (login) => {
         dispatch(getUserTicketsFromAPI(response.data.userId));
       })
       .catch((error) => {
+        console.log(error.message);
         dispatch(readyToLogin());
         if (error.response) {
           dispatch(errorData(error.response.data));

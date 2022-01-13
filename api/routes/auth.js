@@ -114,6 +114,12 @@ router.post(
         });
       }
 
+      if (!user.isActivated) {
+        return res.status(403).json({
+          message: "Вы еще не активировали свой аккаунт",
+        });
+      }
+
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
