@@ -55,7 +55,6 @@ export const AppSettings = () => {
   };
 
   const saveHandler = () => {
-    console.log(shedule, serviceTypes, receptionDays);
     dispatch(
       saveAllSettings({
         shedule,

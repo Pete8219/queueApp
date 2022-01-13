@@ -3,7 +3,7 @@ import M from "materialize-css";
 import styles from "./register.module.css";
 import { useMessage } from "../../hooks/message.hook";
 import { useHistory } from "react-router";
-import api from "../../http";
+import axios from "axios";
 
 export const RegisterForm = () => {
   useEffect(() => {
@@ -25,20 +25,23 @@ export const RegisterForm = () => {
 
   const registerHandler = async () => {
     try {
-      const response = await api.post(`/auth/register`, {
+      const response = await axios.post(`/auth/register`, {
         email,
         password,
       });
-      console.log(response)
+
       if (response.data.status === "200") {
         message(response.data.message);
         history.push("/success_registration");
+        return;
       }
 
-      if (response.errors.length) {
-        return response.errors.map((err) => message(err.msg));
+      if (response.data.errors.length) {
+        return response.data.errors.map((err) => message(err.msg));
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

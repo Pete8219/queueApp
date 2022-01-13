@@ -78,18 +78,6 @@ export const Main = () => {
     }
 
     dispatch(getUsersFromApi());
-    /* const fetchUsers = async () => {
-      try {
-        const response = await api("/users"); // переделать этот кусок , убрать все в redux
-
-        dispatch(getUsers(response.data));
-      } catch (error) {
-        console.log(error.response);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers(); */
   }, [isAuthenticated, dispatch]);
 
   //получаем список тикетов созданных текущим залогиненным пользователем

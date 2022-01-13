@@ -18,7 +18,6 @@ router.get("/", auth, async (req, res) => {
 });
 
 router.post("/create", auth, userRights, async (req, res) => {
-  console.log(req.body);
   try {
     const data = await ServiceTypes.create({ ...req.body });
     return res.status(201).json(data);

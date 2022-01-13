@@ -32,15 +32,14 @@ router.post(
     .matches(/([A-Z])/)
     .withMessage("Пароль должен содержать хотя бы одну заглавную букву"),
   async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
 
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
-        return res.status(400).json({
+        return res.status(200).json({
           errors: errors.array(),
-          //message: "Некорректные данные при регистрации",
         });
       }
       const { email, password } = req.body;
@@ -66,7 +65,7 @@ router.post(
       await mailService.sendActivationLink(
         email,
         password,
-        `${process.env.CLIENT_SERVER}/auth/activate/${activationLink}`
+        `${process.env.CLIENT_URL}/confirm/${activationLink}`
       );
 
       res.status(200).json({
@@ -153,24 +152,32 @@ router.get(
   param("uuid").not().isEmpty().trim().escape(),
   async (req, res) => {
     const { uuid } = req.params;
+    console.log(uuid);
 
     try {
       const errors = validationResult(req);
 
       if (!errors.isEmpty()) {
         console.log(errors);
-        res.redirect(`${process.env.SITE_URL}/register`);
+        return res.status(200).json({
+          errors: errors.array(),
+        });
+        /* res.redirect(`${process.env.SITE_URL}/register`); */
       }
 
       const user = await User.findOne({ activationLink: uuid });
 
       if (!user) {
-        return res.redirect(`${process.env.SITE_URL}/not_found`);
+        return res.status(404).json({
+          message: "Неверный код активации учетной записи",
+        });
+        /* return res.redirect(`${process.env.SITE_URL}/not_found`); */
       }
 
       user.isActivated = true;
       await user.save();
-      res.redirect(`${process.env.SITE_URL}/success`);
+      return res.status(200).json();
+      /* res.redirect(`${process.env.SITE_URL}/success`); */
     } catch (error) {}
   }
 );

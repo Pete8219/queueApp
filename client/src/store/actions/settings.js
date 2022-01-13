@@ -24,7 +24,6 @@ export const getAllSettingsFromApi = () => {
 };
 
 export const saveAllSettings = (data) => {
-  console.log(data);
   return (dispatch) => {
     dispatch(loading());
     api

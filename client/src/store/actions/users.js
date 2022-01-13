@@ -58,7 +58,6 @@ export const newUser = (data) => {
     api
       .post("/users/create", { ...data })
       .then((response) => {
-        //console.log(response)
         dispatch(createUser(response.data));
       })
 
@@ -76,7 +75,6 @@ export const updateUserProfile = (data) => {
     api
       .patch(`/users/profile/${data._id}`, { ...data.userData })
       .then((response) => {
-        console.log(response.data);
         dispatch(updateProfile(response.data));
       })
       .catch((error) => {

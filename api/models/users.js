@@ -10,7 +10,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  name: String,
+  name: {
+    type: String,
+    default: "",
+  },
   cabinet: Number,
   start: String,
   end: String,

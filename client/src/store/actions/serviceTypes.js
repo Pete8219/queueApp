@@ -31,7 +31,6 @@ export const createNewType = (data) => {
     api
       .post("/servicetypes/create", { ...data })
       .then((response) => {
-        console.log(response);
         dispatch(createType(response.data));
       })
       .catch((error) => {

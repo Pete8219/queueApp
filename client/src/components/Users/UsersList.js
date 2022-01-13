@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,15 +16,24 @@ export const UsersList = () => {
   });
 
   const { users } = useSelector((state) => state.users);
+
   const [loading] = useState(false);
   const [userName, setUserName] = useState("");
   const [filterUsers, setFilterUsers] = useState(users || []);
   const [showPagination, setShowPagination] = useState(true);
 
   const userNameRef = useRef(null);
+
+  useEffect(() => {
+    setFilterUsers(users);
+  }, [users]);
+
   const deleteHandler = (id) => {
+    const undeletedUsers = filterUsers.filter((user) => user._id !== id);
+    setFilterUsers(undeletedUsers);
     dispatch(deleteUser(id));
   };
+
   const pressHandler = (e) => {
     if (e.code === "Enter" && e.target.value !== "") {
       searchHandler(e);
@@ -37,34 +45,24 @@ export const UsersList = () => {
 
   const searchHandler = () => {
     const searchValue = userNameRef.current.value;
-    
+
     if (!searchValue) {
       setShowPagination(true);
       setFilterUsers(users);
       return;
     }
     const filteredUser = users.filter(
-      (user) => {
-      if (user.name === "") {
-        return (
-        (user.name).includes(searchValue.toLowerCase()) ||
-        (user.login).includes(searchValue.toLowerCase())
-        )
-      } else {
-        return (
-        (user.name).toLowerCase().includes(searchValue.toLowerCase()) ||
-        (user.login).toLowerCase().includes(searchValue.toLowerCase())
-        )
-      }
-       
-}
-    )
+      (user) =>
+        user.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+        user.login.toLowerCase().includes(searchValue.toLowerCase())
+    );
 
     setFilterUsers(filteredUser);
     setUserName("");
     setShowPagination(false);
   };
 
+  //пагинацию нужно тоже сделать через redux store
   const paginationHandler = (cPage, pLimit) => {
     const visibleRecords = users.slice((cPage - 1) * pLimit, pLimit * cPage);
 

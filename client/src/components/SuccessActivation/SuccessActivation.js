@@ -16,7 +16,7 @@ export const SuccessActivation = () => {
     <div className={styles.MainContainer}>
       <div>
         <span style={{ color: "green" }}>
-          <i class="large material-icons">check_circle</i>
+          <i className="large material-icons">check_circle</i>
         </span>
       </div>
       <h3>Ваш аккаун успешно активирован</h3>
