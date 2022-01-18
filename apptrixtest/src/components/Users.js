@@ -2,21 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { loadUsersFromApi } from "../store/actions/users";
+import { Loader } from "./Loader";
 import { UserCard } from "./UserCard";
 
 export const Users = () => {
   const dispatch = useDispatch();
-  const { users } = useSelector((state) => state.users);
-
-  const [userList, setUserList] = useState([]);
+  const { users, isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
     dispatch(loadUsersFromApi());
   }, [dispatch]);
 
-  useEffect(() => {
-    setUserList(users);
-  }, [users]);
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>

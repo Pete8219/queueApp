@@ -8,12 +8,12 @@ export const UserCard = () => {
   const dispatch = useDispatch();
   const params = useParams();
 
-  const { user } = useSelector((state) => state.users);
+  const { user, isLoading } = useSelector((state) => state.users);
   useEffect(() => {
     dispatch(getUserFromApi(params.userId));
   }, [params, dispatch]);
 
-  if (!user) {
+  if (isLoading) {
     return <Loader />;
   }
 
