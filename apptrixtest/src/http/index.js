@@ -1,23 +1,26 @@
 const axios = require("axios").default;
 
-const $api = axios.create({
+const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+const URL = "https://example.youtrack.cloud";
+const access = localStorage.getItem("access");
+
+const api = axios.create({
   withCredentials: true,
-  baseURL: "https://www.jetbrains.com",
+  baseURL: URL,
 });
 
-$api.interceptors.request.use((config) => {
-  if (!localStorage.getItem("access")) {
+api.interceptors.request.use((config) => {
+  if (!process.env.REACT_APP_TOKEN) {
     config.headers.Authorization = "";
   }
 
-  config.headers.Authorization = `Bearer ${JSON.parse(
-    localStorage.getItem("access")
-  )}`;
+  console.log(process.env.REACT_APP_TOKEN);
+  config.headers.Authorization = `Bearer ${process.env.REACT_APP_TOKEN}`;
 
   return config;
 });
 
-$api.interceptors.response.use(
+api.interceptors.response.use(
   (config) => {
     return config;
   },
@@ -30,19 +33,21 @@ $api.interceptors.response.use(
     ) {
       originalRequest._isRetry = true;
       try {
-        const response = await axios.get(
+        const refresh = localStorage.getItem("refresh");
+        console.log(refresh);
+        const response = await axios.post(
           `http://erp.apptrix.ru/api/token/refresh/`,
-          { withCredentials: true }
+          { refresh }
         );
         localStorage.setItem("access", response.data.access);
-        return $api.request(originalRequest);
+        return api.request(originalRequest);
       } catch (error) {
         console.log("Не авторизован");
-        localStorage.clear();
-        window.location.href = "/";
+        /*       localStorage.clear();
+        window.location.href = "/"; */
       }
     }
   }
 );
 
-export default $api;
+export default api;

@@ -7,15 +7,29 @@ import { useRoutes } from "./routes";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import { Users } from "./components/Users";
+import { UserCard } from "./components/UserCard";
+import { Layout } from "./components/Layout";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />}>
-            <Route path="users" />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Users />} />
             <Route path="tasks" />
+            <Route path="users" element={<Users />} />
+            <Route path="users/:userId" element={<UserCard />} />
+
+            <Route
+              path="*"
+              element={
+                <main style={{ padding: "1rem" }}>
+                  <p>Тут ничего нет</p>
+                </main>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>
