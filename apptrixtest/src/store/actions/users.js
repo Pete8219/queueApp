@@ -20,11 +20,13 @@ export const loadUsersFromApi = () => {
 };
 
 export const getUserFromApi = (id) => {
+  console.log(id);
   return (dispatch) => {
     dispatch(loading());
     api
       .get(`/api/admin/users/${id}?fields=id,login,name,email`)
       .then((response) => {
+        console.log(response.data);
         dispatch(getUser(response.data));
       })
       .catch((error) => {

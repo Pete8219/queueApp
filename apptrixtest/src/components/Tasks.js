@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTasksFromApi } from "../store/actions/tasks";
+import { FilterProjects } from "./FilterProjects";
 import { Loader } from "./Loader";
 
 export const Tasks = () => {
   const dispatch = useDispatch();
-  const { tasks, isLoading } = useSelector((state) => state.tasks);
+  const { filtered, isLoading } = useSelector((state) => state.tasks);
 
   useEffect(() => {
     dispatch(getTasksFromApi());
@@ -19,6 +20,12 @@ export const Tasks = () => {
     <div className="container">
       <h3>Tasks</h3>
       <div className="row">
+        <div className="row col s12 m6 l5 xl6"></div>
+        <div className="row col s12 m6 l5 xl6">
+          <FilterProjects />
+        </div>
+      </div>
+      <div className="row">
         <table>
           <thead>
             <tr>
@@ -28,7 +35,7 @@ export const Tasks = () => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map((item) => {
+            {filtered.map((item) => {
               return (
                 <tr key={item.id}>
                   <td>{item.id}</td>

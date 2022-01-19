@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getUserFromApi } from "../store/actions/users";
@@ -7,11 +7,11 @@ import { Loader } from "./Loader";
 export const UserCard = () => {
   const dispatch = useDispatch();
   const params = useParams();
-
   const { user, isLoading } = useSelector((state) => state.users);
+
   useEffect(() => {
     dispatch(getUserFromApi(params.userId));
-  }, [params, dispatch]);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Loader />;
@@ -36,7 +36,7 @@ export const UserCard = () => {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{user.id}</td>
+                    <td> {user.id}</td>
                     <td>{user.name}</td>
                     <td>{user.login}</td>
                     <td>{user.email}</td>

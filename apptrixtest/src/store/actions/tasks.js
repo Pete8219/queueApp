@@ -1,5 +1,11 @@
 import api from "../../http";
-import { loading, load_complete, getTasks } from "../taskReducer";
+import {
+  loading,
+  load_complete,
+  getTasks,
+  filterTasks,
+  showAll,
+} from "../taskReducer";
 
 export const getTasksFromApi = () => {
   return (dispatch) => {
@@ -7,7 +13,6 @@ export const getTasksFromApi = () => {
     api
       .get("/api/issues?fields=id,summary,project(name)")
       .then((response) => {
-        console.log(response.data);
         dispatch(getTasks(response.data));
       })
       .catch((error) => {
@@ -17,5 +22,11 @@ export const getTasksFromApi = () => {
       .finally(() => {
         dispatch(load_complete());
       });
+  };
+};
+
+export const filterByProject = (filter) => {
+  return (dispatch) => {
+    dispatch(filterTasks(filter));
   };
 };
