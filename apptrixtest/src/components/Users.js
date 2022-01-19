@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, Outlet } from "react-router-dom";
 import { loadUsersFromApi } from "../store/actions/users";
@@ -10,6 +10,9 @@ export const Users = () => {
   const { users, isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
+    if (users.length) {
+      return;
+    }
     dispatch(loadUsersFromApi());
   }, [dispatch]);
 

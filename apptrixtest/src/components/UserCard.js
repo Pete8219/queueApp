@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import { getUserFromApi } from "../store/actions/users";
@@ -13,7 +13,7 @@ export const UserCard = () => {
     dispatch(getUserFromApi(params.userId));
   }, [dispatch]);
 
-  if (isLoading) {
+  if (isLoading || user == null) {
     return <Loader />;
   }
 

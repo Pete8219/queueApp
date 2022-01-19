@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getTasksFromApi } from "../store/actions/tasks";
 import { FilterProjects } from "./FilterProjects";
 import { Loader } from "./Loader";
+import { Search } from "./Search";
 
 export const Tasks = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,9 @@ export const Tasks = () => {
     <div className="container">
       <h3>Tasks</h3>
       <div className="row">
-        <div className="row col s12 m6 l5 xl6"></div>
+        <div className="row col s12 m6 l5 xl6">
+          <Search />
+        </div>
         <div className="row col s12 m6 l5 xl6">
           <FilterProjects />
         </div>

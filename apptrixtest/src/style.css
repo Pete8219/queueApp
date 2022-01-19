@@ -1,0 +1,10 @@
+.search_list__item {
+  padding: 10px;
+  margin: 0;
+  line-height: 3rem;
+}
+
+.search_list__item:hover {
+  background-color: rgb(208, 211, 211);
+  cursor: pointer;
+}

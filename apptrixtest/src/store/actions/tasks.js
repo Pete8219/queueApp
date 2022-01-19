@@ -5,6 +5,8 @@ import {
   getTasks,
   filterTasks,
   showAll,
+  getProjects,
+  deleteProjects,
 } from "../taskReducer";
 
 export const getTasksFromApi = () => {
@@ -28,5 +30,29 @@ export const getTasksFromApi = () => {
 export const filterByProject = (filter) => {
   return (dispatch) => {
     dispatch(filterTasks(filter));
+  };
+};
+
+export const getProjectsFromApi = (value) => {
+  return (dispatch) => {
+    api
+      .get(
+        `/api/issues?fields=id,summary,project(name)&query=project:+ ${value}*`
+      )
+      .then((response) => {
+        dispatch(getProjects(response.data));
+      })
+      .catch((error) => {
+        dispatch(load_complete());
+      })
+      .finally(() => {
+        dispatch(load_complete());
+      });
+  };
+};
+
+export const clearProjectsList = () => {
+  return (dispatch) => {
+    dispatch(deleteProjects());
   };
 };
