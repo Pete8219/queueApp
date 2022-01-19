@@ -10,6 +10,7 @@ import { store } from "./store";
 import { Users } from "./components/Users";
 import { UserCard } from "./components/UserCard";
 import { Layout } from "./components/Layout";
+import { Tasks } from "./components/Tasks";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +19,7 @@ ReactDOM.render(
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Users />} />
-            <Route path="tasks" />
+            <Route path="tasks" element={<Tasks />} />
             <Route path="users" element={<Users />} />
             <Route path="users/:userId" element={<UserCard />} />
 

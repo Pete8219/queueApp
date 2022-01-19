@@ -20,6 +20,7 @@ export const Users = () => {
   return (
     <div>
       <div className="container">
+        <h3>Users</h3>
         <table>
           <thead>
             <tr>

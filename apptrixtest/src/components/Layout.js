@@ -5,7 +5,9 @@ export const Layout = () => {
     <>
       <nav>
         <div className="nav-wrapper">
-          <div className="brand-logo">AppTrixTest</div>
+          <div className="brand-logo" style={{ paddingLeft: "1rem" }}>
+            AppTrixTest
+          </div>
           <ul className="right">
             <li>
               <Link to="/users">Пользователи</Link>
