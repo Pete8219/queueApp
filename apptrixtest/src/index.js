@@ -11,6 +11,8 @@ import { Users } from "./components/Users";
 import { UserCard } from "./components/UserCard";
 import { Layout } from "./components/Layout";
 import { Tasks } from "./components/Tasks";
+import { WorkItems } from "./components/WorkItems";
+import { TestWorkItems } from "./components/TestWorkItems";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -22,6 +24,8 @@ ReactDOM.render(
             <Route path="tasks" element={<Tasks />} />
             <Route path="users" element={<Users />} />
             <Route path="users/:userId" element={<UserCard />} />
+            <Route path="tasks/:issueId" element={<WorkItems />} />
+            <Route path="workitems" element={<TestWorkItems />} />
 
             <Route
               path="*"

@@ -4,6 +4,7 @@ import { getTasksFromApi } from "../store/actions/tasks";
 import { FilterProjects } from "./FilterProjects";
 import { Loader } from "./Loader";
 import { Search } from "./Search";
+import { Link } from "react-router-dom";
 
 export const Tasks = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ export const Tasks = () => {
               <th>ID</th>
               <th>SUMMARY</th>
               <th>PROJECT NAME</th>
+              <th> </th>
             </tr>
           </thead>
           <tbody>
@@ -44,6 +46,13 @@ export const Tasks = () => {
                   <td>{item.id}</td>
                   <td>{item.summary}</td>
                   <td>{item.project.name}</td>
+                  <td>
+                    <Link to={`/tasks/${item.id}`}>
+                      <button className="btn btn-small blue lighten-1">
+                        Timesheets
+                      </button>
+                    </Link>
+                  </td>
                 </tr>
               );
             })}

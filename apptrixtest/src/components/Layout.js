@@ -15,6 +15,9 @@ export const Layout = () => {
             <li>
               <Link to="/tasks">Задачи</Link>
             </li>
+            <li>
+              <Link to="/workitems">WorkItemsTest</Link>
+            </li>
           </ul>
         </div>
       </nav>

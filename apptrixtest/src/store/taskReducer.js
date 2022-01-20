@@ -3,6 +3,7 @@ const LOAD_COMPLETE = "LOAD_COMPLETE";
 const GET_TASKS = "GET_TASKS";
 const GET_TASK = "GET_TASK";
 const GET_PROJECTS = "GET_PROJECTS";
+const GET_WORKITEMS = "GET_WORKITEMS";
 const DELETE_PROJECTS = "DELETE_PROJECTS";
 const FILTER_PROJECTS = "FILTER_PROJECTS";
 const SHOW_ALL = "SHOW_ALL";
@@ -12,6 +13,7 @@ const initialState = {
   filtered: [],
   task: null,
   projects: [],
+  workItems: [],
   isLoading: false,
 };
 
@@ -46,6 +48,12 @@ export const taskReducer = (state = initialState, action) => {
         ...state,
         projects: [],
       };
+
+    case GET_WORKITEMS:
+      return {
+        ...state,
+        workItems: [...action.payload],
+      };
     case SHOW_ALL:
       return state;
 
@@ -78,6 +86,7 @@ export const taskReducer = (state = initialState, action) => {
 export const getTasks = (payload) => ({ type: GET_TASKS, payload });
 export const getTask = (payload) => ({ type: GET_TASK, payload });
 export const getProjects = (payload) => ({ type: GET_PROJECTS, payload });
+export const getWorkItems = (payload) => ({ type: GET_WORKITEMS, payload });
 export const deleteProjects = () => ({ type: DELETE_PROJECTS });
 export const filterTasks = (payload) => ({ type: FILTER_PROJECTS, payload });
 export const showAll = () => ({ type: SHOW_ALL });
