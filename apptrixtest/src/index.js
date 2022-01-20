@@ -13,6 +13,7 @@ import { Layout } from "./components/Layout";
 import { Tasks } from "./components/Tasks";
 import { WorkItems } from "./components/WorkItems";
 import { TestWorkItems } from "./components/TestWorkItems";
+import { PdfDoc } from "./components/PdfDoc";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -26,6 +27,7 @@ ReactDOM.render(
             <Route path="users/:userId" element={<UserCard />} />
             <Route path="tasks/:issueId" element={<WorkItems />} />
             <Route path="workitems" element={<TestWorkItems />} />
+            <Route path="pdf" element={<PdfDoc />} />
 
             <Route
               path="*"

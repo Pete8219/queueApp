@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import generatePDF from "../service/pdfGenerator";
 import { getTestWorkItemsFromApi } from "../store/actions/tasks";
 import { Loader } from "./Loader";
 
@@ -25,7 +26,15 @@ export const TestWorkItems = () => {
 
   return (
     <div className="container">
-      <h3>List of workItems</h3>
+      <div className="row">
+        <div className="col s12 m12 l12 xl12">
+          <h3>List of workItems</h3>
+          <button className="btn btn-primary btn-small  right" onClick={() => generatePDF(workItems)}>
+            Create PDF
+          </button>
+        </div>
+      </div>
+
       <div className="row">
         <div className="col s12 m12 l12 xl12">
           <table>
