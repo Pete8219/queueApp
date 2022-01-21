@@ -16,7 +16,6 @@ export const authUser = (loginData) => {
       .finally(() => {
         dispatch(load_complete());
       });
-    //kjkhkdfjgh
   };
 };
 
