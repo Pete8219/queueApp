@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { addTypeToRequest } from "../../store/actions/request";
 import { getCurrentType } from "../../store/actions/serviceTypes";
 
 export const ServiceTypes = () => {
@@ -11,6 +12,7 @@ export const ServiceTypes = () => {
   const changeHandler = (id) => {
     setSelectedType(id);
     dispatch(getCurrentType(id));
+    dispatch(addTypeToRequest(id));
   };
 
   return (

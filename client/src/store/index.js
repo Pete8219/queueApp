@@ -9,8 +9,11 @@ import { ticketsReducer } from "./ticketsReducer";
 import { serviceTypesReducer } from "./serviceTypesReducer";
 import { settingsReducer } from "./settingsReducer";
 import { statusesReducer } from "./statusesReducer";
+import { requestReducer } from "./requestReducer";
+import { AuthReducer } from "./AuthReducer";
 
 const rootReducer = combineReducers({
+  auth: AuthReducer,
   userRole: roleReducer,
   users: userReducer,
   services: serviceReducer,
@@ -19,6 +22,7 @@ const rootReducer = combineReducers({
   types: serviceTypesReducer,
   settings: settingsReducer,
   statuses: statusesReducer,
+  request: requestReducer,
 });
 
 export const store = createStore(

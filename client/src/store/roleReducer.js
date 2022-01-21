@@ -34,7 +34,7 @@ export const roleReducer = (state = defaultState, action) => {
         user: action.payload,
         isAuthenticated: true,
         isFetching: false,
-        error: null,
+        error: action.payload,
       };
     case SET_USER_PROFILE:
       return {

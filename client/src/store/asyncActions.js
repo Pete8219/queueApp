@@ -18,7 +18,7 @@ export const fetchUser = (login) => {
       .post("/auth/login", { ...login })
       .then((response) => {
         localStorage.removeItem("url");
-        console.log(response.message);
+
         dispatch(readyToLogin());
         localStorage.setItem(
           "access_token",
@@ -29,11 +29,10 @@ export const fetchUser = (login) => {
         dispatch(getUserTicketsFromAPI(response.data.userId));
       })
       .catch((error) => {
-        console.log(error.message);
+        console.log(error.response);
         dispatch(readyToLogin());
-        if (error.response) {
-          dispatch(errorData(error.response.data));
-        } else if (error.request) {
+        if (error.response.status === 400) {
+          dispatch(errorData("Wrong login or password"));
         }
       });
   };

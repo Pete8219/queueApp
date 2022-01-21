@@ -9,7 +9,7 @@ import styles from "./pages.module.css";
 
 export const AuthPage = () => {
   const dispatch = useDispatch();
-  const error = useSelector((state) => state.error);
+  const { error } = useSelector((state) => state.userRole);
 
   const message = useMessage();
 

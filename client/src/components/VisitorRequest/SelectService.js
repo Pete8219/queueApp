@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { editService } from "../../store/actions/services";
 
 import M from "materialize-css";
+import { addServiceToRequest } from "../../store/actions/request";
 
 export const SelectService = () => {
   useEffect(() => {
@@ -11,6 +12,7 @@ export const SelectService = () => {
   });
   const dispatch = useDispatch();
   const { services } = useSelector((state) => state.services);
+  const { service } = useSelector((state) => state.request);
   const [selectedService, setSelectedService] = useState("Выберите услугу");
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -22,6 +24,7 @@ export const SelectService = () => {
     const id = e.target.options[e.target.selectedIndex].dataset.id;
     setSelectedService(e.target.value);
     dispatch(editService(id));
+    dispatch(addServiceToRequest(id));
   };
 
   return (
@@ -44,9 +47,7 @@ export const SelectService = () => {
               );
             })}
           </select>
-          <label /*  style={{ marginLeft: "-1em" }} */>
-            Выберите интересующую вас услугу
-          </label>
+          <label>Выберите интересующую вас услугу</label>
         </div>
       </div>
     </div>
