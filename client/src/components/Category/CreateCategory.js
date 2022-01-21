@@ -3,14 +3,14 @@ import { ButtonSave } from "../../UI/Buttons/ButtonSave";
 import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
 import { useDispatch, useSelector } from "react-redux";
 import { addCategory } from "../../store/actions/categories";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import styles from "./category.module.css";
 
 export const CreateCategory = ({ cancel }) => {
   const message = useMessage();
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const { loading } = useSelector((state) => state.categories);
 
@@ -24,13 +24,13 @@ export const CreateCategory = ({ cancel }) => {
     if (!loading) {
       message("Категория создана");
       setTimeout(() => {
-        history.push("/categories");
+        navigate("/categories");
       }, 1500);
     }
   };
 
   const onCancel = () => {
-    history.push("/categories");
+    navigate("/categories");
   };
 
   return (

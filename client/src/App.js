@@ -1,9 +1,10 @@
 import React from "react";
 import { Main } from "./Main";
+
 import "materialize-css";
 
-function App() {
+export const App = () => {
   return <Main />;
-}
+};
 
 export default App;

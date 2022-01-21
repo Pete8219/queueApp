@@ -5,7 +5,7 @@ import { Employees } from "./Employees";
 import { SelectedEmployees } from "./SelectedEmployees";
 import { ButtonSave } from "../../UI/Buttons/ButtonSave";
 import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { createService } from "../../store/actions/services";
 
@@ -14,7 +14,7 @@ export const CreateService = () => {
     M.AutoInit();
     M.updateTextFields();
   });
-  const history = useHistory();
+  const navigate = useNavigate();
   const message = useMessage();
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
@@ -43,11 +43,11 @@ export const CreateService = () => {
     const user = selectedEmp.map((emp) => emp._id);
     dispatch(createService({ title, user }));
     message(status);
-    history.push("/allservices");
+    navigate("/allservices");
   };
 
   const cancelHandler = () => {
-    history.push("/allservices");
+    navigate("/allservices");
   };
 
   return (

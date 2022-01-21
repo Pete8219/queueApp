@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RecordForm } from "./RecordForm";
-//import { CircleLoader } from "../../../components/CircleLoader";
+
 import styles from "./record.module.css";
 
 export const Record = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const { services } = useSelector((state) => state.services);
 
   const [serviceList] = useState(services);
@@ -28,7 +28,7 @@ export const Record = () => {
   };
 
   const onClose = () => {
-    history.push("/");
+    navigate("/");
   };
 
   /*   if (loading) {

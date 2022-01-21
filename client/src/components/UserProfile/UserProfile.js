@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./profile.module.css";
 import M from "materialize-css";
 import { ChangePassword } from "../ChangePassword/ChangePassword";
@@ -12,7 +12,7 @@ import { updateUserProfile } from "../../store/actions/users";
 export const UserProfile = () => {
   const location = useLocation();
   localStorage.setItem("url", JSON.stringify(location));
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     M.AutoInit();
@@ -55,7 +55,7 @@ export const UserProfile = () => {
   // Выход из формы редактирования на главную страницу
 
   const cancelProfile = () => {
-    history.push("/");
+    navigate("/");
   };
 
   return (

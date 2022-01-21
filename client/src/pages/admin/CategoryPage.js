@@ -4,12 +4,12 @@ import { CategoriesList } from "../../components/Category/CategoriesList";
 import { Create } from "../../components/Category/Create";
 import { Detail } from "../../components/Category/Detail";
 import { useMessage } from "../../hooks/message.hook";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import api from "../../http";
 
 export const CategoryPage = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [active, setActive] = useState("List");
   const [title, setTitle] = useState("");
@@ -22,7 +22,7 @@ export const CategoryPage = () => {
     try {
       const response = await api.post("/categories", { title });
       message(response.data.message);
-      history.push("/categories");
+      navigate("/categories");
     } catch (e) {}
   };
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Create } from "../../../components/Users/Create";
 import { useMessage } from "../../../hooks/message.hook";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { newUser } from "../../../store/actions/users";
@@ -22,7 +22,7 @@ export const UserCreatePage = () => {
   });
 
   const message = useMessage();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const changeHandler = (event) => {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -35,7 +35,7 @@ export const UserCreatePage = () => {
   };
 
   const cancelHandler = () => {
-    history.push("/users");
+    navigate("/users");
   };
 
   const createHandler = () => {
@@ -43,7 +43,7 @@ export const UserCreatePage = () => {
     if (!loading) {
       message("Пользователь создан");
       setTimeout(() => {
-        history.push("/users");
+        navigate("/users");
       }, 1500);
     }
   };

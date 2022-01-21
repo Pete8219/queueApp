@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 export const WrongActivation = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [countDown, setCountDown] = useState(5);
 
   useEffect(() => {
     countDown === 0
-      ? history.push("/login")
+      ? navigate("/login")
       : setTimeout(() => setCountDown(countDown - 1), 1000);
-  }, [countDown, history]);
+  }, [countDown, navigate]);
 
   return (
     <div className={styles.MainContainer}>

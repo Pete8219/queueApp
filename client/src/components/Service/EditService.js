@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useMessage } from "../../hooks/message.hook";
 import M from "materialize-css";
@@ -16,7 +16,7 @@ export const EditService = () => {
     M.updateTextFields();
   });
   const message = useMessage();
-  const history = useHistory();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
   const { message: status, service } = useSelector((state) => state.services);
@@ -49,11 +49,11 @@ export const EditService = () => {
     const user = selectedEmp.map((emp) => emp._id);
     dispatch(patchService({ _id, title, user }));
     message(status);
-    history.push("/allservices");
+    navigate("/allservices");
   };
   // Обработчик кнопки отмена
   const cancelHandler = () => {
-    history.push("/allservices");
+    navigate("/allservices");
   };
 
   return (

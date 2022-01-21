@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
@@ -11,7 +11,7 @@ export const ServicesList = () => {
   const { services, isFetching } = useSelector((state) => state.services);
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  const navigate = useNavigate();
   function sortServiceByFieldTitle(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
   }
@@ -23,7 +23,7 @@ export const ServicesList = () => {
   const editHandler = (id) => {
     dispatch(editService(id));
     setTimeout(() => {
-      history.push("/service/edit");
+      navigate("/service/edit");
     }, 600);
   };
 
@@ -75,10 +75,6 @@ export const ServicesList = () => {
                         >
                           <i className="material-icons">edit</i>
                         </button>
-
-                        {/*                         <Link to={`/service/edit/${item._id}`}>
-                          <ButtonEdit />
-                        </Link> */}
                       </td>
                       <td>
                         {" "}

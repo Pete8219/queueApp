@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ButtonSave } from "../../UI/Buttons/ButtonSave";
 import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useMessage } from "../../hooks/message.hook";
 import styles from "./category.module.css";
@@ -11,7 +11,7 @@ export const EditCategory = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const message = useMessage();
 
   const { categories, loading } = useSelector((state) => state.categories);
@@ -35,13 +35,13 @@ export const EditCategory = () => {
     if (!loading) {
       message("Название категории изменено");
       setTimeout(() => {
-        history.push("/categories");
+        navigate("/categories");
       }, 1500);
     }
   };
 
   const cancelHandler = () => {
-    history.push("/categories");
+    navigate("/categories");
   };
 
   return (

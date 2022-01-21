@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import M from "materialize-css";
 import styles from "./register.module.css";
 import { useMessage } from "../../hooks/message.hook";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const RegisterForm = () => {
@@ -12,7 +12,7 @@ export const RegisterForm = () => {
   }, []);
 
   const message = useMessage();
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +32,7 @@ export const RegisterForm = () => {
 
       if (response.data.status === "200") {
         message(response.data.message);
-        history.push("/success_registration");
+        navigate("/success_registration", { replace: true });
         return;
       }
 

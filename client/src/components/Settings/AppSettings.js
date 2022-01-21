@@ -9,7 +9,7 @@ import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
 import { ReceptionDays } from "./Sections/ReceptionDays";
 import { saveAllSettings } from "../../store/actions/settings";
 import { StatementStatuses } from "./Sections/StatementStatuses";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export const AppSettings = () => {
   useEffect(() => {
@@ -17,7 +17,7 @@ export const AppSettings = () => {
     M.AutoInit();
   });
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { types } = useSelector((state) => state.types);
   const { statuses } = useSelector((state) => state.statuses);
@@ -65,12 +65,12 @@ export const AppSettings = () => {
     );
 
     setTimeout(() => {
-      history.push("/");
+      navigate("/");
     }, 1500);
   };
 
   const cancelHandler = () => {
-    history.push("/");
+    navigate("/");
   };
 
   return (
@@ -105,37 +105,6 @@ export const AppSettings = () => {
           </div>
         </div>
       </div>
-
-      {/*  {isOpen ? (
-        <div className={styles.modal}>
-          <div className={styles.modalContainer}>
-            <div className={styles.modalContent}>
-              <h5>Новый тип услуг</h5>
-              <div className="row">
-                <form className="col s12">
-                  <div className="input-field col s6">
-                    <input type="text" id="typeOfService" />
-                    <label htmlFor="typeOfService">Введите тип услуги</label>
-                  </div>
-                  <div className="input-field col s6">
-                    <input type="text" id="duration" />
-                    <label htmlFor="duration">Продолжительность</label>
-                  </div>
-                </form>
-              </div>
-              <div className="row">
-                <button className="btn btn-small blue ">Добавить</button>
-                <button
-                  className="btn btn-small green "
-                  onClick={() => setIsOpen(false)}
-                >
-                  Закрыть
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      ) : null} */}
     </>
   );
 };

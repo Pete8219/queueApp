@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector } from "react-redux";
 import M from "materialize-css/dist/js/materialize.min.js";
@@ -28,7 +28,7 @@ export const Detail = ({ user }) => {
       ? new Date(userData.vacationTo.slice(0, 10))
       : null;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const message = useMessage();
 
   const [form, setForm] = useState({
@@ -71,7 +71,7 @@ export const Detail = ({ user }) => {
     try {
       const response = await api.patch(`/users/${id}`, { ...form });
       message(response.data.message);
-      history.push("/users");
+      navigate("/users");
     } catch (e) {}
   };
 
@@ -97,7 +97,7 @@ export const Detail = ({ user }) => {
   };
 
   const cancelHandler = () => {
-    history.push("/users");
+    navigate("/users");
   };
 
   useEffect(() => {

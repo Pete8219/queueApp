@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
-import { Route, Switch, Redirect, useHistory } from "react-router-dom";
+import React from "react";
+
+import { NotFound } from "../components/404/NotFound";
+import { Layout } from "../components/Layout";
 import { Record } from "../components/Tickets/newRecord/Record";
 import { UserProfile } from "../components/UserProfile/UserProfile";
 import { CreateRequest } from "../components/VisitorRequest/CreateRequest";
@@ -7,42 +9,29 @@ import { CreateRequest } from "../components/VisitorRequest/CreateRequest";
 import { HomePage } from "../pages/visitor/HomePage";
 
 export const UserRoutes = () => {
-  //получаем информацию о текущем URL, если он присутствует в localStorage
-
-  const { pathname: pathname = "/" } =
-    JSON.parse(localStorage.getItem("url")) || "";
-  const history = useHistory();
-
-  useEffect(() => {
-    history.push(pathname);
-  }, [history, pathname]);
-
   const routes = [
     {
       path: "/",
-      component: HomePage,
-    },
-    {
-      path: "/record/new",
-      component: Record,
-    },
-    {
-      path: "/profile",
-      component: UserProfile,
-    },
-    {
-      path: "/request/new",
-      component: CreateRequest,
+      element: <Layout />,
+      children: [
+        { index: true, element: <HomePage /> },
+        {
+          path: "record/new",
+          element: <Record />,
+        },
+        {
+          path: "/profile",
+          element: <UserProfile />,
+        },
+        {
+          path: "/request/new",
+          element: <CreateRequest />,
+        },
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
     },
   ];
-  return (
-    <Switch>
-      {routes.map((route, i) => {
-        return (
-          <Route key={i} path={route.path} component={route.component} exact />
-        );
-      })}
-      <Redirect to="/" />
-    </Switch>
-  );
 };
