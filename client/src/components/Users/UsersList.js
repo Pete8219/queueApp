@@ -4,16 +4,21 @@ import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
 import M from "materialize-css";
 import { Loader } from "../Loader";
-import { deleteUser } from "../../store/actions/users";
+import { deleteUser, getUsersFromApi } from "../../store/actions/users";
 import { Pagination } from "../../UI/Pagination";
 
 export const UsersList = () => {
   const dispatch = useDispatch();
+  const { isLoading } = useSelector((state) => state.users);
 
   useEffect(() => {
     M.AutoInit();
     M.updateTextFields();
   });
+
+  useEffect(() => {
+    dispatch(getUsersFromApi());
+  }, [dispatch]);
 
   const { users } = useSelector((state) => state.users);
 
@@ -69,7 +74,7 @@ export const UsersList = () => {
     setFilterUsers(visibleRecords);
   };
 
-  if (loading) {
+  if (isLoading) {
     return <Loader />;
   }
 

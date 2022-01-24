@@ -1,8 +1,8 @@
 import api from "../../http";
 import {
   getServices,
-  fetchStart,
-  fetchComplited,
+  loading,
+  load_complete,
   filterServices,
   addService,
   showError,
@@ -12,23 +12,22 @@ import {
 
 export const getServicesFromApi = () => {
   return (dispatch) => {
-    dispatch(fetchStart());
+    dispatch(loading());
     api
       .get("/services")
-      .then(function (response) {
+      .then((response) => {
         dispatch(getServices(response.data));
       })
       .catch(function (error) {
         console.log(error.response);
-        dispatch(fetchComplited());
+        dispatch(load_complete());
       });
   };
 };
 
 export const createService = (data) => {
-  console.log(data);
   return (dispatch) => {
-    dispatch(fetchStart());
+    dispatch(loading());
     api
       .post("/services/create", { ...data })
       .then((response) => {
@@ -40,7 +39,7 @@ export const createService = (data) => {
         dispatch(showError(error.response.data.errors));
       })
       .finally(() => {
-        dispatch(fetchComplited());
+        dispatch(load_complete());
       });
   };
 };
@@ -53,7 +52,7 @@ export const editService = (id) => {
 
 export const patchService = (data) => {
   return (dispatch) => {
-    dispatch(fetchStart);
+    dispatch(loading());
     api
       .patch(`/services/${data._id}`, { ...data })
       .then((response) => {
@@ -63,16 +62,17 @@ export const patchService = (data) => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
       })
       .finally(() => {
-        dispatch(fetchComplited);
+        dispatch(load_complete);
       });
   };
 };
 
 export const deleteService = (id) => {
   return (dispatch) => {
-    dispatch(fetchStart());
+    dispatch(loading());
     api
       .delete(`/services/${id}`)
       .then(() => {
@@ -80,9 +80,10 @@ export const deleteService = (id) => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
       })
       .finally(() => {
-        dispatch(fetchComplited());
+        dispatch(load_complete());
       });
   };
 };

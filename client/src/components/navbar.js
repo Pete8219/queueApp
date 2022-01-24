@@ -5,9 +5,9 @@ import { UserMenu } from "./Menu/UserMenu";
 import { useSelector } from "react-redux";
 
 export const Navbar = () => {
-  const { role } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.auth);
 
-  if (role === "superAdmin") {
+  if (user?.userType === "superAdmin") {
     return (
       <>
         <AdminMenu />
@@ -15,7 +15,7 @@ export const Navbar = () => {
     );
   }
 
-  if (role === "admin") return <EmployeeMenu />;
+  if (user?.userType === "admin") return <EmployeeMenu />;
 
   return <UserMenu />;
 };

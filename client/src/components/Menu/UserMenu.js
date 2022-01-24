@@ -6,9 +6,7 @@ import { Icon } from "../../UI/accountIcon/Icon";
 import { UserAccount } from "../Account/UserAccount";
 
 export const UserMenu = () => {
-  const {
-    user: { name },
-  } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.auth);
 
   const [open, setOpen] = useState(false);
 
@@ -38,7 +36,7 @@ export const UserMenu = () => {
           })}
 
           <li>
-            {name ? (
+            {user ? (
               <button
                 style={{
                   border: "0",
@@ -47,7 +45,7 @@ export const UserMenu = () => {
                 }}
                 onClick={() => setOpen((prev) => !prev)}
               >
-                <Icon props={name} />
+                <Icon props={user?.name || "X"} />
               </button>
             ) : null}
           </li>

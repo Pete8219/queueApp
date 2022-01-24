@@ -4,24 +4,20 @@ import { Register } from "../pages/Register";
 import { SuccessRegistration } from "../components/SuccessRegistration/SuccessRegistration";
 import { NotFound } from "../components/404/NotFound";
 import { Confirm } from "../pages/Confirm";
-import { Layout } from "../components/Layout";
+import { App } from "../App";
+
+import { Routes, Route } from "react-router-dom";
 
 export const UnAuthorizeRoutes = () => {
-  const routes = [
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        { index: true, element: <Layout /> },
-        {
-          path: "/login",
-          element: <AuthPage />,
-        },
-        { path: "/register", element: <Register /> },
-        { path: "/success_registration", element: <SuccessRegistration /> },
-        { path: "/confirm/:code", element: <Confirm /> },
-        { path: "*", element: <NotFound /> },
-      ],
-    },
-  ];
+  return (
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route index element={<AuthPage />} />
+      <Route path="/login" element={<AuthPage />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="success_registration" element={<SuccessRegistration />} />
+      <Route path="/confirm/:code" element={<Confirm />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
 };

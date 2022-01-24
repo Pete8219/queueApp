@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useRoutes } from "react-router-dom";
 import { NotFound } from "../components/404/NotFound";
 import { Layout } from "../components/Layout";
 import { Record } from "../components/Tickets/newRecord/Record";
@@ -34,4 +34,8 @@ export const UserRoutes = () => {
       ],
     },
   ];
+
+  let element = useRoutes(routes);
+
+  return <div>{element}</div>;
 };

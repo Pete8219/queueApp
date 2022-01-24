@@ -5,9 +5,7 @@ import { Icon } from "../../UI/accountIcon/Icon";
 import { UserAccount } from "../Account/UserAccount";
 
 export const EmployeeMenu = () => {
-  const {
-    user: { name },
-  } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.userRole);
 
   const [open, setOpen] = useState(false);
 
@@ -37,7 +35,7 @@ export const EmployeeMenu = () => {
           })}
 
           <li>
-            {name ? (
+            {user?.name ? (
               <button
                 style={{
                   border: "0",
@@ -46,7 +44,7 @@ export const EmployeeMenu = () => {
                 }}
                 onClick={() => setOpen((prev) => !prev)}
               >
-                <Icon props={name} />
+                <Icon props={user.name} />
               </button>
             ) : null}
           </li>

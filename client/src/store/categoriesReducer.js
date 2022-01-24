@@ -1,28 +1,28 @@
 const GET_CATEGORIES = "GET_CATEGORIES";
 const CREATE_CATEGORY = "CREATE_CATEGORY";
-const EDIT_CATEGORY = "EDIT_CATEGORY"
+const EDIT_CATEGORY = "EDIT_CATEGORY";
 const FILTER_CATEGORIES = "FILTER_CATEGORIES";
-const START_LOAD = "START_LOAD";
-const END_LOAD = "END_LOAD";
+const LOADING = "LOADING";
+const LOAD_COMPLETE = "LOAD_COMPLETE";
 
 const initialState = {
-  loading: false,
+  isLoading: false,
   categories: [],
   errors: null,
 };
 
 export const categoriesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case START_LOAD:
+    case LOADING:
       return {
         ...state,
-        loading: true,
+        isLoading: true,
       };
     case GET_CATEGORIES:
       return {
         ...state,
         categories: [...action.payload],
-        loading: false,
+        isLoading: false,
       };
     case CREATE_CATEGORY:
       const temp = { ...state };
@@ -30,21 +30,21 @@ export const categoriesReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: [...temp.categories],
-        loading: true,
+        isLoading: false,
       };
-      case EDIT_CATEGORY:
-        const newState = { ...state}
-        newState.categories.forEach((item) => {
-          if(item._id === action.payload._id) {
-            item.title = action.payload.title
-          }
-        })
-
-        return {
-          ...state,
-          categories: [...newState.categories],
-          loading: false
+    case EDIT_CATEGORY:
+      const newState = { ...state };
+      newState.categories.forEach((item) => {
+        if (item._id === action.payload._id) {
+          item.title = action.payload.title;
         }
+      });
+
+      return {
+        ...state,
+        categories: [...newState.categories],
+        isLoading: false,
+      };
     case FILTER_CATEGORIES: {
       const filterCat = state.categories.filter(
         (category) => category._id !== action.payload
@@ -52,13 +52,13 @@ export const categoriesReducer = (state = initialState, action) => {
       return {
         ...state,
         categories: [...filterCat],
-        loading: false,
+        isLoading: false,
       };
     }
-    case END_LOAD:
+    case LOAD_COMPLETE:
       return {
         ...state,
-        loading: false,
+        isLoading: false,
       };
     default:
       return state;
@@ -67,9 +67,9 @@ export const categoriesReducer = (state = initialState, action) => {
 
 export const getCategories = (payload) => ({ type: GET_CATEGORIES, payload });
 export const createCategory = (payload) => ({ type: CREATE_CATEGORY, payload });
-export const editCategory = (payload) => ({ type: EDIT_CATEGORY, payload })
-export const startLoading = () => ({ type: START_LOAD });
-export const endLoading = () => ({ type: END_LOAD });
+export const editCategory = (payload) => ({ type: EDIT_CATEGORY, payload });
+export const loading = () => ({ type: LOADING });
+export const load_complete = () => ({ type: LOAD_COMPLETE });
 export const filterCategories = (payload) => ({
   type: FILTER_CATEGORIES,
   payload,

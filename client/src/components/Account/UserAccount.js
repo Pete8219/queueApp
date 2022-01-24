@@ -1,17 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { logout } from "../../store/roleReducer";
+import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../store/AuthReducer";
 import { Icon } from "../../UI/accountIcon/Icon";
 import styles from "./account.module.css";
 
 export const UserAccount = ({ isOpen, isClose }) => {
-  const {
-    user: { name, login },
-  } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -21,9 +20,10 @@ export const UserAccount = ({ isOpen, isClose }) => {
     }
   });
   const onLogout = () => {
-    localStorage.removeItem("access_token");
+    localStorage.removeItem("access");
     localStorage.removeItem("url");
     dispatch(logout());
+    navigate("/", { replace: true });
   };
 
   return ReactDOM.createPortal(
@@ -36,8 +36,8 @@ export const UserAccount = ({ isOpen, isClose }) => {
           </i>
         </div>
         <div className={styles.userInfo}>
-          <p>{name ? name : null}</p>
-          <p>{name ? login : null}</p>
+          <p>{user?.name ? user.name : null}</p>
+          <p>{user?.login ? user.login : null}</p>
           <Link to="/profile">
             <button
               className={styles.editProfileButton}

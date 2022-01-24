@@ -8,6 +8,7 @@ import { ButtonSave } from "../../UI/Buttons/ButtonSave";
 import { ButtonCancel } from "../../UI/Buttons/ButtonCancel";
 import { updateProfile } from "../../store/userReducer";
 import { updateUserProfile } from "../../store/actions/users";
+import { Loader } from "../Loader";
 
 export const UserProfile = () => {
   const location = useLocation();
@@ -22,7 +23,7 @@ export const UserProfile = () => {
     M.updateTextFields();
   });
 
-  const { user } = useSelector((state) => state.userRole);
+  const { user, isLoading } = useSelector((state) => state.auth);
 
   const person = user.name.split(" ");
 
@@ -57,6 +58,10 @@ export const UserProfile = () => {
   const cancelProfile = () => {
     navigate("/");
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>

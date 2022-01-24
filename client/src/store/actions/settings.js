@@ -2,7 +2,7 @@ import api from "../../http";
 import {
   getSettings,
   loading,
-  loading_end,
+  load_complete,
   saveSettings,
 } from "../settingsReducer";
 
@@ -12,13 +12,15 @@ export const getAllSettingsFromApi = () => {
     api
       .get("/settings")
       .then((response) => {
+        console.log(response.data);
         dispatch(getSettings(response.data));
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
       })
       .finally(() => {
-        dispatch(loading_end());
+        dispatch(load_complete());
       });
   };
 };
@@ -33,9 +35,10 @@ export const saveAllSettings = (data) => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
       })
       .finally(() => {
-        dispatch(loading_end());
+        dispatch(load_complete());
       });
   };
 };

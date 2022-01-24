@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useRoutes } from "./routes";
+/* import { useRoutes } from "./AppRoutes"; */
 
 import { Navbar } from "../src/components/navbar";
 import { Loader } from "../src/components/Loader";
@@ -110,7 +110,7 @@ export const Main = () => {
     dispatch(getAllStatusesFromApi());
   }, [isAuthenticated, dispatch]);
 
-  const routes = useRoutes();
+  /* const routes = useRoutes(); */
 
   if (loading) {
     return <Loader />;
@@ -124,7 +124,7 @@ export const Main = () => {
     <Router>
       {isAuthenticated && <Navbar />}
 
-      <div>{routes}</div>
+      {/* <div>{routes}</div> */}
     </Router>
   );
 };

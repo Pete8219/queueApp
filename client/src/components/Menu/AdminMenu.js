@@ -10,9 +10,7 @@ export const AdminMenu = () => {
     M.AutoInit();
   });
 
-  const {
-    user: { name },
-  } = useSelector((state) => state.userRole);
+  const { user } = useSelector((state) => state.auth);
 
   const [open, setOpen] = useState(false);
 
@@ -23,7 +21,7 @@ export const AdminMenu = () => {
     },
     {
       title: "Услуги",
-      path: "/allservices",
+      path: "/services",
     },
     {
       title: "Категории услуг",
@@ -64,7 +62,7 @@ export const AdminMenu = () => {
               );
             })}
             <li>
-              {name ? (
+              {user?.name ? (
                 <button
                   style={{
                     border: "0",
@@ -73,7 +71,7 @@ export const AdminMenu = () => {
                   }}
                   onClick={() => setOpen((prev) => !prev)}
                 >
-                  <Icon props={name} />
+                  <Icon props={user.name} />
                 </button>
               ) : null}
             </li>
@@ -92,7 +90,7 @@ export const AdminMenu = () => {
           );
         })}
         <li>
-          {name ? (
+          {user?.name ? (
             <button
               style={{
                 border: "0",
@@ -101,7 +99,7 @@ export const AdminMenu = () => {
               }}
               onClick={() => setOpen((prev) => !prev)}
             >
-              <Icon props={name} />
+              <Icon props={user.name} />
             </button>
           ) : null}
         </li>

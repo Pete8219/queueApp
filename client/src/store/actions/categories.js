@@ -2,15 +2,15 @@ import api from "../../http";
 import {
   filterCategories,
   getCategories,
-  startLoading,
+  loading,
   createCategory,
-  endLoading,
+  load_complete,
   editCategory,
 } from "../categoriesReducer";
 
 export const getCategoriesFromApi = () => {
   return (dispatch) => {
-    dispatch(startLoading());
+    dispatch(loading());
     api
       .get("/categories")
       .then((response) => {
@@ -18,24 +18,29 @@ export const getCategoriesFromApi = () => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
       })
       .finally(() => {
-        dispatch(endLoading());
+        dispatch(load_complete());
       });
   };
 };
 
 export const addCategory = (data) => {
   return (dispatch) => {
-    dispatch(startLoading());
+    dispatch(loading());
     api
       .post("/categories/create", { data })
       .then((response) => {
         dispatch(createCategory(response.data));
       })
-      .then(() => dispatch(endLoading()))
+
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
+      })
+      .finally(() => {
+        dispatch(load_complete());
       });
   };
 };
@@ -43,7 +48,7 @@ export const addCategory = (data) => {
 export const updateCategory = (data) => {
   const { id, title } = data;
   return (dispatch) => {
-    dispatch(startLoading());
+    dispatch(loading());
     api
       .patch(`/categories/${id}`, { title })
       .then((response) => {
@@ -51,13 +56,17 @@ export const updateCategory = (data) => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
+      })
+      .finally(() => {
+        dispatch(load_complete());
       });
   };
 };
 
 export const deleteCategory = (id) => {
   return (dispatch) => {
-    dispatch(startLoading());
+    dispatch(loading());
     api
       .delete(`/categories/${id}`)
       .then(() => {
@@ -65,6 +74,10 @@ export const deleteCategory = (id) => {
       })
       .catch((error) => {
         console.log(error.response);
+        dispatch(load_complete());
+      })
+      .finally(() => {
+        dispatch(load_complete());
       });
   };
 };

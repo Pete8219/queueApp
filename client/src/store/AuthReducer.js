@@ -23,6 +23,10 @@ export const AuthReducer = (state = initialState, action) => {
     case LOGIN:
       return {
         ...state,
+        token: action.payload.token,
+        role: action.payload.userType,
+        userId: action.payload.userId,
+        user: action.payload,
         isAuthenticated: true,
         isLoading: false,
       };
@@ -50,4 +54,4 @@ export const AuthReducer = (state = initialState, action) => {
 export const loading = () => ({ type: LOADING });
 export const load_complete = () => ({ type: LOAD_COMPLETE });
 export const login = (payload) => ({ type: LOGIN, payload });
-export const logout = () => ({ LOGOUT });
+export const logout = () => ({ type: LOGOUT });

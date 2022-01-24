@@ -1,5 +1,5 @@
 import React from "react";
-
+import { useRoutes } from "react-router-dom";
 import { AdminPage } from "../pages/admin/AdminPage";
 import { Record } from "../components/Tickets/newRecord/Record";
 import { TicketsPage } from "../pages/admin/TicketsPage";
@@ -36,4 +36,8 @@ export const EmployeeRoutes = () => {
       ],
     },
   ];
+
+  let element = useRoutes(routes);
+
+  return <div>{element}</div>;
 };

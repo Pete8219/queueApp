@@ -7,13 +7,14 @@ import reportWebVitals from "./reportWebVitals";
 import { store } from "./store";
 import { Layout } from "./components/Layout";
 import { BrowserRouter } from "react-router-dom";
+import { App } from "./App";
 
 const rootElement = document.getElementById("root");
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <Layout />
+      <App />
     </BrowserRouter>
   </Provider>,
   rootElement

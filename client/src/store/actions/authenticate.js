@@ -19,17 +19,17 @@ export const authUser = (loginData) => {
   };
 };
 
-export const checkAuth = () => {
+export const checkAuth = (token) => {
   return (dispatch) => {
-    const token = localStorage.getItem("access");
     dispatch(loading());
     axios
       .post(`/auth/checkToken/`, { token })
       .then((response) => {
         localStorage.setItem("access", JSON.stringify(response.data.token));
+        dispatch(login(response.data));
       })
       .catch((error) => {
-        dispatch(logout());
+        console.log(error.response);
       })
       .finally(() => {
         dispatch(load_complete());
@@ -37,9 +37,6 @@ export const checkAuth = () => {
   };
 };
 
-export const logoutUser = () => {
-  return (dispatch) => {
-    dispatch(logout());
-    localStorage.removeItem("access");
-  };
-};
+/* export const logoutUser = () => {
+  return()
+}; */

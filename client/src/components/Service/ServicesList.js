@@ -1,35 +1,49 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMessage } from "../../hooks/message.hook";
 import { useSelector, useDispatch } from "react-redux";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
-import { deleteService, editService } from "../../store/actions/services";
+import {
+  deleteService,
+  editService,
+  getServicesFromApi,
+} from "../../store/actions/services";
+import { Loader } from "../Loader";
 
 export const ServicesList = () => {
-  const { services, isFetching } = useSelector((state) => state.services);
+  const { services, isLoading } = useSelector((state) => state.services);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getServicesFromApi());
+  }, []);
+
+  const message = useMessage();
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   function sortServiceByFieldTitle(field) {
     return (a, b) => (a[field] > b[field] ? 1 : -1);
   }
 
   services.sort(sortServiceByFieldTitle("title"));
 
-  const message = useMessage();
-
   const editHandler = (id) => {
     dispatch(editService(id));
     setTimeout(() => {
-      navigate("/service/edit");
+      navigate("/services/edit");
     }, 600);
   };
 
   const deleteHandler = async (id) => {
     dispatch(deleteService(id));
-    if (!isFetching) {
+    if (!isLoading) {
       message("Услуга удалена");
     }
   };

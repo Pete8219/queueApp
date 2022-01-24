@@ -10,7 +10,7 @@ const api = axios.create({
 //через interceptor цепляем к каждому запросу access_token
 api.interceptors.request.use((config) => {
   config.headers.Authorization = `Bearer ${JSON.parse(
-    localStorage.getItem("access_token")
+    localStorage.getItem("access")
   )}`;
   return config;
 });

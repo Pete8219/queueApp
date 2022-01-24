@@ -53,7 +53,7 @@ export const EditService = () => {
   };
   // Обработчик кнопки отмена
   const cancelHandler = () => {
-    navigate("/allservices");
+    navigate("/services");
   };
 
   return (

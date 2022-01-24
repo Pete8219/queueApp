@@ -1,27 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ButtonCreate } from "../../UI/Buttons/ButtonCreate";
-import styles from "./category.module.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useMessage } from "../../hooks/message.hook";
-import { ButtonEdit } from "../../UI/Buttons/ButtonEdit";
-import { deleteCategory } from "../../store/actions/categories";
+
+import {
+  deleteCategory,
+  getCategoriesFromApi,
+} from "../../store/actions/categories";
 import { Loader } from "../Loader";
 
 export const CategoriesList = () => {
   const dispatch = useDispatch();
   const message = useMessage();
 
-  const { categories, loading } = useSelector((state) => state.categories);
+  const { isLoading } = useSelector((state) => state.categories);
 
-  const onDelete = async (id) => {
+  useEffect(() => {
+    dispatch(getCategoriesFromApi());
+  }, []);
+
+  const { categories } = useSelector((state) => state.categories);
+
+  const onDelete = (id) => {
     try {
       dispatch(deleteCategory(id));
       message("Запись удалена");
     } catch (error) {}
   };
 
-  if (loading) {
+  if (isLoading) {
     return <Loader />;
   }
 
@@ -54,7 +62,7 @@ export const CategoriesList = () => {
               </thead>
 
               <tbody>
-                {categories.map((item, index) => {
+                {categories.map((item) => {
                   return (
                     <tr key={item._id}>
                       <td>{item.title}</td>

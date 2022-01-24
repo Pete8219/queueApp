@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useMessage } from "../../hooks/message.hook";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUser } from "../../store/asyncActions";
+import { authUser } from "../../store/actions/authenticate";
 
 import styles from "./pages.module.css";
 
@@ -31,7 +31,7 @@ export const AuthPage = () => {
   };
 
   const loginHandler = () => {
-    dispatch(fetchUser(form));
+    dispatch(authUser(form));
   };
 
   const pressHandler = (event) => {

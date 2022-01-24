@@ -1,21 +1,22 @@
 import React from "react";
 import { useSelector } from "react-redux";
+
 import { AdminRoutes } from "./routes/AdminRoutes";
 import { EmployeeRoutes } from "./routes/EmployeeRoutes";
 import { UnAuthorizeRoutes } from "./routes/UnAuthorizeRoutes";
 import { UserRoutes } from "./routes/UserRoutes";
 
-export const useRoutes = () => {
-  const { role, isAuthenticated } = useSelector((state) => state.userRole);
+export const AppRoutes = () => {
+  const { user, isAuthenticated } = useSelector((state) => state.auth);
 
-  if (isAuthenticated && role === "superAdmin") {
+  if (isAuthenticated && user?.userType === "superAdmin") {
     return <AdminRoutes />;
   }
-  if (isAuthenticated && role === "admin") {
+  if (isAuthenticated && user?.userType === "admin") {
     return <EmployeeRoutes />;
   }
 
-  if (isAuthenticated && role === "user") {
+  if (isAuthenticated && user?.userType === "user") {
     return <UserRoutes />;
   }
 
